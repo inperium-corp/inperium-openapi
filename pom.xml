@@ -6,7 +6,7 @@
 
     <groupId>com.inperiumcorp.inperium</groupId>
     <artifactId>openapi</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Inperium Web API</name>
@@ -82,43 +82,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
-<!--    <dependencies>-->
-<!--        <dependency>-->
-<!--            <groupId>commons-logging</groupId>-->
-<!--            <artifactId>commons-logging</artifactId>-->
-<!--            <version>${apache.commons-logging.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context</artifactId>-->
-<!--            <version>5.2.7.RELEASE</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-web</artifactId>-->
-<!--            <version>5.2.7.RELEASE</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>javax.annotation</groupId>-->
-<!--            <artifactId>jsr250-api</artifactId>-->
-<!--            <version>1.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.openapitools</groupId>-->
-<!--            <artifactId>jackson-databind-nullable</artifactId>-->
-<!--            <version>0.1.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-core</artifactId>-->
-<!--            <version>1.5.21</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.google.code.findbugs</groupId>-->
-<!--            <artifactId>jsr305</artifactId>-->
-<!--            <version>3.0.2</version>-->
-<!--        </dependency>-->
-<!--    </dependencies>-->
 
 </project>

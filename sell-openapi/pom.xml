@@ -5,12 +5,12 @@
     <parent>
         <artifactId>openapi</artifactId>
         <groupId>com.inperiumcorp.inperium</groupId>
-        <version>${revision}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sell-openapi</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Inperium Sell Web API</name>
@@ -82,24 +82,6 @@
                                 <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
                             </importMappings>
                             <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources/swagger</source>
-                            </sources>
                         </configuration>
                     </execution>
                 </executions>

@@ -5,145 +5,145 @@ info:
     RESTful API providing access to objects and features of Inperium Sell CRM.
   version: 1.0.0-SNAPSHOT
 servers:
-- url: http://api.inperium.com/v1/sell
-- url: https://api.inperium.com/v1/sell
+  - url: http://api.inperium.com/v1/sell
+  - url: https://api.inperium.com/v1/sell
 
 tags:
-- name: Activities
-  description: |
-    Inperium Sell enables users to keep notes, plan meetings, log calls and create to-do's. These activities are typically linked to deals, contacts, or companies.
-- name: Attachments
-  description: |
-    In Inperium Sell, users have the ability to attach documents (pdf, csv, docx, etc.) to deals and companies.
-- name: Auth
-  description: |
-    Authentication and authorization methods used to access Inperium Sell CRM.
-- name: Calendars
-  description: |
-    In Inperium Sell, users have the ability to review calendars & events.
-- name: Campaigns
-  description: |
-    Inperium Sell enables users to create marketing campaigns.
-- name: CommunicationMethods
-  description: |
-    In Inperium, you can assign a phone number or email address to a company.
-- name: Companies
-  description: |
-    Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with and track deal progress there.
-- name: Company Data
-  description: |
-    Company data can be enriched with the publicly available information  from the internet, for example, the industry, employee counts, links to social media.   
-- name: Company Relationships
-  description: |
-    Inperium users can associate companies with each other and create parent-child relationships.
-- name: ContactCommunicationMethods
-  description: |
-    In Inperium, you can assign a phone number or email address to a contact.
-- name: Contacts
-  description: |
-    Contact is one of the major entities in Inperium Sell. Contacts are individuals or company's representatives Inperium Sell users work with.
-- name: Contact Data
-  description: |
-    Contact data can be enriched with the publicly available information about from the internet, for example, links to social media.   
-- name: Deals
-  description: |
-    Deal is one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes.
-- name: Deprecated
-  description: |
-    Deprecated features which will be terminated in next releases.
-- name: Dictionaries
-  description: |
-    Dictionaries represent lists of objects.
-- name: Documents
-  description: |
-    Inperium Sell stores files in Amazon bucket. In most cases, documents are attached to product entities but some documents are stored independently (e.g., avatar images).
-- name: DocumentTypes
-  description: |
-    Inperium Sell enables users to upload documents such as pdfs, png, etc. The DocumentTypes list all supported document extensions.
-- name: Exports
-  description: |
-    Inperium Sell enables users to export data from the CRM. For example, to reuse it in another app or to store as a backup.
-- name: Forms
-  description: |
-    In Inperium Sell, users can create custom forms to collect data.
-- name: GlobalSearch
-  description: |
-    Global search gives ability to locate entities by their names. It searches across deals, companies, contacts at the same time.
-- name: Health checks
-  description: |
-    Methods to verify and troubleshoot product health status.
-- name: Import
-  description: |
-    Inperium Sell enables users to import data from another CRMs. For example, contact data, information about deals, and product pricelists.
-- name: ImportLog
-  description: |
-    If import fails for some reason or data was mapped to wrong column, refer to the Import log for troubleshootinng ideas.
-- name: Integrations
-  description: |
-    You can leverage third-party applications such as Stripe and Xero and integrate them with Inperium Sell.
-- name: Invoices
-  description: |
-    Inperium Sell enables users to create professional-looking invoices and process them within CRM.
-- name: InvoicePage
-  description: |
-    Inperium Sell allows sharing invoices with customers through public URLs.
-- name: Items
-  description: |
-    Products and fees are added to deals and quotes and listed as items.
-- name: PaymentMethods
-  description: |
-    Inperium Sell support integration with Stripe and allows payment processing through this system.
-- name: Payments
-  description: |
-    In Inperium Sell, payments are separated from invoices since a single invoice can be splitted into several payments that should be logged individually.
-- name: Pipelines
-  description: |
-    Pipelines describe the sales process, or being more specific, milestones the deal go through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
-- name: PipelineStatistics
-  description: |
-    Analyze your sales progress with pipeline statistics.
-- name: Predefined Metadata
-  description: |
-    Predefined metadata groups are dictionaries containing data such as currency names.
-- name: Products
-  description: |
-    Products are items or services the tenant offers. Each product has a description, retail price, and cost.
-- name: Properties
-  description: |
-    Inperium Sell comes with preset properties as well as enables users to create custom definitions and configurations.
-- name: Quotes
-  description: |
-    Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
-- name: QuotePage
-  description: |
-    Inperium Sell allows sharing quotes with customers through public URLs.
-- name: Reports
-  description: |
-    Inperium Sell gives you insight into sales activities and create charts showing how many companies or contacts were created, hw many deals were closed, etc. Use the reorts to track team productivity and improve performance.
-- name: Stages
-  description: |
-    The sales pipelines consist of stages. The stages are milestones, for example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
-- name: StripeAuthorizations
-  description: |
-    Configure integration with Stripe.
-- name: StripeTerminals
-  description: |
-    Configure Stripe terminals to receive payments.   
-- name: Template
-  description: |
-    Templates are ready-to-use samples, for example introductory emails or follow-ups.
-- name: TenantIntegrations
-  description: |
-    You can enable third-party integrations for your tenant to use Inperium to its fullest.
-- name: TenantSettings
-  description: |
-    Billing subscriptions and plans, etc., are tenant-wide settings. In the Inperium UI, tenant owners and administrators can configure these settings through Inperium Account.
-- name: Views
-  description: |
-    Views control what data is returned to the user, including fitering, sorting, columns on a display.
-- name: XeroAuthorizations
-  description: |
-    Configure integration with Xero.    
+  - name: Activities
+    description: |
+      Inperium Sell enables users to keep notes, plan meetings, log calls and create to-do's. These activities are typically linked to deals, contacts, or companies.
+  - name: Attachments
+    description: |
+      In Inperium Sell, users have the ability to attach documents (pdf, csv, docx, etc.) to deals and companies.
+  - name: Auth
+    description: |
+      Authentication and authorization methods used to access Inperium Sell CRM.
+  - name: Calendars
+    description: |
+      In Inperium Sell, users have the ability to review calendars & events.
+  - name: Campaigns
+    description: |
+      Inperium Sell enables users to create marketing campaigns.
+  - name: CommunicationMethods
+    description: |
+      In Inperium, you can assign a phone number or email address to a company.
+  - name: Companies
+    description: |
+      Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with and track deal progress there.
+  - name: Company Data
+    description: |
+      Company data can be enriched with the publicly available information  from the internet, for example, the industry, employee counts, links to social media.   
+  - name: Company Relationships
+    description: |
+      Inperium users can associate companies with each other and create parent-child relationships.
+  - name: ContactCommunicationMethods
+    description: |
+      In Inperium, you can assign a phone number or email address to a contact.
+  - name: Contacts
+    description: |
+      Contact is one of the major entities in Inperium Sell. Contacts are individuals or company's representatives Inperium Sell users work with.
+  - name: Contact Data
+    description: |
+      Contact data can be enriched with the publicly available information about from the internet, for example, links to social media.   
+  - name: Deals
+    description: |
+      Deal is one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes.
+  - name: Deprecated
+    description: |
+      Deprecated features which will be terminated in next releases.
+  - name: Dictionaries
+    description: |
+      Dictionaries represent lists of objects.
+  - name: Documents
+    description: |
+      Inperium Sell stores files in Amazon bucket. In most cases, documents are attached to product entities but some documents are stored independently (e.g., avatar images).
+  - name: DocumentTypes
+    description: |
+      Inperium Sell enables users to upload documents such as pdfs, png, etc. The DocumentTypes list all supported document extensions.
+  - name: Exports
+    description: |
+      Inperium Sell enables users to export data from the CRM. For example, to reuse it in another app or to store as a backup.
+  - name: Forms
+    description: |
+      In Inperium Sell, users can create custom forms to collect data.
+  - name: GlobalSearch
+    description: |
+      Global search gives ability to locate entities by their names. It searches across deals, companies, contacts at the same time.
+  - name: Health checks
+    description: |
+      Methods to verify and troubleshoot product health status.
+  - name: Import
+    description: |
+      Inperium Sell enables users to import data from another CRMs. For example, contact data, information about deals, and product pricelists.
+  - name: ImportLog
+    description: |
+      If import fails for some reason or data was mapped to wrong column, refer to the Import log for troubleshootinng ideas.
+  - name: Integrations
+    description: |
+      You can leverage third-party applications such as Stripe and Xero and integrate them with Inperium Sell.
+  - name: Invoices
+    description: |
+      Inperium Sell enables users to create professional-looking invoices and process them within CRM.
+  - name: InvoicePage
+    description: |
+      Inperium Sell allows sharing invoices with customers through public URLs.
+  - name: Items
+    description: |
+      Products and fees are added to deals and quotes and listed as items.
+  - name: PaymentMethods
+    description: |
+      Inperium Sell support integration with Stripe and allows payment processing through this system.
+  - name: Payments
+    description: |
+      In Inperium Sell, payments are separated from invoices since a single invoice can be splitted into several payments that should be logged individually.
+  - name: Pipelines
+    description: |
+      Pipelines describe the sales process, or being more specific, milestones the deal go through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
+  - name: PipelineStatistics
+    description: |
+      Analyze your sales progress with pipeline statistics.
+  - name: Predefined Metadata
+    description: |
+      Predefined metadata groups are dictionaries containing data such as currency names.
+  - name: Products
+    description: |
+      Products are items or services the tenant offers. Each product has a description, retail price, and cost.
+  - name: Properties
+    description: |
+      Inperium Sell comes with preset properties as well as enables users to create custom definitions and configurations.
+  - name: Quotes
+    description: |
+      Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
+  - name: QuotePage
+    description: |
+      Inperium Sell allows sharing quotes with customers through public URLs.
+  - name: Reports
+    description: |
+      Inperium Sell gives you insight into sales activities and create charts showing how many companies or contacts were created, hw many deals were closed, etc. Use the reorts to track team productivity and improve performance.
+  - name: Stages
+    description: |
+      The sales pipelines consist of stages. The stages are milestones, for example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
+  - name: StripeAuthorizations
+    description: |
+      Configure integration with Stripe.
+  - name: StripeTerminals
+    description: |
+      Configure Stripe terminals to receive payments.   
+  - name: Template
+    description: |
+      Templates are ready-to-use samples, for example introductory emails or follow-ups.
+  - name: TenantIntegrations
+    description: |
+      You can enable third-party integrations for your tenant to use Inperium to its fullest.
+  - name: TenantSettings
+    description: |
+      Billing subscriptions and plans, etc., are tenant-wide settings. In the Inperium UI, tenant owners and administrators can configure these settings through Inperium Account.
+  - name: Views
+    description: |
+      Views control what data is returned to the user, including fitering, sorting, columns on a display.
+  - name: XeroAuthorizations
+    description: |
+      Configure integration with Xero.    
 
 paths:
   /health:
@@ -167,44 +167,44 @@ paths:
   /activities:
     get:
       tags:
-      - Activities
+        - Activities
       summary: List activities
       description: Use this endpoint to get a complete list of activities. This endpoint supports paging and sorting. To narrow down results and locate specfic activities, use query parameters.
       operationId: getActivities
       parameters:
-      - name: authorId
-        in: query
-        description: ID of the user who added the activity
-        schema:
-          type: string
-      - name: type
-        in: query
-        description: ID that corresponds to activity type you search for
-        schema:
-          type: string
-      - name: associatedContactId
-        in: query
-        description: ID of the contact the activity is linked to
-        schema:
-          type: string
-      - name: associatedCompanyId
-        in: query
-        description: ID of the company the activity is linked to
-        schema:
-          type: string
-      - name: associatedDealId
-        in: query
-        description: ID of the deal the activity is linked to
-        schema:
-          type: string
-      - name: createdAt
-        in: query
-        description: The date when the activity was added
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: authorId
+          in: query
+          description: ID of the user who added the activity
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: ID that corresponds to activity type you search for
+          schema:
+            type: string
+        - name: associatedContactId
+          in: query
+          description: ID of the contact the activity is linked to
+          schema:
+            type: string
+        - name: associatedCompanyId
+          in: query
+          description: ID of the company the activity is linked to
+          schema:
+            type: string
+        - name: associatedDealId
+          in: query
+          description: ID of the deal the activity is linked to
+          schema:
+            type: string
+        - name: createdAt
+          in: query
+          description: The date when the activity was added
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: OK
@@ -220,14 +220,14 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Activities
+        - Activities
       summary: Create an activity
-      description: Use this endpoint to create a new activity. 
+      description: Use this endpoint to create a new activity.
       operationId: createActivity
       requestBody:
         description: In the request body, pass the activity data.
         content:
-          '*/*':
+          'application/json':
             schema:
               $ref: '#/components/schemas/ActivityRequest'
         required: false
@@ -248,12 +248,12 @@ paths:
   /activities/{id}:
     put:
       tags:
-      - Activities
+        - Activities
       summary: Update an activity
       description: Use this endpoint to modify an existing activity.
       operationId: updateActivity
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         content:
           '*/*':
@@ -277,7 +277,7 @@ paths:
       x-codegen-request-body-name: activity
     delete:
       tags:
-      - Activities
+        - Activities
       summary: Delete an activity
       description: Use this endpoint to remove existing activity.
       operationId: deleteActivity
@@ -296,25 +296,25 @@ paths:
   /attachments:
     get:
       tags:
-      - Attachments
+        - Attachments
       summary: List attachments
-      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting. Use query parameters to narrow down results. 
+      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getAttachments
       parameters:
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - name: company
-        description: Attachments associated with this company ID
-        in: query
-        schema:
-          type: string
-      - name: contact
-        description: Attachments associated with this contact ID
-        in: query
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - name: company
+          description: Attachments associated with this company ID
+          in: query
+          schema:
+            type: string
+        - name: contact
+          description: Attachments associated with this contact ID
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The list of attachments has been retrieved
@@ -330,7 +330,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Attachments
+        - Attachments
       summary: Create an attachment
       description: Use this endpoint to add new attachments to Inperium Sell.
       operationId: createAttachment
@@ -358,12 +358,12 @@ paths:
   /attachments/{id}:
     get:
       tags:
-      - Attachments
+        - Attachments
       summary: Retrieve attachment details
       description: Use this endpoint to locate a specific attachment and retrieve its details.
       operationId: getAttachment
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Attachment details have beeen retrieved
@@ -379,12 +379,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Attachments
+        - Attachments
       summary: Update an attachment
       description: Use this endpoint to modify and overwrite an existing attachment.
       operationId: updateAttachment
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In request body, pass the attachment data.
         content:
@@ -408,12 +408,12 @@ paths:
       x-codegen-request-body-name: attachment
     delete:
       tags:
-      - Attachments
+        - Attachments
       summary: Delete an attachment
       description: Use this endpoint to remove an existing attachment.
       operationId: deleteAttachment
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -427,24 +427,24 @@ paths:
   /campaigns:
     get:
       tags:
-      - Campaigns
+        - Campaigns
       summary: List campaigns
-      description: Use this endpoint to get a complete list of campaigns. This endpoint supports paging and sorting. Use query parameters to narrow down results. 
+      description: Use this endpoint to get a complete list of campaigns. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getCampaigns
       parameters:
-      - name: id
-        in: query
-        description: Enter the campaign ID
-        schema:
-          type: string
-      - name: name
-        in: query
-        description: Enter the campanign name
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: id
+          in: query
+          description: Enter the campaign ID
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Enter the campanign name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The campaigns have been retrieved
@@ -460,7 +460,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Campaigns
+        - Campaigns
       summary: Create a campaign
       description: Use this endpoint to add new campaigns to Inperium.
       operationId: createCampaign
@@ -488,12 +488,12 @@ paths:
   /campaigns/{id}:
     get:
       tags:
-      - Campaigns
+        - Campaigns
       summary: Retrieve campaign details
       description: Use this endpoint to search for a specific endpoint and retrieve its details.
       operationId: getCampaign
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The campaign deatils have been retrieved
@@ -509,12 +509,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Campaigns
+        - Campaigns
       summary: Update a campaign
       description: Use this endpoint to modify the existing campaign.
       operationId: updateCampaign
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the campaign details.
         content:
@@ -538,12 +538,12 @@ paths:
       x-codegen-request-body-name: campaign
     delete:
       tags:
-      - Campaigns
+        - Campaigns
       summary: Delete a campaign
       description: Use this endpoint to remove the campaign.
       operationId: deleteCampaign
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -557,15 +557,15 @@ paths:
   /campaigns/{id}/contacts:
     get:
       tags:
-      - Contacts
+        - Contacts
       summary: List contacts for a specific campaign
       description: Use this endpoint to get a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
       operationId: getCampaignContacts
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The contacts have been retrieved
@@ -582,7 +582,7 @@ paths:
   /communication-methods:
     post:
       tags:
-      - CommunicationMethods
+        - CommunicationMethods
       summary: Add a communication method
       description: Use this endpoint to connect a new communication method for an entity (contact, company, etc.).
       operationId: createCommunicationMethod
@@ -602,12 +602,12 @@ paths:
   /communication-methods/{id}:
     get:
       tags:
-      - CommunicationMethods
+        - CommunicationMethods
       summary: Retrieve a communication method
       description: Use this endpoint to locate a specific communication method and retrieve its details.
       operationId: getCommunicationMethod
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Information has been retrieved
@@ -623,12 +623,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - CommunicationMethods
+        - CommunicationMethods
       summary: Update a communication method
       description: Use this endpoint to modify a communication method of a specific entity.
       operationId: updateCommunicationMethod
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the communication method model.
         content:
@@ -652,16 +652,16 @@ paths:
   /companies:
     get:
       tags:
-      - Companies
+        - Companies
       summary: List companies
       description: Use this endpoint to get a list of companies. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getCompanies
       parameters:
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
-      - $ref: '#/components/parameters/EntityProperties'
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/EntityProperties'
       responses:
         200:
           description: The companies have been retrieved
@@ -677,7 +677,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Companies
+        - Companies
       summary: Create a company
       description: Use this endpoint to add a new company.
       operationId: createCompany
@@ -704,18 +704,18 @@ paths:
       x-codegen-request-body-name: company
     patch:
       tags:
-      - Companies
+        - Companies
       summary: Update companies in bulk
       description: Use this endpoint to modify multiple companies at once. For example, you can update the 'industry' field to the same value or assign several companies to a single Inperium user.
       operationId: updateCompanies
       parameters:
-      - name: ids
-        description: Specify companies by entering their IDs
-        in: query
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
+        - name: ids
+          description: Specify companies by entering their IDs
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
       requestBody:
         description: In request body, pass the company properties to update.
         content:
@@ -742,16 +742,16 @@ paths:
   /companies/enrich:
     get:
       tags:
-      - Company Data
+        - Company Data
       summary: Enrich company information
       description: Use this endpoint to load information about the company that is publicly available online. Inperium pulls information about the company based on its domain.
       operationId: getCompanyDataByDomain
       parameters:
-      - name: domainName
-        in: query
-        description: Provide company domain name
-        schema:
-          type: string
+        - name: domainName
+          in: query
+          description: Provide company domain name
+          schema:
+            type: string
       responses:
         200:
           description: The company data has been found
@@ -768,12 +768,12 @@ paths:
   /companies/{id}:
     get:
       tags:
-      - Companies
-      summary: Retrieve company details 
+        - Companies
+      summary: Retrieve company details
       description: Use this endpoint to get detailed information about a company.
       operationId: getCompany
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Company information has been retrieved
@@ -789,12 +789,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Companies
+        - Companies
       summary: Update a company
       description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely replaces company data.
       operationId: updateCompany
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the reguest body, pass company data
         content:
@@ -818,12 +818,12 @@ paths:
       x-codegen-request-body-name: company
     patch:
       tags:
-      - Companies
+        - Companies
       summary: Partially update a company
-      description: Use this endpoint to update specific fields in company details. 
+      description: Use this endpoint to update specific fields in company details.
       operationId: updateCompanyPartial
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the details that need to be updated
         content:
@@ -847,12 +847,12 @@ paths:
       x-codegen-request-body-name: company
     delete:
       tags:
-      - Companies
+        - Companies
       summary: Delete a company
       description: Use this endpoint to remove a company.
       operationId: deleteCompany
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -866,16 +866,16 @@ paths:
   /companyRelationships:
     get:
       tags:
-      - Company Relationships
+        - Company Relationships
       summary: List relationships
       description: Use this endpoint to get a list of relationships associated with the company.
       operationId: getAllCompanyRelationships
       parameters:
-      - name: company
-        in: query
-        description: Enter company ID
-        schema:
-          type: string
+        - name: company
+          in: query
+          description: Enter company ID
+          schema:
+            type: string
       responses:
         200:
           description: The company relations have been retrieved
@@ -891,7 +891,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Company Relationships
+        - Company Relationships
       summary: Add a company relationship
       description: Use this endpoint to create new relationships for the company.
       operationId: createCompanyRelationship
@@ -919,12 +919,12 @@ paths:
   /companyRelationships/{id}:
     delete:
       tags:
-      - Company Relationships
+        - Company Relationships
       summary: Delete a company relationship
-      description: Use this endpoint to remove a relationship for the company and delete links between companies. 
+      description: Use this endpoint to remove a relationship for the company and delete links between companies.
       operationId: deleteCompanyRelationships
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -938,21 +938,21 @@ paths:
   /contacts:
     get:
       tags:
-      - Contacts
+        - Contacts
       summary: List contacts
       description: Use this endpoint to get all contacts. This operation supports paging, sorting, and filtering by fields such as contact name.
       operationId: getContacts
       parameters:
-      - name: fullName
-        description: The name of the contact you are searching for
-        in: query
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
-      - $ref: '#/components/parameters/EntityProperties'
+        - name: fullName
+          description: The name of the contact you are searching for
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/EntityProperties'
       responses:
         200:
           description: Contacts have been retrieved
@@ -968,7 +968,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Contacts
+        - Contacts
       summary: Create a contact
       description: Use this endpoint to add new contacts to Inperium.
       operationId: createContact
@@ -995,18 +995,18 @@ paths:
       x-codegen-request-body-name: contact
     patch:
       tags:
-      - Contacts
+        - Contacts
       summary: Update contacts in bulk
       description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperum user or associate several contacts with the same company.
       operationId: updateContacts
       parameters:
-      - name: ids
-        description: IDs of the contacts that you want to update
-        in: query
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
+        - name: ids
+          description: IDs of the contacts that you want to update
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
       requestBody:
         description: In request body, pass properties and values.
         content:
@@ -1033,16 +1033,16 @@ paths:
   /contacts/enrich:
     get:
       tags:
-      - Contact Data
+        - Contact Data
       summary: Enrich contact data
       description: Use this endpoint to load information about the company that is publicly available online. Inperium pulls information about the contact based on contact's email address.
       operationId: getContactDataByEmail
       parameters:
-      - name: email
-        in: query
-        description: Enter contact's email address
-        schema:
-          type: string
+        - name: email
+          in: query
+          description: Enter contact's email address
+          schema:
+            type: string
       responses:
         200:
           description: The contact details has been retrieved
@@ -1059,12 +1059,12 @@ paths:
   /contacts/{id}:
     get:
       tags:
-      - Contacts
+        - Contacts
       summary: Retrieve contact details
       description: Use this endpoint to retrieve details for a specific contact.
       operationId: getContact
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The contact data has been retrieved
@@ -1080,12 +1080,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Contacts
+        - Contacts
       summary: Update a contact
       description: Use this endpoint to update contact details. Unlike `PATCH /contacts/{id}`, this operation overwrites contact details completely.
       operationId: updateContact
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, provide new contact data.
         content:
@@ -1109,12 +1109,12 @@ paths:
       x-codegen-request-body-name: contact
     patch:
       tags:
-      - Contacts
+        - Contacts
       summary: Partially update a contact
       description: Use this endpoint to update specific fields in contact details. Unlike `PUT /contacts/{id}`, this operation overwrites properties partially.
       operationId: updateContactPartial
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the properties to update
         content:
@@ -1138,12 +1138,12 @@ paths:
       x-codegen-request-body-name: contact
     delete:
       tags:
-      - Contacts
+        - Contacts
       summary: Delete a contact
       description: Use this endpoint to remove a contact from Inperium.
       operationId: deleteContact
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1157,12 +1157,12 @@ paths:
   /contacts/{id}/communication-methods:
     get:
       tags:
-      - ContactCommunicationMethods
+        - ContactCommunicationMethods
       summary: Retrieve contact's email or phone number
       description: Use this endpoint to retrieve a phone number or email address associated with this contact.
       operationId: getContactCommunicationMethods
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The contact data has been retrieved
@@ -1180,12 +1180,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - ContactCommunicationMethods
+        - ContactCommunicationMethods
       summary: Create an email or phone number
       description: Use this endpoint to add a new email or phone number for the contact.
       operationId: createContactCommunicationMethod
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass information about the contact's communication method.
         content:
@@ -1209,18 +1209,18 @@ paths:
   /contacts/{id}/communication-methods/{communicationMethodId}:
     put:
       tags:
-      - ContactCommunicationMethods
+        - ContactCommunicationMethods
       summary: Update a communication method
       description: Use this endpoint to update contact's phone number or email address.
       operationId: updateContactCommunicationMethod
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
-      - name: communicationMethodId
-        in: path
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - $ref: '#/components/parameters/ResourceId'
+        - name: communicationMethodId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         description: In request body, pass the new communication method.
         content:
@@ -1243,21 +1243,21 @@ paths:
   /deals:
     get:
       tags:
-      - Deals
+        - Deals
       summary: List deals
-      description: Use this endpoint to get all deals. This operation supports paging and sorting. 
+      description: Use this endpoint to get all deals. This operation supports paging and sorting.
       operationId: getDeals
       parameters:
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - in: query
-        name: sort
-        schema:
-          type: string
-          default: "+createdAt"
-        description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
-      - $ref: '#/components/parameters/EntityProperties'
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: "+createdAt"
+          description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+        - $ref: '#/components/parameters/EntityProperties'
       responses:
         200:
           description: The deals have been retrieved
@@ -1273,7 +1273,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Deals
+        - Deals
       summary: Create a deal
       description: Use this endpoint to create a new deal.
       operationId: createDeal
@@ -1300,18 +1300,18 @@ paths:
       x-codegen-request-body-name: deal
     patch:
       tags:
-      - Deals
+        - Deals
       summary: Update deals in bulk
       description: Use this endpoint to update several deals. For example, you can pick multiple deals and assign them to the same Inperium user.
       operationId: updateDeals
       parameters:
-      - name: ids
-        description: Deals you want to update
-        in: query
-        schema:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
+        - name: ids
+          description: Deals you want to update
+          in: query
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Id'
       requestBody:
         description: In request body, pass the properties to update.
         content:
@@ -1338,12 +1338,12 @@ paths:
   /deals/{id}:
     get:
       tags:
-      - Deals
+        - Deals
       summary: Retrieve deal details
       description: Use this endpoint to locate a specific deal and retrieve its details.
       operationId: getDeal
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The deal details have been retrieved
@@ -1359,12 +1359,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Deals
+        - Deals
       summary: Update a deal
       description: Use this endpoint to modify deal details. Unlike `PATCH /deals/{id}`, this operation completely overwrites a deal.
       operationId: updateDeal
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass deal details.
         content:
@@ -1388,12 +1388,12 @@ paths:
       x-codegen-request-body-name: deal
     patch:
       tags:
-      - Deals
+        - Deals
       summary: Partially update a deal
       description: Use this endpoint to modify some deal properties. Unlike `PUT /deals/{id}`, this operation doesn't overwrite the deal completely.
       operationId: updateDealPartial
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the deal fields you want to update
         content:
@@ -1417,12 +1417,12 @@ paths:
       x-codegen-request-body-name: deal
     delete:
       tags:
-      - Deals
+        - Deals
       summary: Delete a deal
       description: Use this endpoint to remove a deal. Note that removing a deal that is no longer active is not the best decision from the business perspective. Stale deals should be assigned a final stage like 'Deal lost' instead of being deleted.
       operationId: deleteDeal
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1436,12 +1436,12 @@ paths:
   /deals/{id}/items:
     get:
       tags:
-      - DealItems
+        - DealItems
       summary: List deal items
       description: Use this endpoint to get information about the products included in the deal and any applicable fees.
       operationId: getDealItems
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Deal items have been retrieved.
@@ -1457,12 +1457,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - DealItems
+        - DealItems
       summary: Add items
       description: Use this endpoint to add products or fees to the deal.
       operationId: createDealItems
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the items you want to add.
         content:
@@ -1487,17 +1487,17 @@ paths:
   /dictionaryGroups/{groupId}:
     get:
       tags:
-      - Dictionaries
+        - Dictionaries
       summary: Retrieve a dictionary group
       description: Use this endpoint to retrieve a dictionary group by its ID.
       operationId: getDictionaryGroup
       parameters:
-      - name: groupId
-        in: path
-        required: true
-        schema:
-          type: string
-      - $ref: '#/components/parameters/EntityProperties'
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/EntityProperties'
       responses:
         200:
           description: The dictionary group has been retrieved
@@ -1514,7 +1514,7 @@ paths:
   /documents:
     post:
       tags:
-      - Documents
+        - Documents
       summary: Upload a document
       description: Use this endpoint to upload a new document to Inperium Sell. For example, a contract or image.
       operationId: createDocument
@@ -1546,12 +1546,12 @@ paths:
   /documents/{id}:
     get:
       tags:
-      - Documents
+        - Documents
       summary: Retrieve a document
       description: Use this endpoint to retrieve a document by its ID.
       operationId: getDocument
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The document details have been retrieved
@@ -1568,12 +1568,12 @@ paths:
   /documents/{id}/content:
     get:
       tags:
-      - Documents
+        - Documents
       summary: Retrieve the contents of document
       description: Use this endpoint to see the document.
       operationId: getDocumentContent
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The document contents have been retrieved
@@ -1613,7 +1613,7 @@ paths:
   /exports:
     post:
       tags:
-      - Exports
+        - Exports
       summary: Export data
       description: Use this endpoint to export companies, deals, etc. This operation supports paging, sorting, and filtering.
       operationId: runExport
@@ -1639,12 +1639,12 @@ paths:
   /exports/{id}:
     get:
       tags:
-      - Exports
+        - Exports
       summary: Download a file
       description: Use this endpoint to download a file containing export results.
       operationId: getExport
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The export file has been downloaded.
@@ -1662,19 +1662,19 @@ paths:
   /items:
     get:
       tags:
-      - Items
+        - Items
       summary: List items
       description: Use this endpoint to retrieve items (products or fees) connected to a specific deal or quote. This operation supports paging and sorting.
       operationId: getItems
       parameters:
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - name: dealId
-        in: query
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - name: dealId
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: Items have been retrieved
@@ -1691,24 +1691,24 @@ paths:
   /properties:
     get:
       tags:
-      - Properties
+        - Properties
       summary: List properties
       description: Use this endpoint to retrieve all property definitions for the current tenant, including builtin and custom properties. This operation supports paging and sorting. You can also filter properties by label or data type.
       operationId: getAllProperties
       parameters:
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
-      - name: label
-        in: query
-        description: Property name
-        schema:
-          type: string
-      - name: type
-        in: query
-        description: Property type, e.g. string, monetary, boolean
-        schema:
-          type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: label
+          in: query
+          description: Property name
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Property type, e.g. string, monetary, boolean
+          schema:
+            type: string
       responses:
         200:
           description: Properties have been retrieved
@@ -1724,7 +1724,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Properties
+        - Properties
       summary: Create a property
       description: Use this endpoint to create custom properties for Inperium objects.
       operationId: createProperty
@@ -1751,18 +1751,18 @@ paths:
   /properties/{id}:
     put:
       tags:
-      - Properties
+        - Properties
       summary: Update a property
       description: Use this endpoint to modify a property. For example, to change a label or a data type.
       operationId: updateProperty
       parameters:
-      - name: id
-        in: path
-        description: Property ID
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - name: id
+          in: path
+          description: Property ID
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         description: In the request body, pass the property details
         content:
@@ -1786,17 +1786,17 @@ paths:
   /properties/{type}:
     get:
       tags:
-      - Properties
+        - Properties
       summary: List properties of a specific type
       description: Retrieve property definitions of a specific type such as monetary or boolean.
       operationId: getPropertiesByType
       parameters:
-      - name: type
-        in: path
-        description: Property type, e.g., string, monetary
-        required: true
-        schema:
-          type: string
+        - name: type
+          in: path
+          description: Property type, e.g., string, monetary
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: Properties have been retrieved
@@ -1815,19 +1815,19 @@ paths:
   /forms:
     get:
       tags:
-      - Forms
+        - Forms
       summary: List forms
-      description: Use this endpoint to get a list of available custom forms. This endpoint supports paging and sorting. Use query parameters to narrow down results. 
+      description: Use this endpoint to get a list of available custom forms. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getForms
       parameters:
-      - name: name
-        in: query
-        description: The form to search for
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: name
+          in: query
+          description: The form to search for
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The forms have been retrieved
@@ -1843,7 +1843,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Forms
+        - Forms
       summary: Create a form
       description: Use this endpoint to add new custom forms.
       operationId: createForm
@@ -1871,12 +1871,12 @@ paths:
   /forms/{id}:
     get:
       tags:
-      - Forms
+        - Forms
       summary: Retrieve a form definition
       description: Use this endpoint to get details about a form.
       operationId: getForm
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The form has been retrieved
@@ -1892,12 +1892,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Forms
+        - Forms
       summary: Update a form
       description: Use this endpoint to modify and overwrite the form.
       operationId: updateForm
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, send the updated form specification
         content:
@@ -1921,12 +1921,12 @@ paths:
       x-codegen-request-body-name: form
     delete:
       tags:
-      - Forms
+        - Forms
       summary: Delete a form
       description: Use this endpoint to remove an obsolete form.
       operationId: deleteForm
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1940,16 +1940,16 @@ paths:
   /globalSearch:
     get:
       tags:
-      - GlobalSearch
+        - GlobalSearch
       summary: Retrieve data
       description: Use this endpoint to search across companies, contacts, and deals. For example, locate all entities that contain "bowl" such as Bowler Inc., Marcus Bowlson.
       operationId: globalSearch
       parameters:
-      - name: query
-        in: query
-        required: true
-        schema:
-          type: string
+        - name: query
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: The search results have been retrieved
@@ -1994,7 +1994,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Imports
+        - Imports
       summary: Import entities
       description: Use this endpoint to upload files containing entities into Inperium. For example, you can upload your client data exported from other CRMs and that was previously stored in spreadsheets.
       operationId: importFile
@@ -2022,26 +2022,26 @@ paths:
   /integrations:
     get:
       tags:
-      - Integrations
+        - Integrations
       summary: List integrations
       description: Use this endpoint to retrieve a complete list of third-party integrations enabled for the tenant account. This operation supports paging, sorting, and filtering.
       operationId: getIntegrations
       parameters:
-      - name: id
-        in: query
-        schema:
-          type: string
-      - name: name
-        in: query
-        schema:
-          type: string
-      - name: type
-        in: query
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: id
+          in: query
+          schema:
+            type: string
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: Integrations have been retrieved.
@@ -2058,7 +2058,7 @@ paths:
   /integrations/stripe/authorize:
     get:
       tags:
-      - StripeAuthorizations
+        - StripeAuthorizations
       summary: Authorize the Stripe account
       description: Use this endpoint to enable payment processing with Stripe.
       operationId: authorizeStripe
@@ -2078,15 +2078,15 @@ paths:
   /integrations/stripe/authorize/callback:
     get:
       tags:
-      - StripeAuthorizations
+        - StripeAuthorizations
       summary: Get callback
       description: Get the Stripe OAuth2 authorization callback.
       operationId: callbackStripe
       parameters:
-      - name: code
-        in: query
-        schema:
-          type: string
+        - name: code
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: Authorization has been successful
@@ -2100,7 +2100,7 @@ paths:
   /integrations/stripe/credentials:
     get:
       tags:
-      - StripeAuthorizations
+        - StripeAuthorizations
       summary: Get the stripe credentials
       description: Use this endpoint to retrieve Stripe credentials for the current tenant.
       operationId: getStripeCredentials
@@ -2114,7 +2114,7 @@ paths:
   /integrations/stripe/deauthorize:
     get:
       tags:
-      - StripeAuthorizations
+        - StripeAuthorizations
       summary: Disable integration with Stripe
       description: Use this endpoint to remove and revoke integration with Stripe for a current tenant.
       operationId: deauthorizeStripe
@@ -2131,7 +2131,7 @@ paths:
   /integrations/xero/authorize:
     get:
       tags:
-      - XeroAuthorizations
+        - XeroAuthorizations
       summary: Authorize the Xero account
       description: Use this endpoint to enable integration with Xero.
       operationId: authorizeXero
@@ -2151,19 +2151,19 @@ paths:
   /integrations/xero/authorize/callback:
     get:
       tags:
-      - XeroAuthorizations
+        - XeroAuthorizations
       summary: Get callback
       description: Use this endpoint to receive the Xero OAuth2 authorization callback
       operationId: callbackXero
       parameters:
-      - name: oAuthToken
-        in: query
-        schema:
-          type: string
-      - name: oAuthVerifier
-        in: query
-        schema:
-          type: string
+        - name: oAuthToken
+          in: query
+          schema:
+            type: string
+        - name: oAuthVerifier
+          in: query
+          schema:
+            type: string
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2171,7 +2171,7 @@ paths:
   /integrations/xero/deauthorize:
     get:
       tags:
-      - XeroAuthorizations
+        - XeroAuthorizations
       summary: Disable integration with Xero
       description: Use this endpoint to disable tenant's intergration with Xero and revoke access.
       operationId: deauthorizeXero
@@ -2188,12 +2188,12 @@ paths:
   /integrations/{id}:
     get:
       tags:
-      - Integrations
+        - Integrations
       summary: Retrieve integration details
       description: Use this endpooint to locate an integration by its ID and get its details.
       operationId: getIntegration
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Integration details have been retrieved
@@ -2210,42 +2210,42 @@ paths:
   /invoices:
     get:
       tags:
-      - Invoices
+        - Invoices
       summary: List invoices
       description: Use this endpoint to retrieve a list of invoices. This operation supports sorting, paging, and filtering.
       operationId: getInvoices
       parameters:
-      - name: id
-        in: query
-        schema:
-          type: string
-      - name: contactId
-        in: query
-        description: A contact ID to associated with the invoice
-        schema:
-          type: string
-      - name: number
-        in: query
-        schema:
-          type: string
-      - name: date
-        in: query
-        description: The date when the invoice was issued (mm/dd/yyyy)
-        schema:
-          type: string
-      - name: dueDate
-        in: query
-        description: The date by which the invoice must be paid (mm/dd/yyyy)
-        schema:
-          type: string
-      - name: status
-        in: query
-        description: The invoice status. For example, if the invoice was paid or is pending.
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: id
+          in: query
+          schema:
+            type: string
+        - name: contactId
+          in: query
+          description: A contact ID to associated with the invoice
+          schema:
+            type: string
+        - name: number
+          in: query
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: The date when the invoice was issued (mm/dd/yyyy)
+          schema:
+            type: string
+        - name: dueDate
+          in: query
+          description: The date by which the invoice must be paid (mm/dd/yyyy)
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: The invoice status. For example, if the invoice was paid or is pending.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The invoices have been retrieved
@@ -2261,7 +2261,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Invoices
+        - Invoices
       summary: Create an invoice
       description: Use this endpoint to add new invoices to Inperium Sell.
       operationId: createInvoice
@@ -2289,14 +2289,14 @@ paths:
   /invoices/paymentPlans:
     get:
       tags:
-      - Invoices
+        - Invoices
       summary: List payment plans
       description: Use this endpoint to get the list of payment plans for the invoices. For each invoice, you can set up a payment plan, for example, to split the invoice into several payments. This operation supports sorting and paging.
       operationId: getInvoicesPaymentPlans
       parameters:
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The invoices payment plans have been retrieved
@@ -2313,12 +2313,12 @@ paths:
   /invoices/{id}:
     get:
       tags:
-      - Invoices
+        - Invoices
       summary: Retrieve invoice details
-      description: Use this endpoint to locate an invoice by its ID and get invoice details. 
+      description: Use this endpoint to locate an invoice by its ID and get invoice details.
       operationId: getInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The invoice has been found
@@ -2334,12 +2334,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Invoices
+        - Invoices
       summary: Update an invoice
       description: Use this endpoint to modify the invoice.
       operationId: updateInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the updated invoice
         content:
@@ -2363,12 +2363,12 @@ paths:
       x-codegen-request-body-name: invoice
     delete:
       tags:
-      - Invoices
+        - Invoices
       summary: Delete an invoice
       description: Use this endpoint to remove an invoice.
       operationId: deleteInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2382,12 +2382,12 @@ paths:
   /invoices/{id}/email:
     post:
       tags:
-      - Invoices
+        - Invoices
       summary: Send the invoice to client
       description: Use this endpoint to send an invoice by email to the contact.
       operationId: emailInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, specify email-related details.
         content:
@@ -2409,17 +2409,17 @@ paths:
   /invoices/{id}/sync/{integrationAnchor}:
     get:
       tags:
-      - Invoices
+        - Invoices
       summary: Syncronize invoices
       description: Use this endpoint to get the most recent information about invoices and sync them.
       operationId: syncInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
-      - name: integrationAnchor
-        in: path
-        required: true
-        schema:
-          type: string
+        - $ref: '#/components/parameters/ResourceId'
+        - name: integrationAnchor
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: An empty response that is used for OK non-returning operations
@@ -2433,7 +2433,7 @@ paths:
   /paymentMethods/stripe:
     get:
       tags:
-      - PaymentMethods
+        - PaymentMethods
       summary: Retrieve a Stripe publishable key
       description: Use this endpoint to get a Stripe publishable key for the current tenant
       operationId: getStripePublishableKey
@@ -2447,44 +2447,44 @@ paths:
   /payments:
     get:
       tags:
-      - Payments
+        - Payments
       summary: List ayments
       description: Use this endpoint to get a payment log and see what invoices have been paid. This operation supports paging and sorting. Search for specific payments or narrow down the result to similar payments (e.g., by credit card)
       operationId: getPayments
       parameters:
-      - name: id
-        in: query
-        description: Payment ID
-        schema:
-          type: string
-      - name: contactId
-        in: query
-        description: The contact associated with the payment
-        schema:
-          type: string
-      - name: date
-        in: query
-        description: The date the payment was made (mm/dd/yyyy)
-        schema:
-          type: string
-      - name: method
-        in: query
-        description: Payment method (cash, credit card, etc.)
-        schema:
-          type: string
-      - name: amount
-        in: query
-        description: The amount that was paid
-        schema:
-          type: string
-      - name: status
-        in: query
-        description: The payment status
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: id
+          in: query
+          description: Payment ID
+          schema:
+            type: string
+        - name: contactId
+          in: query
+          description: The contact associated with the payment
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: The date the payment was made (mm/dd/yyyy)
+          schema:
+            type: string
+        - name: method
+          in: query
+          description: Payment method (cash, credit card, etc.)
+          schema:
+            type: string
+        - name: amount
+          in: query
+          description: The amount that was paid
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: The payment status
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: Payments have been retrieved
@@ -2500,7 +2500,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Payments
+        - Payments
       summary: Create a payment
       description: Use this endpoint to add a new payment to Inperium.
       operationId: createPayment
@@ -2528,15 +2528,15 @@ paths:
   /payments/capturePaymentIntent:
     get:
       tags:
-      - Payments
+        - Payments
       summary: Capture a payment intent
       description: Use this endpoint to check if there is a Stripe payment intent.
       operationId: capturePaymentIntent
       parameters:
-      - name: paymentIntentId
-        in: query
-        schema:
-          type: string
+        - name: paymentIntentId
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: Successfully captured a payment intent
@@ -2553,7 +2553,7 @@ paths:
   /payments/createPaymentIntent:
     post:
       tags:
-      - Payments
+        - Payments
       summary: Create a payment intent
       description: Use this endpoint to create a Stripe payment intent. See Stripe API reference for background information.
       operationId: createPaymentIntent
@@ -2581,12 +2581,12 @@ paths:
   /payments/{id}:
     put:
       tags:
-      - Payments
+        - Payments
       summary: Update a payment
       description: Use this endpoint to modify payments. Locate the payment you are interested in and overwrite it.
       operationId: updatePayment
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the payment details.
         content:
@@ -2611,14 +2611,14 @@ paths:
   /pipelines:
     get:
       tags:
-      - Pipelines
+        - Pipelines
       summary: List pipelines
-      description: Use this endpoint to get a list of pipelines enabled for the current tenant. This operation supports sorting and paging. 
+      description: Use this endpoint to get a list of pipelines enabled for the current tenant. This operation supports sorting and paging.
       operationId: getPipelines
       parameters:
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The pipelines have been retrieved
@@ -2634,7 +2634,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Pipelines
+        - Pipelines
       summary: Create a pipiline
       description: Use this endpoint to add new pipelines.
       operationId: createPipeline
@@ -2662,12 +2662,12 @@ paths:
   /pipelines/{id}:
     get:
       tags:
-      - Pipelines
+        - Pipelines
       summary: Retrieve pipeline details
       description: Use this endpoint to get detailed information about a specific pipeline.
       operationId: getPipeline
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The pipeline details have been retrieved
@@ -2683,12 +2683,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Pipelines
+        - Pipelines
       summary: Update a pipeline
       description: Use this endpoint to modify pipelines.
       operationId: updatePipeline
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the updated pipeline.
         content:
@@ -2712,12 +2712,12 @@ paths:
       x-codegen-request-body-name: pipeline
     delete:
       tags:
-      - Pipelines
+        - Pipelines
       summary: Delete a pipeline
       description: Use this endpoint to remove a pipeline.
       operationId: deletePipeline
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2754,7 +2754,7 @@ paths:
   /predefinedMetadataGroups:
     get:
       tags:
-      - Predefined Metadata
+        - Predefined Metadata
       summary: List metedata groups
       description: Use this endpoint to get a list of dictionaries.
       operationId: getAllPredefinedMetadataGroups
@@ -2776,12 +2776,12 @@ paths:
   /predefinedMetadataGroups/{id}:
     get:
       tags:
-      - Predefined Metadata
+        - Predefined Metadata
       summary: Retrieve metedata group details
       description: Use this endpoint to search for a specific predefined metadata group and retrieve its details.
       operationId: getPredefinedMetadataGroup
       parameters:
-      - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: '#/components/parameters/ResourceStringId'
       responses:
         200:
           description: The predefined metedata group has been retrieved
@@ -2798,12 +2798,12 @@ paths:
   /predefinedMetadataGroups/{id}/options:
     get:
       tags:
-      - Predefined Metadata
+        - Predefined Metadata
       summary: List options
       description: Use this endpoint to retrieve a list of options associated with a specific predefined metadata group.
       operationId: getAllPredefinedMetadataOptions
       parameters:
-      - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: '#/components/parameters/ResourceStringId'
       responses:
         200:
           description: The options has been retrieved
@@ -2820,39 +2820,39 @@ paths:
   /products:
     get:
       tags:
-      - Products
+        - Products
       summary: List products
       description: Use this endpoint to get a complete list of products offered by the tenant. This operation supports paging and sorting. You can also narrow down results to the products of a specific price, etc.
       operationId: getProducts
       parameters:
-      - name: id
-        in: query
-        description: Unique product ID
-        schema:
-          type: string
-      - name: name
-        in: query
-        description: Full product name
-        schema:
-          type: string
-      - name: code
-        in: query
-        description: Internal product code or shortened name
-        schema:
-          type: string
-      - name: price
-        in: query
-        description: Product retail price (per unit)
-        schema:
-          type: string
-      - name: cost
-        in: query
-        description: Product cost (per unit)
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: id
+          in: query
+          description: Unique product ID
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: Full product name
+          schema:
+            type: string
+        - name: code
+          in: query
+          description: Internal product code or shortened name
+          schema:
+            type: string
+        - name: price
+          in: query
+          description: Product retail price (per unit)
+          schema:
+            type: string
+        - name: cost
+          in: query
+          description: Product cost (per unit)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The products have been retrieved
@@ -2868,7 +2868,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Products
+        - Products
       summary: Create a product
       description: Use this endpoint to add new products to Inperium Sell.
       operationId: createProduct
@@ -2896,12 +2896,12 @@ paths:
   /products/{id}:
     get:
       tags:
-      - Products
+        - Products
       summary: Retrieve product details
       description: Use this endpoint to locate a product by its ID and get its details such as price and cost.
       operationId: getProduct
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The product details have been retrieved
@@ -2917,12 +2917,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Products
+        - Products
       summary: Update a product
       description: Use this endpoint to modify products. The operation overwrites the product record.
       operationId: updateProduct
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the product details
         content:
@@ -2947,12 +2947,12 @@ paths:
       x-codegen-request-body-name: product
     delete:
       tags:
-      - Products
+        - Products
       summary: Delete a product
       description: Use this endpoint to remove products the tenant no longer offers.
       operationId: deleteProduct
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2966,12 +2966,12 @@ paths:
   /public/invoices/{id}:
     get:
       tags:
-      - InvoicePage
+        - InvoicePage
       summary: Retrieve invoice details
       description: Use this endpoint to generate the invoice page. You can share the invoice page with a customer who would pay the invoice.
       operationId: getInvoiceByUid
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The data has been retrieved
@@ -2982,12 +2982,12 @@ paths:
   /public/invoices/{id}/download:
     get:
       tags:
-      - InvoicePage
+        - InvoicePage
       summary: Download the invoice
       description: Use this endpoint to retrieve invoice details and save the invoice page as pdf.
       operationId: getInvoicePagePdf
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The invoice details have been saved as pdf
@@ -2999,12 +2999,12 @@ paths:
   /public/quotes/{id}:
     get:
       tags:
-      - QuotePage
+        - QuotePage
       summary: Retrieve quote details
       description: Use this endpoint to generate a quote page. You can share this page with a customer who can decide to accept or reject this quote.
       operationId: getQuoteByUid
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The data has been retrieved
@@ -3015,17 +3015,17 @@ paths:
   /public/quotes/{id}/accept:
     get:
       tags:
-      - QuotePage
+        - QuotePage
       summary: Accept a quote
       description: Use this endpoint to mark the quote as accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
       operationId: acceptQuote
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
-      - name: signature
-        in: query
-        required: true
-        schema:
-          type: string
+        - $ref: '#/components/parameters/ResourceId'
+        - name: signature
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: The quote has been accepted
@@ -3033,12 +3033,12 @@ paths:
   /public/quotes/{id}/download:
     get:
       tags:
-      - QuotePage
+        - QuotePage
       summary: Download a quote
       description: Use this endpoint to retrieve quote details and save the quote page as pdf.
       operationId: getQuotePagePdf
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The quote has been saved as pdf
@@ -3050,8 +3050,8 @@ paths:
   /public/quotePreview:
     post:
       tags:
-      - QuotePage
-      summary: Generate a PDF preview 
+        - QuotePage
+      summary: Generate a PDF preview
       description: Use this endpoint to create a PDF preview for a quote.
       operationId: getQuotePreviewPagePdf
       requestBody:
@@ -3072,7 +3072,7 @@ paths:
   /public/quotePreview/html:
     post:
       tags:
-      - QuotePage
+        - QuotePage
       summary: Generate an HTML preview
       description: Use this endpoint to create an HTML preview for a quote.
       operationId: getQuotePreviewPageHtml
@@ -3094,20 +3094,20 @@ paths:
   /quotes:
     get:
       tags:
-      - Quotes
+        - Quotes
       summary: List quotes
       description: Use this endpoint to get a list of quotes for the current tenant. This operation supports sorting and paging as well filtering by deal ID.
       operationId: getQuotes
       parameters:
-      - $ref: '#/components/parameters/QueryStringResourceId'
-      - name: dealId
-        in: query
-        description: Unique deal ID. Quotes are always associated with deals. Note that multiple quotes can be linked to a single deal.
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryStringResourceId'
+        - name: dealId
+          in: query
+          description: Unique deal ID. Quotes are always associated with deals. Note that multiple quotes can be linked to a single deal.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: Quotes have been retrieved
@@ -3145,12 +3145,12 @@ paths:
   /quotes/{id}:
     get:
       tags:
-      - Quotes
+        - Quotes
       summary: Retrieve quote details
       description: Use this endpoint to locate a quote by its ID and retrieve its details.
       operationId: getQuote
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The quote details have been retrieved
@@ -3166,12 +3166,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     delete:
       tags:
-      - Quotes
+        - Quotes
       summary: Delete a quote
       description: Use this endpoint to revoke old quotes.
       operationId: deleteQuote
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3185,12 +3185,12 @@ paths:
   /quotes/{id}/accept:
     post:
       tags:
-      - Quotes
+        - Quotes
       summary: Accept a quote
       description: Use this endpoint to mark the quote as accepted. Once the quote is accepted, you can create an invoice for products listed in this quote.
       operationId: acceptQuoteByUser
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The quote has been accepted.
@@ -3207,12 +3207,12 @@ paths:
   /quotes/{id}/convertToInvoice:
     post:
       tags:
-      - Quotes
+        - Quotes
       summary: Convert to an invoice
       description: Use this endpoint to convert the quote to an invoice. Once the quote get accepted, you can convert it to the invoice that can later be sent to a client.
       operationId: convertQuoteToInvoice
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the quote details
         content:
@@ -3237,14 +3237,14 @@ paths:
   /reports:
     get:
       tags:
-      - Reports
+        - Reports
       summary: List reports
       description: Use this endpoint to get a list of reports available in Inperium Sell. This operation supports paging and sorting.
       operationId: getReports
       parameters:
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The report list has been retrieved.
@@ -3261,32 +3261,32 @@ paths:
   /reports/{id}/data:
     get:
       tags:
-      - Reports
+        - Reports
       summary: Retrieve report data
       description: Use this endpoint to see report data returned by a specific report.
       operationId: getReportData
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
-      - name: who
-        in: query
-        description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
-        schema:
-          type: string
-          enum:
-          - ME
-          - TEAM
-      - name: from
-        in: query
-        description: The start date
-        schema:
-          type: string
-          format: 'date-time'
-      - name: to
-        in: query
-        description: The finish date
-        schema:
-          type: string
-          format: 'date-time'
+        - $ref: '#/components/parameters/ResourceId'
+        - name: who
+          in: query
+          description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
+          schema:
+            type: string
+            enum:
+              - ME
+              - TEAM
+        - name: from
+          in: query
+          description: The start date
+          schema:
+            type: string
+            format: 'date-time'
+        - name: to
+          in: query
+          description: The finish date
+          schema:
+            type: string
+            format: 'date-time'
       responses:
         200:
           description: The data has been retrieved.
@@ -3303,16 +3303,16 @@ paths:
   /stages:
     get:
       tags:
-      - Stages
+        - Stages
       summary: List stages
       description: Use this endpoint to get a complete list of stages.
       operationId: getStages
       parameters:
-      - in: query
-        name: pipeline
-        description: Pipeline name. Use this query parameter to narrow down your search to stages of a specific pipeline.
-        schema:
-          type: string
+        - in: query
+          name: pipeline
+          description: Pipeline name. Use this query parameter to narrow down your search to stages of a specific pipeline.
+          schema:
+            type: string
       responses:
         200:
           description: The stages have been retrieved
@@ -3328,7 +3328,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Stages
+        - Stages
       summary: Create a stage
       description: Use this endpoint to add a new stage to a pipeline.
       operationId: createStage
@@ -3361,7 +3361,7 @@ paths:
       description: Use this endpoint to get a specific stage by ID.
       operationId: getStage
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The stage has been retrieved
@@ -3377,12 +3377,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Stages
+        - Stages
       summary: Update a stage
       description: Use this endpoint to modify and overvwrite an existing stage.
       operationId: updateStage
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the updated stage
         content:
@@ -3406,12 +3406,12 @@ paths:
       x-codegen-request-body-name: stage
     delete:
       tags:
-      - Stages
+        - Stages
       summary: Delete a stage
-      description: Use this endpoint to remove a stage from a pipeline.    
+      description: Use this endpoint to remove a stage from a pipeline.
       operationId: deleteStage
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The stage has been deleted
@@ -3425,19 +3425,19 @@ paths:
   /templates:
     get:
       tags:
-      - Template
+        - Template
       summary: List templates
       description: Use this endpoint to get a complete list of available templates. This operation supports paging and sorting.
       operationId: getTemplates
       parameters:
-      - name: name
-        in: query
-        description: Template name.
-        schema:
-          type: string
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - name: name
+          in: query
+          description: Template name.
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The templates have been retrieved
@@ -3447,9 +3447,9 @@ paths:
                 $ref: '#/components/schemas/Templates'
     post:
       tags:
-      - Template
+        - Template
       summary: Create a template
-      description: Use this endpoint to add new templates. 
+      description: Use this endpoint to add new templates.
       operationId: createTemplate
       requestBody:
         description: In the request body, pass a new template
@@ -3469,12 +3469,12 @@ paths:
   /templates/{id}:
     get:
       tags:
-      - Template
+        - Template
       summary: Retrieve template details
       description: Use this endpoint to locate a specific template by its ID and retrieve its details.
       operationId: getTemplate
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Template details have been retrieved
@@ -3490,12 +3490,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - Template
+        - Template
       summary: Update a template
       description: Use this endpoint to modify and overwrite the existing template.
       operationId: updateTemplate
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the updated template
         content:
@@ -3519,12 +3519,12 @@ paths:
       x-codegen-request-body-name: tenant
     delete:
       tags:
-      - Template
+        - Template
       summary: Delete a template
       description: Use this endpoint to remove a template.
       operationId: deleteTemplate
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3538,8 +3538,8 @@ paths:
   /temporary/send-system-mail:
     post:
       tags:
-      - Temporary
-      summary: Send email 
+        - Temporary
+      summary: Send email
       description: This endpoint is for testing purposes. (will be removed)
       operationId: sendSystemMail
       requestBody:
@@ -3547,10 +3547,10 @@ paths:
           multipart/form-data:
             schema:
               required:
-              - content
-              - receiver
-              - sender
-              - subject
+                - content
+                - receiver
+                - sender
+                - subject
               properties:
                 sender:
                   type: string
@@ -3574,7 +3574,7 @@ paths:
   /tenant/settings:
     put:
       tags:
-      - TenantSettings
+        - TenantSettings
       summary: Update tenant settings
       description: Use this endpoint to modify and overvwrite tenant settings including billing, company name, default time zone.
       operationId: updateTenantSettings
@@ -3601,7 +3601,7 @@ paths:
       x-codegen-request-body-name: tenantSettings
     get:
       tags:
-      - TenantSettings
+        - TenantSettings
       summary: Retrieve tenant settings
       description: Use this endpoint to get information about a current tenant.
       operationId: getTenantSettings
@@ -3621,14 +3621,14 @@ paths:
   /tenant/integrations:
     get:
       tags:
-      - TenantIntegrations
+        - TenantIntegrations
       summary: List active integrations
       description: Use this endpoint to get a list of integrations enabled for a current tenant. This operation supports paging and sorting.
       operationId: getTenantIntegrations
       parameters:
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The list of active integrations has been retrieved
@@ -3645,7 +3645,7 @@ paths:
   /terminals/connectionToken:
     post:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: Create a terminal token
       description: Use this endpoint to issue a new terminal token.
       operationId: createTerminalToken
@@ -3665,15 +3665,15 @@ paths:
   /terminals/readers:
     get:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: List Stripe terminal readers
       description: Use this endpoint to retrieve a list of existing Stripe terminal readers.
       operationId: getReaders
       parameters:
-      - name: limit
-        in: query
-        schema:
-          type: string
+        - name: limit
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: The readers have been retrieved
@@ -3689,7 +3689,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: Create a new reader
       description: Use this endpoint to add new terminal readers.
       operationId: createReader
@@ -3714,12 +3714,12 @@ paths:
   /terminals/readers/{id}:
     get:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: Retrieve reader details
       description: Use this endpoint to locate a Stripe terminal reader by its ID and get its details.
       operationId: getReader
       parameters:
-      - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: '#/components/parameters/ResourceStringId'
       responses:
         200:
           description: The reader details have been retrieved
@@ -3735,12 +3735,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     put:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: Update a reader
       description: Use this endpoint to modify and overwrite an existing Stripe terminal reader.
       operationId: updateReader
       parameters:
-      - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: '#/components/parameters/ResourceStringId'
       requestBody:
         description: In the request body, pass the updated Stripe terminal reader
         content:
@@ -3764,12 +3764,12 @@ paths:
       x-codegen-request-body-name: reader
     delete:
       tags:
-      - StripeTerminals
+        - StripeTerminals
       summary: Delete a reader
       description: Use this endpoint to remove an unused Stripe terminal reader.
       operationId: deleteReader
       parameters:
-      - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: '#/components/parameters/ResourceStringId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3783,14 +3783,14 @@ paths:
   /views:
     get:
       tags:
-      - Views
+        - Views
       summary: List views
       description: Use this endpoint to get a list of views, including company views, contact views, etc. This operation supports paging and sorting.
       operationId: getAllViews
       parameters:
-      - $ref: '#/components/parameters/QueryPageSize'
-      - $ref: '#/components/parameters/QueryPageNumber'
-      - $ref: '#/components/parameters/QuerySort'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The views have been retrieved
@@ -3806,7 +3806,7 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
-      - Views
+        - Views
       summary: Create a view
       description: Use this endpoint to add new views.
       operationId: createView
@@ -3832,17 +3832,17 @@ paths:
   /views/{type}:
     get:
       tags:
-      - Views
+        - Views
       summary: List views of a specific type
       description: Use this endpoint to retrieve views by their type. For example, company views or contact views.
       operationId: getViews
       parameters:
-      - name: type
-        in: path
-        description: Inperium entity (companies, deals, etc.) the views are used for 
-        required: true
-        schema:
-          type: string
+        - name: type
+          in: path
+          description: Inperium entity (companies, deals, etc.) the views are used for
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: The views have been retrieved
@@ -3861,12 +3861,12 @@ paths:
   /views/{id}:
     put:
       tags:
-      - Views
+        - Views
       summary: Update a view
-      description: Use this endpoint to modfiy and overwrite existing views. 
+      description: Use this endpoint to modfiy and overwrite existing views.
       operationId: updateView
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         description: In the request body, pass the updated view
         content:
@@ -3888,12 +3888,12 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
     delete:
       tags:
-      - Views
+        - Views
       summary: Delete a view
       description: Use this endpoint to remove obsolete views.
       operationId: deleteView
       parameters:
-      - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3949,6 +3949,125 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
 components:
   schemas:
+    ActivityRequest:
+      description: Activity model submitted to Inperium API
+      example: {}
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          note: '#/components/schemas/NoteActivityRequest'
+          NOTE: '#/components/schemas/NoteActivityRequest'
+          email: '#/components/schemas/EmailActivityRequest'
+          EMAIL: '#/components/schemas/EmailActivityRequest'
+          call: '#/components/schemas/CallActivityRequest'
+          CALL: '#/components/schemas/CallActivityRequest'
+          meeting: '#/components/schemas/MeetingActivityRequest'
+          MEETING: '#/components/schemas/MeetingActivityRequest'
+          task: '#/components/schemas/TaskActivityRequest'
+          TASK: '#/components/schemas/TaskActivityRequest'
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        associatedCompanies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        associatedContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        associatedDeals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+    NoteActivityRequest:
+      description: A representation of a Activity. Note that `NOTE` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/ActivityRequest'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+          required:
+            - body
+    EmailActivityRequest:
+      description: A representation of a Activity. Note that `EMAIL` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/ActivityRequest'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            to:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - body
+            - subject
+            - to
+            - activityDate
+    CallActivityRequest:
+      description: A representation of a Activity. Note that `CALL` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/ActivityRequest'
+        - type: object
+          properties:
+            body:
+              type: string
+            subject:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - activityDate
+    MeetingActivityRequest:
+      description: A representation of a Activity. Note that `MEETING` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/ActivityRequest'
+        - type: object
+          properties:
+            body:
+              type: string
+            subject:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - activityDate
+    TaskActivityRequest:
+      description: A representation of a Activity. Note that `TASK` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/ActivityRequest'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            status:
+              type: string
+              enum:
+                - TODO
+                - DONE
+              default: TODO
+            dueDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - dueDate
     Activities:
       type: object
       properties:
@@ -3959,35 +4078,21 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Activity:
+      description: Activity model returned by Inperium API
       example: {}
       type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          NOTE: '#/components/schemas/NoteActivity'
+          EMAIL: '#/components/schemas/EmailActivity'
+          CALL: '#/components/schemas/CallActivity'
+          MEETING: '#/components/schemas/MeetingActivity'
+          TASK: '#/components/schemas/TaskActivity'
+          EVENT: '#/components/schemas/EventActivity'
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        authorId:
-          $ref: '#/components/schemas/Id'
-        eventDate:
-          type: string
-          format: date-time
-        content:
-          description: For example, the contents of an email or a note.
-          type: string
-        type:
-          type: string
-        isEditable:
-          description: To restrict the activity from editing, set this property to 'false'.
-          type: boolean
-          default: true
-        status:
-          type: string
-        title:
-          type: string
-        toEmail:
-          type: string
-        subject:
-          type: string
-        eventType:
-          type: string
         associatedCompanies:
           type: array
           items:
@@ -4000,56 +4105,127 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Deal'
+        authorId:
+          $ref: '#/components/schemas/Id'
+        createdAt:
+          type: string
+          format: date-time
         updatedAt:
           type: string
           format: date-time
-        createdAt:
-          type: string
-          format: date
-      description: Activity model returned by Inperium API
-    ActivityRequest:
-      example: {}
-      type: object
-      description: Activity model submitted to Inperium API
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        authorId:
-          $ref: '#/components/schemas/Id'
-        eventDate:
-          type: string
-          format: date-time
-        content:
-          description: For example, the contents of an email or a note.
-          type: string
-        type:
-          type: string
-        isEditable:
-          description: To restrict the activity from editing, set this field to 'false'.
-          type: boolean
-          default: true
-        status:
-          type: string
-        title:
-          type: string
-        toEmail:
-          type: string
-        subject:
-          type: string
-        eventType:
-          type: string
-        associatedCompanies:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
-        associatedContacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
-        associatedDeals:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
+      required:
+        - type
+    NoteActivity:
+      description: A representation of a Activity. Note that `NOTE` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+          required:
+            - body
+    EmailActivity:
+      description: A representation of a Activity. Note that `EMAIL` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            to:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - body
+            - subject
+            - to
+            - activityDate
+    CallActivity:
+      description: A representation of a Activity. Note that `CALL` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - activityDate
+    MeetingActivity:
+      description: A representation of a Activity. Note that `MEETING` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - activityDate
+    TaskActivity:
+      description: A representation of a Activity. Note that `TASK` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            body:
+              description: The content of a note.
+              type: string
+            subject:
+              type: string
+            status:
+              type: string
+              enum:
+                - TODO
+                - DONE
+              default: TODO
+            dueDate:
+              type: string
+              format: date-time
+          required:
+            - subject
+            - dueDate
+    EventActivity:
+      description: A representation of a Activity. Note that `EVENT` will be used as the discriminator value."
+      allOf:
+        - $ref: '#/components/schemas/Activity'
+        - type: object
+          properties:
+            eventType:
+              type: string
+              enum:
+                - COMPANY_CREATED
+                - CONTACT_CREATED
+                - DEAL_CREATED
+                - ASSIGNED_USER_UPDATED
+                - DEAL_WON
+                - DEAL_LOST
+                - OTHER
+            activityDate:
+              type: string
+              format: date-time
+          required:
+            - eventType
+            - activityDate
     AdditionalFee:
       type: object
       properties:
@@ -4254,26 +4430,6 @@ components:
             $ref: '#/components/schemas/Contact'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    Countries:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Country'
-        paging:
-          $ref: '#/components/schemas/PageAndSort'
-    Country:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        name:
-          type: string
-        iso:
-          type: string
-        phoneCode:
-          type: integer
     CreatePaymentIntent:
       type: object
       properties:
@@ -4402,8 +4558,8 @@ components:
       description: A document stored in CRM
     ErrorModel:
       required:
-      - code
-      - type
+        - code
+        - type
       type: object
       properties:
         code:
@@ -4416,9 +4572,9 @@ components:
           type: string
           description: Error Message
           enum:
-          - ERROR
-          - WARN
-          - INFO
+            - ERROR
+            - WARN
+            - INFO
         details:
           type: string
           description: Comma separated list of fields, which caused the error condition
@@ -4470,16 +4626,16 @@ components:
           type: string
     PropertyConfig:
       anyOf:
-      - $ref: '#/components/schemas/PropertyDefinition'
-      - type: object
-        properties:
-          configuration:
-            type: object
-            additionalProperties: true
-          propertyOptions:
-            type: array
-            items:
-              $ref: '#/components/schemas/PropertyOption'
+        - $ref: '#/components/schemas/PropertyDefinition'
+        - type: object
+          properties:
+            configuration:
+              type: object
+              additionalProperties: true
+            propertyOptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyOption'
     PropertyConfigs:
       type: object
       properties:
@@ -4491,8 +4647,8 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     PropertyDefinition:
       required:
-      - label
-      - name
+        - label
+        - name
       type: object
       properties:
         id:
@@ -4522,13 +4678,13 @@ components:
           type: string
     PropertyRequest:
       allOf:
-      - $ref: '#/components/schemas/PropertyDefinition'
-      - type: object
-        properties:
-          propertyOptions:
-            type: array
-            items:
-              $ref: '#/components/schemas/PropertyOption'
+        - $ref: '#/components/schemas/PropertyDefinition'
+        - type: object
+          properties:
+            propertyOptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/PropertyOption'
     Form:
       type: object
       properties:
@@ -4575,13 +4731,6 @@ components:
         description:
           type: string
       description: Form field model
-    FormFields:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormField'
     Forms:
       type: object
       properties:
@@ -4591,17 +4740,6 @@ components:
             $ref: '#/components/schemas/Form'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    FullContactResponse:
-      type: object
-      properties:
-        object:
-          type: object
-          properties: {}
-        image:
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          type: string
-          format: byte
-      description: FullContacted enriched data
     GlobalSearchResult:
       type: object
       description: Data returned by Inperium API
@@ -5374,7 +5512,7 @@ components:
           type: string
         country:
           type: string
-      description: Model containing tenant's data 
+      description: Model containing tenant's data
     QuoteToInvoice:
       type: object
       properties:
@@ -5387,20 +5525,6 @@ components:
           type: string
         addressLine2:
           type: string
-    MergeContact:
-      type: object
-      properties:
-        contact:
-          $ref: '#/components/schemas/Contact'
-        idToMerge:
-          type: integer
-    MergeCompany:
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/Company'
-        idToMerge:
-          type: integer
     QuoteUser:
       type: object
       properties:
@@ -5426,12 +5550,6 @@ components:
             $ref: '#/components/schemas/Quote'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    signupUserConfirm:
-      type: object
-      properties:
-        signUpToken:
-          type: string
-      description: Model to confirm user sign up
     ResponseErrorModel:
       type: object
       properties:
@@ -5468,7 +5586,7 @@ components:
           type: integer
         pipelineId:
           $ref: '#/components/schemas/Id'
-      required: 
+      required:
         - name
     Stages:
       type: object
@@ -5607,41 +5725,6 @@ components:
           type: string
         hasMore:
           type: boolean
-    SyncDescriptor:
-      type: object
-      properties:
-        sid:
-          type: string
-        providerName:
-          type: string
-        detached:
-          type: boolean
-        nosync:
-          type: boolean
-        lastSyncedAt:
-          type: string
-          format: date-time
-        additions:
-          type: object
-          properties: {}
-    TaskActivity:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        activity:
-          $ref: '#/components/schemas/Activity'
-        dueDate:
-          type: string
-          format: date-time
-        reminderDate:
-          type: string
-          format: date-time
-        taskStatus:
-          type: string
-        title:
-          type: string
-      description: Task activity model
     Template:
       type: object
       properties:
@@ -5670,44 +5753,6 @@ components:
             $ref: '#/components/schemas/Template'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    Tenant:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        companyName:
-          type: string
-        domainName:
-          type: string
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        country:
-          type: string
-        settings:
-          $ref: '#/components/schemas/TenantSettings'
-        defaultLanguage:
-          type: string
-        defaultTimezone:
-          type: string
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        integrations:
-          type: array
-          items:
-            $ref: '#/components/schemas/TenantIntegration'
-      description: Tenant model
     TenantSettings:
       type: object
       properties:
@@ -5933,8 +5978,8 @@ components:
           format: int32
     WidgetCompletedActivities:
       allOf:
-      - $ref: '#/components/schemas/CompletedActivities'
-      - $ref: '#/components/schemas/CompletedActivitiesDifferences'
+        - $ref: '#/components/schemas/CompletedActivities'
+        - $ref: '#/components/schemas/CompletedActivitiesDifferences'
     WidgetNewLeads:
       type: object
       properties:
@@ -5986,16 +6031,6 @@ components:
           properties:
             activities:
               $ref: '#/components/schemas/CompletedActivities'
-  responses:
-    EmptyResponse:
-      description: An empty response that is used for OK non-returning operations
-      content: {}
-    ErrorResponse:
-      description: Bad request, security violation, or internal server error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ResponseErrorModel'
   parameters:
     ResourceId:
       name: id

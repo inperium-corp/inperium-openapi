@@ -10,6 +10,9 @@ servers:
   - url: http://api.inperium.com/v1/hub
   - url: https://api.inperium.com/v1/hub
 
+security:
+  - BearerAuth: []
+
 tags:
   - name: Dictionaries
     description: |
@@ -31,6 +34,54 @@ tags:
       Payment model associated with a tenant.
 
 paths:
+
+  /auth/signature:
+    get:
+      tags:
+        - Auth
+      summary: Retrieve a public key of Hub auth signature
+      description: TBD
+      operationId: getAuthSignature
+      responses:
+        200:
+          description: Auth signature retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSignature'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /auth/tokens:
+    post:
+      tags:
+        - Auth
+      summary: Get new authentication tokens.
+      description: This endpoint will authenticate the user and return the access token and refresh token.
+      operationId: getAuthTokens
+      requestBody:
+        description: Input parameters for a new auth token generation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthTokensRequest'
+      responses:
+        200:
+          description: The newly generated auth tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokens'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
 
   /health:
     get:
@@ -114,11 +165,11 @@ paths:
             format: uuid
       responses:
         200:
-          description: The tenant owner has successfully logged in
+          description: The tenant owner has successfully been authorized
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessToken'
+                $ref: '#/components/schemas/AuthTokens'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -163,7 +214,7 @@ paths:
             schema:
               $ref: '#/components/schemas/OnboardTenantRequest'
       responses:
-        201:
+        200:
           description: The tenant has completed onboarding
         default:
           description: Bad request, security violation, or internal server error
@@ -317,11 +368,11 @@ paths:
               $ref: '#/components/schemas/UserConfirmInviteRequest'
       responses:
         200:
-          description: The invitation has been accepted
+          description: The password has successfully been reset.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessToken'
+                $ref: '#/components/schemas/AuthTokens'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -361,7 +412,7 @@ paths:
       requestBody:
         required: true
         content:
-          '*/*':
+          application/json:
             schema:
               $ref: '#/components/schemas/UserForgotPasswordRequest'
       responses:
@@ -389,11 +440,11 @@ paths:
               $ref: '#/components/schemas/UserResetPasswordRequest'
       responses:
         200:
-          description: The user has successfully reset password
+          description: The password has successfully been reset.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessToken'
+                $ref: '#/components/schemas/AuthTokens'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -622,7 +673,6 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
 
   /products/{anchor}:
-
     get:
       summary: Retrieves data of an existing product
       operationId: getProduct
@@ -679,31 +729,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseErrorModel'
 
-  /subscriptions:
-    get:
-      summary: Retrieve subscriptions
-      description: Use this endpoint to get a complete list of subscriptions of the current tenant.
-      operationId: getSubscriptions
-      tags:
-        - Subscriptions
-      responses:
-        200:
-          description: The subscriptions have been retrieved.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Subscription"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
-
   /features:
-
     get:
       summary: Retrieve all existing features to be potentially used by users/tenants
       operationId: getFeatureList
@@ -726,7 +752,6 @@ paths:
                 $ref: '#/components/schemas/ResponseErrorModel'
 
   /features/{anchor}:
-
     get:
       summary: Retrieves data of an existing feature
       operationId: getFeature
@@ -776,23 +801,43 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseErrorModel'
 
-  /subscriptions/trial:
+  /subscriptions:
+    get:
+      summary: Retrieve subscriptions
+      description: Use this endpoint to get a complete list of subscriptions of the current tenant.
+      operationId: getSubscriptions
+      tags:
+        - Subscriptions
+      responses:
+        200:
+          description: The subscriptions have been retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscription"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
     post:
       tags:
         - Subscriptions
-      summary: Start a new trial subscription
-      description: Use this endpoint to start a new trial. After the trial period is over, you can convert to a paid subscription or review other payment options.
-      operationId: startTrialSubscription
+      summary: Start a new subscription
+      description: Use this endpoint to start a new trial subscription or to purchase one.
+      operationId: createSubscription
       requestBody:
-        description: In the request body, specify the plan you'd like to evaluate.
-        required: true
+        description: In the request body, provide information about the plan you want to start.
         content:
-          '*/*':
+          application/json:
             schema:
-              $ref: '#/components/schemas/SubscriptionTrialRequest'
+              $ref: '#/components/schemas/SubscriptionRequest'
       responses:
         200:
-          description: The trial has successfully started
+          description: The subscription has successfully started
           content:
             application/json:
               schema:
@@ -804,46 +849,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseErrorModel'
 
-  /subscriptions/purchase:
-    post:
-      summary: Purchase subscription
-      description: Use this endpoint to convert a subscription from a trial to a purchased one.
-      operationId: purchaseSubscription
-      tags:
-        - Subscriptions
-      requestBody:
-        description: In the request body, provide information about the paid subscription.
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/SubscriptionPurchaseRequest'
-      responses:
-        200:
-          description: The subscription has been purchased.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Subscription'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
-
-  /subscriptions/upgrade:
-    post:
-      summary: Upgrade a subscription
+  /subscriptions/{id}:
+    patch:
+      summary: Update a subscription
       description: Use this endpoint to change a plan, for example, to upgrade subscription to a bigger plan.
-      operationId: upgradeSubscription
+      operationId: updateSubscription
       tags:
         - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: In the reuest body, pass the information about your current subscription and the new plan you want to subscribe to.
+        description: In the request body, pass the information about your current subscription and the new plan you want to subscribe to.
         content:
-          '*/*':
+          application/json:
             schema:
-              $ref: '#/components/schemas/SubscriptionUpgradeRequest'
+              $ref: '#/components/schemas/SubscriptionUpdateRequest'
       responses:
         200:
           description: The subscription has been updated
@@ -880,6 +900,10 @@ paths:
           description: The webhook was successfully executed
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
 
   parameters:
 
@@ -915,37 +939,62 @@ components:
 
   schemas:
 
-    ErrorModel:
-      required:
-        - code
-        - type
+    AuthSignature:
       type: object
-      description: An individual error
       properties:
-        code:
+        publicKey:
           type: string
-          description: Error Code
-        message:
+          description: Public key of Hub auth signature
+
+    AuthTokensRequest:
+      type: object
+      required:
+        - strategy
+      properties:
+        strategy:
           type: string
-          description: Error Message
-        type:
-          type: string
-          description: Error Message
           enum:
-            - ERROR
-            - WARN
-            - INFO
-        details:
+            - PASSWORD
+            - REFRESH
+        email:
           type: string
-          description: Comma separated list of fields, which caused the error condition
+          description: The email of the user attempting to log in.
+        password:
+          type: string
+          description: The password of the user.
+        token:
+          type: string
+          description: Another token to be used for generation of a new auth token
+
+    AuthTokens:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Main access token
+        refreshToken:
+          type: string
+          description: Auxiliary token for main access renewal
 
     ResponseErrorModel:
       type: object
+      required:
+        - status
+        - message
       properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
         errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorModel'
+          type: object
+          description: Map of field -> list of errors
 
     Id:
       type: string
@@ -1019,6 +1068,8 @@ components:
           type: string
         jobTitle:
           type: string
+        avatarUrl:
+          type: string
 
     UserRequest:
       type: object
@@ -1051,6 +1102,9 @@ components:
           type: array
           items:
             type: string
+        avatarId:
+          type: string
+          format: uuid
 
     UserInviteRequest:
       type: object
@@ -1447,7 +1501,7 @@ components:
           type: integer
           format: int64
         interval:
-          type: string
+          $ref: '#/components/schemas/PriceInterval'
         intervalCount:
           type: integer
           format: int64
@@ -1460,7 +1514,7 @@ components:
         id:
           $ref: '#/components/schemas/Id'
         state:
-          type: string
+          $ref: '#/components/schemas/SubscriptionState'
         price:
           $ref: '#/components/schemas/Price'
         currentPeriodStart:
@@ -1479,37 +1533,47 @@ components:
           type: integer
           format: int64
 
-    SubscriptionPurchaseRequest:
-      type: object
-      required:
-        - subscriptionId
-        - priceId
-      properties:
-        subscriptionId:
-          $ref: '#/components/schemas/Id'
-        priceId:
-          $ref: '#/components/schemas/Id'
-
-    SubscriptionTrialRequest:
+    SubscriptionRequest:
       type: object
       required:
         - planId
+        - trial
       properties:
         planId:
           $ref: '#/components/schemas/Id'
+        trial:
+          type: boolean
+          description: If the subscription should be a trial or not
         interval:
-          type: string
+          $ref: '#/components/schemas/PriceInterval'
 
-    SubscriptionUpgradeRequest:
+    SubscriptionUpdateRequest:
       type: object
       required:
-        - subscriptionId
         - newPlanId
       properties:
-        subscriptionId:
-          $ref: '#/components/schemas/Id'
         newPlanId:
           $ref: '#/components/schemas/Id'
+        newInterval:
+          $ref: '#/components/schemas/PriceInterval'
+
+    PriceInterval:
+      type: string
+      enum:
+        - DAY
+        - WEEK
+        - MONTH
+        - YEAR
+      description: The frequency at which a subscription is billed
+
+    SubscriptionState:
+      type: string
+      enum:
+        - ACTIVE
+        - TRIALING
+        - PAST_DUE
+        - CANCELED
+      description: The state of the subscription
 
     PlanAvailability:
       type: object
@@ -1549,12 +1613,4 @@ components:
         body:
           type: string
         type:
-          type: string
-
-    AccessToken:
-      type: object
-      properties:
-        token:
-          type: string
-        refreshToken:
           type: string

@@ -5,12 +5,12 @@
     <parent>
         <artifactId>openapi</artifactId>
         <groupId>com.inperiumcorp.inperium</groupId>
-        <version>${revision}</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hub-api</artifactId>
-    <version>${revision}</version>
+    <artifactId>hub-openapi</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Inperium Hub Web API</name>

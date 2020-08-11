@@ -1,0 +1,1560 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Hub Server API
+  description: |
+    RESTful API providing access to Inperium Hub.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/hub
+  - url: https://api.inperium.com/v1/hub
+
+tags:
+  - name: Dictionaries
+    description: |
+      Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name: Tenants
+    description: |
+      Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users. 
+  - name: Users
+    description: |
+      Users are individuals working for the tenant. Depending on their roles, users have access to different Inperium products and features.
+  - name: App Settings
+    description: |
+      Integration with other apps such as Stripe.
+  - name: Products
+    description: |
+      Inperium apps, for example, Sell or Talk. 
+  - name: Subscriptions
+    description: |
+      Payment model associated with a tenant.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /contactUs:
+    post:
+      tags:
+        - ContactUs
+      summary: Processes a contact us request from the marketing page or the product.
+      description: Use this endpoint to contact the Inperium team with sales, support or general inquiries.
+      operationId: handleContactUsRequest
+      requestBody:
+        required: true
+        description: Pass information about the contact us request
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/ContactUsRequest'
+      responses:
+        201:
+          description: Your request has successfully been submitted. We will answer to you soon.
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/create:
+    post:
+      tags:
+        - Tenants
+      summary: Create a new tenant
+      description: Use this endpoint to create a tenant. Send a POST request to this endpoint to add a new Inperium tenant.
+      operationId: createTenant
+      requestBody:
+        description: Pass information about the new tenant
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/CreateTenantRequest'
+      responses:
+        201:
+          description: A new account has been created
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/confirm/{confirmationToken}:
+    get:
+      tags:
+        - Tenants
+      summary: Confirm the account of the tenant's owner
+      description: Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
+      operationId: confirmTenant
+      parameters:
+        - name: confirmationToken
+          in: path
+          description: Confirmation token
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: The tenant owner has successfully logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/confirm:
+    get:
+      tags:
+        - Tenants
+      summary: Resend the confirmation email
+      operationId: resendTenantConfirmation
+      parameters:
+        - name: email
+          in: query
+          description: User email
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/onboard:
+    put:
+      tags:
+        - Tenants
+      summary: Onboard tenant
+      description: Use this endpoint to add information about the tenant such as name, company name, employee count to finish the onboarding.
+      operationId: onboardTenant
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/OnboardTenantRequest'
+      responses:
+        201:
+          description: The tenant has completed onboarding
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/companyInfo:
+    put:
+      tags:
+        - Tenants
+      summary: Update company information
+      description: Use this endpoint to update information about the tenant's company.
+      operationId: updateTenantCompanyInfo
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/TenantCompanyInfoRequest'
+      responses:
+        200:
+          description: The tenant has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/address:
+    put:
+      tags:
+        - Tenants
+      summary: Update an address
+      description: Use this endpoint to update tenant's address.
+      operationId: updateTenantAddress
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/TenantAddressRequest'
+      responses:
+        200:
+          description: The tenant's address has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/billingContact:
+    put:
+      tags:
+        - Tenants
+      summary: Update billing
+      description: Use this endpoint to update tenant's billing details.
+      operationId: updateTenantBillingContact
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/BillingContactRequest'
+      responses:
+        200:
+          description: The tenant's billing contract has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /tenants/paymentMethod:
+    put:
+      tags:
+        - Tenants
+      summary: Update a payment method
+      description: Use this endpoint to change tenant's payment method.
+      operationId: updateTenantPaymentMethod
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/PaymentMethodRequest'
+      responses:
+        200:
+          description: The tenant's payment method has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/invite:
+    post:
+      tags:
+        - Users
+      summary: Invite a new user
+      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. He or she will receieve an invitation by email.
+      operationId: inviteUser
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserInviteRequest'
+      responses:
+        201:
+          description: A new user has been invited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/invite/confirm:
+    post:
+      tags:
+        - Users
+      summary: Confirm an invitation
+      description: Use this endpoint accept the invitation. Pass user credentials to confirm invitation and finilize the process.
+      operationId: confirmUserInvite
+      requestBody:
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserConfirmInviteRequest'
+      responses:
+        200:
+          description: The invitation has been accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+    get:
+      tags:
+        - Users
+      summary: Resend the confirmation email
+      operationId: resendUserConfirmation
+      parameters:
+        - name: email
+          in: query
+          description: User email
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/forgotPassword:
+    post:
+      tags:
+        - Users
+      summary: Recover a password
+      description: Use this endpoint to send a "forgot password" request.
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserForgotPasswordRequest'
+      responses:
+        200:
+          description: The request has been sent.
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/resetPassword:
+    put:
+      tags:
+        - Users
+      summary: Reset a password
+      description: Use this endpoint to reset the user's password. Provide `passowordResetToken` that was sent by email.
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordRequest'
+      responses:
+        200:
+          description: The user has successfully reset password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/me:
+    get:
+      summary: Check current user
+      description: Use this endpoint to retrieve details about the currently authenticated user
+      operationId: getPrincipalUser
+      tags:
+        - Users
+      responses:
+        200:
+          description: The requested user details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPrincipal"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+    put:
+      summary: Update the logged in user
+      operationId: updatePrincipalUser
+      tags:
+        - Users
+      requestBody:
+        description: User to update
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: The user has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/password:
+    put:
+      tags:
+        - Users
+      summary: Reset the principals password
+      operationId: updatePrincipalPassword
+      requestBody:
+        description: Reset user password
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserPasswordRequest'
+      responses:
+        200:
+          description: The user has successfully reseted password
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users:
+    get:
+      summary: Retrieve users
+      description: Use this endpoint to get a list of users. Leverage query parameters to search for a specific user or users. This endpoint supports paging and sorting.
+      operationId: getUsers
+      tags:
+        - Users
+      parameters:
+        - name: fullName
+          in: query
+          description: >
+            Allows searching both in "last name" or "first name". 
+            Supports eq, neq, in, nin, like, notlike
+          schema:
+            type: string
+        - name: id
+          in: query
+          description: Unique ID of the user
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Email address associated with the user
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: Users have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /users/{id}:
+    get:
+      summary: Retrieve user details by ID
+      description: Use this endpoitn to search for a specific user and retrieve detailed information such as full name, email, and job title.
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: User details have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+    put:
+      summary: Update user details
+      description: Use this endpoint to update a specific user, for example promote user to admin or update a job title.
+      operationId: updateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+      responses:
+        200:
+          description: The user has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+    delete:
+      tags:
+        - Users
+      summary: Delete a user
+      description: Use this endpoint to remove user from the Inperium system.
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The user has been successfully deleted
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /publicAppSettings:
+    get:
+      summary: Retrieve the public app settings
+      description: Use this endpoint to learn how the tenant is connected to the public apps such as Stripe and Google Analitycs.
+      operationId: getPublicAppSettings
+      tags:
+        - App Settings
+      responses:
+        200:
+          description: The requested settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSettings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /products:
+    get:
+      summary: Retrieve products
+      description: Use this endpoint to get a complete list of products associated with the tenant, with name and available payment plan for each product.
+      operationId: getProducts
+      tags:
+        - Products
+      responses:
+        200:
+          description: The requested products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /products/{anchor}:
+
+    get:
+      summary: Retrieves data of an existing product
+      operationId: getProduct
+      tags:
+        - Products
+      parameters:
+        - name: anchor
+          in: path
+          description: The unique anchor of a product
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The requested product
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /products/{anchor}/plans:
+    get:
+      summary: Retrieve product payment tenants
+      description: Use this endpoint to see what payment plans are available for a certain product.
+      operationId: getProductPlanAvailabilities
+      tags:
+        - Products
+      parameters:
+        - name: anchor
+          in: path
+          description: The unique anchor of a product
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The plans have been retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlanAvailability"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /subscriptions:
+    get:
+      summary: Retrieve subscriptions
+      description: Use this endpoint to get a complete list of subscriptions of the current tenant.
+      operationId: getSubscriptions
+      tags:
+        - Subscriptions
+      responses:
+        200:
+          description: The subscriptions have been retrieved.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscription"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /features:
+
+    get:
+      summary: Retrieve all existing features to be potentially used by users/tenants
+      operationId: getFeatureList
+      tags:
+        - Features
+      responses:
+        200:
+          description: A list of all existing features
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Feature"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /features/{anchor}:
+
+    get:
+      summary: Retrieves data of an existing feature
+      operationId: getFeature
+      tags:
+        - Features
+      parameters:
+        - name: anchor
+          in: path
+          description: The unique anchor of feature
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The requested feature
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /permissions:
+
+    get:
+      summary: Retrieve all existing permissions to be potentially used by users
+      operationId: getPermissionList
+      tags:
+        - Permissions
+      responses:
+        200:
+          description: A list of all existing permissions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Permission"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /subscriptions/trial:
+    post:
+      tags:
+        - Subscriptions
+      summary: Start a new trial subscription
+      description: Use this endpoint to start a new trial. After the trial period is over, you can convert to a paid subscription or review other payment options.
+      operationId: startTrialSubscription
+      requestBody:
+        description: In the request body, specify the plan you'd like to evaluate.
+        required: true
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SubscriptionTrialRequest'
+      responses:
+        200:
+          description: The trial has successfully started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /subscriptions/purchase:
+    post:
+      summary: Purchase subscription
+      description: Use this endpoint to convert a subscription from a trial to a purchased one.
+      operationId: purchaseSubscription
+      tags:
+        - Subscriptions
+      requestBody:
+        description: In the request body, provide information about the paid subscription.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SubscriptionPurchaseRequest'
+      responses:
+        200:
+          description: The subscription has been purchased.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /subscriptions/upgrade:
+    post:
+      summary: Upgrade a subscription
+      description: Use this endpoint to change a plan, for example, to upgrade subscription to a bigger plan.
+      operationId: upgradeSubscription
+      tags:
+        - Subscriptions
+      requestBody:
+        description: In the reuest body, pass the information about your current subscription and the new plan you want to subscribe to.
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/SubscriptionUpgradeRequest'
+      responses:
+        200:
+          description: The subscription has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscription'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseErrorModel'
+
+  /subscriptions/webhooks/stripe:
+    post:
+      summary: Handle Stripe webhooks
+      operationId: handleStripeWebhook
+      tags:
+        - Subscriptions
+      parameters:
+        - in: header
+          name: Stripe-Signature
+          schema:
+            type: string
+      requestBody:
+        description: In the request body, pass the the payload of the webhook
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        200:
+          description: The webhook was successfully executed
+
+components:
+
+  parameters:
+
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: Controls paging
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: Defines the number of entries per page
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    QuerySort:
+      name: sort
+      in: query
+      description: Controls sorting
+      schema:
+        type: string
+
+  schemas:
+
+    ErrorModel:
+      required:
+        - code
+        - type
+      type: object
+      description: An individual error
+      properties:
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        type:
+          type: string
+          description: Error Message
+          enum:
+            - ERROR
+            - WARN
+            - INFO
+        details:
+          type: string
+          description: Comma separated list of fields, which caused the error condition
+
+    ResponseErrorModel:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+
+    Id:
+      type: string
+      format: uuid
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information
+      properties:
+        pageNumber:
+          type: integer
+          format: int64
+        pageSize:
+          type: integer
+          format: int64
+        totalNumberOfRecords:
+          type: integer
+          format: int64
+        totalNumberOfPages:
+          type: integer
+          format: int64
+        hasNextPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+        sortingCriteria:
+          type: string
+        hasMore:
+          type: boolean
+
+    UserPrincipal:
+      type: object
+      description: User details model
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        tenant:
+          $ref: '#/components/schemas/Tenant'
+        products:
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    User:
+      type: object
+      description: User model
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        email:
+          type: string
+        hasVerifiedEmail:
+          type: boolean
+        isAdmin:
+          type: boolean
+        useTwoFa:
+          type: boolean
+        language:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+
+    UserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        hasVerifiedEmail:
+          type: boolean
+        isAdmin:
+          type: boolean
+        useTwoFa:
+          type: boolean
+        language:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        products:
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    UserInviteRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        isAdmin:
+          type: boolean
+        products:
+          type: array
+          items:
+            type: string
+        features:
+          type: array
+          items:
+            type: string
+        permissions:
+          type: array
+          items:
+            type: string
+
+    UserConfirmInviteRequest:
+      type: object
+      description: Invitation model
+      required:
+        - passwordResetToken
+        - password
+        - confirmPassword
+      properties:
+        passwordResetToken:
+          type: string
+          format: uuid
+        password:
+          type: string
+        confirmPassword:
+          type: string
+
+    UserForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
+    Users:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
+
+    Tenant:
+      type: object
+      description: Tenant settings model
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        companyName:
+          type: string
+        companySize:
+          type: string
+        industry:
+          type: string
+        finishedOnboarding:
+          type: boolean
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        domainName:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zip:
+          type: string
+        billingContact:
+          $ref: '#/components/schemas/BillingContact'
+        paymentMethod:
+          $ref: '#/components/schemas/PaymentMethod'
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+        defaultLanguage:
+          type: string
+        defaultTimezone:
+          type: string
+        billingCurrency:
+          type: string
+        features:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    TenantAddressRequest:
+      type: object
+      description: Tenant address model
+      properties:
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zip:
+          type: string
+
+    TenantCompanyInfoRequest:
+      type: object
+      description: Tenant company information model
+      properties:
+        companyName:
+          type: string
+        domainName:
+          type: string
+        defaultLanguage:
+          type: string
+        defaultTimezone:
+          type: string
+
+    BillingContact:
+      type: object
+      description: Tenant billing model
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        companyName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        domainName:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        ein:
+          type: string
+
+    BillingContactRequest:
+      type: object
+      properties:
+        companyName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        domainName:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        country:
+          type: string
+        ein:
+          type: string
+
+    PaymentMethod:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+        type:
+          type: string
+        last4:
+          type: string
+        expMonth:
+          type: integer
+          format: int64
+        expYear:
+          type: integer
+          format: int64
+
+    PaymentMethodRequest:
+      type: object
+      properties:
+        paymentMethodId:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        last4:
+          type: string
+        expMonth:
+          type: integer
+          format: int64
+        expYear:
+          type: integer
+          format: int64
+
+    Permission:
+      type: object
+      properties:
+        anchor:
+          type: string
+        feature:
+          type: string
+      description: Permission request model
+
+    AppSettings:
+      type: object
+      properties:
+        stripePublishableKey:
+          type: string
+        googleAnalyticsTrackingId:
+          type: string
+        googleTagManagerContainerId:
+          type: string
+
+    CreateTenantRequest:
+      type: object
+      description: Model for creating a new tenant and user
+      required:
+        - email
+        - password
+        - confirmPassword
+      properties:
+        email:
+          type: string
+          description: The email address that will be associated with a new tenant
+        password:
+          type: string
+          description: The password of the user
+        confirmPassword:
+          type: string
+          description: The confirmation of the user password (must be the same as password)
+        inviteCode:
+          type: string
+          description: The invite code required to join the closed beta.
+
+    UserPasswordRequest:
+      type: object
+      description: Model for user password change
+      required:
+        - password
+        - newPassword
+        - confirmPassword
+      properties:
+        password:
+          type: string
+        newPassword:
+          type: string
+        confirmPassword:
+          type: string
+
+    UserResetPasswordRequest:
+      type: object
+      description: Model for changing user password
+      required:
+        - passwordResetToken
+        - confirmPassword
+        - newPassword
+      properties:
+        passwordResetToken:
+          type: string
+          format: uuid
+        confirmPassword:
+          type: string
+        newPassword:
+          type: string
+
+    OnboardTenantRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: Tenant's name
+        lastName:
+          type: string
+          description: Tenant's surname
+        companyName:
+          type: string
+        companySize:
+          type: string
+        industry:
+          type: string
+        jobTitle:
+          type: string
+
+    Product:
+      type: object
+      properties:
+        anchor:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        unitLabel:
+          type: string
+        aggregateUsage:
+          type: string
+        usageType:
+          type: string
+        type:
+          type: string
+        billingScheme:
+          type: string
+        plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/Plan'
+
+    Feature:
+      type: object
+      properties:
+        anchor:
+          type: string
+        product:
+          type: string
+
+    Plan:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+        trialPeriodDays:
+          type: integer
+          format: int64
+        product:
+          $ref: '#/components/schemas/Product'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Price'
+
+    Price:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        isActive:
+          type: boolean
+        currency:
+          type: string
+        amount:
+          type: integer
+          format: int64
+        interval:
+          type: string
+        intervalCount:
+          type: integer
+          format: int64
+        plan:
+          $ref: '#/components/schemas/Plan'
+
+    Subscription:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        state:
+          type: string
+        price:
+          $ref: '#/components/schemas/Price'
+        currentPeriodStart:
+          type: string
+          format: date-time
+        currentPeriodEnd:
+          type: string
+          format: date-time
+        startDate:
+          type: string
+          format: date-time
+        quantity:
+          type: integer
+          format: int64
+        discountAmount:
+          type: integer
+          format: int64
+
+    SubscriptionPurchaseRequest:
+      type: object
+      required:
+        - subscriptionId
+        - priceId
+      properties:
+        subscriptionId:
+          $ref: '#/components/schemas/Id'
+        priceId:
+          $ref: '#/components/schemas/Id'
+
+    SubscriptionTrialRequest:
+      type: object
+      required:
+        - planId
+      properties:
+        planId:
+          $ref: '#/components/schemas/Id'
+        interval:
+          type: string
+
+    SubscriptionUpgradeRequest:
+      type: object
+      required:
+        - subscriptionId
+        - newPlanId
+      properties:
+        subscriptionId:
+          $ref: '#/components/schemas/Id'
+        newPlanId:
+          $ref: '#/components/schemas/Id'
+
+    PlanAvailability:
+      type: object
+      description: Availability of a plan for a specific tenant
+      properties:
+        plan:
+          $ref: '#/components/schemas/Plan'
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+        isPlanCurrentlyOwned:
+          type: boolean
+        isPlanCurrentlyTrialing:
+          type: boolean
+        isPlanTrialAllowed:
+          type: boolean
+        isSalesContactRequired:
+          type: boolean
+        ownsHigherPlan:
+          type: boolean
+        preferredCurrency:
+          type: string
+
+    ContactUsRequest:
+      type: object
+      description: A contact request from a prospective or current client.
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        email:
+          type: string
+        subject:
+          type: string
+        body:
+          type: string
+        type:
+          type: string
+
+    AccessToken:
+      type: object
+      properties:
+        token:
+          type: string
+        refreshToken:
+          type: string

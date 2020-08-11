@@ -1,0 +1,40 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.DS_Store
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+/.idea/
+/client/target/
+/common/common-domain/target/
+/common/common-services/target/
+/common/common-services-api/target/
+/common/common-util/target/
+/common/common-web/target/
+/common/datasource/target/
+/common/entities/target/
+/common/repositories/target/
+/classes/
+
+### Properties override for local development ###
+application-localdev-*.properties

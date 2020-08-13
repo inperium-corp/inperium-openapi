@@ -32,7 +32,7 @@ tags:
       Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with and track deal progress there.
   - name: Company Data
     description: |
-      Company data can be enriched with the publicly available information  from the internet, for example, the industry, employee counts, links to social media.   
+      Company data can be enriched with the publicly available information  from the internet, for example, the industry, employee counts, links to social media.
   - name: Company Relationships
     description: |
       Inperium users can associate companies with each other and create parent-child relationships.
@@ -44,7 +44,7 @@ tags:
       Contact is one of the major entities in Inperium Sell. Contacts are individuals or company's representatives Inperium Sell users work with.
   - name: Contact Data
     description: |
-      Contact data can be enriched with the publicly available information about from the internet, for example, links to social media.   
+      Contact data can be enriched with the publicly available information about from the internet, for example, links to social media.
   - name: Deals
     description: |
       Deal is one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes.
@@ -114,7 +114,7 @@ tags:
   - name: Quotes
     description: |
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
-  - name: QuotePage
+  - name: PublicQuote
     description: |
       Inperium Sell allows sharing quotes with customers through public URLs.
   - name: Reports
@@ -128,7 +128,7 @@ tags:
       Configure integration with Stripe.
   - name: StripeTerminals
     description: |
-      Configure Stripe terminals to receive payments.   
+      Configure Stripe terminals to receive payments.
   - name: Template
     description: |
       Templates are ready-to-use samples, for example introductory emails or follow-ups.
@@ -143,7 +143,7 @@ tags:
       Views control what data is returned to the user, including fitering, sorting, columns on a display.
   - name: XeroAuthorizations
     description: |
-      Configure integration with Xero.    
+      Configure integration with Xero.
 
 paths:
   /health:
@@ -162,7 +162,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
 
   /activities:
     get:
@@ -202,22 +202,22 @@ paths:
           description: The date when the activity was added
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activities'
+                $ref: "#/components/schemas/Activities"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Activities
@@ -227,9 +227,9 @@ paths:
       requestBody:
         description: In the request body, pass the activity data.
         content:
-          'application/json':
+          "application/json":
             schema:
-              $ref: '#/components/schemas/ActivityRequest'
+              $ref: "#/components/schemas/ActivityRequest"
         required: false
       responses:
         201:
@@ -237,13 +237,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activity'
+                $ref: "#/components/schemas/Activity"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: activity
   /activities/{id}:
     put:
@@ -253,12 +253,12 @@ paths:
       description: Use this endpoint to modify an existing activity.
       operationId: updateActivity
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ActivityRequest'
+              $ref: "#/components/schemas/ActivityRequest"
             example: {}
         required: false
       responses:
@@ -267,13 +267,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Activity'
+                $ref: "#/components/schemas/Activity"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: activity
     delete:
       tags:
@@ -282,7 +282,7 @@ paths:
       description: Use this endpoint to remove existing activity.
       operationId: deleteActivity
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -292,7 +292,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /attachments:
     get:
       tags:
@@ -301,7 +301,7 @@ paths:
       description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getAttachments
       parameters:
-        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: "#/components/parameters/QueryStringResourceId"
         - name: company
           description: Attachments associated with this company ID
           in: query
@@ -312,22 +312,22 @@ paths:
           in: query
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The list of attachments has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachments'
+                $ref: "#/components/schemas/Attachments"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Attachments
@@ -337,9 +337,9 @@ paths:
       requestBody:
         description: Pass information about the attachment in the request body.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/AttachmentRequest'
+              $ref: "#/components/schemas/AttachmentRequest"
         required: false
       responses:
         201:
@@ -347,13 +347,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachment'
+                $ref: "#/components/schemas/Attachment"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: attachment
   /attachments/{id}:
     get:
@@ -363,20 +363,20 @@ paths:
       description: Use this endpoint to locate a specific attachment and retrieve its details.
       operationId: getAttachment
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Attachment details have beeen retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachment'
+                $ref: "#/components/schemas/Attachment"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Attachments
@@ -384,13 +384,13 @@ paths:
       description: Use this endpoint to modify and overwrite an existing attachment.
       operationId: updateAttachment
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In request body, pass the attachment data.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/AttachmentRequest'
+              $ref: "#/components/schemas/AttachmentRequest"
         required: false
       responses:
         200:
@@ -398,13 +398,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Attachment'
+                $ref: "#/components/schemas/Attachment"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: attachment
     delete:
       tags:
@@ -413,7 +413,7 @@ paths:
       description: Use this endpoint to remove an existing attachment.
       operationId: deleteAttachment
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -423,7 +423,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /campaigns:
     get:
       tags:
@@ -442,22 +442,22 @@ paths:
           description: Enter the campanign name
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The campaigns have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Campaigns'
+                $ref: "#/components/schemas/Campaigns"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Campaigns
@@ -467,9 +467,9 @@ paths:
       requestBody:
         description: In the request body, pass the campaign details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CampaignRequest'
+              $ref: "#/components/schemas/CampaignRequest"
         required: false
       responses:
         201:
@@ -477,13 +477,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Campaign'
+                $ref: "#/components/schemas/Campaign"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: campaign
   /campaigns/{id}:
     get:
@@ -493,20 +493,20 @@ paths:
       description: Use this endpoint to search for a specific endpoint and retrieve its details.
       operationId: getCampaign
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The campaign deatils have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CampaignCustom'
+                $ref: "#/components/schemas/CampaignCustom"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Campaigns
@@ -514,13 +514,13 @@ paths:
       description: Use this endpoint to modify the existing campaign.
       operationId: updateCampaign
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the campaign details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/Campaign'
+              $ref: "#/components/schemas/Campaign"
         required: false
       responses:
         200:
@@ -528,13 +528,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Campaign'
+                $ref: "#/components/schemas/Campaign"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: campaign
     delete:
       tags:
@@ -543,7 +543,7 @@ paths:
       description: Use this endpoint to remove the campaign.
       operationId: deleteCampaign
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -553,7 +553,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /campaigns/{id}/contacts:
     get:
       tags:
@@ -562,23 +562,23 @@ paths:
       description: Use this endpoint to get a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
       operationId: getCampaignContacts
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/ResourceId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The contacts have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contacts'
+                $ref: "#/components/schemas/Contacts"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /communication-methods:
     post:
       tags:
@@ -589,16 +589,16 @@ paths:
       requestBody:
         description: In the request body, pass communication method details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CommunicationMethod'
+              $ref: "#/components/schemas/CommunicationMethod"
       responses:
         201:
           description: The new communication method has been created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommunicationMethod'
+                $ref: "#/components/schemas/CommunicationMethod"
   /communication-methods/{id}:
     get:
       tags:
@@ -607,20 +607,20 @@ paths:
       description: Use this endpoint to locate a specific communication method and retrieve its details.
       operationId: getCommunicationMethod
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Information has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommunicationMethod'
+                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - CommunicationMethods
@@ -628,13 +628,13 @@ paths:
       description: Use this endpoint to modify a communication method of a specific entity.
       operationId: updateCommunicationMethod
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the communication method model.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CommunicationMethod'
+              $ref: "#/components/schemas/CommunicationMethod"
         required: false
       responses:
         200:
@@ -642,13 +642,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommunicationMethod'
+                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /companies:
     get:
       tags:
@@ -657,24 +657,24 @@ paths:
       description: Use this endpoint to get a list of companies. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getCompanies
       parameters:
-        - $ref: '#/components/parameters/QueryStringResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-        - $ref: '#/components/parameters/EntityProperties'
+        - $ref: "#/components/parameters/QueryStringResourceId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: The companies have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Companies'
+                $ref: "#/components/schemas/Companies"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Companies
@@ -684,9 +684,9 @@ paths:
       requestBody:
         description: In the request body, pass company data.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CompanyRequest'
+              $ref: "#/components/schemas/CompanyRequest"
         required: false
       responses:
         201:
@@ -694,13 +694,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -715,13 +715,13 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Id'
+              $ref: "#/components/schemas/Id"
       requestBody:
         description: In request body, pass the company properties to update.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CompanyRequest'
+              $ref: "#/components/schemas/CompanyRequest"
         required: false
       responses:
         201:
@@ -731,13 +731,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Company'
+                  $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: companies
   /companies/enrich:
     get:
@@ -758,13 +758,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /companies/{id}:
     get:
       tags:
@@ -773,20 +773,20 @@ paths:
       description: Use this endpoint to get detailed information about a company.
       operationId: getCompany
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Company information has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Companies
@@ -794,13 +794,13 @@ paths:
       description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely replaces company data.
       operationId: updateCompany
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the reguest body, pass company data
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CompanyRequest'
+              $ref: "#/components/schemas/CompanyRequest"
         required: false
       responses:
         200:
@@ -808,13 +808,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -823,13 +823,13 @@ paths:
       description: Use this endpoint to update specific fields in company details.
       operationId: updateCompanyPartial
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the details that need to be updated
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CompanyRequest'
+              $ref: "#/components/schemas/CompanyRequest"
         required: false
       responses:
         200:
@@ -837,13 +837,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Company'
+                $ref: "#/components/schemas/Company"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: company
     delete:
       tags:
@@ -852,7 +852,7 @@ paths:
       description: Use this endpoint to remove a company.
       operationId: deleteCompany
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -862,7 +862,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /companyRelationships:
     get:
       tags:
@@ -882,13 +882,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompanyRelationships'
+                $ref: "#/components/schemas/CompanyRelationships"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Company Relationships
@@ -898,9 +898,9 @@ paths:
       requestBody:
         description: In the request body, pass the information about the relation
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CompanyRelationshipRequest'
+              $ref: "#/components/schemas/CompanyRelationshipRequest"
         required: false
       responses:
         201:
@@ -908,13 +908,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CompanyRelationship'
+                $ref: "#/components/schemas/CompanyRelationship"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: companyRelationship
   /companyRelationships/{id}:
     delete:
@@ -924,7 +924,7 @@ paths:
       description: Use this endpoint to remove a relationship for the company and delete links between companies.
       operationId: deleteCompanyRelationships
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -934,7 +934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /contacts:
     get:
       tags:
@@ -948,24 +948,24 @@ paths:
           in: query
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryStringResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-        - $ref: '#/components/parameters/EntityProperties'
+        - $ref: "#/components/parameters/QueryStringResourceId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: Contacts have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contacts'
+                $ref: "#/components/schemas/Contacts"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Contacts
@@ -975,9 +975,9 @@ paths:
       requestBody:
         description: In the request body, pass contact details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ContactRequest'
+              $ref: "#/components/schemas/ContactRequest"
         required: false
       responses:
         201:
@@ -985,13 +985,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -1006,13 +1006,13 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Id'
+              $ref: "#/components/schemas/Id"
       requestBody:
         description: In request body, pass properties and values.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ContactRequest'
+              $ref: "#/components/schemas/ContactRequest"
         required: false
       responses:
         201:
@@ -1022,13 +1022,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Contact'
+                  $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: contact
   /contacts/enrich:
     get:
@@ -1049,13 +1049,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /contacts/{id}:
     get:
       tags:
@@ -1064,20 +1064,20 @@ paths:
       description: Use this endpoint to retrieve details for a specific contact.
       operationId: getContact
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The contact data has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Contacts
@@ -1085,13 +1085,13 @@ paths:
       description: Use this endpoint to update contact details. Unlike `PATCH /contacts/{id}`, this operation overwrites contact details completely.
       operationId: updateContact
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, provide new contact data.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ContactRequest'
+              $ref: "#/components/schemas/ContactRequest"
         required: false
       responses:
         200:
@@ -1099,13 +1099,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -1114,13 +1114,13 @@ paths:
       description: Use this endpoint to update specific fields in contact details. Unlike `PUT /contacts/{id}`, this operation overwrites properties partially.
       operationId: updateContactPartial
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the properties to update
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ContactRequest'
+              $ref: "#/components/schemas/ContactRequest"
         required: false
       responses:
         200:
@@ -1128,13 +1128,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Contact'
+                $ref: "#/components/schemas/Contact"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: contact
     delete:
       tags:
@@ -1143,7 +1143,7 @@ paths:
       description: Use this endpoint to remove a contact from Inperium.
       operationId: deleteContact
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1153,7 +1153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /contacts/{id}/communication-methods:
     get:
       tags:
@@ -1162,7 +1162,7 @@ paths:
       description: Use this endpoint to retrieve a phone number or email address associated with this contact.
       operationId: getContactCommunicationMethods
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The contact data has been retrieved
@@ -1171,13 +1171,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/CommunicationMethod'
+                  $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - ContactCommunicationMethods
@@ -1185,13 +1185,13 @@ paths:
       description: Use this endpoint to add a new email or phone number for the contact.
       operationId: createContactCommunicationMethod
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass information about the contact's communication method.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CommunicationMethod'
+              $ref: "#/components/schemas/CommunicationMethod"
         required: false
       responses:
         200:
@@ -1199,13 +1199,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommunicationMethod'
+                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /contacts/{id}/communication-methods/{communicationMethodId}:
     put:
       tags:
@@ -1214,7 +1214,7 @@ paths:
       description: Use this endpoint to update contact's phone number or email address.
       operationId: updateContactCommunicationMethod
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
         - name: communicationMethodId
           in: path
           required: true
@@ -1224,22 +1224,22 @@ paths:
       requestBody:
         description: In request body, pass the new communication method.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CommunicationMethod'
+              $ref: "#/components/schemas/CommunicationMethod"
       responses:
         200:
           description: The contact data has been updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CommunicationMethod'
+                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /deals:
     get:
       tags:
@@ -1248,29 +1248,29 @@ paths:
       description: Use this endpoint to get all deals. This operation supports paging and sorting.
       operationId: getDeals
       parameters:
-        - $ref: '#/components/parameters/QueryStringResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: "#/components/parameters/QueryStringResourceId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
         - in: query
           name: sort
           schema:
             type: string
             default: "+createdAt"
           description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
-        - $ref: '#/components/parameters/EntityProperties'
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: The deals have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deals'
+                $ref: "#/components/schemas/Deals"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Deals
@@ -1280,9 +1280,9 @@ paths:
       requestBody:
         description: In the request body, pass the deal details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/DealRequest'
+              $ref: "#/components/schemas/DealRequest"
         required: false
       responses:
         201:
@@ -1290,13 +1290,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deal'
+                $ref: "#/components/schemas/Deal"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1311,13 +1311,13 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Id'
+              $ref: "#/components/schemas/Id"
       requestBody:
         description: In request body, pass the properties to update.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/DealRequest'
+              $ref: "#/components/schemas/DealRequest"
         required: false
       responses:
         201:
@@ -1327,13 +1327,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Deal'
+                  $ref: "#/components/schemas/Deal"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: deals
   /deals/{id}:
     get:
@@ -1343,20 +1343,20 @@ paths:
       description: Use this endpoint to locate a specific deal and retrieve its details.
       operationId: getDeal
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The deal details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deal'
+                $ref: "#/components/schemas/Deal"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Deals
@@ -1364,13 +1364,13 @@ paths:
       description: Use this endpoint to modify deal details. Unlike `PATCH /deals/{id}`, this operation completely overwrites a deal.
       operationId: updateDeal
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass deal details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/DealRequest'
+              $ref: "#/components/schemas/DealRequest"
         required: false
       responses:
         200:
@@ -1378,13 +1378,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deal'
+                $ref: "#/components/schemas/Deal"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1393,13 +1393,13 @@ paths:
       description: Use this endpoint to modify some deal properties. Unlike `PUT /deals/{id}`, this operation doesn't overwrite the deal completely.
       operationId: updateDealPartial
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the deal fields you want to update
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/DealRequest'
+              $ref: "#/components/schemas/DealRequest"
         required: false
       responses:
         200:
@@ -1407,13 +1407,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deal'
+                $ref: "#/components/schemas/Deal"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: deal
     delete:
       tags:
@@ -1422,7 +1422,7 @@ paths:
       description: Use this endpoint to remove a deal. Note that removing a deal that is no longer active is not the best decision from the business perspective. Stale deals should be assigned a final stage like 'Deal lost' instead of being deleted.
       operationId: deleteDeal
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1432,7 +1432,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /deals/{id}/items:
     get:
       tags:
@@ -1441,20 +1441,20 @@ paths:
       description: Use this endpoint to get information about the products included in the deal and any applicable fees.
       operationId: getDealItems
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Deal items have been retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemsAndAdditionalFees'
+                $ref: "#/components/schemas/ItemsAndAdditionalFees"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - DealItems
@@ -1462,13 +1462,13 @@ paths:
       description: Use this endpoint to add products or fees to the deal.
       operationId: createDealItems
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the items you want to add.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ItemsAndAdditionalFees'
+              $ref: "#/components/schemas/ItemsAndAdditionalFees"
         required: false
       responses:
         201:
@@ -1476,13 +1476,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ItemsAndAdditionalFees'
+                $ref: "#/components/schemas/ItemsAndAdditionalFees"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: dealItems
   /dictionaryGroups/{groupId}:
     get:
@@ -1497,20 +1497,20 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/EntityProperties'
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: The dictionary group has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DictionaryItems'
+                $ref: "#/components/schemas/DictionaryItems"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /documents:
     post:
       tags:
@@ -1536,13 +1536,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: "#/components/schemas/Document"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /documents/{id}:
     get:
       tags:
@@ -1551,20 +1551,20 @@ paths:
       description: Use this endpoint to retrieve a document by its ID.
       operationId: getDocument
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The document details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Document'
+                $ref: "#/components/schemas/Document"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /documents/{id}/content:
     get:
       tags:
@@ -1573,7 +1573,7 @@ paths:
       description: Use this endpoint to see the document.
       operationId: getDocumentContent
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The document contents have been retrieved
@@ -1587,7 +1587,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /documents/types:
     get:
       tags:
@@ -1603,13 +1603,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentType'
+                  $ref: "#/components/schemas/DocumentType"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /exports:
     post:
       tags:
@@ -1621,20 +1621,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ExportRequest'
+              $ref: "#/components/schemas/ExportRequest"
       responses:
         200:
           description: The export started
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Export'
+                $ref: "#/components/schemas/Export"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: fields
   /exports/{id}:
     get:
@@ -1644,7 +1644,7 @@ paths:
       description: Use this endpoint to download a file containing export results.
       operationId: getExport
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The export file has been downloaded.
@@ -1658,7 +1658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /items:
     get:
       tags:
@@ -1667,27 +1667,27 @@ paths:
       description: Use this endpoint to retrieve items (products or fees) connected to a specific deal or quote. This operation supports paging and sorting.
       operationId: getItems
       parameters:
-        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: "#/components/parameters/QueryStringResourceId"
         - name: dealId
           in: query
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: Items have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Items'
+                $ref: "#/components/schemas/Items"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /properties:
     get:
       tags:
@@ -1696,9 +1696,9 @@ paths:
       description: Use this endpoint to retrieve all property definitions for the current tenant, including builtin and custom properties. This operation supports paging and sorting. You can also filter properties by label or data type.
       operationId: getAllProperties
       parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
         - name: label
           in: query
           description: Property name
@@ -1715,13 +1715,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PropertyConfigs'
+                $ref: "#/components/schemas/PropertyConfigs"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Properties
@@ -1731,22 +1731,22 @@ paths:
       requestBody:
         description: In the request body, pass the property definition
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PropertyRequest'
+              $ref: "#/components/schemas/PropertyRequest"
       responses:
         201:
           description: Property has been created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PropertyConfig'
+                $ref: "#/components/schemas/PropertyConfig"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
 
   /properties/{id}:
     put:
@@ -1766,22 +1766,22 @@ paths:
       requestBody:
         description: In the request body, pass the property details
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PropertyRequest'
+              $ref: "#/components/schemas/PropertyRequest"
       responses:
         200:
           description: Property has been updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PropertyConfig'
+                $ref: "#/components/schemas/PropertyConfig"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
 
   /properties/{type}:
     get:
@@ -1805,13 +1805,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PropertyConfig'
+                  $ref: "#/components/schemas/PropertyConfig"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /forms:
     get:
       tags:
@@ -1825,22 +1825,22 @@ paths:
           description: The form to search for
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The forms have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Forms'
+                $ref: "#/components/schemas/Forms"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Forms
@@ -1850,9 +1850,9 @@ paths:
       requestBody:
         description: In the request body, pass the form definition
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/Form'
+              $ref: "#/components/schemas/Form"
         required: false
       responses:
         201:
@@ -1860,13 +1860,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Form'
+                $ref: "#/components/schemas/Form"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: form
   /forms/{id}:
     get:
@@ -1876,20 +1876,20 @@ paths:
       description: Use this endpoint to get details about a form.
       operationId: getForm
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The form has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Form'
+                $ref: "#/components/schemas/Form"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Forms
@@ -1897,13 +1897,13 @@ paths:
       description: Use this endpoint to modify and overwrite the form.
       operationId: updateForm
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, send the updated form specification
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/Form'
+              $ref: "#/components/schemas/Form"
         required: false
       responses:
         200:
@@ -1911,13 +1911,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Form'
+                $ref: "#/components/schemas/Form"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: form
     delete:
       tags:
@@ -1926,7 +1926,7 @@ paths:
       description: Use this endpoint to remove an obsolete form.
       operationId: deleteForm
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -1936,7 +1936,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /globalSearch:
     get:
       tags:
@@ -1956,13 +1956,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GlobalSearchResults'
+                $ref: "#/components/schemas/GlobalSearchResults"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /imports:
     get:
       tags:
@@ -1976,22 +1976,22 @@ paths:
           description: Enter a file name if you are looking for a specific file upload
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The import entity has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Imports'
+                $ref: "#/components/schemas/Imports"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Imports
@@ -2018,7 +2018,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations:
     get:
       tags:
@@ -2039,22 +2039,22 @@ paths:
           in: query
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: Integrations have been retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Integrations'
+                $ref: "#/components/schemas/Integrations"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/authorize:
     get:
       tags:
@@ -2068,13 +2068,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OAuth2Redirect'
+                $ref: "#/components/schemas/OAuth2Redirect"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/authorize/callback:
     get:
       tags:
@@ -2096,7 +2096,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/credentials:
     get:
       tags:
@@ -2110,7 +2110,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StripeCredentials'
+                $ref: "#/components/schemas/StripeCredentials"
   /integrations/stripe/deauthorize:
     get:
       tags:
@@ -2127,7 +2127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/xero/authorize:
     get:
       tags:
@@ -2141,13 +2141,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OAuth2Redirect'
+                $ref: "#/components/schemas/OAuth2Redirect"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/xero/authorize/callback:
     get:
       tags:
@@ -2184,7 +2184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /integrations/{id}:
     get:
       tags:
@@ -2193,20 +2193,20 @@ paths:
       description: Use this endpooint to locate an integration by its ID and get its details.
       operationId: getIntegration
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Integration details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Integration'
+                $ref: "#/components/schemas/Integration"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /invoices:
     get:
       tags:
@@ -2243,22 +2243,22 @@ paths:
           description: The invoice status. For example, if the invoice was paid or is pending.
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The invoices have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoices'
+                $ref: "#/components/schemas/Invoices"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Invoices
@@ -2268,9 +2268,9 @@ paths:
       requestBody:
         description: In the request body, pass invoice details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/InvoiceRequest'
+              $ref: "#/components/schemas/InvoiceRequest"
         required: false
       responses:
         201:
@@ -2278,13 +2278,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                $ref: "#/components/schemas/Invoice"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: invoice
   /invoices/paymentPlans:
     get:
@@ -2294,22 +2294,22 @@ paths:
       description: Use this endpoint to get the list of payment plans for the invoices. For each invoice, you can set up a payment plan, for example, to split the invoice into several payments. This operation supports sorting and paging.
       operationId: getInvoicesPaymentPlans
       parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The invoices payment plans have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/InvoicePaymentPlans'
+                $ref: "#/components/schemas/InvoicePaymentPlans"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /invoices/{id}:
     get:
       tags:
@@ -2318,20 +2318,20 @@ paths:
       description: Use this endpoint to locate an invoice by its ID and get invoice details.
       operationId: getInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The invoice has been found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                $ref: "#/components/schemas/Invoice"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Invoices
@@ -2339,13 +2339,13 @@ paths:
       description: Use this endpoint to modify the invoice.
       operationId: updateInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the updated invoice
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/InvoiceRequest'
+              $ref: "#/components/schemas/InvoiceRequest"
         required: false
       responses:
         200:
@@ -2353,13 +2353,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                $ref: "#/components/schemas/Invoice"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: invoice
     delete:
       tags:
@@ -2368,7 +2368,7 @@ paths:
       description: Use this endpoint to remove an invoice.
       operationId: deleteInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2378,7 +2378,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /invoices/{id}/email:
     post:
       tags:
@@ -2387,13 +2387,13 @@ paths:
       description: Use this endpoint to send an invoice by email to the contact.
       operationId: emailInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, specify email-related details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/InvoiceEmail'
+              $ref: "#/components/schemas/InvoiceEmail"
         required: false
       responses:
         202:
@@ -2404,7 +2404,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: invoiceEmail
   /invoices/{id}/sync/{integrationAnchor}:
     get:
@@ -2414,7 +2414,7 @@ paths:
       description: Use this endpoint to get the most recent information about invoices and sync them.
       operationId: syncInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
         - name: integrationAnchor
           in: path
           required: true
@@ -2429,7 +2429,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /paymentMethods/stripe:
     get:
       tags:
@@ -2482,22 +2482,22 @@ paths:
           description: The payment status
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: Payments have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
+                $ref: "#/components/schemas/Payments"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Payments
@@ -2507,9 +2507,9 @@ paths:
       requestBody:
         description: In request body, pass information about the payment you are creating
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PaymentRequest'
+              $ref: "#/components/schemas/PaymentRequest"
         required: false
       responses:
         200:
@@ -2517,13 +2517,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payment'
+                $ref: "#/components/schemas/Payment"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: paymentDetails
   /payments/capturePaymentIntent:
     get:
@@ -2543,13 +2543,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CapturedPaymentIntent'
+                $ref: "#/components/schemas/CapturedPaymentIntent"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /payments/createPaymentIntent:
     post:
       tags:
@@ -2560,9 +2560,9 @@ paths:
       requestBody:
         description: In the request body, pass the payment intent details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/CreatePaymentIntent'
+              $ref: "#/components/schemas/CreatePaymentIntent"
         required: false
       responses:
         200:
@@ -2570,13 +2570,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentIntent'
+                $ref: "#/components/schemas/PaymentIntent"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: createPaymentIntent
   /payments/{id}:
     put:
@@ -2586,13 +2586,13 @@ paths:
       description: Use this endpoint to modify payments. Locate the payment you are interested in and overwrite it.
       operationId: updatePayment
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the payment details.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PaymentRequest'
+              $ref: "#/components/schemas/PaymentRequest"
         required: false
       responses:
         200:
@@ -2600,13 +2600,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payment'
+                $ref: "#/components/schemas/Payment"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: payment
   /pipelines:
     get:
@@ -2616,22 +2616,22 @@ paths:
       description: Use this endpoint to get a list of pipelines enabled for the current tenant. This operation supports sorting and paging.
       operationId: getPipelines
       parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The pipelines have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pipelines'
+                $ref: "#/components/schemas/Pipelines"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Pipelines
@@ -2641,9 +2641,9 @@ paths:
       requestBody:
         description: In the request body, send the pipeline object
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PipelineRequest'
+              $ref: "#/components/schemas/PipelineRequest"
         required: false
       responses:
         201:
@@ -2651,13 +2651,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pipeline'
+                $ref: "#/components/schemas/Pipeline"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: pipeline
   /pipelines/{id}:
     get:
@@ -2667,20 +2667,20 @@ paths:
       description: Use this endpoint to get detailed information about a specific pipeline.
       operationId: getPipeline
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The pipeline details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pipeline'
+                $ref: "#/components/schemas/Pipeline"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Pipelines
@@ -2688,13 +2688,13 @@ paths:
       description: Use this endpoint to modify pipelines.
       operationId: updatePipeline
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the updated pipeline.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/PipelineRequest'
+              $ref: "#/components/schemas/PipelineRequest"
         required: false
       responses:
         200:
@@ -2702,13 +2702,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pipeline'
+                $ref: "#/components/schemas/Pipeline"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: pipeline
     delete:
       tags:
@@ -2717,7 +2717,7 @@ paths:
       description: Use this endpoint to remove a pipeline.
       operationId: deletePipeline
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2727,7 +2727,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /pipelines/{id}/statistics:
     get:
       tags:
@@ -2736,21 +2736,21 @@ paths:
       description: Use this endpoint to find out how many deals you have in a specific pipeline. The deals will be groupped by stage and you'll see the total deal sum for each stage.
       operationId: getPipelineStatistics
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/EntityProperties'
+        - $ref: "#/components/parameters/ResourceId"
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: The pipeline statistics has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PipelineStatistics'
+                $ref: "#/components/schemas/PipelineStatistics"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /predefinedMetadataGroups:
     get:
       tags:
@@ -2766,13 +2766,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/PredefinedMetadataGroup'
+                  $ref: "#/components/schemas/PredefinedMetadataGroup"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /predefinedMetadataGroups/{id}:
     get:
       tags:
@@ -2781,20 +2781,20 @@ paths:
       description: Use this endpoint to search for a specific predefined metadata group and retrieve its details.
       operationId: getPredefinedMetadataGroup
       parameters:
-        - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
           description: The predefined metedata group has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PredefinedMetadataGroup'
+                $ref: "#/components/schemas/PredefinedMetadataGroup"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /predefinedMetadataGroups/{id}/options:
     get:
       tags:
@@ -2803,20 +2803,20 @@ paths:
       description: Use this endpoint to retrieve a list of options associated with a specific predefined metadata group.
       operationId: getAllPredefinedMetadataOptions
       parameters:
-        - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
           description: The options has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PredefinedMetadataOptionList'
+                $ref: "#/components/schemas/PredefinedMetadataOptionList"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /products:
     get:
       tags:
@@ -2850,22 +2850,22 @@ paths:
           description: Product cost (per unit)
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The products have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Products'
+                $ref: "#/components/schemas/Products"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Products
@@ -2875,9 +2875,9 @@ paths:
       requestBody:
         description: In request body, pass the product details
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              $ref: "#/components/schemas/ProductRequest"
         required: false
       responses:
         201:
@@ -2885,13 +2885,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: "#/components/schemas/Product"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: product
   /products/{id}:
     get:
@@ -2901,20 +2901,20 @@ paths:
       description: Use this endpoint to locate a product by its ID and get its details such as price and cost.
       operationId: getProduct
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The product details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: "#/components/schemas/Product"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Products
@@ -2922,13 +2922,13 @@ paths:
       description: Use this endpoint to modify products. The operation overwrites the product record.
       operationId: updateProduct
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the product details
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              $ref: "#/components/schemas/ProductRequest"
         required: false
       responses:
         200:
@@ -2936,13 +2936,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
+                $ref: "#/components/schemas/Product"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
 
       x-codegen-request-body-name: product
     delete:
@@ -2952,7 +2952,7 @@ paths:
       description: Use this endpoint to remove products the tenant no longer offers.
       operationId: deleteProduct
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -2962,7 +2962,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /public/invoices/{id}:
     get:
       tags:
@@ -2971,7 +2971,7 @@ paths:
       description: Use this endpoint to generate the invoice page. You can share the invoice page with a customer who would pay the invoice.
       operationId: getInvoiceByUid
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The data has been retrieved
@@ -2987,7 +2987,7 @@ paths:
       description: Use this endpoint to retrieve invoice details and save the invoice page as pdf.
       operationId: getInvoicePagePdf
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The invoice details have been saved as pdf
@@ -2999,28 +2999,28 @@ paths:
   /public/quotes/{id}:
     get:
       tags:
-        - QuotePage
-      summary: Retrieve quote details
-      description: Use this endpoint to generate a quote page. You can share this page with a customer who can decide to accept or reject this quote.
-      operationId: getQuoteByUid
+        - PublicQuote
+      summary: Gets quote model for anon user
+      description: Use endpoint to get quote anon
+      operationId: getPublicQuote
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The data has been retrieved
+          description: The quote has been accepted
           content:
-            text/html:
+            application/json:
               schema:
-                type: string
+                $ref: "#/components/schemas/PublicQuote"
   /public/quotes/{id}/accept:
     get:
       tags:
-        - QuotePage
+        - PublicQuote
       summary: Accept a quote
       description: Use this endpoint to mark the quote as accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
       operationId: acceptQuote
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
         - name: signature
           in: query
           required: true
@@ -3028,69 +3028,8 @@ paths:
             type: string
       responses:
         200:
-          description: The quote has been accepted
+          description: The quote
           content: {}
-  /public/quotes/{id}/download:
-    get:
-      tags:
-        - QuotePage
-      summary: Download a quote
-      description: Use this endpoint to retrieve quote details and save the quote page as pdf.
-      operationId: getQuotePagePdf
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The quote has been saved as pdf
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-  /public/quotePreview:
-    post:
-      tags:
-        - QuotePage
-      summary: Generate a PDF preview
-      description: Use this endpoint to create a PDF preview for a quote.
-      operationId: getQuotePreviewPagePdf
-      requestBody:
-        description: In the request body, pass the quote object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/QuoteRequest'
-        required: false
-      responses:
-        200:
-          description: The PDF quote preview has been generated
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-  /public/quotePreview/html:
-    post:
-      tags:
-        - QuotePage
-      summary: Generate an HTML preview
-      description: Use this endpoint to create an HTML preview for a quote.
-      operationId: getQuotePreviewPageHtml
-      requestBody:
-        description: In the request body, pass the quote object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/QuoteRequest'
-        required: false
-      responses:
-        200:
-          description: The HTML quote preview has been generated
-          content:
-            application/html:
-              schema:
-                type: string
-                format: binary
   /quotes:
     get:
       tags:
@@ -3099,22 +3038,22 @@ paths:
       description: Use this endpoint to get a list of quotes for the current tenant. This operation supports sorting and paging as well filtering by deal ID.
       operationId: getQuotes
       parameters:
-        - $ref: '#/components/parameters/QueryStringResourceId'
+        - $ref: "#/components/parameters/QueryStringResourceId"
         - name: dealId
           in: query
           description: Unique deal ID. Quotes are always associated with deals. Note that multiple quotes can be linked to a single deal.
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: Quotes have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Quotes'
+                $ref: "#/components/schemas/Quotes"
     post:
       tags:
         - Quotes
@@ -3124,9 +3063,9 @@ paths:
       requestBody:
         description: In the request body, pass the quote.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/QuoteRequest'
+              $ref: "#/components/schemas/QuoteRequest"
         required: false
       responses:
         201:
@@ -3134,13 +3073,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Quote'
+                $ref: "#/components/schemas/Quote"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: quote
   /quotes/{id}:
     get:
@@ -3150,20 +3089,64 @@ paths:
       description: Use this endpoint to locate a quote by its ID and retrieve its details.
       operationId: getQuote
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The quote details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Quote'
+                $ref: "#/components/schemas/Quote"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      tags:
+        - Quotes
+      summary: Update a quote
+      description: Use this endpoint to modify an existing quote.
+      operationId: updateQuote
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the quote details
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/QuoteRequest"
+        required: true
+      responses:
+        200:
+          description: The quote status has been changed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
+    patch:
+      tags:
+        - Quotes
+      summary: Mark a quote as created, sent or accepted
+      description: Use this endpoint to mark the quote as created, sent or accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
+      operationId: updateQuotePartial
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the quote details
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/QuoteRequest"
+        required: true
+      responses:
+        200:
+          description: The quote status has been changed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Quote"
     delete:
       tags:
         - Quotes
@@ -3171,7 +3154,7 @@ paths:
       description: Use this endpoint to revoke old quotes.
       operationId: deleteQuote
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3181,29 +3164,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
-  /quotes/{id}/accept:
-    post:
-      tags:
-        - Quotes
-      summary: Accept a quote
-      description: Use this endpoint to mark the quote as accepted. Once the quote is accepted, you can create an invoice for products listed in this quote.
-      operationId: acceptQuoteByUser
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The quote has been accepted.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Quote'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /quotes/{id}/convertToInvoice:
     post:
       tags:
@@ -3212,13 +3173,13 @@ paths:
       description: Use this endpoint to convert the quote to an invoice. Once the quote get accepted, you can convert it to the invoice that can later be sent to a client.
       operationId: convertQuoteToInvoice
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the quote details
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/QuoteToInvoice'
+              $ref: "#/components/schemas/QuoteToInvoice"
         required: true
       responses:
         200:
@@ -3226,13 +3187,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                $ref: "#/components/schemas/Invoice"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: conversionModel
   /reports:
     get:
@@ -3242,22 +3203,22 @@ paths:
       description: Use this endpoint to get a list of reports available in Inperium Sell. This operation supports paging and sorting.
       operationId: getReports
       parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The report list has been retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reports'
+                $ref: "#/components/schemas/Reports"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /reports/{id}/data:
     get:
       tags:
@@ -3266,7 +3227,7 @@ paths:
       description: Use this endpoint to see report data returned by a specific report.
       operationId: getReportData
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
         - name: who
           in: query
           description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
@@ -3280,26 +3241,26 @@ paths:
           description: The start date
           schema:
             type: string
-            format: 'date-time'
+            format: "date-time"
         - name: to
           in: query
           description: The finish date
           schema:
             type: string
-            format: 'date-time'
+            format: "date-time"
       responses:
         200:
           description: The data has been retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReportData'
+                $ref: "#/components/schemas/ReportData"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /stages:
     get:
       tags:
@@ -3319,13 +3280,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stages'
+                $ref: "#/components/schemas/Stages"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Stages
@@ -3335,9 +3296,9 @@ paths:
       requestBody:
         description: In the request body, pass the stage specification.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/StageRequest'
+              $ref: "#/components/schemas/StageRequest"
         required: false
       responses:
         201:
@@ -3345,13 +3306,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stage'
+                $ref: "#/components/schemas/Stage"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: stage
   /stages/{id}:
     get:
@@ -3361,20 +3322,20 @@ paths:
       description: Use this endpoint to get a specific stage by ID.
       operationId: getStage
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The stage has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stage'
+                $ref: "#/components/schemas/Stage"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Stages
@@ -3382,13 +3343,13 @@ paths:
       description: Use this endpoint to modify and overvwrite an existing stage.
       operationId: updateStage
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the updated stage
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/StageRequest'
+              $ref: "#/components/schemas/StageRequest"
         required: false
       responses:
         200:
@@ -3396,13 +3357,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Stage'
+                $ref: "#/components/schemas/Stage"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: stage
     delete:
       tags:
@@ -3411,7 +3372,7 @@ paths:
       description: Use this endpoint to remove a stage from a pipeline.
       operationId: deleteStage
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: The stage has been deleted
@@ -3421,7 +3382,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /templates:
     get:
       tags:
@@ -3435,16 +3396,16 @@ paths:
           description: Template name.
           schema:
             type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The templates have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Templates'
+                $ref: "#/components/schemas/Templates"
     post:
       tags:
         - Template
@@ -3454,9 +3415,9 @@ paths:
       requestBody:
         description: In the request body, pass a new template
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/Template'
+              $ref: "#/components/schemas/Template"
         required: false
       responses:
         200:
@@ -3464,7 +3425,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
+                $ref: "#/components/schemas/Template"
       x-codegen-request-body-name: template
   /templates/{id}:
     get:
@@ -3474,20 +3435,20 @@ paths:
       description: Use this endpoint to locate a specific template by its ID and retrieve its details.
       operationId: getTemplate
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
           description: Template details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
+                $ref: "#/components/schemas/Template"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - Template
@@ -3495,13 +3456,13 @@ paths:
       description: Use this endpoint to modify and overwrite the existing template.
       operationId: updateTemplate
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the updated template
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/Template'
+              $ref: "#/components/schemas/Template"
         required: false
       responses:
         200:
@@ -3509,13 +3470,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Template'
+                $ref: "#/components/schemas/Template"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: tenant
     delete:
       tags:
@@ -3524,7 +3485,7 @@ paths:
       description: Use this endpoint to remove a template.
       operationId: deleteTemplate
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3534,7 +3495,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /temporary/send-system-mail:
     post:
       tags:
@@ -3570,7 +3531,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /tenant/settings:
     put:
       tags:
@@ -3581,9 +3542,9 @@ paths:
       requestBody:
         description: In the request body, pass the updated tenant settings
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/TenantSettings'
+              $ref: "#/components/schemas/TenantSettings"
         required: false
       responses:
         200:
@@ -3591,13 +3552,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TenantSettings'
+                $ref: "#/components/schemas/TenantSettings"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: tenantSettings
     get:
       tags:
@@ -3611,13 +3572,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TenantSettings'
+                $ref: "#/components/schemas/TenantSettings"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /tenant/integrations:
     get:
       tags:
@@ -3626,22 +3587,22 @@ paths:
       description: Use this endpoint to get a list of integrations enabled for a current tenant. This operation supports paging and sorting.
       operationId: getTenantIntegrations
       parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The list of active integrations has been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TenantIntegrations'
+                $ref: "#/components/schemas/TenantIntegrations"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /terminals/connectionToken:
     post:
       tags:
@@ -3655,13 +3616,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TerminalTokenDetails'
+                $ref: "#/components/schemas/TerminalTokenDetails"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /terminals/readers:
     get:
       tags:
@@ -3680,13 +3641,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StripeReaders'
+                $ref: "#/components/schemas/StripeReaders"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - StripeTerminals
@@ -3696,9 +3657,9 @@ paths:
       requestBody:
         description: In the request body, pass the new reader
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/StripeReaderRequest'
+              $ref: "#/components/schemas/StripeReaderRequest"
         required: false
       responses:
         200:
@@ -3709,7 +3670,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: readerDetails
   /terminals/readers/{id}:
     get:
@@ -3719,20 +3680,20 @@ paths:
       description: Use this endpoint to locate a Stripe terminal reader by its ID and get its details.
       operationId: getReader
       parameters:
-        - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
           description: The reader details have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StripeReader'
+                $ref: "#/components/schemas/StripeReader"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     put:
       tags:
         - StripeTerminals
@@ -3740,13 +3701,13 @@ paths:
       description: Use this endpoint to modify and overwrite an existing Stripe terminal reader.
       operationId: updateReader
       parameters:
-        - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: "#/components/parameters/ResourceStringId"
       requestBody:
         description: In the request body, pass the updated Stripe terminal reader
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/StripeReaderRequest'
+              $ref: "#/components/schemas/StripeReaderRequest"
         required: false
       responses:
         200:
@@ -3754,13 +3715,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StripeReader'
+                $ref: "#/components/schemas/StripeReader"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: reader
     delete:
       tags:
@@ -3769,7 +3730,7 @@ paths:
       description: Use this endpoint to remove an unused Stripe terminal reader.
       operationId: deleteReader
       parameters:
-        - $ref: '#/components/parameters/ResourceStringId'
+        - $ref: "#/components/parameters/ResourceStringId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3779,7 +3740,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /views:
     get:
       tags:
@@ -3788,22 +3749,22 @@ paths:
       description: Use this endpoint to get a list of views, including company views, contact views, etc. This operation supports paging and sorting.
       operationId: getAllViews
       parameters:
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The views have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Views'
+                $ref: "#/components/schemas/Views"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Views
@@ -3813,22 +3774,22 @@ paths:
       requestBody:
         description: In the request body, pass the new view.
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ViewRequest'
+              $ref: "#/components/schemas/ViewRequest"
       responses:
         201:
           description: The view have been created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/View'
+                $ref: "#/components/schemas/View"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /views/{type}:
     get:
       tags:
@@ -3851,13 +3812,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/View'
+                  $ref: "#/components/schemas/View"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /views/{id}:
     put:
       tags:
@@ -3866,26 +3827,26 @@ paths:
       description: Use this endpoint to modfiy and overwrite existing views.
       operationId: updateView
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         description: In the request body, pass the updated view
         content:
-          '*/*':
+          "*/*":
             schema:
-              $ref: '#/components/schemas/ViewRequest'
+              $ref: "#/components/schemas/ViewRequest"
       responses:
         200:
           description: The view has been updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/View'
+                $ref: "#/components/schemas/View"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
     delete:
       tags:
         - Views
@@ -3893,7 +3854,7 @@ paths:
       description: Use this endpoint to remove obsolete views.
       operationId: deleteView
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
@@ -3903,7 +3864,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
   /widgets:
     get:
       tags:
@@ -3916,13 +3877,13 @@ paths:
           description: The date when the widgets data set calculation starts
           schema:
             type: string
-            format: 'date-time'
+            format: "date-time"
         - name: to
           in: query
           description: The date when the widgets data set calculation starts
           schema:
             type: string
-            format: 'date-time'
+            format: "date-time"
         - name: who
           in: query
           description: The widgets can show data for the currently authenticated user (ME) or the whole team (TEAM).
@@ -3931,22 +3892,22 @@ paths:
             enum:
               - ME
               - TEAM
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QuerySort'
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: The widgets have been retrieved
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Widgets'
+                $ref: "#/components/schemas/Widgets"
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: "#/components/schemas/ResponseError"
 components:
   schemas:
     ActivityRequest:
@@ -3956,35 +3917,35 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          note: '#/components/schemas/NoteActivityRequest'
-          NOTE: '#/components/schemas/NoteActivityRequest'
-          email: '#/components/schemas/EmailActivityRequest'
-          EMAIL: '#/components/schemas/EmailActivityRequest'
-          call: '#/components/schemas/CallActivityRequest'
-          CALL: '#/components/schemas/CallActivityRequest'
-          meeting: '#/components/schemas/MeetingActivityRequest'
-          MEETING: '#/components/schemas/MeetingActivityRequest'
-          task: '#/components/schemas/TaskActivityRequest'
-          TASK: '#/components/schemas/TaskActivityRequest'
+          note: "#/components/schemas/NoteActivityRequest"
+          NOTE: "#/components/schemas/NoteActivityRequest"
+          email: "#/components/schemas/EmailActivityRequest"
+          EMAIL: "#/components/schemas/EmailActivityRequest"
+          call: "#/components/schemas/CallActivityRequest"
+          CALL: "#/components/schemas/CallActivityRequest"
+          meeting: "#/components/schemas/MeetingActivityRequest"
+          MEETING: "#/components/schemas/MeetingActivityRequest"
+          task: "#/components/schemas/TaskActivityRequest"
+          TASK: "#/components/schemas/TaskActivityRequest"
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         associatedCompanies:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         associatedContacts:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         associatedDeals:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
     NoteActivityRequest:
       description: A representation of a Activity. Note that `NOTE` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/ActivityRequest'
+        - $ref: "#/components/schemas/ActivityRequest"
         - type: object
           properties:
             body:
@@ -3995,7 +3956,7 @@ components:
     EmailActivityRequest:
       description: A representation of a Activity. Note that `EMAIL` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/ActivityRequest'
+        - $ref: "#/components/schemas/ActivityRequest"
         - type: object
           properties:
             body:
@@ -4016,7 +3977,7 @@ components:
     CallActivityRequest:
       description: A representation of a Activity. Note that `CALL` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/ActivityRequest'
+        - $ref: "#/components/schemas/ActivityRequest"
         - type: object
           properties:
             body:
@@ -4032,7 +3993,7 @@ components:
     MeetingActivityRequest:
       description: A representation of a Activity. Note that `MEETING` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/ActivityRequest'
+        - $ref: "#/components/schemas/ActivityRequest"
         - type: object
           properties:
             body:
@@ -4048,7 +4009,7 @@ components:
     TaskActivityRequest:
       description: A representation of a Activity. Note that `TASK` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/ActivityRequest'
+        - $ref: "#/components/schemas/ActivityRequest"
         - type: object
           properties:
             body:
@@ -4074,9 +4035,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Activity'
+            $ref: "#/components/schemas/Activity"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Activity:
       description: Activity model returned by Inperium API
       example: {}
@@ -4084,29 +4045,29 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          NOTE: '#/components/schemas/NoteActivity'
-          EMAIL: '#/components/schemas/EmailActivity'
-          CALL: '#/components/schemas/CallActivity'
-          MEETING: '#/components/schemas/MeetingActivity'
-          TASK: '#/components/schemas/TaskActivity'
-          EVENT: '#/components/schemas/EventActivity'
+          NOTE: "#/components/schemas/NoteActivity"
+          EMAIL: "#/components/schemas/EmailActivity"
+          CALL: "#/components/schemas/CallActivity"
+          MEETING: "#/components/schemas/MeetingActivity"
+          TASK: "#/components/schemas/TaskActivity"
+          EVENT: "#/components/schemas/EventActivity"
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         associatedCompanies:
           type: array
           items:
-            $ref: '#/components/schemas/Company'
+            $ref: "#/components/schemas/Company"
         associatedContacts:
           type: array
           items:
-            $ref: '#/components/schemas/Contact'
+            $ref: "#/components/schemas/Contact"
         associatedDeals:
           type: array
           items:
-            $ref: '#/components/schemas/Deal'
+            $ref: "#/components/schemas/Deal"
         authorId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         createdAt:
           type: string
           format: date-time
@@ -4118,7 +4079,7 @@ components:
     NoteActivity:
       description: A representation of a Activity. Note that `NOTE` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             body:
@@ -4129,7 +4090,7 @@ components:
     EmailActivity:
       description: A representation of a Activity. Note that `EMAIL` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             body:
@@ -4150,7 +4111,7 @@ components:
     CallActivity:
       description: A representation of a Activity. Note that `CALL` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             body:
@@ -4167,7 +4128,7 @@ components:
     MeetingActivity:
       description: A representation of a Activity. Note that `MEETING` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             body:
@@ -4184,7 +4145,7 @@ components:
     TaskActivity:
       description: A representation of a Activity. Note that `TASK` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             body:
@@ -4207,7 +4168,7 @@ components:
     EventActivity:
       description: A representation of a Activity. Note that `EVENT` will be used as the discriminator value."
       allOf:
-        - $ref: '#/components/schemas/Activity'
+        - $ref: "#/components/schemas/Activity"
         - type: object
           properties:
             eventType:
@@ -4230,10 +4191,12 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
-        amount:
-          type: integer
-          format: int64
+          $ref: "#/components/schemas/Id"
+        amountPercent:
+          type: number
+          maximum: 100
+        amountMoney:
+          type: number
         name:
           type: string
         type:
@@ -4243,33 +4206,33 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         companyIds:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         contactIds:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         document:
-          $ref: '#/components/schemas/Document'
+          $ref: "#/components/schemas/Document"
       description: Document model returned by Inperium API
     AttachmentRequest:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         companyIds:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         contactIds:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: "#/components/schemas/Id"
         document:
-          $ref: '#/components/schemas/Document'
+          $ref: "#/components/schemas/Document"
       description: Document model submitted to Inperium API
     Attachments:
       type: object
@@ -4277,15 +4240,15 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Attachment'
+            $ref: "#/components/schemas/Attachment"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of attachments
     Campaign:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
       description: Campaign model returned by Inperium API
@@ -4293,17 +4256,17 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         userId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
       description: Campaign model submitted to Inperium API
     CampaignCustom:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         enrolled:
@@ -4315,9 +4278,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Campaign'
+            $ref: "#/components/schemas/Campaign"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     CapturedPaymentIntent:
       type: object
       properties:
@@ -4329,7 +4292,7 @@ components:
       description: Communication method model
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         value:
           type: string
         type:
@@ -4343,11 +4306,11 @@ components:
       description: Company model returned by Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         activities:
           type: array
           items:
-            $ref: '#/components/schemas/Activity'
+            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4360,7 +4323,7 @@ components:
       description: Company relationship model submitted to Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         companyId:
           type: string
           format: uuid
@@ -4372,18 +4335,18 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         company:
-          $ref: '#/components/schemas/Company'
+          $ref: "#/components/schemas/Company"
         parentCompany:
-          $ref: '#/components/schemas/Company'
+          $ref: "#/components/schemas/Company"
     CompanyRelationships:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/CompanyRelationship'
+            $ref: "#/components/schemas/CompanyRelationship"
       description: An aggregation of company's relationships
     Companies:
       type: object
@@ -4391,20 +4354,20 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Company'
+            $ref: "#/components/schemas/Company"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of companies
     Contact:
       description: Contact model returned by Inperium API
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         activities:
           type: array
           items:
-            $ref: '#/components/schemas/Activity'
+            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4416,9 +4379,9 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         contactId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         fingerprint:
           type: string
     Contacts:
@@ -4427,14 +4390,14 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Contact'
+            $ref: "#/components/schemas/Contact"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     CreatePaymentIntent:
       type: object
       properties:
         payment:
-          $ref: '#/components/schemas/PaymentRequest'
+          $ref: "#/components/schemas/PaymentRequest"
         useTerminal:
           type: boolean
       description: Model of creating a payment intent
@@ -4443,14 +4406,14 @@ components:
       description: Deal model returned to Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         properties:
           type: object
           additionalProperties: true
         activities:
           type: array
           items:
-            $ref: '#/components/schemas/Activity'
+            $ref: "#/components/schemas/Activity"
         createdAt:
           type: string
           format: date-time
@@ -4464,20 +4427,20 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Item'
+            $ref: "#/components/schemas/Item"
         additionalFees:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalFee'
+            $ref: "#/components/schemas/AdditionalFee"
     Deals:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Deal'
+            $ref: "#/components/schemas/Deal"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
 
     PipelineStatistics:
       type: object
@@ -4488,7 +4451,7 @@ components:
             type: object
             properties:
               stageId:
-                $ref: '#/components/schemas/Id'
+                $ref: "#/components/schemas/Id"
               dealsTotalValue:
                 type: number
               dealsCount:
@@ -4499,7 +4462,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         anchor:
           minLength: 1
           type: string
@@ -4518,13 +4481,13 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/DictionaryItem'
+            $ref: "#/components/schemas/DictionaryItem"
       description: An aggregation of dictionary items
     DocumentType:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         defaultCaption:
           type: string
         mimeType:
@@ -4535,11 +4498,11 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         authorId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         typeId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         filename:
           minLength: 1
           type: string
@@ -4621,12 +4584,12 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         filename:
           type: string
     PropertyConfig:
       anyOf:
-        - $ref: '#/components/schemas/PropertyDefinition'
+        - $ref: "#/components/schemas/PropertyDefinition"
         - type: object
           properties:
             configuration:
@@ -4635,16 +4598,16 @@ components:
             propertyOptions:
               type: array
               items:
-                $ref: '#/components/schemas/PropertyOption'
+                $ref: "#/components/schemas/PropertyOption"
     PropertyConfigs:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/PropertyConfig'
+            $ref: "#/components/schemas/PropertyConfig"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     PropertyDefinition:
       required:
         - label
@@ -4652,7 +4615,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         type:
           type: string
         name:
@@ -4671,25 +4634,25 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         label:
           type: string
         value:
           type: string
     PropertyRequest:
       allOf:
-        - $ref: '#/components/schemas/PropertyDefinition'
+        - $ref: "#/components/schemas/PropertyDefinition"
         - type: object
           properties:
             propertyOptions:
               type: array
               items:
-                $ref: '#/components/schemas/PropertyOption'
+                $ref: "#/components/schemas/PropertyOption"
     Form:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         inlineMessage:
@@ -4703,15 +4666,15 @@ components:
         fields:
           type: array
           items:
-            $ref: '#/components/schemas/FormField'
+            $ref: "#/components/schemas/FormField"
       description: Form model
     FormField:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         formId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         labelHidden:
           type: boolean
         placeholder:
@@ -4727,7 +4690,7 @@ components:
         hidden:
           type: boolean
         definition:
-          $ref: '#/components/schemas/PropertyDefinition'
+          $ref: "#/components/schemas/PropertyDefinition"
         description:
           type: string
       description: Form field model
@@ -4737,9 +4700,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Form'
+            $ref: "#/components/schemas/Form"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     GlobalSearchResult:
       type: object
       description: Data returned by Inperium API
@@ -4763,7 +4726,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/GlobalSearchResult'
+            $ref: "#/components/schemas/GlobalSearchResult"
     Id:
       type: string
       format: uuid
@@ -4771,12 +4734,12 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         filename:
           type: string
         importDate:
           type: string
-          format: 'date-time'
+          format: "date-time"
         result:
           type: object
           additionalProperties: true
@@ -4786,15 +4749,15 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Import'
+            $ref: "#/components/schemas/Import"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of import log entries
     Integration:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         anchor:
           type: string
         name:
@@ -4810,9 +4773,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Integration'
+            $ref: "#/components/schemas/Integration"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of integrations
     InvoiceRequest:
       type: object
@@ -4843,27 +4806,27 @@ components:
         additionalFees:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalFee'
+            $ref: "#/components/schemas/AdditionalFee"
         contactId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         date:
           type: string
           format: date-time
         dealId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         dueDate:
           type: string
           format: date-time
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Item'
+            $ref: "#/components/schemas/Item"
         number:
           type: string
         paymentPlans:
           type: array
           items:
-            $ref: '#/components/schemas/InvoicePaymentPlan'
+            $ref: "#/components/schemas/InvoicePaymentPlan"
     Invoice:
       type: object
       properties:
@@ -4880,25 +4843,25 @@ components:
         country:
           type: string
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         additionalFees:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalFee'
+            $ref: "#/components/schemas/AdditionalFee"
         contact:
-          $ref: '#/components/schemas/Contact'
+          $ref: "#/components/schemas/Contact"
         date:
           type: string
           format: date-time
         deal:
-          $ref: '#/components/schemas/Deal'
+          $ref: "#/components/schemas/Deal"
         dueDate:
           type: string
           format: date-time
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Item'
+            $ref: "#/components/schemas/Item"
         amountPaid:
           type: number
         total:
@@ -4910,11 +4873,11 @@ components:
         paymentPlans:
           type: array
           items:
-            $ref: '#/components/schemas/InvoicePaymentPlan'
+            $ref: "#/components/schemas/InvoicePaymentPlan"
         payments:
           type: array
           items:
-            $ref: '#/components/schemas/Payment'
+            $ref: "#/components/schemas/Payment"
         status:
           type: string
           enum:
@@ -4941,11 +4904,11 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         amount:
           type: number
         invoiceId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         invoiceNumber:
           type: string
         paymentDate:
@@ -4964,24 +4927,24 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/InvoicePaymentPlan'
+            $ref: "#/components/schemas/InvoicePaymentPlan"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Invoices:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Invoice'
+            $ref: "#/components/schemas/Invoice"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Item:
       type: object
       description: Item model. Products and services are added to deals as items.
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         price:
           type: number
         discountMoney:
@@ -4997,20 +4960,20 @@ components:
         value:
           type: number
         product:
-          $ref: '#/components/schemas/Product'
+          $ref: "#/components/schemas/Product"
         dealId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         quoteId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
     Items:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Item'
+            $ref: "#/components/schemas/Item"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     OAuth2Redirect:
       type: object
       properties:
@@ -5042,11 +5005,11 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         stripeId:
           type: string
         invoice:
-          $ref: '#/components/schemas/Invoice'
+          $ref: "#/components/schemas/Invoice"
         currency:
           type: string
         description:
@@ -5057,7 +5020,7 @@ components:
           type: string
           format: date-time
         stripePaymentMethod:
-          $ref: '#/components/schemas/StripePaymentMethod'
+          $ref: "#/components/schemas/StripePaymentMethod"
         paymentMethod:
           type: string
         declinedReason:
@@ -5069,9 +5032,9 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         invoiceId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         currency:
           type: string
         amount:
@@ -5079,7 +5042,7 @@ components:
         paymentMethod:
           type: string
         stripePaymentMethod:
-          $ref: '#/components/schemas/StripePaymentMethod'
+          $ref: "#/components/schemas/StripePaymentMethod"
         description:
           type: string
         date:
@@ -5180,33 +5143,33 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Payment'
+            $ref: "#/components/schemas/Payment"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Pipeline:
       type: object
       description: Pipeline model returned by Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         stages:
           type: array
           items:
-            $ref: '#/components/schemas/Stage'
+            $ref: "#/components/schemas/Stage"
     PipelineRequest:
       type: object
       description: Pipeline model submitted to Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         stages:
           type: array
           items:
-            $ref: '#/components/schemas/StageRequest'
+            $ref: "#/components/schemas/StageRequest"
       required:
         - name
     Pipelines:
@@ -5215,9 +5178,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Pipeline'
+            $ref: "#/components/schemas/Pipeline"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     PredefinedMetadataGroup:
       type: object
       properties:
@@ -5226,7 +5189,7 @@ components:
           minLength: 1
           type: string
         options:
-          $ref: '#/components/schemas/PredefinedMetadataOptionList'
+          $ref: "#/components/schemas/PredefinedMetadataOptionList"
       description: Model containing predefined metadata group
     PredefinedMetadataOption:
       type: object
@@ -5245,14 +5208,14 @@ components:
       type: array
       description: Model containing a list of predefined metadata options
       items:
-        $ref: '#/components/schemas/PredefinedMetadataOption'
+        $ref: "#/components/schemas/PredefinedMetadataOption"
     Product:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         tenantId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         description:
@@ -5270,9 +5233,9 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         tenantId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         description:
@@ -5292,14 +5255,14 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Product'
+            $ref: "#/components/schemas/Product"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Report:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
     Reports:
@@ -5308,9 +5271,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Report'
+            $ref: "#/components/schemas/Report"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     ReportData:
       type: object
       properties:
@@ -5327,15 +5290,164 @@ components:
                 type: array
                 items:
                   type: object
+    PublicQuote:
+      type: object
+      properties:
+        name:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        purchaseTerm:
+          type: string
+        value:
+          type: number
+        createdDate:
+          type: string
+          format: date-time
+        paymentPlans:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicQuotePaymentPlan"
+        quoteUser:
+          $ref: "#/components/schemas/PublicQuoteUser"
+        quoteContacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicQuoteContact"
+        quoteCompany:
+          $ref: "#/components/schemas/PublicQuoteCompany"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicQuoteItem"
+        additionalFees:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicQuoteAdditionalFee"
+        tenant:
+          $ref: "#/components/schemas/PublicQuoteTenant"
+    PublicQuoteAdditionalFee:
+      type: object
+      properties:
+        amountMoney:
+          type: number
+        amountPercent:
+          type: number
+        name:
+          type: string
+        type:
+          type: string
+    PublicQuoteItem:
+      type: object
+      description: Item model.
+      properties:
+        price:
+          type: number
+        discountMoney:
+          description: Fixed amount of money to be deducted from the subtotal, e.g., $5.
+          type: number
+        discountPercent:
+          description: Percentage of subtotal, e.g., 5%.
+          type: number
+          maximum: 100
+        quantity:
+          type: integer
+          format: int64
+        value:
+          type: number
+        product:
+          $ref: "#/components/schemas/Product"
+
+    PublicQuotePaymentPlan:
+      type: object
+      properties:
+        amount:
+          type: number
+        paymentDate:
+          type: string
+          format: date-time
+        paymentMethod:
+          type: string
+    PublicQuoteUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    PublicQuoteContact:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    PublicQuoteCompany:
+      type: object
+      properties:
+        companyName:
+          type: string
+        domainName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+    PublicQuoteTenant:
+      type: object
+      properties:
+        companyLogo:
+          type: string
+        logoAltText:
+          type: string
+        defaultCurrency:
+          type: string
+        companyName:
+          type: string
+        name:
+          type: string
+        domainName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
     Quote:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         dealId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         expirationDate:
           type: string
           format: date-time
@@ -5349,9 +5461,9 @@ components:
         displayColor:
           type: string
         companyId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         avatarId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         language:
           type: string
         value:
@@ -5360,33 +5472,47 @@ components:
           type: string
           format: uuid
         userId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         paymentPlans:
           type: array
           items:
-            $ref: '#/components/schemas/QuotePaymentPlan'
+            $ref: "#/components/schemas/QuotePaymentPlan"
         quoteUser:
-          $ref: '#/components/schemas/QuoteUser'
+          $ref: "#/components/schemas/QuoteUser"
         quoteContacts:
           type: array
           items:
-            $ref: '#/components/schemas/QuoteContact'
+            $ref: "#/components/schemas/QuoteContact"
         quoteCompany:
-          $ref: '#/components/schemas/QuoteCompany'
-        quoteTenant:
-          $ref: '#/components/schemas/QuoteTenant'
-        itemsAndAdditionalFees:
-          $ref: '#/components/schemas/ItemsAndAdditionalFees'
+          $ref: "#/components/schemas/QuoteCompany"
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+        additionalFees:
+          type: array
+          items:
+            $ref: "#/components/schemas/AdditionalFee"
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - ACCEPTED
+          example: DRAFT
+        mostRelevant:
+          type: boolean
+          example: false
       description: Quote model returned by Inperium API
     QuoteRequest:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         dealId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         expirationDate:
           type: string
           format: date-time
@@ -5397,46 +5523,53 @@ components:
           type: string
         purchaseTerm:
           type: string
-        displayColor:
-          type: string
         companyId:
-          $ref: '#/components/schemas/Id'
-        avatarId:
-          $ref: '#/components/schemas/Id'
-        language:
-          type: string
+          $ref: "#/components/schemas/Id"
         value:
           type: number
         paymentPlans:
           type: array
           items:
-            $ref: '#/components/schemas/QuotePaymentPlan'
+            $ref: "#/components/schemas/QuotePaymentPlan"
         quoteUser:
-          $ref: '#/components/schemas/QuoteUser'
+          $ref: "#/components/schemas/QuoteUser"
         quoteContacts:
           type: array
           items:
-            $ref: '#/components/schemas/QuoteContact'
+            $ref: "#/components/schemas/QuoteContact"
         quoteCompany:
-          $ref: '#/components/schemas/QuoteCompany'
+          $ref: "#/components/schemas/QuoteCompany"
         additionalFees:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalFee'
-        quoteTenant:
-          $ref: '#/components/schemas/QuoteTenant'
+            $ref: "#/components/schemas/AdditionalFee"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Item'
+            $ref: "#/components/schemas/Item"
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - SENT
+            - ACCEPTED
+          example: DRAFT
+        mostRelevant:
+          type: boolean
+          example: false
+        signature:
+          type: string
+      required:
+        - status
       description: Quote model submitted to Inperium API
     QuoteCompany:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         originCompanyId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         companyName:
           type: string
         domainName:
@@ -5458,9 +5591,9 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         originContactId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         firstName:
           type: string
         lastName:
@@ -5474,50 +5607,22 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         amount:
           type: number
         quoteId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         paymentDate:
           type: string
           format: date-time
         paymentMethod:
           type: string
       description: Payment plan model
-    QuoteTenant:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        originTenantId:
-          $ref: '#/components/schemas/Id'
-        defaultCurrency:
-          type: string
-        companyName:
-          type: string
-        name:
-          type: string
-        domainName:
-          type: string
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        country:
-          type: string
-      description: Model containing tenant's data
     QuoteToInvoice:
       type: object
       properties:
         contactId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         dueDate:
           type: string
           format: date-time
@@ -5529,7 +5634,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         firstName:
           type: string
         lastName:
@@ -5539,7 +5644,7 @@ components:
         phoneNumber:
           type: string
         originUserId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
       description: Model containing the user data history
     Quotes:
       type: object
@@ -5547,22 +5652,22 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Quote'
+            $ref: "#/components/schemas/Quote"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     ResponseError:
       type: object
       properties:
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorModel'
+            $ref: "#/components/schemas/ErrorModel"
     Stage:
       type: object
       description: Stage model returned by Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         probability:
@@ -5570,13 +5675,13 @@ components:
         sortOrder:
           type: integer
         pipelineId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
     StageRequest:
       type: object
       description: Stage model submitted to Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         probability:
@@ -5585,7 +5690,7 @@ components:
         sortOrder:
           type: integer
         pipelineId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
       required:
         - name
     Stages:
@@ -5594,7 +5699,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Stage'
+            $ref: "#/components/schemas/Stage"
     StripeCredentials:
       type: object
       properties:
@@ -5614,7 +5719,7 @@ components:
           type: object
           properties: {}
         card:
-          $ref: '#/components/schemas/StripePaymentMethodCard'
+          $ref: "#/components/schemas/StripePaymentMethodCard"
         card_present:
           type: object
           properties: {}
@@ -5718,7 +5823,7 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/StripeReader'
+            $ref: "#/components/schemas/StripeReader"
         object:
           type: string
         url:
@@ -5729,7 +5834,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         body:
           type: string
         name:
@@ -5740,9 +5845,9 @@ components:
           type: boolean
           default: false
         tenantId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         userId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
       description: Email template model
     Templates:
       type: object
@@ -5750,9 +5855,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Template'
+            $ref: "#/components/schemas/Template"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     TenantSettings:
       type: object
       properties:
@@ -5771,9 +5876,9 @@ components:
         quoteContactAcceptAllowed:
           type: boolean
         companyLogoId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         squareLogoId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         logoAltText:
           type: string
         revenueGoalPeriod:
@@ -5785,9 +5890,9 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         integration:
-          $ref: '#/components/schemas/Integration'
+          $ref: "#/components/schemas/Integration"
       description: Model containing tenant's integrations
     TenantIntegrations:
       type: object
@@ -5795,9 +5900,9 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/TenantIntegration'
+            $ref: "#/components/schemas/TenantIntegration"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of tenant's integrations
     TerminalTokenDetails:
       type: object
@@ -5812,7 +5917,7 @@ components:
       description: View model returned by Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         state:
@@ -5829,7 +5934,7 @@ components:
             type: object
             properties:
               propertyId:
-                $ref: '#/components/schemas/Id'
+                $ref: "#/components/schemas/Id"
               columnOrder:
                 type: integer
         type:
@@ -5843,7 +5948,7 @@ components:
       description: View model submitted to Inperium API
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         name:
           type: string
         state:
@@ -5860,7 +5965,7 @@ components:
             type: object
             properties:
               propertyId:
-                $ref: '#/components/schemas/Id'
+                $ref: "#/components/schemas/Id"
               columnOrder:
                 type: integer
         type:
@@ -5875,28 +5980,28 @@ components:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/View'
+            $ref: "#/components/schemas/View"
         paging:
-          $ref: '#/components/schemas/PageAndSort'
+          $ref: "#/components/schemas/PageAndSort"
     Widgets:
       type: object
       properties:
         dealsRevenue:
-          $ref: '#/components/schemas/WidgetDealsRevenue'
+          $ref: "#/components/schemas/WidgetDealsRevenue"
         deals:
-          $ref: '#/components/schemas/WidgetDeals'
+          $ref: "#/components/schemas/WidgetDeals"
         dealsByPipeline:
-          $ref: '#/components/schemas/WidgetDealsByPipeline'
+          $ref: "#/components/schemas/WidgetDealsByPipeline"
         revenueGoal:
-          $ref: '#/components/schemas/WidgetRevenueGoal'
+          $ref: "#/components/schemas/WidgetRevenueGoal"
         completedActivities:
-          $ref: '#/components/schemas/WidgetCompletedActivities'
+          $ref: "#/components/schemas/WidgetCompletedActivities"
         newLeads:
-          $ref: '#/components/schemas/WidgetNewLeads'
+          $ref: "#/components/schemas/WidgetNewLeads"
         dealsLeaderboard:
-          $ref: '#/components/schemas/WidgetDealsLeaderboard'
+          $ref: "#/components/schemas/WidgetDealsLeaderboard"
         activitiesLeaderboard:
-          $ref: '#/components/schemas/WidgetActivitiesLeaderboard'
+          $ref: "#/components/schemas/WidgetActivitiesLeaderboard"
     WidgetDealsRevenue:
       type: object
       properties:
@@ -5929,7 +6034,7 @@ components:
         pipelineDeals:
           type: array
           items:
-            $ref: '#/components/schemas/PipelineDeals'
+            $ref: "#/components/schemas/PipelineDeals"
     PipelineDeals:
       type: object
       properties:
@@ -5978,8 +6083,8 @@ components:
           format: int32
     WidgetCompletedActivities:
       allOf:
-        - $ref: '#/components/schemas/CompletedActivities'
-        - $ref: '#/components/schemas/CompletedActivitiesDifferences'
+        - $ref: "#/components/schemas/CompletedActivities"
+        - $ref: "#/components/schemas/CompletedActivitiesDifferences"
     WidgetNewLeads:
       type: object
       properties:
@@ -5997,14 +6102,14 @@ components:
         leaders:
           type: array
           items:
-            $ref: '#/components/schemas/UserStatisticsDeals'
+            $ref: "#/components/schemas/UserStatisticsDeals"
     WidgetActivitiesLeaderboard:
       type: object
       properties:
         leaders:
           type: array
           items:
-            $ref: '#/components/schemas/UserStatisticsCompletedActivities'
+            $ref: "#/components/schemas/UserStatisticsCompletedActivities"
     UserStatistics:
       type: object
       properties:
@@ -6019,18 +6124,18 @@ components:
           type: string
     UserStatisticsDeals:
       allOf:
-        - $ref: '#/components/schemas/UserStatistics'
+        - $ref: "#/components/schemas/UserStatistics"
         - type: object
           properties:
             deals:
-              $ref: '#/components/schemas/WidgetDeals'
+              $ref: "#/components/schemas/WidgetDeals"
     UserStatisticsCompletedActivities:
       allOf:
-        - $ref: '#/components/schemas/UserStatistics'
+        - $ref: "#/components/schemas/UserStatistics"
         - type: object
           properties:
             activities:
-              $ref: '#/components/schemas/CompletedActivities'
+              $ref: "#/components/schemas/CompletedActivities"
   parameters:
     ResourceId:
       name: id

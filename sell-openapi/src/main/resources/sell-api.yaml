@@ -162,7 +162,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /activities:
     get:
@@ -217,7 +217,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Activities
@@ -243,7 +243,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: activity
   /activities/{id}:
     put:
@@ -273,7 +273,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: activity
     delete:
       tags:
@@ -292,7 +292,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /attachments:
     get:
       tags:
@@ -327,7 +327,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Attachments
@@ -353,7 +353,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: attachment
   /attachments/{id}:
     get:
@@ -376,7 +376,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Attachments
@@ -404,7 +404,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: attachment
     delete:
       tags:
@@ -423,7 +423,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /campaigns:
     get:
       tags:
@@ -457,7 +457,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Campaigns
@@ -483,7 +483,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: campaign
   /campaigns/{id}:
     get:
@@ -506,7 +506,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Campaigns
@@ -534,7 +534,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: campaign
     delete:
       tags:
@@ -553,7 +553,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /campaigns/{id}/contacts:
     get:
       tags:
@@ -578,7 +578,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /communication-methods:
     post:
       tags:
@@ -620,7 +620,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - CommunicationMethods
@@ -648,7 +648,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /companies:
     get:
       tags:
@@ -674,7 +674,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Companies
@@ -700,7 +700,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -737,7 +737,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: companies
   /companies/enrich:
     get:
@@ -764,7 +764,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /companies/{id}:
     get:
       tags:
@@ -786,7 +786,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Companies
@@ -814,7 +814,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -843,7 +843,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: company
     delete:
       tags:
@@ -862,7 +862,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /companyRelationships:
     get:
       tags:
@@ -888,7 +888,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Company Relationships
@@ -914,7 +914,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: companyRelationship
   /companyRelationships/{id}:
     delete:
@@ -934,7 +934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /contacts:
     get:
       tags:
@@ -965,7 +965,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Contacts
@@ -991,7 +991,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -1028,7 +1028,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: contact
   /contacts/enrich:
     get:
@@ -1055,7 +1055,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /contacts/{id}:
     get:
       tags:
@@ -1077,7 +1077,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Contacts
@@ -1105,7 +1105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -1134,7 +1134,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: contact
     delete:
       tags:
@@ -1153,7 +1153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /contacts/{id}/communication-methods:
     get:
       tags:
@@ -1177,7 +1177,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - ContactCommunicationMethods
@@ -1205,7 +1205,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /contacts/{id}/communication-methods/{communicationMethodId}:
     put:
       tags:
@@ -1239,7 +1239,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /deals:
     get:
       tags:
@@ -1270,7 +1270,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Deals
@@ -1296,7 +1296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1333,7 +1333,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: deals
   /deals/{id}:
     get:
@@ -1356,7 +1356,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Deals
@@ -1384,7 +1384,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1413,7 +1413,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: deal
     delete:
       tags:
@@ -1432,7 +1432,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /deals/{id}/items:
     get:
       tags:
@@ -1454,7 +1454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - DealItems
@@ -1482,7 +1482,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: dealItems
   /dictionaryGroups/{groupId}:
     get:
@@ -1510,7 +1510,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /documents:
     post:
       tags:
@@ -1542,7 +1542,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /documents/{id}:
     get:
       tags:
@@ -1564,7 +1564,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /documents/{id}/content:
     get:
       tags:
@@ -1587,7 +1587,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /documents/types:
     get:
       tags:
@@ -1609,7 +1609,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /exports:
     post:
       tags:
@@ -1634,7 +1634,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: fields
   /exports/{id}:
     get:
@@ -1658,7 +1658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /items:
     get:
       tags:
@@ -1687,7 +1687,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /properties:
     get:
       tags:
@@ -1721,7 +1721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Properties
@@ -1746,7 +1746,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /properties/{id}:
     put:
@@ -1781,7 +1781,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /properties/{type}:
     get:
@@ -1811,7 +1811,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /forms:
     get:
       tags:
@@ -1840,7 +1840,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Forms
@@ -1866,7 +1866,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: form
   /forms/{id}:
     get:
@@ -1889,7 +1889,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Forms
@@ -1917,7 +1917,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: form
     delete:
       tags:
@@ -1936,7 +1936,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /globalSearch:
     get:
       tags:
@@ -1962,7 +1962,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /imports:
     get:
       tags:
@@ -1991,7 +1991,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Imports
@@ -2018,7 +2018,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations:
     get:
       tags:
@@ -2054,7 +2054,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/stripe/authorize:
     get:
       tags:
@@ -2074,7 +2074,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/stripe/authorize/callback:
     get:
       tags:
@@ -2096,7 +2096,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/stripe/credentials:
     get:
       tags:
@@ -2127,7 +2127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/xero/authorize:
     get:
       tags:
@@ -2147,7 +2147,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/xero/authorize/callback:
     get:
       tags:
@@ -2184,7 +2184,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /integrations/{id}:
     get:
       tags:
@@ -2206,7 +2206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /invoices:
     get:
       tags:
@@ -2258,7 +2258,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Invoices
@@ -2284,7 +2284,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: invoice
   /invoices/paymentPlans:
     get:
@@ -2309,7 +2309,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /invoices/{id}:
     get:
       tags:
@@ -2331,7 +2331,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Invoices
@@ -2359,7 +2359,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: invoice
     delete:
       tags:
@@ -2378,7 +2378,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /invoices/{id}/email:
     post:
       tags:
@@ -2404,7 +2404,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: invoiceEmail
   /invoices/{id}/sync/{integrationAnchor}:
     get:
@@ -2429,7 +2429,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /paymentMethods/stripe:
     get:
       tags:
@@ -2497,7 +2497,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Payments
@@ -2523,7 +2523,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: paymentDetails
   /payments/capturePaymentIntent:
     get:
@@ -2549,7 +2549,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /payments/createPaymentIntent:
     post:
       tags:
@@ -2576,7 +2576,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: createPaymentIntent
   /payments/{id}:
     put:
@@ -2606,7 +2606,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: payment
   /pipelines:
     get:
@@ -2631,7 +2631,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Pipelines
@@ -2657,7 +2657,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: pipeline
   /pipelines/{id}:
     get:
@@ -2680,7 +2680,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Pipelines
@@ -2708,7 +2708,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: pipeline
     delete:
       tags:
@@ -2727,7 +2727,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /pipelines/{id}/statistics:
     get:
       tags:
@@ -2750,7 +2750,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /predefinedMetadataGroups:
     get:
       tags:
@@ -2772,7 +2772,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /predefinedMetadataGroups/{id}:
     get:
       tags:
@@ -2794,7 +2794,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /predefinedMetadataGroups/{id}/options:
     get:
       tags:
@@ -2816,7 +2816,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /products:
     get:
       tags:
@@ -2865,7 +2865,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Products
@@ -2891,7 +2891,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: product
   /products/{id}:
     get:
@@ -2914,7 +2914,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Products
@@ -2942,7 +2942,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
       x-codegen-request-body-name: product
     delete:
@@ -2962,7 +2962,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /public/invoices/{id}:
     get:
       tags:
@@ -3140,7 +3140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: quote
   /quotes/{id}:
     get:
@@ -3163,7 +3163,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Quotes
@@ -3181,7 +3181,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /quotes/{id}/accept:
     post:
       tags:
@@ -3203,7 +3203,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /quotes/{id}/convertToInvoice:
     post:
       tags:
@@ -3232,7 +3232,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: conversionModel
   /reports:
     get:
@@ -3257,7 +3257,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /reports/{id}/data:
     get:
       tags:
@@ -3299,7 +3299,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /stages:
     get:
       tags:
@@ -3325,7 +3325,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Stages
@@ -3351,7 +3351,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: stage
   /stages/{id}:
     get:
@@ -3374,7 +3374,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Stages
@@ -3402,7 +3402,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: stage
     delete:
       tags:
@@ -3421,7 +3421,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /templates:
     get:
       tags:
@@ -3487,7 +3487,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - Template
@@ -3515,7 +3515,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: tenant
     delete:
       tags:
@@ -3534,7 +3534,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /temporary/send-system-mail:
     post:
       tags:
@@ -3570,7 +3570,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /tenant/settings:
     put:
       tags:
@@ -3597,7 +3597,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: tenantSettings
     get:
       tags:
@@ -3617,7 +3617,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /tenant/integrations:
     get:
       tags:
@@ -3641,7 +3641,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /terminals/connectionToken:
     post:
       tags:
@@ -3661,7 +3661,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /terminals/readers:
     get:
       tags:
@@ -3686,7 +3686,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - StripeTerminals
@@ -3709,7 +3709,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: readerDetails
   /terminals/readers/{id}:
     get:
@@ -3732,7 +3732,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
         - StripeTerminals
@@ -3760,7 +3760,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: reader
     delete:
       tags:
@@ -3779,7 +3779,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /views:
     get:
       tags:
@@ -3803,7 +3803,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Views
@@ -3828,7 +3828,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /views/{type}:
     get:
       tags:
@@ -3857,7 +3857,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /views/{id}:
     put:
       tags:
@@ -3885,7 +3885,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Views
@@ -3903,7 +3903,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /widgets:
     get:
       tags:
@@ -3946,7 +3946,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 components:
   schemas:
     ActivityRequest:
@@ -5550,7 +5550,7 @@ components:
             $ref: '#/components/schemas/Quote'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    ResponseErrorModel:
+    ResponseError:
       type: object
       properties:
         errors:

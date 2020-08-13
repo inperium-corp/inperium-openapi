@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /auth/tokens:
     post:
@@ -87,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /health:
     get:
@@ -105,7 +105,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /contactUs:
     post:
@@ -129,7 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/create:
     post:
@@ -152,7 +152,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/confirm/{confirmationToken}:
     get:
@@ -181,7 +181,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/confirm:
     get:
@@ -205,7 +205,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/onboard:
     put:
@@ -227,7 +227,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/companyInfo:
     put:
@@ -253,7 +253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/address:
     put:
@@ -279,7 +279,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/billingContact:
     put:
@@ -305,7 +305,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/paymentMethod:
     put:
@@ -331,7 +331,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/invite:
     post:
@@ -357,7 +357,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/invite/confirm:
     post:
@@ -384,7 +384,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     get:
       tags:
         - Users
@@ -406,7 +406,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/forgotPassword:
     post:
@@ -429,7 +429,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/resetPassword:
     put:
@@ -456,7 +456,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/me:
     get:
@@ -477,7 +477,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       summary: Update the logged in user
       operationId: updatePrincipalUser
@@ -501,7 +501,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/password:
     put:
@@ -524,7 +524,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users:
     get:
@@ -566,7 +566,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/{id}:
     get:
@@ -589,7 +589,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       summary: Update user details
       description: Use this endpoint to update a specific user, for example promote user to admin or update a job title.
@@ -615,7 +615,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Users
@@ -632,7 +632,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /publicAppSettings:
     get:
@@ -653,7 +653,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products:
     get:
@@ -676,7 +676,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products/{anchor}:
     get:
@@ -703,7 +703,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products/{anchor}/plans:
     get:
@@ -733,7 +733,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /features:
     get:
@@ -755,7 +755,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /features/{anchor}:
     get:
@@ -782,7 +782,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /permissions:
 
@@ -805,7 +805,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions:
     get:
@@ -828,7 +828,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Subscriptions
@@ -853,7 +853,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions/{id}:
     patch:
@@ -882,7 +882,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions/webhooks/stripe:
     post:
@@ -985,34 +985,23 @@ components:
           description: Auxiliary token for main access renewal
 
     AuthError:
-      type: object
-      required:
-        - status
-        - message
-      properties:
-        status:
-          type: string
-          description: Http status code
-        code:
-          type: string
-          format: uuid
-          description: Optional code of the exception
-        type:
-          type: string
-          description: Type of authentication error for further handeling
-          enum:
-            - WRONG_CREDENTIALS
-            - NEED_TWO_FACTOR_AUTH
-            - NEED_EMAIL_VERIFICATION
-            - REFRESH_TOKEN_EXPIRED
-        message:
-          type: string
-          description: Error message
-        errors:
-          type: object
-          description: Map of field -> list of errors
+      discriminator:
+        propertyName: schema
+      allOf:
+        - $ref: '#/components/schemas/ResponseError'
+        - required:
+            - type
+          properties:
+            type:
+              type: string
+              description: Type of authentication error for further handeling
+              enum:
+                - WRONG_CREDENTIALS
+                - NEED_TWO_FACTOR_AUTH
+                - NEED_EMAIL_VERIFICATION
+                - REFRESH_TOKEN_EXPIRED
 
-    ResponseErrorModel:
+    ResponseError:
       type: object
       required:
         - status

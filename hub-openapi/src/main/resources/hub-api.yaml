@@ -76,6 +76,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthTokens'
+        401:
+          description: Wrong credentials or two factor authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -531,7 +537,7 @@ paths:
         - name: fullName
           in: query
           description: >
-            Allows searching both in "last name" or "first name". 
+            Allows searching both in "last name" or "first name".
             Supports eq, neq, in, nin, like, notlike
           schema:
             type: string
@@ -900,7 +906,9 @@ paths:
           description: The webhook was successfully executed
 
 components:
+
   securitySchemes:
+
     BearerAuth:
       type: http
       scheme: bearer
@@ -975,6 +983,34 @@ components:
         refreshToken:
           type: string
           description: Auxiliary token for main access renewal
+
+    AuthError:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        type:
+          type: string
+          description: Type of authentication error for further handeling
+          enum:
+            - WRONG_CREDENTIALS
+            - NEED_TWO_FACTOR_AUTH
+            - NEED_EMAIL_VERIFICATION
+            - REFRESH_TOKEN_EXPIRED
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
 
     ResponseErrorModel:
       type: object
@@ -1056,6 +1092,8 @@ components:
           type: string
         hasVerifiedEmail:
           type: boolean
+        phoneNumber:
+          type: string
         isAdmin:
           type: boolean
         useTwoFa:
@@ -1082,6 +1120,8 @@ components:
           type: boolean
         useTwoFa:
           type: boolean
+        phoneNumber:
+          type: string
         language:
           type: string
         firstName:

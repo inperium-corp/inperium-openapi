@@ -114,7 +114,7 @@ tags:
   - name: Quotes
     description: |
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
-  - name: QuotePage
+  - name: PublicQuote
     description: |
       Inperium Sell allows sharing quotes with customers through public URLs.
   - name: Reports
@@ -2999,23 +2999,23 @@ paths:
   /public/quotes/{id}:
     get:
       tags:
-        - QuotePage
-      summary: Retrieve quote details
-      description: Use this endpoint to generate a quote page. You can share this page with a customer who can decide to accept or reject this quote.
-      operationId: getQuoteByUid
+        - PublicQuote
+      summary: Gets quote model for anon user
+      description: Use endpoint to get quote anon
+      operationId: getPublicQuote
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The data has been retrieved
+          description: The quote has been accepted
           content:
-            text/html:
+            application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/PublicQuote'
   /public/quotes/{id}/accept:
     get:
       tags:
-        - QuotePage
+        - PublicQuote
       summary: Accept a quote
       description: Use this endpoint to mark the quote as accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
       operationId: acceptQuote
@@ -3028,69 +3028,8 @@ paths:
             type: string
       responses:
         200:
-          description: The quote has been accepted
+          description: The quote
           content: {}
-  /public/quotes/{id}/download:
-    get:
-      tags:
-        - QuotePage
-      summary: Download a quote
-      description: Use this endpoint to retrieve quote details and save the quote page as pdf.
-      operationId: getQuotePagePdf
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The quote has been saved as pdf
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-  /public/quotePreview:
-    post:
-      tags:
-        - QuotePage
-      summary: Generate a PDF preview
-      description: Use this endpoint to create a PDF preview for a quote.
-      operationId: getQuotePreviewPagePdf
-      requestBody:
-        description: In the request body, pass the quote object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/QuoteRequest'
-        required: false
-      responses:
-        200:
-          description: The PDF quote preview has been generated
-          content:
-            application/pdf:
-              schema:
-                type: string
-                format: binary
-  /public/quotePreview/html:
-    post:
-      tags:
-        - QuotePage
-      summary: Generate an HTML preview
-      description: Use this endpoint to create an HTML preview for a quote.
-      operationId: getQuotePreviewPageHtml
-      requestBody:
-        description: In the request body, pass the quote object
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/QuoteRequest'
-        required: false
-      responses:
-        200:
-          description: The HTML quote preview has been generated
-          content:
-            application/html:
-              schema:
-                type: string
-                format: binary
   /quotes:
     get:
       tags:
@@ -3164,6 +3103,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseErrorModel'
+    put:
+      tags:
+        - Quotes
+      summary: Update a quote
+      description: Use this endpoint to modify an existing quote.
+      operationId: updateQuote
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the quote details
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+        required: true
+      responses:
+        200:
+          description: The quote status has been changed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
+    patch:
+      tags:
+        - Quotes
+      summary: Mark a quote as created, sent or accepted
+      description: Use this endpoint to mark the quote as created, sent or accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
+      operationId: updateQuotePartial
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the quote details
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/QuoteRequest'
+        required: true
+      responses:
+        200:
+          description: The quote status has been changed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quote'
     delete:
       tags:
         - Quotes
@@ -3176,28 +3159,6 @@ paths:
         204:
           description: An empty response that is used for OK non-returning operations
           content: {}
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
-  /quotes/{id}/accept:
-    post:
-      tags:
-        - Quotes
-      summary: Accept a quote
-      description: Use this endpoint to mark the quote as accepted. Once the quote is accepted, you can create an invoice for products listed in this quote.
-      operationId: acceptQuoteByUser
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The quote has been accepted.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Quote'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -4231,9 +4192,11 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        amount:
-          type: integer
-          format: int64
+        amountPercent:
+          type: number
+          maximum: 100
+        amountMoney:
+          type: number
         name:
           type: string
         type:
@@ -5327,6 +5290,155 @@ components:
                 type: array
                 items:
                   type: object
+    PublicQuote:
+      type: object
+      properties:
+        name:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        comment:
+          type: string
+        purchaseTerm:
+          type: string
+        value:
+          type: number
+        createdDate:
+          type: string
+          format: date-time
+        paymentPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicQuotePaymentPlan'
+        quoteUser:
+          $ref: '#/components/schemas/PublicQuoteUser'
+        quoteContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicQuoteContact'
+        quoteCompany:
+          $ref: '#/components/schemas/PublicQuoteCompany'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicQuoteItem'
+        additionalFees:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicQuoteAdditionalFee'
+        tenant:
+          $ref: '#/components/schemas/PublicQuoteTenant'
+    PublicQuoteAdditionalFee:
+      type: object
+      properties:
+        amountMoney:
+          type: number
+        amountPercent:
+          type: number
+        name:
+          type: string
+        type:
+          type: string
+    PublicQuoteItem:
+      type: object
+      description: Item model.
+      properties:
+        price:
+          type: number
+        discountMoney:
+          description: Fixed amount of money to be deducted from the subtotal, e.g., $5.
+          type: number
+        discountPercent:
+          description: Percentage of subtotal, e.g., 5%.
+          type: number
+          maximum: 100
+        quantity:
+          type: integer
+          format: int64
+        value:
+          type: number
+        product:
+          $ref: '#/components/schemas/Product'
+
+    PublicQuotePaymentPlan:
+      type: object
+      properties:
+        amount:
+          type: number
+        paymentDate:
+          type: string
+          format: date-time
+        paymentMethod:
+          type: string
+    PublicQuoteUser:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    PublicQuoteContact:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    PublicQuoteCompany:
+      type: object
+      properties:
+        companyName:
+          type: string
+        domainName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+    PublicQuoteTenant:
+      type: object
+      properties:
+        companyLogo:
+          type: string
+        logoAltText:
+          type: string
+        defaultCurrency:
+          type: string
+        companyName:
+          type: string
+        name:
+          type: string
+        domainName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
     Quote:
       type: object
       properties:
@@ -5373,10 +5485,24 @@ components:
             $ref: '#/components/schemas/QuoteContact'
         quoteCompany:
           $ref: '#/components/schemas/QuoteCompany'
-        quoteTenant:
-          $ref: '#/components/schemas/QuoteTenant'
-        itemsAndAdditionalFees:
-          $ref: '#/components/schemas/ItemsAndAdditionalFees'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+        additionalFees:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalFee'
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - ACCEPTED
+          example: DRAFT
+        mostRelevant:
+          type: boolean
+          example: false
       description: Quote model returned by Inperium API
     QuoteRequest:
       type: object
@@ -5397,14 +5523,8 @@ components:
           type: string
         purchaseTerm:
           type: string
-        displayColor:
-          type: string
         companyId:
           $ref: '#/components/schemas/Id'
-        avatarId:
-          $ref: '#/components/schemas/Id'
-        language:
-          type: string
         value:
           type: number
         paymentPlans:
@@ -5423,12 +5543,25 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AdditionalFee'
-        quoteTenant:
-          $ref: '#/components/schemas/QuoteTenant'
         items:
           type: array
           items:
             $ref: '#/components/schemas/Item'
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - SENT
+            - ACCEPTED
+          example: DRAFT
+        mostRelevant:
+          type: boolean
+          example: false
+        signature:
+          type: string
+      required:
+        - status
       description: Quote model submitted to Inperium API
     QuoteCompany:
       type: object
@@ -5485,34 +5618,6 @@ components:
         paymentMethod:
           type: string
       description: Payment plan model
-    QuoteTenant:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        originTenantId:
-          $ref: '#/components/schemas/Id'
-        defaultCurrency:
-          type: string
-        companyName:
-          type: string
-        name:
-          type: string
-        domainName:
-          type: string
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        country:
-          type: string
-      description: Model containing tenant's data
     QuoteToInvoice:
       type: object
       properties:

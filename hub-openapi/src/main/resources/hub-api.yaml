@@ -996,9 +996,9 @@ components:
               type: string
               description: Type of authentication error for further handeling
               enum:
-                - WRONG_CREDENTIALS
-                - NEED_TWO_FACTOR_AUTH
-                - NEED_EMAIL_VERIFICATION
+                - CREDENTIALS_INVALID
+                - TWO_FACTOR_AUTH_REQUIRED
+                - EMAIL_VERIFICATION_REQUIRED
                 - REFRESH_TOKEN_EXPIRED
 
     ResponseError:

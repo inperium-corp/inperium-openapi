@@ -1,0 +1,743 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Message Center Server API
+  description: |
+    RESTful API providing access to Inperium Message Center.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/messageCenter
+  - url: https://api.inperium.com/v1/messageCenter
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Auth
+  - name: Accounts
+  - name: Folders
+  - name: Threads
+  - name: Messages
+  - name: Files
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+                
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: getAccounts
+      parameters:
+        - name: userId
+          in: query
+          description: TBD
+          schema:
+            type: string
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: createAccount
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: getAccount
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: deleteAccount
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /accounts/{id}/folders:
+    get:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: getFolders
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: createFolder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /folders/{id}:
+    patch:
+      summary: TBD
+      description: TBD
+      operationId: updateFolderPartial
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: deleteFolder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /folders/{id}/threads:
+    get:
+      tags:
+        - Threads
+      summary: TBD
+      description: TBD
+      operationId: getThreads
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Threads'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /threads/{id}:
+    delete:
+      tags:
+        - Threads
+      summary: TBD
+      description: TBD
+      operationId: deleteThread
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /threads/{id}/messages:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: getMessages
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageDescriptions'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: createMessage
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages/{id}:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: getMessage
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      summary: TBD
+      description: TBD
+      operationId: updateMessagePartial
+      tags:
+        - Messages
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: TBD
+      description: TBD
+      operationId: updateMessage
+      tags:
+        - Messages
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: deleteMessage
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages/{id}/files:
+    get:
+      tags:
+        - Files
+      summary: TBD
+      description: TBD
+      operationId: getFiles
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileDescription'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Files
+      summary: TBD
+      description: TBD
+      operationId: addFile
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDescription'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /files/{id}:
+    get:
+      tags:
+        - Files
+      summary: TBD
+      description: description
+      operationId: getFile
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Files
+      summary: TBD
+      description: TBD
+      operationId: deleteFile
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Account:
+      type: object
+      properties:
+        type:
+          type: string
+        unreadMessagesAmount:
+          type: integer
+        sentMessages:
+          type: integer
+        draftMessages:
+          type: integer
+
+    AccountRequest:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        email:
+          type: string
+
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        unreadMessages:
+          type: integer
+        accountId:
+          type: string
+          format: uuid
+
+    FolderRequest:
+      type: object
+      properties:
+        name:
+          type: string
+
+    Threads:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Thread'
+        paging:
+          $ref: '#/components/schemas/Page'
+
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        lastMessageAuthor:
+          type: string
+        lastMessageSubject:
+          type: string
+        lastMessageShort:
+          type: string
+        lastMessageReceivedAt:
+          type: string
+          format: 'date-time'
+        unreadMessages:
+          type: integer
+        containsAttachment:
+          type: boolean
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        from:
+          type: string
+        to:
+          type: string
+        thread:
+          type: string
+        body:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+        receivedAt:
+          type: string
+          format: 'date-time'
+        threadId:
+          type: string
+          format: uuid
+
+    MessageRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        to:
+          type: string
+        thread:
+          type: string
+        body:
+          type: string
+        attachments:
+          type: string
+
+    MessageDescriptions:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageDescription'
+        paging:
+          $ref: '#/components/schemas/Page'
+
+    MessageDescription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        author:
+          type: string
+        thread:
+          type: string
+        bodyExcerpt:
+          type: string
+        receivedAt:
+          type: string
+          format: 'date-time'
+
+    File:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        messageId:
+          type: string
+          format: uuid
+        name:
+          type: string
+
+    FileRequest:
+      type: object
+      properties:
+        type:
+          type: string
+
+    FileDescription:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+
+    Page:
+      type: object
+      description: Paging information
+      properties:
+        pageNumber:
+          type: integer
+          format: int64
+        pageSize:
+          type: integer
+          format: int64
+        totalNumberOfRecords:
+          type: integer
+          format: int64
+        totalNumberOfPages:
+          type: integer
+          format: int64
+        hasNextPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+        hasMore:
+          type: boolean
+
+    ErrorModel:
+      required:
+        - code
+        - type
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        type:
+          type: string
+          description: Error Message
+          enum:
+            - ERROR
+            - WARN
+            - INFO
+        details:
+          type: string
+          description: Comma separated list of fields, which caused the error condition
+      description: An individual error
+    ResponseError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'

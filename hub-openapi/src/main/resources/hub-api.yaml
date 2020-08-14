@@ -89,6 +89,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /auth/twoFactor/send:
+    post:
+      tags:
+        - Auth
+      summary: Request a two factor authentication token
+      description: This endpoint will send a two factor authentication token to the user.
+      operationId: sendTwoFactorAuthToken
+      requestBody:
+        description: Input parameters to verify the two factor authentication token.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorAuthTokenRequest'
+      responses:
+        200:
+          description: The two factor auth token has successfully been sent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwoFactorAuthTokenResponse'
+        401:
+          description: The attempt to request a two factor auth token was unsuccessful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /auth/twoFactor/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify two factor authentication token
+      description: This endpoint will verify the two factor authentication token of a user.
+      operationId: verifyTwoFactorAuthToken
+      requestBody:
+        description: Input parameters to verify the two factor authentication token
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorAuthVerificationRequest'
+      responses:
+        200:
+          description: The newly generated auth tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokens'
+        401:
+          description: The two factor authentication token was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /health:
     get:
       tags:
@@ -984,6 +1050,39 @@ components:
           type: string
           description: Auxiliary token for main access renewal
 
+    TwoFactorAuthTokenRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email of the user requesting the two factor auth token.
+        password:
+          type: string
+          description: The password of the user requesting the two factor auth token.
+
+    TwoFactorAuthTokenResponse:
+      type: object
+      properties:
+        method:
+          type: string
+          description: The method used for sending the two factor auth token.
+        redactedMethod:
+          type: string
+          description: The redacted part of the actual method to which the two factor auth token was sent to.
+
+    TwoFactorAuthVerificationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email of the user attempting to log in.
+        password:
+          type: string
+          description: The password of the user.
+        token:
+          type: string
+          description: The token to verify
+
     AuthError:
       discriminator:
         propertyName: schema
@@ -998,6 +1097,7 @@ components:
               enum:
                 - CREDENTIALS_INVALID
                 - TWO_FACTOR_AUTH_REQUIRED
+                - TWO_FACTOR_AUTH_TOKEN_INVALID
                 - EMAIL_VERIFICATION_REQUIRED
                 - REFRESH_TOKEN_EXPIRED
 

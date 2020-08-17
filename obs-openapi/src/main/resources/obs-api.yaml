@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Inperium Obs API
   description: |
-    RESTful API to save files of Inperium CRM.
+    RESTful API to store and retrieve documents.
   version: 1.0.0-SNAPSHOT
 servers:
   - url: http://api.inperium.com/v1/obs
@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /files:
     post:
       tags:
@@ -65,7 +65,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /files/{id}:
     get:
       tags:
@@ -99,7 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
   /files/{id}/content:
     get:
       tags:
@@ -109,6 +109,12 @@ paths:
       operationId: getFileContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
+        - name: token
+          in: query
+          description: Your JWT token or API key
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: The file contents have been retrieved
@@ -122,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 components:
   schemas:
     DataFile:
@@ -183,7 +189,7 @@ components:
     Id:
       type: string
       format: uuid
-    ResponseErrorModel:
+    ResponseError:
       type: object
       properties:
         errors:
@@ -199,7 +205,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponseErrorModel'
+            $ref: '#/components/schemas/ResponseError'
   parameters:
     ResourceId:
       name: id

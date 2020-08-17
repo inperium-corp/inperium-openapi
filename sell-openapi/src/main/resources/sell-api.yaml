@@ -4215,8 +4215,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
-        document:
-          $ref: '#/components/schemas/Document'
+        documentUrl:
+          type: string
       description: Document model returned by Inperium API
     AttachmentRequest:
       type: object
@@ -4231,8 +4231,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
-        document:
-          $ref: '#/components/schemas/Document'
+        documentId:
+          $ref: '#/components/schemas/Id'
       description: Document model submitted to Inperium API
     Attachments:
       type: object
@@ -5462,8 +5462,8 @@ components:
           type: string
         companyId:
           $ref: '#/components/schemas/Id'
-        avatarId:
-          $ref: '#/components/schemas/Id'
+        avatarUrl:
+          type: string
         language:
           type: string
         value:
@@ -5503,6 +5503,8 @@ components:
         mostRelevant:
           type: boolean
           example: false
+        signatureUrl:
+          type: string
       description: Quote model returned by Inperium API
     QuoteRequest:
       type: object
@@ -5558,8 +5560,11 @@ components:
         mostRelevant:
           type: boolean
           example: false
-        signature:
+        signatureId:
           type: string
+          format: uuid
+        avatarId:
+          $ref: '#/components/schemas/Id'
       required:
         - status
       description: Quote model submitted to Inperium API
@@ -6113,9 +6118,8 @@ components:
     UserStatistics:
       type: object
       properties:
-        avatarId:
+        avatarUrl:
           type: string
-          format: uuid
         firstName:
           type: string
         lastName:

@@ -42,10 +42,6 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.xeroapi</groupId>
-            <artifactId>xero-java</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

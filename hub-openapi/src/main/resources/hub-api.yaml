@@ -187,7 +187,7 @@ paths:
       description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
       operationId: checkHealth
       responses:
-        204:
+        200:
           description: An empty response that is used for OK non-returning operations
           content: {}
         default:
@@ -561,7 +561,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserPrincipal"
+                $ref: '#/components/schemas/UserPrincipal'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -650,7 +650,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Users"
+                $ref: '#/components/schemas/Users'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -673,7 +673,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: '#/components/schemas/User'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -760,7 +760,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: '#/components/schemas/Product'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -787,7 +787,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: '#/components/schemas/Product'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -817,7 +817,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PlanAvailability"
+                  $ref: '#/components/schemas/PlanAvailability'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -839,7 +839,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Feature"
+                  $ref: '#/components/schemas/Feature'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -866,7 +866,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Feature"
+                $ref: '#/components/schemas/Feature'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -889,7 +889,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Permission"
+                  $ref: '#/components/schemas/Permission'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -912,7 +912,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Subscription"
+                  $ref: '#/components/schemas/Subscription'
         default:
           description: Bad request, security violation, or internal server error
           content:

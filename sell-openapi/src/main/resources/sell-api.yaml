@@ -154,7 +154,7 @@ paths:
       description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
       operationId: checkHealth
       responses:
-        204:
+        200:
           description: An empty response that is used for OK non-returning operations
           content: {}
         default:

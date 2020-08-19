@@ -91,7 +91,7 @@ paths:
         - API Keys
       summary: Retrieves existing API keys.
       description: TBD.
-      operationId: searchApiKeys
+      operationId: getApiKeys
       responses:
         200:
           description: Search result of existing API keys
@@ -209,7 +209,7 @@ paths:
         - API Keys
       summary: Regenerates the token of an existing API key by its ID.
       description: TBD.
-      operationId: regenerateApiKeyToken
+      operationId: regenerateApiKey
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
@@ -1098,7 +1098,7 @@ components:
         strategy:
           type: string
           enum:
-            - APIKEY
+            - API_KEY
             - PASSWORD
             - REFRESH
         email:
@@ -1131,6 +1131,9 @@ components:
         expiresIn:
           type: integer
           format: int64
+      required:
+        - expiresIn
+        - enabled
 
     ApiKey:
       type: object

@@ -120,12 +120,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>inperium-openapi</id>
-            <name>Inperium OpenAPI</name>
-            <url>https://maven.pkg.github.com/inperium-corp/inperium-openapi</url>
-        </repository>
-    </distributionManagement>
 </project>

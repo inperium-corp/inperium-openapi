@@ -5,8 +5,8 @@ info:
     RESTful API to processing messages.
   version: 1.0.0-SNAPSHOT
 servers:
-  - url: http://api.inperium.com/v1/mc
-  - url: https://api.inperium.com/v1/mc
+  - url: http://api.inperium.com/v1/message-center
+  - url: https://api.inperium.com/v1/message-center
 
 paths:
   /health:

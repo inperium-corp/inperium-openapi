@@ -200,7 +200,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
     post:
       tags:
@@ -226,7 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /apiKeys/{id}:
 
@@ -250,7 +250,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
     put:
       tags:
@@ -278,7 +278,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
     delete:
       tags:
@@ -296,7 +296,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /apiKeys/{id}/regenerate:
 
@@ -320,7 +320,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
 
   /health:

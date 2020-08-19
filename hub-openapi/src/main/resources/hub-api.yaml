@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /auth/tokens:
     post:
@@ -76,12 +76,108 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthTokens'
+        401:
+          description: Wrong credentials or two factor authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout the principal.
+      description: This endpoint logs out the principal and invalidates his access and refresh tokens.
+      operationId: logout
+      responses:
+        200:
+          description: The user was successfully logged out.
+          content: {}
+        401:
+          description: Wrong credentials or two factor authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /auth/twoFactor/send:
+    post:
+      tags:
+        - Auth
+      summary: Request a two factor authentication token
+      description: This endpoint will send a two factor authentication token to the user.
+      operationId: sendTwoFactorAuthToken
+      requestBody:
+        description: Input parameters to verify the two factor authentication token.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorAuthTokenRequest'
+      responses:
+        200:
+          description: The two factor auth token has successfully been sent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwoFactorAuthTokenResponse'
+        401:
+          description: The attempt to request a two factor auth token was unsuccessful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /auth/twoFactor/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify two factor authentication token
+      description: This endpoint will verify the two factor authentication token of a user.
+      operationId: verifyTwoFactorAuthToken
+      requestBody:
+        description: Input parameters to verify the two factor authentication token
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorAuthVerificationRequest'
+      responses:
+        200:
+          description: The newly generated auth tokens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokens'
+        401:
+          description: The two factor authentication token was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /health:
     get:
@@ -99,7 +195,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /contactUs:
     post:
@@ -123,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/create:
     post:
@@ -146,7 +242,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/confirm/{confirmationToken}:
     get:
@@ -175,7 +271,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/confirm:
     get:
@@ -199,7 +295,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/onboard:
     put:
@@ -221,7 +317,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/companyInfo:
     put:
@@ -247,7 +343,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/address:
     put:
@@ -273,7 +369,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/billingContact:
     put:
@@ -299,7 +395,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/paymentMethod:
     put:
@@ -325,7 +421,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/invite:
     post:
@@ -351,7 +447,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/invite/confirm:
     post:
@@ -378,7 +474,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     get:
       tags:
         - Users
@@ -400,7 +496,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/forgotPassword:
     post:
@@ -423,7 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/resetPassword:
     put:
@@ -450,7 +546,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/me:
     get:
@@ -471,7 +567,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       summary: Update the logged in user
       operationId: updatePrincipalUser
@@ -495,7 +591,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/password:
     put:
@@ -518,7 +614,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users:
     get:
@@ -531,7 +627,7 @@ paths:
         - name: fullName
           in: query
           description: >
-            Allows searching both in "last name" or "first name". 
+            Allows searching both in "last name" or "first name".
             Supports eq, neq, in, nin, like, notlike
           schema:
             type: string
@@ -560,7 +656,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /users/{id}:
     get:
@@ -583,7 +679,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     put:
       summary: Update user details
       description: Use this endpoint to update a specific user, for example promote user to admin or update a job title.
@@ -609,7 +705,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Users
@@ -626,7 +722,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /publicAppSettings:
     get:
@@ -647,7 +743,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products:
     get:
@@ -670,7 +766,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products/{anchor}:
     get:
@@ -697,7 +793,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /products/{anchor}/plans:
     get:
@@ -727,7 +823,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /features:
     get:
@@ -749,7 +845,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /features/{anchor}:
     get:
@@ -776,7 +872,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /permissions:
 
@@ -799,7 +895,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions:
     get:
@@ -822,7 +918,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Subscriptions
@@ -847,7 +943,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions/{id}:
     patch:
@@ -876,7 +972,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseErrorModel'
+                $ref: '#/components/schemas/ResponseError'
 
   /subscriptions/webhooks/stripe:
     post:
@@ -900,7 +996,9 @@ paths:
           description: The webhook was successfully executed
 
 components:
+
   securitySchemes:
+
     BearerAuth:
       type: http
       scheme: bearer
@@ -976,7 +1074,58 @@ components:
           type: string
           description: Auxiliary token for main access renewal
 
-    ResponseErrorModel:
+    TwoFactorAuthTokenRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email of the user requesting the two factor auth token.
+        password:
+          type: string
+          description: The password of the user requesting the two factor auth token.
+
+    TwoFactorAuthTokenResponse:
+      type: object
+      properties:
+        method:
+          type: string
+          description: The method used for sending the two factor auth token.
+        redactedMethod:
+          type: string
+          description: The redacted part of the actual method to which the two factor auth token was sent to.
+
+    TwoFactorAuthVerificationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email of the user attempting to log in.
+        password:
+          type: string
+          description: The password of the user.
+        token:
+          type: string
+          description: The token to verify
+
+    AuthError:
+      discriminator:
+        propertyName: schema
+      allOf:
+        - $ref: '#/components/schemas/ResponseError'
+        - required:
+            - type
+          properties:
+            type:
+              type: string
+              description: Type of authentication error for further handeling
+              enum:
+                - CREDENTIALS_INVALID
+                - TWO_FACTOR_AUTH_REQUIRED
+                - TWO_FACTOR_AUTH_TOKEN_INVALID
+                - EMAIL_VERIFICATION_REQUIRED
+                - REFRESH_TOKEN_EXPIRED
+
+    ResponseError:
       type: object
       required:
         - status
@@ -1056,6 +1205,8 @@ components:
           type: string
         hasVerifiedEmail:
           type: boolean
+        phoneNumber:
+          type: string
         isAdmin:
           type: boolean
         useTwoFa:
@@ -1082,6 +1233,8 @@ components:
           type: boolean
         useTwoFa:
           type: boolean
+        phoneNumber:
+          type: string
         language:
           type: string
         firstName:

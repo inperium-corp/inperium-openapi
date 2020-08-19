@@ -61,8 +61,8 @@
                             <generatorName>spring</generatorName>
                             <inputSpec>${project.basedir}/src/main/resources/message-center-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.mc.web.api.server</apiPackage>
-                            <modelPackage>com.inperiumcorp.inperium.mc.web.model</modelPackage>
+                            <apiPackage>com.inperiumcorp.inperium.messageCenter.web.api.server</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.messageCenter.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
                             <modelNamePrefix>ApiModelMc</modelNamePrefix>
                             <configOptions>
@@ -93,10 +93,10 @@
                             <generatorName>java</generatorName>
                             <inputSpec>${project.basedir}/src/main/resources/message-center-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.mc.web.api.client</apiPackage>
+                            <apiPackage>com.inperiumcorp.inperium.messageCenter.web.api.client</apiPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
-                            <modelPackage>com.inperiumcorp.inperium.mc.web.model</modelPackage>
+                            <modelPackage>com.inperiumcorp.inperium.messageCenter.web.model</modelPackage>
                             <modelNamePrefix>ApiModelMc</modelNamePrefix>
                             <generateModels>false</generateModels>
                             <supportingFilesToGenerate>ApiClient.java,Authentication.java,HttpBasicAuth.java,HttpBearerAuth.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>

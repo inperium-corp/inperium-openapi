@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hub-openapi</artifactId>
+    <artifactId>obs-openapi</artifactId>
     <version>1.0.4</version>
     <packaging>jar</packaging>
 
-    <name>Inperium Hub Web API</name>
+    <name>Inperium Obs Server</name>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -42,10 +42,6 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.xeroapi</groupId>
-            <artifactId>xero-java</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -63,12 +59,12 @@
                         </goals>
                         <configuration>
                             <generatorName>spring</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/hub-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/obs-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.hub.web.api.server</apiPackage>
-                            <modelPackage>com.inperiumcorp.inperium.hub.web.model</modelPackage>
+                            <apiPackage>com.inperiumcorp.inperium.obs.web.api.server</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.obs.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <modelNamePrefix>ApiModelHub</modelNamePrefix>
+                            <modelNamePrefix>ApiModelObs</modelNamePrefix>
                             <configOptions>
                                 <library>spring-boot</library>
                                 <sourceFolder>swagger</sourceFolder>
@@ -95,13 +91,13 @@
                         </goals>
                         <configuration>
                             <generatorName>java</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/hub-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/obs-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.hub.web.api.client</apiPackage>
+                            <apiPackage>com.inperiumcorp.inperium.obs.web.api.client</apiPackage>
                             <generateApiTests>false</generateApiTests>
                             <generateApiDocumentation>false</generateApiDocumentation>
-                            <modelPackage>com.inperiumcorp.inperium.hub.web.model</modelPackage>
-                            <modelNamePrefix>ApiModelHub</modelNamePrefix>
+                            <modelPackage>com.inperiumcorp.inperium.obs.web.model</modelPackage>
+                            <modelNamePrefix>ApiModelObs</modelNamePrefix>
                             <generateModels>false</generateModels>
                             <supportingFilesToGenerate>ApiClient.java,Authentication.java,HttpBasicAuth.java,HttpBearerAuth.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>
                             <configOptions>

@@ -1,0 +1,219 @@
+openapi: 3.0.1
+info:
+  title: Inperium Obs API
+  description: |
+    RESTful API to store and retrieve documents.
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url: http://api.inperium.com/v1/obs
+  - url: https://api.inperium.com/v1/obs
+
+tags:
+  - name: Files
+    description: |
+      Inperium Obs stores files. In most cases, files are attached to product entities but some files are stored independently (e.g., avatar images).
+  - name: FileTypes
+    description: |
+      Inperium Obs enables users to upload files such as pdfs, png, etc. The FileTypes list all supported file extensions.
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        200:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /files:
+    post:
+      tags:
+        - Files
+      summary: Upload file
+      description: Use this endpoint to upload a new file to Inperium Obs. For example, a contract or image.
+      operationId: uploadFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                content:
+                  type: string
+                  description: A file to be uploaded as a file
+                  format: binary
+                description:
+                  type: string
+                  description: An optional description of this file
+      responses:
+        201:
+          description: A new file has been created
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /files/{id}:
+    get:
+      tags:
+        - Files
+      summary: Get a file
+      description: Use this endpoint to retrieve a file by its ID.
+      operationId: getFile
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the file you would like to retrieve
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: token
+          in: query
+          description: Your JWT token or API key
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The file details have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataFile'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /files/{id}/content:
+    get:
+      tags:
+        - Files
+      summary: Retrieve the contents of file
+      description: Use this endpoint to see the file.
+      operationId: getFileContent
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: token
+          in: query
+          description: Your JWT token or API key
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The file contents have been retrieved
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+components:
+  schemas:
+    DataFile:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        userId:
+          $ref: '#/components/schemas/Id'
+        type:
+          type: string
+          enum:
+            - PDF
+            - RTF
+            - JPG
+            - PNG
+            - TXT
+            - MP3
+            - CSV
+            - UNKNOWN
+        name:
+          minLength: 1
+          type: string
+        contentSize:
+          type: long
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      description: A file stored in CRM
+    ErrorModel:
+      required:
+        - code
+        - type
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        type:
+          type: string
+          description: Error Message
+          enum:
+            - ERROR
+            - WARN
+            - INFO
+        details:
+          type: string
+          description: Comma separated list of fields, which caused the error condition
+      description: An individual error
+    Id:
+      type: string
+      format: uuid
+    ResponseError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+  responses:
+    EmptyResponse:
+      description: An empty response that is used for OK non-returning operations
+      content: {}
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+
+

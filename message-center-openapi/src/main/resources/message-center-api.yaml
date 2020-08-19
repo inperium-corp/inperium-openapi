@@ -1,0 +1,71 @@
+openapi: 3.0.1
+info:
+  title: Inperium Message Center API
+  description: |
+    RESTful API to processing messages.
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url: http://api.inperium.com/v1/mc
+  - url: https://api.inperium.com/v1/mc
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+components:
+  schemas:
+    ErrorModel:
+      required:
+        - code
+        - type
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        type:
+          type: string
+          description: Error Message
+          enum:
+            - ERROR
+            - WARN
+            - INFO
+        details:
+          type: string
+          description: Comma separated list of fields, which caused the error condition
+      description: An individual error
+    ResponseError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+  responses:
+    EmptyResponse:
+      description: An empty response that is used for OK non-returning operations
+      content: {}
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResponseError'

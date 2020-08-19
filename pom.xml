@@ -15,6 +15,7 @@
         <module>hub-openapi</module>
         <module>sell-openapi</module>
         <module>obs-openapi</module>
+        <module>message-center-openapi</module>
     </modules>
 
     <properties>

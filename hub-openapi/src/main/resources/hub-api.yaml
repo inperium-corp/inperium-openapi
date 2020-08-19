@@ -89,6 +89,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Logout the principal.
+      description: This endpoint logs out the principal and invalidates his access and refresh tokens.
+      operationId: logout
+      responses:
+        200:
+          description: The user was successfully logged out.
+          content: {}
+        401:
+          description: Wrong credentials or two factor authentication required.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthError'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /auth/twoFactor/send:
     post:
       tags:

@@ -1224,15 +1224,12 @@ components:
     ApiKeyRequest:
       type: object
       properties:
-        description:
+        name:
           type: string
         enabled:
           type: boolean
-        expiresIn:
-          type: integer
-          format: int64
       required:
-        - expiresIn
+        - name
         - enabled
 
     ApiKey:
@@ -1240,7 +1237,7 @@ components:
       properties:
         id:
           type: string
-        description:
+        name:
           type: string
         enabled:
           type: boolean

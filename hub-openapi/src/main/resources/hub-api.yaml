@@ -181,13 +181,21 @@ paths:
 
 
   /apiKeys:
-
     get:
       tags:
         - API Keys
       summary: Retrieves existing API keys.
-      description: TBD.
+      description: Use this endpoint to get a list of API keys.
       operationId: getApiKeys
+      parameters:
+        - name: id
+          in: query
+          description: Unique ID of the API key
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: Search result of existing API keys
@@ -201,12 +209,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
     post:
       tags:
         - API Keys
       summary: Create a new API key.
-      description: TBD.
+      description: Use this endpoint to create a new API key.
       operationId: createApiKey
       requestBody:
         description: Input parameters for a new API key
@@ -216,7 +223,7 @@ paths:
               $ref: '#/components/schemas/ApiKeyRequest'
       responses:
         201:
-          description: The newly create API Key
+          description: The newly created API Key.
           content:
             application/json:
               schema:
@@ -229,12 +236,11 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
 
   /apiKeys/{id}:
-
     get:
       tags:
         - API Keys
       summary: Retrieves an existing API key by its ID.
-      description: TBD.
+      description: Use this endpoint to retrieve an existing API key by its ID.
       operationId: getApiKey
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -251,12 +257,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
     put:
       tags:
         - API Keys
       summary: Updates an existing API key by its ID.
-      description: TBD.
+      description: Use this endpoint to update an existing API key by its ID.
       operationId: updateApiKey
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -279,12 +284,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
     delete:
       tags:
         - API Keys
       summary: Deletes an existing API key by its ID.
-      description: TBD.
+      description: Use this endpoint to delete an existing API Key by its ID.
       operationId: deleteApiKey
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -299,12 +303,11 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
 
   /apiKeys/{id}/regenerate:
-
     put:
       tags:
         - API Keys
       summary: Regenerates the token of an existing API key by its ID.
-      description: TBD.
+      description: Use this token to rotate the key of the existing API key by its ID.
       operationId: regenerateApiKey
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -321,7 +324,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
 
   /health:
     get:
@@ -1242,7 +1244,7 @@ components:
           type: string
         enabled:
           type: boolean
-        token:
+        key:
           type: string
         expiresAt:
           type: integer

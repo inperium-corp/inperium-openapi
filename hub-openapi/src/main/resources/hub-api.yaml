@@ -179,6 +179,152 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+
+  /apiKeys:
+    get:
+      tags:
+        - API Keys
+      summary: Retrieves existing API keys.
+      description: Use this endpoint to get a list of API keys.
+      operationId: getApiKeys
+      parameters:
+        - name: id
+          in: query
+          description: Unique ID of the API key
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: Search result of existing API keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKeys'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - API Keys
+      summary: Create a new API key.
+      description: Use this endpoint to create a new API key.
+      operationId: createApiKey
+      requestBody:
+        description: Input parameters for a new API key
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyRequest'
+      responses:
+        201:
+          description: The newly created API Key.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /apiKeys/{id}:
+    get:
+      tags:
+        - API Keys
+      summary: Retrieves an existing API key by its ID.
+      description: Use this endpoint to retrieve an existing API key by its ID.
+      operationId: getApiKey
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The requested API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      tags:
+        - API Keys
+      summary: Updates an existing API key by its ID.
+      description: Use this endpoint to update an existing API key by its ID.
+      operationId: updateApiKey
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Input parameters for API key properties update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiKeyRequest'
+      responses:
+        200:
+          description: The updated API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - API Keys
+      summary: Deletes an existing API key by its ID.
+      description: Use this endpoint to delete an existing API Key by its ID.
+      operationId: deleteApiKey
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The user has been successfully deleted
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /apiKeys/{id}/regenerate:
+    put:
+      tags:
+        - API Keys
+      summary: Regenerates the token of an existing API key by its ID.
+      description: Use this token to rotate the key of the existing API key by its ID.
+      operationId: regenerateApiKey
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The updated API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiKey'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /health:
     get:
       tags:
@@ -1052,6 +1198,7 @@ components:
         strategy:
           type: string
           enum:
+            - API_KEY
             - PASSWORD
             - REFRESH
         email:
@@ -1073,6 +1220,42 @@ components:
         refreshToken:
           type: string
           description: Auxiliary token for main access renewal
+
+    ApiKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+      required:
+        - name
+        - enabled
+
+    ApiKey:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        key:
+          type: string
+        expiresAt:
+          type: integer
+          format: int64
+
+    ApiKeys:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiKey'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
 
     TwoFactorAuthTokenRequest:
       type: object

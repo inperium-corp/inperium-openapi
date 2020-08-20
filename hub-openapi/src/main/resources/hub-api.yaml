@@ -220,6 +220,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+                
+                
+  /tenants/{id}:
+    get:
+      tags:
+        - Tenants
+      summary: Get company information
+      description: Use this endpoint to get information about the tenant's company.
+      operationId: getTenant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tenant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /tenants/create:
     post:

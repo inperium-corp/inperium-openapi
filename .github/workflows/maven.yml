@@ -32,11 +32,6 @@ jobs:
           repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/inperium-corp/${{ env.REPO_NAME }}", "snapshots.enabled": "true"}]'
           servers: '[{ "id": "github", "username": "${{ secrets.USERNAME }}", "password": "${{ secrets.PASSWORD }}" }]'
 
-      - name: Set new incremental version
-        run: |
-          mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.nextIncrementalVersion} versions:commit
-          cat /home/runner/.m2/settings.xml
-
       - name: Build and run tests
         run: mvn clean package
 

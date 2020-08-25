@@ -1,0 +1,285 @@
+openapi: 3.0.1
+info:
+  title: Inperium Lead Router API
+  description: |
+    RESTful API to internally route leads within Inperium.
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url: http://api.inperium.com/v1/leadRouter
+  - url: https://api.inperium.com/v1/leadRouter
+
+tags:
+  - name: Activities
+    description: |
+      Activities are events performed by a lead which are internally logged/recorded for the Inperium sales and support team.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        200:
+          description: The server is healthy.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /activities:
+    post:
+      tags:
+        - Activities
+      summary: Create an activity.
+      description: Use this endpoint to create a new activity.
+      operationId: createActivity
+      requestBody:
+        description: In the request body, pass the activity data.
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ActivityRequest"
+        required: false
+      responses:
+        201:
+          description: A new activity has been created.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+      x-codegen-request-body-name: activity
+
+components:
+
+  parameters:
+
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+
+    Id:
+      type: string
+      format: uuid
+
+    ResponseError:
+      type: object
+      description: The common response error model for this API.
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
+
+    ActivityRequest:
+      description: A model that combines all lead activity requests that we internally log.
+      example: {}
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          email_subscription: "#/components/schemas/EmailSubscriptionActivityRequest"
+          EMAIL_SUBSCRIPTION: "#/components/schemas/EmailSubscriptionActivityRequest"
+          content_download: "#/components/schemas/ContentDownloadActivityRequest"
+          CONTENT_DOWNLOAD: "#/components/schemas/ContentDownloadActivityRequest"
+          profile_completion: "#/components/schemas/ProfileCompletionActivityRequest"
+          PROFILE_COMPLETION: "#/components/schemas/ProfileCompletionActivityRequest"
+          trial_start: "#/components/schemas/TrialStartActivityRequest"
+          TRIAL_START: "#/components/schemas/TrialStartActivityRequest"
+          demo_request: "#/components/schemas/DemoRequestActivityRequest"
+          DEMO_REQUEST: "#/components/schemas/DemoRequestActivityRequest"
+          account_creation: "#/components/schemas/AccountCreationActivityRequest"
+          ACCOUNT_CREATION: "#/components/schemas/AccountCreationActivityRequest"
+          contact_us: "#/components/schemas/ContactUsActivityRequest"
+          CONTACT_US: "#/components/schemas/ContactUsActivityRequest"
+
+    EmailSubscriptionActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that subscribed to our email list.
+      required:
+        - email
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        lastReferrerUrl:
+          type: string
+
+    ContentDownloadActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that downloaded some of our content.
+      required:
+        - email
+        - firstName
+        - downloadedContentName
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        downloadedContentName:
+          type: string
+        lastReferrerUrl:
+          type: string
+
+    ProfileCompletionActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that completed his profile as part of the onboarding.
+      required:
+        - email
+        - firstName
+        - lastName
+        - jobTitle
+        - companyName
+        - companySize
+        - industry
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        jobTitle:
+          type: string
+        companyName:
+          type: string
+        companySize:
+          type: string
+          enum:
+            - 1
+            - 2
+            - 11
+            - 51
+            - 201
+            - 501
+            - 1001
+            - 5001
+            - 10001
+        industry:
+          type: string
+          enum:
+            - SOFTWARE
+            - REAL_ESTATE
+            - FINANCIAL_SERVICES
+            - RETAIL
+            - MEDIA
+            - HEALTHCARE
+            - GOVERNMENT
+            - OTHER
+        lastReferrerUrl:
+          type: string
+
+    TrialStartActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that started a new Inperium trial.
+      required:
+        - email
+        - product
+        - plan
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        product:
+          type: string
+          enum:
+            - SELL
+            - TALK
+        plan:
+          type: string
+          enum:
+            - STARTER
+            - PROFESSIONAL
+            - ENTERPRISE
+        lastReferrerUrl:
+          type: string
+
+    DemoRequestActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that requested an Inperium demo.
+      required:
+        - email
+        - firstName
+        - lastName
+        - subject
+        - message
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        lastReferrerUrl:
+          type: string
+
+    AccountCreationActivityRequest:
+      type: object
+      description: The request model to handle a new Inperium account that was created.
+      required:
+        - email
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        lastReferrerUrl:
+          type: string
+
+    ContactUsActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that contacted Inperium.
+      required:
+        - email
+        - firstName
+        - lastName
+        - subject
+        - message
+        - lastReferrerUrl
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        subject:
+          type: string
+        message:
+          type: string
+        lastReferrerUrl:
+          type: string

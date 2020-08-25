@@ -342,31 +342,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /contactUs:
-    post:
-      tags:
-        - ContactUs
-      summary: Processes a contact us request from the marketing page or the product.
-      description: Use this endpoint to contact the Inperium team with sales, support or general inquiries.
-      operationId: handleContactUsRequest
-      requestBody:
-        required: true
-        description: Pass information about the contact us request
-        content:
-          '*/*':
-            schema:
-              $ref: '#/components/schemas/ContactUsRequest'
-      responses:
-        201:
-          description: Your request has successfully been submitted. We will answer to you soon.
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-                
                 
   /tenants/{id}:
     get:
@@ -1783,19 +1758,43 @@ components:
 
     OnboardTenantRequest:
       type: object
+      required:
+        - firstName
+        - lastName
+        - jobTitle
+        - companyName
+        - companySize
+        - industry
       properties:
         firstName:
           type: string
-          description: Tenant's name
         lastName:
           type: string
-          description: Tenant's surname
         companyName:
           type: string
         companySize:
           type: string
+          enum:
+            - 1
+            - 2
+            - 11
+            - 51
+            - 201
+            - 501
+            - 1001
+            - 5001
+            - 10001
         industry:
           type: string
+          enum:
+            - SOFTWARE
+            - REAL_ESTATE
+            - FINANCIAL_SERVICES
+            - RETAIL
+            - MEDIA
+            - HEALTHCARE
+            - GOVERNMENT
+            - OTHER
         jobTitle:
           type: string
 
@@ -1954,23 +1953,4 @@ components:
         ownsHigherPlan:
           type: boolean
         preferredCurrency:
-          type: string
-
-    ContactUsRequest:
-      type: object
-      description: A contact request from a prospective or current client.
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        email:
-          type: string
-        subject:
-          type: string
-        body:
-          type: string
-        type:
           type: string

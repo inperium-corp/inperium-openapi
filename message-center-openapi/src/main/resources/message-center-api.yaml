@@ -15,7 +15,7 @@ security:
 
 tags:
   - name: Health checks
-  - name: WebHook
+  - name: Webhook
   - name: Accounts
   - name: Threads
   - name: Messages
@@ -675,9 +675,9 @@ components:
           type: string
         unreadMessagesAmount:
           type: integer
-        sentMessages:
+        sentMessagesAmount:
           type: integer
-        draftMessages:
+        draftMessagesAmount:
           type: integer
 
     Threads:
@@ -696,45 +696,32 @@ components:
         id:
           type: string
         subject:
+          description: Subject of the first message in the thread
           type: string
         unread:
+          description: Indicates whether the thread contains unread messages (mutable)
           type: boolean
         starred:
+          description: Indicates one or more messages are starred, aka flagged (mutable)
           type: boolean
-        lastMessageTimestamp:
+        lastMessageReceivedAt:
+          description: Date and time of the most recently received message.
           type: string
           format: 'date-time'
-        lastMessageReceivedTimestamp:
+        lastMessageSentAt:
+          description: Date and time of the most recently sent message in the thread
           type: string
           format: 'date-time'
-        lastMessageSentTimestamp:
+        lastMessageFrom:
+          $ref: '#/components/schemas/ThreadParticipant'
+        bodyExcerpt:
+          description: A shortened plain-text preview of the most recent message in the thread
           type: string
-          format: 'date-time'
-        firstMessageTimestamp:
+        folderId:
           type: string
-          format: 'date-time'
-        participants:
-          type: array
-          items:
-            $ref: '#/components/schemas/ThreadParticipant'
-        snippet:
-          type: string
-        version:
-          type: integer
-        folders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Folder'
         hasAttachments:
+          description: Indicates if the thread has files attached to it.
           type: boolean
-        messageIds:
-          type: array
-          items:
-            type: string
-        draftIds:
-          type: array
-          items:
-            type: string
         messages:
           type: array
           items:
@@ -788,9 +775,7 @@ components:
         subject:
           type: string
         from:
-          type: array
-          items:
-            $ref: '#/components/schemas/ThreadParticipant'
+          $ref: '#/components/schemas/ThreadParticipant'
         to:
           type: array
           items:
@@ -814,16 +799,14 @@ components:
           type: boolean
         starred:
           type: boolean
-        snippet:
-          type: string
         body:
           type: string
         attachments:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
-        folder:
-          $ref: '#/components/schemas/Folder'
+        folderId:
+          type: string
 
     MessageRequest:
       type: object
@@ -862,23 +845,13 @@ components:
           type: string
         displayName:
           type: string
+        unreadMessagesAmount:
+          type: integer
 
     FolderRequest:
       type: object
       properties:
         displayName:
-          type: string
-
-    Tracking:
-      type: object
-      properties:
-        links:
-          type: boolean
-        opens:
-          type: boolean
-        threadReplies:
-          type: boolean
-        payload:
           type: string
 
     Drafts:
@@ -898,10 +871,6 @@ components:
           properties:
             replyToMessageId:
               type: string
-            version:
-              type: integer
-            tracking:
-              $ref: '#/components/schemas/Tracking'
 
     DraftRequest:
       type: object
@@ -993,34 +962,22 @@ components:
           type: boolean
       description: Paging and sorting information
 
-    ErrorModel:
-      required:
-        - code
-        - type
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error Code
-        message:
-          type: string
-          description: Error Message
-        type:
-          type: string
-          description: Error Message
-          enum:
-            - ERROR
-            - WARN
-            - INFO
-        details:
-          type: string
-          description: Comma separated list of fields, which caused the error condition
-      description: An individual error
-
     ResponseError:
       type: object
+      required:
+        - status
+        - message
       properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
         errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorModel'
+          type: object
+          description: Map of field -> list of errors

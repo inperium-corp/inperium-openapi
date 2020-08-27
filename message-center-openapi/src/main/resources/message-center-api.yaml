@@ -41,6 +41,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+                
+  /webhooks/auth:
+    get:
+      tags:
+        - WebHook
+      summary: TBD
+      description: TBD
+      operationId: getNylasAuthUrl
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'    
+                
   /webhooks/register:
     get:
       tags:
@@ -61,7 +83,6 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid
       responses:
         200:
           description: TBD
@@ -100,25 +121,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-    post:
-      tags:
-        - Accounts
-      summary: TBD
-      description: TBD
-      operationId: createAccount
-      responses:
-        200:
-          description: TBD
-          content:
-            application/json:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+
   /accounts/{id}:
     get:
       tags:
@@ -619,18 +622,21 @@ components:
       required: true
       schema:
         type: string
+        format: UUID
     QueryPageNumber:
       name: pageNumber
       in: query
       description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from the page 3.
       schema:
         type: integer
+        format: int64
     QueryPageSize:
       name: pageSize
       in: query
       description: This parameter affects paging. It defines the number of records per page
       schema:
         type: integer
+        format: int64
     QuerySort:
       name: sort
       in: query
@@ -652,7 +658,17 @@ components:
     Account:
       type: object
       properties:
-        type:
+        email:
+          type: string
+        connectionDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - CONNECTED
+            - FAILED
+        provider:
           type: string
         unreadMessagesAmount:
           type: integer

@@ -62,7 +62,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'    
-                
+
   /webhooks/register:
     get:
       tags:
@@ -658,6 +658,9 @@ components:
     Account:
       type: object
       properties:
+        id: 
+          type: string
+          format: uuid
         email:
           type: string
         connectionDate:

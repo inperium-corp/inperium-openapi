@@ -43,10 +43,9 @@ paths:
       requestBody:
         description: In the request body, pass the activity data.
         content:
-          "application/json":
+          application/json:
             schema:
               $ref: "#/components/schemas/ActivityRequest"
-        required: false
       responses:
         201:
           description: A new activity has been created.
@@ -100,7 +99,6 @@ components:
 
     ActivityRequest:
       description: A model that combines all lead activity requests that we internally log.
-      example: {}
       type: object
       discriminator:
         propertyName: type
@@ -125,7 +123,6 @@ components:
       description: The request model to log an activity for a lead that subscribed to our email list.
       required:
         - email
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -139,7 +136,6 @@ components:
         - email
         - firstName
         - downloadedContentName
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -161,7 +157,6 @@ components:
         - companyName
         - companySize
         - industry
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -206,7 +201,6 @@ components:
         - email
         - product
         - plan
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -233,7 +227,6 @@ components:
         - lastName
         - subject
         - message
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -253,7 +246,6 @@ components:
       description: The request model to handle a new Inperium account that was created.
       required:
         - email
-        - lastReferrerUrl
       properties:
         email:
           type: string
@@ -269,7 +261,6 @@ components:
         - lastName
         - subject
         - message
-        - lastReferrerUrl
       properties:
         email:
           type: string

@@ -1,0 +1,983 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Message Center Server API
+  description: |
+    RESTful API providing access to Inperium Message Center.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/messageCenter
+  - url: https://api.inperium.com/v1/messageCenter
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Health checks
+  - name: Webhook
+  - name: Accounts
+  - name: Threads
+  - name: Messages
+  - name: Folders
+  - name: Drafts
+  - name: Attachments
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
+      responses:
+        200:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+                
+  /webhooks/auth:
+    get:
+      tags:
+        - WebHook
+      summary: TBD
+      description: TBD
+      operationId: getNylasAuthUrl
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'    
+
+  /webhooks/register:
+    get:
+      tags:
+        - WebHook
+      summary: TBD
+      description: TBD
+      operationId: registerToken
+      parameters:
+        - name: code
+          in: query
+          description: TBD
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: TBD
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: getAccounts
+      parameters:
+        - name: email
+          in: query
+          description: TBD
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /accounts/{id}:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: getAccount
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      operationId: deleteAccount
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /threads:
+    get:
+      tags:
+        - Threads
+      summary: TBD
+      description: TBD
+      operationId: getThreads
+      parameters:
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Threads'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /threads/{id}:
+    get:
+      tags:
+        - Threads
+      summary: TBD
+      description: TBD
+      operationId: getThread
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      tags:
+        - Threads
+      summary: TBD
+      description: TBD
+      operationId: updateThread
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ThreadRequest'
+      responses:
+        204:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: getMessages
+      parameters:
+          - $ref: "#/components/parameters/QueryPageNumber"
+          - $ref: "#/components/parameters/QueryPageSize"
+          - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages/{id}:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: getMessage
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: TBD
+      description: TBD
+      operationId: updateMessage
+      tags:
+        - Messages
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /folders:
+    get:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: getFolders
+      parameters:
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folders'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: createFolder
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /folders/{id}:
+    get:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: getFolder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: TBD
+      description: TBD
+      operationId: updateFolder
+      tags:
+        - Folders
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Folders
+      summary: TBD
+      description: TBD
+      operationId: deleteFolder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /drafts:
+    get:
+      tags:
+        - Drafts
+      summary: TBD
+      description: TBD
+      operationId: getDrafts
+      parameters:
+          - $ref: "#/components/parameters/QueryPageNumber"
+          - $ref: "#/components/parameters/QueryPageSize"
+          - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drafts'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Drafts
+      summary: TBD
+      description: TBD
+      operationId: createDraft
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /drafts/{id}:
+    get:
+      tags:
+        - Drafts
+      summary: TBD
+      description: TBD
+      operationId: getDraft
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: TBD
+      description: TBD
+      operationId: updateDraft
+      tags:
+        - Drafts
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /attachments:
+    get:
+      tags:
+        - Attachments
+      summary: TBD
+      description: TBD
+      operationId: getAttachments
+      parameters:
+          - $ref: "#/components/parameters/QueryPageNumber"
+          - $ref: "#/components/parameters/QueryPageSize"
+          - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Attachments
+      summary: TBD
+      description: TBD
+      operationId: uploadAttachment
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AttachmentRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /attachments/{id}:
+    get:
+      tags:
+        - Attachments
+      summary: TBD
+      description: description
+      operationId: getAttachment
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachment'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Attachments
+      summary: TBD
+      description: TBD
+      operationId: deleteAttachment
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  parameters:
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: UUID
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from the page 3.
+      schema:
+        type: integer
+        format: int64
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: This parameter affects paging. It defines the number of records per page
+      schema:
+        type: integer
+        format: int64
+    QuerySort:
+      name: sort
+      in: query
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: string
+
+  schemas:
+    Accounts:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Account:
+      type: object
+      properties:
+        id: 
+          type: string
+          format: uuid
+        email:
+          type: string
+        connectionDate:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+            - CONNECTED
+            - FAILED
+        provider:
+          type: string
+        unreadMessagesAmount:
+          type: integer
+        sentMessagesAmount:
+          type: integer
+        draftMessagesAmount:
+          type: integer
+
+    Threads:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Thread'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+        subject:
+          description: Subject of the first message in the thread
+          type: string
+        unread:
+          description: Indicates whether the thread contains unread messages (mutable)
+          type: boolean
+        starred:
+          description: Indicates one or more messages are starred, aka flagged (mutable)
+          type: boolean
+        lastMessageReceivedAt:
+          description: Date and time of the most recently received message.
+          type: string
+          format: 'date-time'
+        lastMessageSentAt:
+          description: Date and time of the most recently sent message in the thread
+          type: string
+          format: 'date-time'
+        lastMessageFrom:
+          $ref: '#/components/schemas/ThreadParticipant'
+        bodyExcerpt:
+          description: A shortened plain-text preview of the most recent message in the thread
+          type: string
+        folderId:
+          type: string
+        hasAttachments:
+          description: Indicates if the thread has files attached to it.
+          type: boolean
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        drafts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Draft'
+
+    ThreadRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        unread:
+          type: boolean
+        starred:
+          type: boolean
+        folderId:
+          type: string
+        labelIds:
+          type: array
+          items:
+            type: string
+
+    ThreadParticipant:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+
+    Messages:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+        threadId:
+          type: string
+        subject:
+          type: string
+        from:
+          $ref: '#/components/schemas/ThreadParticipant'
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        cc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        bcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        replyTo:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        receivedAt:
+          type: string
+          format: 'date-time'
+        unread:
+          type: boolean
+        starred:
+          type: boolean
+        body:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        folderId:
+          type: string
+
+    MessageRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        unread:
+          type: boolean
+        starred:
+          type: boolean
+        folderId:
+          type: string
+        labelIds:
+          type: array
+          items:
+            type: string
+
+    Folders:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Folder'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        name:
+          type: string
+        displayName:
+          type: string
+        unreadMessagesAmount:
+          type: integer
+
+    FolderRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+
+    Drafts:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Draft'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Draft:
+      allOf:
+        - $ref: "#/components/schemas/Message"
+        - type: object
+          properties:
+            replyToMessageId:
+              type: string
+
+    DraftRequest:
+      type: object
+      properties:
+        id:
+          type: string
+        subject:
+          type: string
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        cc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        bcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        body:
+          type: string
+        replyTo:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        from:
+          $ref: '#/components/schemas/ThreadParticipant'
+        attachmentIds:
+          type: array
+          items:
+            type: string
+
+    Attachments:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: string
+        filename:
+          type: string
+        size:
+          type: integer
+        contentType:
+          type: string
+        messageIds:
+          type: array
+          items:
+            type: string
+        contentId:
+          type: string
+
+    AttachmentRequest:
+      type: object
+      properties:
+        filename:
+          type: string
+        contentType:
+          type: string
+
+    PageAndSort:
+      type: object
+      properties:
+        pageNumber:
+          type: integer
+        pageSize:
+          description: The number of records per page
+          type: integer
+        totalNumberOfRecords:
+          type: integer
+        totalNumberOfPages:
+          type: integer
+        hasNextPage:
+          type: boolean
+        hasPreviousPage:
+          type: boolean
+        sortingCriteria:
+          type: string
+        hasMore:
+          type: boolean
+      description: Paging and sorting information
+
+    ResponseError:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors

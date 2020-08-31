@@ -679,10 +679,6 @@ components:
           type: integer
         draftMessagesAmount:
           type: integer
-        folders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Folder'
 
     Threads:
       type: object

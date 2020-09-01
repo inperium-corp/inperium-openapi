@@ -1521,6 +1521,10 @@ components:
           type: array
           items:
             type: string
+        permissions:
+          type: array
+          items:
+            type: string
         roles:
           type: array
           items:
@@ -1584,6 +1588,10 @@ components:
           type: array
           items:
             type: string
+        permissions:
+          type: array
+          items:
+            type: string
         roles:
           type: array
           items:
@@ -1612,6 +1620,10 @@ components:
           items:
             type: string
         features:
+          type: array
+          items:
+            type: string
+        permissions:
           type: array
           items:
             type: string

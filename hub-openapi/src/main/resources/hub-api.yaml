@@ -2037,6 +2037,7 @@ components:
             type: string
       required:
         - name
+        - permissions
 
     Roles:
       type: object

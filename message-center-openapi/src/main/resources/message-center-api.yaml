@@ -169,6 +169,11 @@ paths:
       description: TBD
       operationId: getThreads
       parameters:
+        - name: folderId
+          in: query
+          schema:
+            type: string          
+        - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"
@@ -315,6 +320,7 @@ paths:
       description: TBD
       operationId: getFolders
       parameters:
+        - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"
@@ -623,6 +629,11 @@ components:
       schema:
         type: string
         format: UUID
+    UserAccountId:
+      name: userAccountId
+      in: query
+      schema:
+        type: string
     QueryPageNumber:
       name: pageNumber
       in: query
@@ -841,8 +852,9 @@ components:
         id:
           type: string
           format: UUID
-        accountId:
+        userAccountId:
           type: string
+          format: UUID
         name:
           type: string
         displayName:
@@ -855,8 +867,9 @@ components:
       properties:
         displayName:
           type: string
-        accountId:
+        userAccountId:
           type: string
+          format: UUID
 
     Drafts:
       type: object

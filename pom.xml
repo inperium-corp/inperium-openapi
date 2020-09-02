@@ -6,7 +6,7 @@
 
     <groupId>com.inperiumcorp.inperium</groupId>
     <artifactId>openapi</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.13</version>
     <packaging>pom</packaging>
 
     <name>Inperium Web API</name>
@@ -16,6 +16,7 @@
         <module>lead-router-openapi</module>
         <module>sell-openapi</module>
         <module>obs-openapi</module>
+        <module>message-center-openapi</module>
     </modules>
 
     <properties>

@@ -1483,27 +1483,6 @@ components:
     PageAndSort:
       type: object
       description: Paging and sorting information
-      properties:
-        pageNumber:
-          type: integer
-          format: int64
-        pageSize:
-          type: integer
-          format: int64
-        totalNumberOfRecords:
-          type: integer
-          format: int64
-        totalNumberOfPages:
-          type: integer
-          format: int64
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        sortingCriteria:
-          type: string
-        hasMore:
-          type: boolean
 
     UserPrincipal:
       type: object

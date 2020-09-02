@@ -242,9 +242,15 @@ paths:
       description: TBD
       operationId: getMessages
       parameters:
-          - $ref: "#/components/parameters/QueryPageNumber"
-          - $ref: "#/components/parameters/QueryPageSize"
-          - $ref: "#/components/parameters/QuerySort"
+        - name: threadId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/UserAccountId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: TBD
@@ -252,6 +258,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Messages'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages/sync:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: syncMessages
+      responses:
+        200:
+          description: TBD
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -623,6 +645,11 @@ components:
       schema:
         type: string
         format: UUID
+    UserAccountId:
+      name: userAccountId
+      in: query
+      schema:
+        type: string
     QueryPageNumber:
       name: pageNumber
       in: query
@@ -771,6 +798,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         threadId:
           type: string
         subject:
@@ -820,10 +848,6 @@ components:
           type: boolean
         folderId:
           type: string
-        labelIds:
-          type: array
-          items:
-            type: string
 
     Folders:
       type: object

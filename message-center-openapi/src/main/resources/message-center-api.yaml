@@ -695,6 +695,7 @@ components:
       properties:
         id:
           type: string
+          format: UUID
         subject:
           description: Subject of the first message in the thread
           type: string
@@ -839,6 +840,7 @@ components:
       properties:
         id:
           type: string
+          format: UUID
         accountId:
           type: string
         name:
@@ -852,6 +854,8 @@ components:
       type: object
       properties:
         displayName:
+          type: string
+        accountId:
           type: string
 
     Drafts:

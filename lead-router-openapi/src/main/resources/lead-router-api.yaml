@@ -43,9 +43,10 @@ paths:
       requestBody:
         description: In the request body, pass the activity data.
         content:
-          application/json:
+          "application/json":
             schema:
               $ref: "#/components/schemas/ActivityRequest"
+        required: false
       responses:
         201:
           description: A new activity has been created.
@@ -100,6 +101,7 @@ components:
     ActivityRequest:
       description: A model that combines all lead activity requests that we internally log.
       type: object
+      example: {}
       discriminator:
         propertyName: type
         mapping:
@@ -117,160 +119,170 @@ components:
           ACCOUNT_CREATION: "#/components/schemas/AccountCreationActivityRequest"
           contact_us: "#/components/schemas/ContactUsActivityRequest"
           CONTACT_US: "#/components/schemas/ContactUsActivityRequest"
+      properties:
+        lastReferrerUrl:
+          type: string
 
     EmailSubscriptionActivityRequest:
       type: object
       description: The request model to log an activity for a lead that subscribed to our email list.
-      required:
-        - email
-      properties:
-        email:
-          type: string
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
 
     ContentDownloadActivityRequest:
       type: object
       description: The request model to log an activity for a lead that downloaded some of our content.
-      required:
-        - email
-        - firstName
-        - downloadedContentName
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        downloadedContentName:
-          type: string
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - firstName
+            - downloadedContentName
+          properties:
+            email:
+              type: string
+            firstName:
+              type: string
+            downloadedContentName:
+              type: string
 
     ProfileCompletionActivityRequest:
       type: object
       description: The request model to log an activity for a lead that completed his profile as part of the onboarding.
-      required:
-        - email
-        - firstName
-        - lastName
-        - jobTitle
-        - companyName
-        - companySize
-        - industry
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        jobTitle:
-          type: string
-        companyName:
-          type: string
-        companySize:
-          type: string
-          enum:
-            - 1
-            - 2
-            - 11
-            - 51
-            - 201
-            - 501
-            - 1001
-            - 5001
-            - 10001
-        industry:
-          type: string
-          enum:
-            - SOFTWARE
-            - REAL_ESTATE
-            - FINANCIAL_SERVICES
-            - RETAIL
-            - MEDIA
-            - HEALTHCARE
-            - GOVERNMENT
-            - OTHER
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - firstName
+            - lastName
+            - jobTitle
+            - companyName
+            - companySize
+            - industry
+          properties:
+            email:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            jobTitle:
+              type: string
+            companyName:
+              type: string
+            companySize:
+              type: string
+              enum:
+                - 1
+                - 2
+                - 11
+                - 51
+                - 201
+                - 501
+                - 1001
+                - 5001
+                - 10001
+            industry:
+              type: string
+              enum:
+                - SOFTWARE
+                - REAL_ESTATE
+                - FINANCIAL_SERVICES
+                - RETAIL
+                - MEDIA
+                - HEALTHCARE
+                - GOVERNMENT
+                - OTHER
 
     TrialStartActivityRequest:
       type: object
       description: The request model to log an activity for a lead that started a new Inperium trial.
-      required:
-        - email
-        - product
-        - plan
-      properties:
-        email:
-          type: string
-        product:
-          type: string
-          enum:
-            - SELL
-            - TALK
-        plan:
-          type: string
-          enum:
-            - STARTER
-            - PROFESSIONAL
-            - ENTERPRISE
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - product
+            - plan
+          properties:
+            email:
+              type: string
+            product:
+              type: string
+              enum:
+                - SELL
+                - TALK
+            plan:
+              type: string
+              enum:
+                - STARTER
+                - PROFESSIONAL
+                - ENTERPRISE
 
     DemoRequestActivityRequest:
       type: object
       description: The request model to log an activity for a lead that requested an Inperium demo.
-      required:
-        - email
-        - firstName
-        - lastName
-        - subject
-        - message
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        subject:
-          type: string
-        message:
-          type: string
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - firstName
+            - lastName
+            - subject
+            - message
+          properties:
+            email:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            subject:
+              type: string
+            message:
+              type: string
 
     AccountCreationActivityRequest:
       type: object
       description: The request model to handle a new Inperium account that was created.
-      required:
-        - email
-      properties:
-        email:
-          type: string
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
 
     ContactUsActivityRequest:
       type: object
       description: The request model to log an activity for a lead that contacted Inperium.
-      required:
-        - email
-        - firstName
-        - lastName
-        - subject
-        - message
-      properties:
-        email:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        subject:
-          type: string
-        message:
-          type: string
-        lastReferrerUrl:
-          type: string
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - firstName
+            - lastName
+            - subject
+            - message
+          properties:
+            email:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            subject:
+              type: string
+            message:
+              type: string

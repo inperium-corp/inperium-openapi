@@ -1,12 +1,18 @@
 openapi: 3.0.1
+
 info:
   title: Inperium Obs API
   description: |
     RESTful API to store and retrieve documents.
   version: 1.0.0-SNAPSHOT
+
 servers:
   - url: http://api.inperium.com/v1/obs
   - url: https://api.inperium.com/v1/obs
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
 
 tags:
   - name: Files
@@ -130,6 +136,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
   schemas:
     DataFile:
       type: object

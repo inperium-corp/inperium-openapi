@@ -1,12 +1,18 @@
 openapi: 3.0.1
+
 info:
   title: Inperium Sell API
   description: |
     RESTful API providing access to objects and features of Inperium Sell CRM.
   version: 1.0.0-SNAPSHOT
+
 servers:
   - url: http://api.inperium.com/v1/sell
   - url: https://api.inperium.com/v1/sell
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
 
 tags:
   - name: Activities
@@ -3909,6 +3915,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
   schemas:
     ActivityRequest:
       description: Activity model submitted to Inperium API

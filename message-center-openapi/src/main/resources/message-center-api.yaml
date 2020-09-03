@@ -12,6 +12,7 @@ servers:
 
 security:
   - BearerAuth: []
+  - ApiKeyAuth: []
 
 tags:
   - name: Health checks
@@ -614,6 +615,10 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
 
   parameters:
     ResourceId:

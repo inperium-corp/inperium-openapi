@@ -4994,27 +4994,11 @@ components:
         redirectUrl:
           type: string
       description: Model containing a redirect URL to OAuth2 provider
+
     PageAndSort:
       type: object
-      properties:
-        pageNumber:
-          type: integer
-        pageSize:
-          description: The number of records per page
-          type: integer
-        totalNumberOfRecords:
-          type: integer
-        totalNumberOfPages:
-          type: integer
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        sortingCriteria:
-          type: string
-        hasMore:
-          type: boolean
       description: Paging and sorting information
+
     Payment:
       type: object
       properties:

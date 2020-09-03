@@ -5,15 +5,15 @@
     <parent>
         <artifactId>openapi</artifactId>
         <groupId>com.inperiumcorp.inperium</groupId>
-        <version>1.0.16</version>
+        <version>1.0.10</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sell-openapi</artifactId>
-    <version>1.0.16</version>
+    <artifactId>lead-router-openapi</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>Inperium Sell Web API</name>
+    <name>Inperium Lead Router Web API</name>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -59,12 +59,12 @@
                         </goals>
                         <configuration>
                             <generatorName>spring</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/sell-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/lead-router-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.sell.web.api.server</apiPackage>
-                            <modelPackage>com.inperiumcorp.inperium.sell.web.model</modelPackage>
+                            <apiPackage>com.inperiumcorp.inperium.lead-router.web.api.server</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.lead-router.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <modelNamePrefix>ApiModelSell</modelNamePrefix>
+                            <modelNamePrefix>ApiModelLeadRouter</modelNamePrefix>
                             <configOptions>
                                 <library>spring-boot</library>
                                 <sourceFolder>swagger</sourceFolder>
@@ -76,39 +76,6 @@
                             </configOptions>
                             <typeMappings>
                                 <typeMapping>Integer=Long</typeMapping>
-                                <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
-                            </typeMappings>
-                            <importMappings>
-                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-                            </importMappings>
-                            <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>client</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <generatorName>java</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/sell-api.yaml</inputSpec>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.sell.web.api.client</apiPackage>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <modelPackage>com.inperiumcorp.inperium.sell.web.model</modelPackage>
-                            <modelNamePrefix>ApiModelSell</modelNamePrefix>
-                            <generateModels>false</generateModels>
-                            <supportingFilesToGenerate>ApiClient.java,Authentication.java,HttpBasicAuth.java,HttpBearerAuth.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>
-                            <configOptions>
-                                <library>resttemplate</library>
-                                <sourceFolder>swagger</sourceFolder>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializableModel>true</serializableModel>
-                                <booleanGetterPrefix>is</booleanGetterPrefix>
-                            </configOptions>
-                            <typeMappings>
                                 <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
                             </typeMappings>
                             <importMappings>

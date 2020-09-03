@@ -556,6 +556,7 @@ paths:
       description: TBD
       operationId: getAttachments
       parameters:
+          - $ref: "#/components/parameters/UserAccountId"
           - $ref: "#/components/parameters/QueryPageNumber"
           - $ref: "#/components/parameters/QueryPageSize"
           - $ref: "#/components/parameters/QuerySort"
@@ -585,7 +586,7 @@ paths:
               properties:
                 content:
                   type: string
-                  description: A file to be uploaded as a file
+                  description: A attachment to be uploaded
                   format: binary
       responses:
         200:
@@ -645,7 +646,7 @@ paths:
         - Attachments
       summary: Retrieve the contents of attachment
       description: Use this endpoint to see the attachment.
-      operationId: getContentAttachment
+      operationId: getAttachmentContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:

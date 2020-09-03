@@ -276,6 +276,12 @@ paths:
       summary: TBD
       description: TBD
       operationId: syncMessages
+      parameters:
+        - name: receivedAfter
+          in: query
+          schema:
+            type: string
+            format: date-time
       responses:
         200:
           description: TBD

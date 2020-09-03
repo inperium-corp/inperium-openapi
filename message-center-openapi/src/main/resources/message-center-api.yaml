@@ -170,6 +170,11 @@ paths:
       description: TBD
       operationId: getThreads
       parameters:
+        - name: folderId
+          in: query
+          schema:
+            type: string          
+        - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"
@@ -243,9 +248,15 @@ paths:
       description: TBD
       operationId: getMessages
       parameters:
-          - $ref: "#/components/parameters/QueryPageNumber"
-          - $ref: "#/components/parameters/QueryPageSize"
-          - $ref: "#/components/parameters/QuerySort"
+        - name: threadId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/UserAccountId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
           description: TBD
@@ -253,6 +264,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Messages'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /messages/sync:
+    get:
+      tags:
+        - Messages
+      summary: TBD
+      description: TBD
+      operationId: syncMessages
+      parameters:
+        - name: receivedAfter
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        200:
+          description: TBD
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -316,6 +349,7 @@ paths:
       description: TBD
       operationId: getFolders
       parameters:
+        - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"
@@ -529,6 +563,7 @@ paths:
       description: TBD
       operationId: getAttachments
       parameters:
+          - $ref: "#/components/parameters/UserAccountId"
           - $ref: "#/components/parameters/QueryPageNumber"
           - $ref: "#/components/parameters/QueryPageSize"
           - $ref: "#/components/parameters/QuerySort"
@@ -552,11 +587,14 @@ paths:
       description: TBD
       operationId: uploadAttachment
       requestBody:
-        description: TBD
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AttachmentRequest'
+              properties:
+                content:
+                  type: string
+                  description: A attachment to be uploaded
+                  format: binary
       responses:
         200:
           description: TBD
@@ -609,6 +647,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /attachments/{id}/content:
+    get:
+      tags:
+        - Attachments
+      summary: Retrieve the contents of an attachment.
+      description: Use this endpoint to download the content of an attachment.
+      operationId: getAttachmentContent
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The file contents have been retrieved
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
 components:
   securitySchemes:
@@ -628,6 +689,11 @@ components:
       schema:
         type: string
         format: UUID
+    UserAccountId:
+      name: userAccountId
+      in: query
+      schema:
+        type: string
     QueryPageNumber:
       name: pageNumber
       in: query
@@ -776,6 +842,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         threadId:
           type: string
         subject:
@@ -825,10 +892,6 @@ components:
           type: boolean
         folderId:
           type: string
-        labelIds:
-          type: array
-          items:
-            type: string
 
     Folders:
       type: object
@@ -846,8 +909,9 @@ components:
         id:
           type: string
           format: UUID
-        accountId:
+        userAccountId:
           type: string
+          format: UUID
         name:
           type: string
         displayName:
@@ -860,8 +924,9 @@ components:
       properties:
         displayName:
           type: string
-        accountId:
+        userAccountId:
           type: string
+          format: UUID
 
     Drafts:
       type: object
@@ -928,6 +993,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         filename:
           type: string
         size:

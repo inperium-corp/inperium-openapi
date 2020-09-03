@@ -556,6 +556,7 @@ paths:
       description: TBD
       operationId: getAttachments
       parameters:
+          - $ref: "#/components/parameters/UserAccountId"
           - $ref: "#/components/parameters/QueryPageNumber"
           - $ref: "#/components/parameters/QueryPageSize"
           - $ref: "#/components/parameters/QuerySort"
@@ -579,11 +580,14 @@ paths:
       description: TBD
       operationId: uploadAttachment
       requestBody:
-        description: TBD
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AttachmentRequest'
+              properties:
+                content:
+                  type: string
+                  description: A attachment to be uploaded
+                  format: binary
       responses:
         200:
           description: TBD
@@ -630,6 +634,29 @@ paths:
       responses:
         204:
           description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /attachments/{id}/content:
+    get:
+      tags:
+        - Attachments
+      summary: Retrieve the contents of an attachment.
+      description: Use this endpoint to download the content of an attachment.
+      operationId: getAttachmentContent
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The file contents have been retrieved
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -955,6 +982,7 @@ components:
       properties:
         id:
           type: string
+          format: uuid
         filename:
           type: string
         size:

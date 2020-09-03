@@ -643,7 +643,7 @@ paths:
     get:
       tags:
         - Attachments
-      summary: Retrieve the contents of attachment
+      summary: Retrieve the contents of an attachment.
       description: Use this endpoint to see the attachment.
       operationId: getContentAttachment
       parameters:

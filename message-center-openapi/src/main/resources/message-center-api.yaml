@@ -644,7 +644,7 @@ paths:
       tags:
         - Attachments
       summary: Retrieve the contents of an attachment.
-      description: Use this endpoint to see the attachment.
+      description: Use this endpoint to download the content of an attachment.
       operationId: getContentAttachment
       parameters:
         - $ref: '#/components/parameters/ResourceId'

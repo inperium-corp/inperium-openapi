@@ -663,6 +663,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhook/sync/register:
+    get:
+      tags:
+        - WebHookSync
+      summary: TBD
+      description: TBD
+      operationId: register
+      responses:
+        200:
+          description: Register webhook in nylas
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhook/sync:
+    get:
+      tags:
+        - WebHookSync
+      summary: TBD
+      description: TBD
+      operationId: verificationRequest
+      parameters:
+        - name: challenge
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The file contents have been retrieved
+          content:
+            text/plain:
+              schema:
+                type: string
+
+
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - WebHookSync
+      summary: TBD
+      description: TBD
+      operationId: processNotification
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deltas'
+      responses:
+        200:
+          description: The file contents have been retrieved
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
 
 components:
   securitySchemes:
@@ -1045,3 +1111,45 @@ components:
         errors:
           type: object
           description: Map of field -> list of errors
+
+    Attributes:
+      type: object
+      properties:
+        thread_id:
+          type: string
+        received_date:
+          type: integer
+
+    ObjectData:
+      type: object
+      properties:
+        namespace_id:
+          type: string
+        account_id:
+          type: string
+        object:
+          type: string
+        id:
+          type: string
+        attributes:
+          type: Attributes
+
+    Delta:
+      type: object
+      properties:
+        date:
+          type: integer
+        object:
+          type: string
+        type:
+          type: string
+        object_data:
+          type: ObjectData
+
+    Deltas:
+      type: object
+      properties:
+        deltas:
+          type: array
+          items:
+            type: Delta

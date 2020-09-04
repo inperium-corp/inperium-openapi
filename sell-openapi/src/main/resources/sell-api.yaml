@@ -954,6 +954,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: email
+          description: The email of the contact you are searching for
+          in: query
+          schema:
+            type: string
         - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"

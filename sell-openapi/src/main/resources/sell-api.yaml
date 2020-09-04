@@ -954,7 +954,7 @@ paths:
           in: query
           schema:
             type: string
-        - name: email
+        - name: emails
           description: The email of the contact you are searching for
           in: query
           schema:

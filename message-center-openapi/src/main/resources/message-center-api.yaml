@@ -276,12 +276,6 @@ paths:
       summary: TBD
       description: TBD
       operationId: syncMessages
-      parameters:
-        - name: receivedAfter
-          in: query
-          schema:
-            type: string
-            format: date-time
       responses:
         200:
           description: TBD
@@ -464,6 +458,7 @@ paths:
       description: TBD
       operationId: getDrafts
       parameters:
+          - $ref: "#/components/parameters/UserAccountId"
           - $ref: "#/components/parameters/QueryPageNumber"
           - $ref: "#/components/parameters/QueryPageSize"
           - $ref: "#/components/parameters/QuerySort"
@@ -584,7 +579,7 @@ paths:
         - Attachments
       summary: TBD
       description: TBD
-      operationId: uploadAttachment
+      operationId: uploadAttachmentContent
       requestBody:
         content:
           multipart/form-data:
@@ -805,8 +800,6 @@ components:
     ThreadRequest:
       type: object
       properties:
-        id:
-          type: string
         unread:
           type: boolean
         starred:
@@ -883,8 +876,6 @@ components:
     MessageRequest:
       type: object
       properties:
-        id:
-          type: string
         unread:
           type: boolean
         starred:
@@ -948,8 +939,6 @@ components:
     DraftRequest:
       type: object
       properties:
-        id:
-          type: string
         subject:
           type: string
         to:
@@ -1003,16 +992,6 @@ components:
           type: array
           items:
             type: string
-        contentId:
-          type: string
-
-    AttachmentRequest:
-      type: object
-      properties:
-        filename:
-          type: string
-        contentType:
-          type: string
 
     PageAndSort:
       type: object

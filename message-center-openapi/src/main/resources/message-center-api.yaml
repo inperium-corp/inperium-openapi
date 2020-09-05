@@ -252,7 +252,6 @@ paths:
           in: query
           schema:
             type: string
-            format: uuid
         - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"

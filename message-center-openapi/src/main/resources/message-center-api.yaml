@@ -669,7 +669,7 @@ paths:
         - WebHookSync
       summary: TBD
       description: TBD
-      operationId: register
+      operationId: registerWebhook
       responses:
         200:
           description: Register webhook in nylas
@@ -683,8 +683,8 @@ paths:
     get:
       tags:
         - WebHookSync
-      summary: TBD
-      description: TBD
+      summary: Sync nylas
+      description: Use this endpoint for verification sync process between application and nylas
       operationId: verificationRequest
       parameters:
         - name: challenge
@@ -694,13 +694,11 @@ paths:
             type: string
       responses:
         200:
-          description: The file contents have been retrieved
+          description: The synchronization is successful
           content:
             text/plain:
               schema:
                 type: string
-
-
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -710,8 +708,8 @@ paths:
     post:
       tags:
         - WebHookSync
-      summary: TBD
-      description: TBD
+      summary: Sync nylas
+      description: Use this endpoint for sync between application and nylas
       operationId: processNotification
       requestBody:
         description: TBD
@@ -721,7 +719,7 @@ paths:
               $ref: '#/components/schemas/Deltas'
       responses:
         200:
-          description: The file contents have been retrieved
+          description: The synchronization is successful
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1113,6 +1111,7 @@ components:
           description: Map of field -> list of errors
 
     Attributes:
+      description: Dto for nylas sync process
       type: object
       properties:
         thread_id:
@@ -1121,6 +1120,7 @@ components:
           type: integer
 
     ObjectData:
+      description: Dto for nylas sync process
       type: object
       properties:
         namespace_id:
@@ -1135,6 +1135,7 @@ components:
           type: Attributes
 
     Delta:
+      description: Dto for nylas sync process
       type: object
       properties:
         date:
@@ -1147,6 +1148,7 @@ components:
           type: ObjectData
 
     Deltas:
+      description: Dto for nylas sync process
       type: object
       properties:
         deltas:

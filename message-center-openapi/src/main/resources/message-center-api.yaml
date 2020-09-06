@@ -162,6 +162,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /accounts/{id}/sync:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      parameters:
+          - $ref: '#/components/parameters/ResourceId'
+      operationId: syncAccount
+      responses:
+        200:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /threads:
     get:
       tags:
@@ -263,22 +283,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Messages'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /messages/sync:
-    get:
-      tags:
-        - Messages
-      summary: TBD
-      description: TBD
-      operationId: syncMessages
-      responses:
-        200:
-          description: TBD
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -686,6 +690,7 @@ components:
     UserAccountId:
       name: userAccountId
       in: query
+      required: true
       schema:
         type: string
     QueryPageNumber:
@@ -740,6 +745,7 @@ components:
           type: string
         unreadMessagesAmount:
           type: integer
+          format: int64
         sentMessagesAmount:
           type: integer
         draftMessagesAmount:
@@ -908,6 +914,7 @@ components:
           type: string
         unreadMessagesAmount:
           type: integer
+          format: int64
 
     FolderRequest:
       type: object

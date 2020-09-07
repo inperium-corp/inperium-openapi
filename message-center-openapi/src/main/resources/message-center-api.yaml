@@ -12,6 +12,7 @@ servers:
 
 security:
   - BearerAuth: []
+  - ApiKeyAuth: []
 
 tags:
   - name: Health checks
@@ -161,6 +162,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /accounts/{id}/sync:
+    get:
+      tags:
+        - Accounts
+      summary: TBD
+      description: TBD
+      parameters:
+          - $ref: '#/components/parameters/ResourceId'
+      operationId: syncAccount
+      responses:
+        200:
+          description: TBD
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /threads:
     get:
       tags:
@@ -172,7 +193,31 @@ paths:
         - name: folderId
           in: query
           schema:
-            type: string          
+            type: string       
+        - name: toMe
+          in: query
+          schema:
+            type: string
+        - name: flagged
+          in: query
+          schema:
+            type: string    
+        - name: unread
+          in: query
+          schema:
+            type: string     
+        - name: mentions
+          in: query
+          schema:
+            type: string  
+        - name: attachments
+          in: query
+          schema:
+            type: string           
+        - name: body
+          in: query
+          schema:
+            type: string                                                      
         - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
@@ -251,7 +296,6 @@ paths:
           in: query
           schema:
             type: string
-            format: uuid
         - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
@@ -263,22 +307,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Messages'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /messages/sync:
-    get:
-      tags:
-        - Messages
-      summary: TBD
-      description: TBD
-      operationId: syncMessages
-      responses:
-        200:
-          description: TBD
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -458,6 +486,7 @@ paths:
       description: TBD
       operationId: getDrafts
       parameters:
+          - $ref: "#/components/parameters/UserAccountId"
           - $ref: "#/components/parameters/QueryPageNumber"
           - $ref: "#/components/parameters/QueryPageSize"
           - $ref: "#/components/parameters/QuerySort"
@@ -578,7 +607,7 @@ paths:
         - Attachments
       summary: TBD
       description: TBD
-      operationId: uploadAttachment
+      operationId: uploadAttachmentContent
       requestBody:
         content:
           multipart/form-data:
@@ -733,6 +762,10 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
 
   parameters:
     ResourceId:
@@ -745,6 +778,7 @@ components:
     UserAccountId:
       name: userAccountId
       in: query
+      required: true
       schema:
         type: string
     QueryPageNumber:
@@ -795,10 +829,12 @@ components:
           enum:
             - CONNECTED
             - FAILED
+            - INITIAL_SYNC
         provider:
           type: string
         unreadMessagesAmount:
           type: integer
+          format: int64
         sentMessagesAmount:
           type: integer
         draftMessagesAmount:
@@ -859,8 +895,6 @@ components:
     ThreadRequest:
       type: object
       properties:
-        id:
-          type: string
         unread:
           type: boolean
         starred:
@@ -937,8 +971,6 @@ components:
     MessageRequest:
       type: object
       properties:
-        id:
-          type: string
         unread:
           type: boolean
         starred:
@@ -971,6 +1003,7 @@ components:
           type: string
         unreadMessagesAmount:
           type: integer
+          format: int64
 
     FolderRequest:
       type: object
@@ -1002,8 +1035,6 @@ components:
     DraftRequest:
       type: object
       properties:
-        id:
-          type: string
         subject:
           type: string
         to:
@@ -1057,37 +1088,9 @@ components:
           type: array
           items:
             type: string
-        contentId:
-          type: string
-
-    AttachmentRequest:
-      type: object
-      properties:
-        filename:
-          type: string
-        contentType:
-          type: string
 
     PageAndSort:
       type: object
-      properties:
-        pageNumber:
-          type: integer
-        pageSize:
-          description: The number of records per page
-          type: integer
-        totalNumberOfRecords:
-          type: integer
-        totalNumberOfPages:
-          type: integer
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        sortingCriteria:
-          type: string
-        hasMore:
-          type: boolean
       description: Paging and sorting information
 
     ResponseError:

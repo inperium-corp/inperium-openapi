@@ -5,15 +5,15 @@
     <parent>
         <artifactId>openapi</artifactId>
         <groupId>com.inperiumcorp.inperium</groupId>
-        <version>1.0.23</version>
+        <version>1.0.21</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>message-center-openapi</artifactId>
-    <version>1.0.23</version>
+    <artifactId>lead-router-openapi</artifactId>
+    <version>1.0.21</version>
     <packaging>jar</packaging>
 
-    <name>Inperium Message Center Web API</name>
+    <name>Inperium Lead Router Web API</name>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -42,10 +42,6 @@
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.xeroapi</groupId>
-            <artifactId>xero-java</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -63,12 +59,12 @@
                         </goals>
                         <configuration>
                             <generatorName>spring</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/message-center-api.yaml</inputSpec>
+                            <inputSpec>${project.basedir}/src/main/resources/lead-router-api.yaml</inputSpec>
                             <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.messageCenter.web.api.server</apiPackage>
-                            <modelPackage>com.inperiumcorp.inperium.messageCenter.web.model</modelPackage>
+                            <apiPackage>com.inperiumcorp.inperium.lead-router.web.api.server</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.lead-router.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <modelNamePrefix>ApiModelMessageCenter</modelNamePrefix>
+                            <modelNamePrefix>ApiModelLeadRouter</modelNamePrefix>
                             <configOptions>
                                 <library>spring-boot</library>
                                 <sourceFolder>swagger</sourceFolder>
@@ -79,39 +75,7 @@
                                 <booleanGetterPrefix>is</booleanGetterPrefix>
                             </configOptions>
                             <typeMappings>
-                                <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
-                            </typeMappings>
-                            <importMappings>
-                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-                            </importMappings>
-                            <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>client</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <generatorName>java</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/message-center-api.yaml</inputSpec>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.messageCenter.web.api.client</apiPackage>
-                            <generateApiTests>false</generateApiTests>
-                            <generateApiDocumentation>false</generateApiDocumentation>
-                            <modelPackage>com.inperiumcorp.inperium.messageCenter.web.model</modelPackage>
-                            <modelNamePrefix>ApiModelMessageCenter</modelNamePrefix>
-                            <generateModels>false</generateModels>
-                            <supportingFilesToGenerate>ApiClient.java,Authentication.java,HttpBasicAuth.java,HttpBearerAuth.java,ApiKeyAuth.java,RFC3339DateFormat.java</supportingFilesToGenerate>
-                            <configOptions>
-                                <library>resttemplate</library>
-                                <sourceFolder>swagger</sourceFolder>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializableModel>true</serializableModel>
-                                <booleanGetterPrefix>is</booleanGetterPrefix>
-                            </configOptions>
-                            <typeMappings>
+                                <typeMapping>Integer=Long</typeMapping>
                                 <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
                             </typeMappings>
                             <importMappings>
@@ -124,6 +88,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

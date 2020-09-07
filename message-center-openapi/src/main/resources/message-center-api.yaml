@@ -46,7 +46,7 @@ paths:
   /webhooks/auth:
     get:
       tags:
-        - WebHook
+        - Webhook
       summary: TBD
       description: TBD
       operationId: getNylasAuthUrl
@@ -67,7 +67,7 @@ paths:
   /webhooks/register:
     get:
       tags:
-        - WebHook
+        - Webhook
       summary: TBD
       description: TBD
       operationId: registerToken
@@ -692,6 +692,70 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhook/sync/register:
+    get:
+      tags:
+        - WebhookSync
+      summary: TBD
+      description: TBD
+      operationId: registerWebhook
+      responses:
+        200:
+          description: Register webhook in nylas
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhook/sync:
+    get:
+      tags:
+        - WebhookSync
+      summary: Sync nylas
+      description: Use this endpoint for synchronization process between application and nylas
+      operationId: synchronizationRequest
+      parameters:
+        - name: challenge
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The synchronization is successful
+          content:
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - WebhookSync
+      summary: Sync nylas
+      description: Use this endpoint for sync between application and nylas
+      operationId: processNotification
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deltas'
+      responses:
+        200:
+          description: The synchronization is successful
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
 
 components:
   securitySchemes:
@@ -1048,3 +1112,49 @@ components:
         errors:
           type: object
           description: Map of field -> list of errors
+
+    Attributes:
+      description: Dto for nylas sync process
+      type: object
+      properties:
+        thread_id:
+          type: string
+        received_date:
+          type: integer
+
+    ObjectData:
+      description: Dto for nylas sync process
+      type: object
+      properties:
+        namespace_id:
+          type: string
+        account_id:
+          type: string
+        object:
+          type: string
+        id:
+          type: string
+        attributes:
+          type: Attributes
+
+    Delta:
+      description: Dto for nylas sync process
+      type: object
+      properties:
+        date:
+          type: integer
+        object:
+          type: string
+        type:
+          type: string
+        object_data:
+          type: ObjectData
+
+    Deltas:
+      description: Dto for nylas sync process
+      type: object
+      properties:
+        deltas:
+          type: array
+          items:
+            type: Delta

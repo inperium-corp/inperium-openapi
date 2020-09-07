@@ -173,7 +173,27 @@ paths:
         - name: folderId
           in: query
           schema:
-            type: string          
+            type: string       
+        - name: toMe
+          in: query
+          schema:
+            type: string
+        - name: flagged
+          in: query
+          schema:
+            type: string    
+        - name: unread
+          in: query
+          schema:
+            type: string     
+        - name: mentions
+          in: query
+          schema:
+            type: string  
+        - name: attachments
+          in: query
+          schema:
+            type: string                                                 
         - $ref: "#/components/parameters/UserAccountId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"

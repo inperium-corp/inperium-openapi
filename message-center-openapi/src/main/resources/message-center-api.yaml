@@ -741,6 +741,7 @@ components:
           enum:
             - CONNECTED
             - FAILED
+            - INITIAL_SYNC
         provider:
           type: string
         unreadMessagesAmount:

@@ -45,7 +45,7 @@ paths:
   /webhooks/auth:
     get:
       tags:
-        - WebHook
+        - Webhook
       summary: TBD
       description: TBD
       operationId: getNylasAuthUrl
@@ -66,7 +66,7 @@ paths:
   /webhooks/register:
     get:
       tags:
-        - WebHook
+        - Webhook
       summary: TBD
       description: TBD
       operationId: registerToken
@@ -666,7 +666,7 @@ paths:
   /webhook/sync/register:
     get:
       tags:
-        - WebHookSync
+        - WebhookSync
       summary: TBD
       description: TBD
       operationId: registerWebhook
@@ -682,10 +682,10 @@ paths:
   /webhook/sync:
     get:
       tags:
-        - WebHookSync
+        - WebhookSync
       summary: Sync nylas
-      description: Use this endpoint for verification sync process between application and nylas
-      operationId: verificationRequest
+      description: Use this endpoint for synchronization process between application and nylas
+      operationId: synchronizationRequest
       parameters:
         - name: challenge
           in: query
@@ -707,7 +707,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - WebHookSync
+        - WebhookSync
       summary: Sync nylas
       description: Use this endpoint for sync between application and nylas
       operationId: processNotification

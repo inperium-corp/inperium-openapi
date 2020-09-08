@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>openapi</artifactId>
+        <groupId>com.inperiumcorp.inperium</groupId>
+        <version>1.0.22</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>talk-openapi</artifactId>
+    <version>1.0.22</version>
+    <packaging>jar</packaging>
+
+    <name>Inperium Talk Web API</name>
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable -->
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-controllers</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generatorName>spring</generatorName>
+                            <inputSpec>${project.basedir}/src/main/resources/talk-api.yaml</inputSpec>
+                            <apiPackage>com.inperiumcorp.inperium.server.talk.web.api</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.server.talk.web.model</modelPackage>
+                            <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+                            <modelNamePrefix>ApiModel</modelNamePrefix>
+                            <configOptions>
+                                <library>spring-boot</library>
+                                <interfaceOnly>true</interfaceOnly>
+                                <dateLibrary>java8</dateLibrary>
+                                <useTags>true</useTags>
+                                <serializableModel>true</serializableModel>
+                                <booleanGetterPrefix>is</booleanGetterPrefix>
+                            </configOptions>
+                            <typeMappings>
+                                <typeMapping>x-time=java.time.LocalTime</typeMapping>
+                                <typeMapping>x-date=java.time.LocalDate</typeMapping>
+                                <typeMapping>x-date-time=java.time.LocalDateTime</typeMapping>
+                            </typeMappings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

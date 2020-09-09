@@ -829,7 +829,7 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     put:
       summary: Update user details
-      description: Use this endpoint to update a specific user, for example promote user to admin or update a job title.
+      description: Use this endpoint to update a specific user (replace with all given properties).
       operationId: updateUser
       tags:
         - Users
@@ -837,9 +837,35 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
+      responses:
+        200:
+          description: The user has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    patch:
+      summary: Update user details partially
+      description: Use this endpoint to update a specific user, for example promote user to admin or update his first/last name.
+      operationId: updateUserPartially
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserPartialRequest"
       responses:
         200:
           description: The user has been updated
@@ -1540,6 +1566,22 @@ components:
         avatarId:
           type: string
           format: uuid
+
+    UserPartialRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        isAdmin:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
 
     UserInviteRequest:
       type: object

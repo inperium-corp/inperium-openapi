@@ -4979,6 +4979,8 @@ components:
           $ref: "#/components/schemas/Id"
         quoteId:
           $ref: "#/components/schemas/Id"
+        invoiceId:
+          $ref: "#/components/schemas/Id"
     Items:
       type: object
       properties:
@@ -5327,6 +5329,13 @@ components:
             $ref: "#/components/schemas/PublicQuoteAdditionalFee"
         tenant:
           $ref: "#/components/schemas/PublicQuoteTenant"
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - ACCEPTED
+          example: DRAFT
     PublicQuoteAdditionalFee:
       type: object
       properties:

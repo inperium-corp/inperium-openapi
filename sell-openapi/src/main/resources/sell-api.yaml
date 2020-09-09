@@ -4979,6 +4979,8 @@ components:
           $ref: "#/components/schemas/Id"
         quoteId:
           $ref: "#/components/schemas/Id"
+        invoiceId:
+          $ref: "#/components/schemas/Id"
     Items:
       type: object
       properties:

@@ -1533,18 +1533,6 @@ components:
           type: string
         jobTitle:
           type: string
-        products:
-          type: array
-          items:
-            type: string
-        features:
-          type: array
-          items:
-            type: string
-        permissions:
-          type: array
-          items:
-            type: string
         roles:
           type: array
           items:
@@ -1568,18 +1556,6 @@ components:
           type: string
         isAdmin:
           type: boolean
-        products:
-          type: array
-          items:
-            type: string
-        features:
-          type: array
-          items:
-            type: string
-        permissions:
-          type: array
-          items:
-            type: string
         roles:
           type: array
           items:

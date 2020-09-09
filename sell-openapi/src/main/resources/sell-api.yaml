@@ -5327,6 +5327,13 @@ components:
             $ref: "#/components/schemas/PublicQuoteAdditionalFee"
         tenant:
           $ref: "#/components/schemas/PublicQuoteTenant"
+        status:
+          type: string
+          enum:
+            - DRAFT
+            - CREATED
+            - ACCEPTED
+          example: DRAFT
     PublicQuoteAdditionalFee:
       type: object
       properties:

@@ -904,10 +904,7 @@ components:
           type: boolean
         folderId:
           type: string
-        labelIds:
-          type: array
-          items:
-            type: string
+          format: uuid
 
     ThreadParticipant:
       type: object
@@ -980,6 +977,7 @@ components:
           type: boolean
         folderId:
           type: string
+          format: uuid
 
     Folders:
       type: object

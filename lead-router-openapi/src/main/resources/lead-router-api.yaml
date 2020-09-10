@@ -117,6 +117,8 @@ components:
           DEMO_REQUEST: "#/components/schemas/DemoRequestActivityRequest"
           account_creation: "#/components/schemas/AccountCreationActivityRequest"
           ACCOUNT_CREATION: "#/components/schemas/AccountCreationActivityRequest"
+          email_verification: "#/components/schemas/EmailVerificationActivityRequest"
+          EMAIL_VERIFICATION: "#/components/schemas/EmailVerificationActivityRequest"
           contact_us: "#/components/schemas/ContactUsActivityRequest"
           CONTACT_US: "#/components/schemas/ContactUsActivityRequest"
       properties:
@@ -254,6 +256,18 @@ components:
     AccountCreationActivityRequest:
       type: object
       description: The request model to handle a new Inperium account that was created.
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
+
+    EmailVerificationActivityRequest:
+      type: object
+      description: The request model to handle an Inperium user verifying his email.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object

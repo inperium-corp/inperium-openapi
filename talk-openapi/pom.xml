@@ -63,7 +63,7 @@
                             <apiPackage>com.inperiumcorp.inperium.server.talk.web.api</apiPackage>
                             <modelPackage>com.inperiumcorp.inperium.server.talk.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <modelNamePrefix>ApiModel</modelNamePrefix>
+                            <modelNamePrefix>ApiModelTalk</modelNamePrefix>
                             <configOptions>
                                 <library>spring-boot</library>
                                 <interfaceOnly>true</interfaceOnly>

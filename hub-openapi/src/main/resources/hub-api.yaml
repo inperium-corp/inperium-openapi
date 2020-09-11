@@ -1855,9 +1855,6 @@ components:
         confirmPassword:
           type: string
           description: The confirmation of the user password (must be the same as password)
-        inviteCode:
-          type: string
-          description: The invite code required to join the closed beta.
 
     UserPasswordRequest:
       type: object

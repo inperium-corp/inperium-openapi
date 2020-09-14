@@ -5277,19 +5277,25 @@ components:
     ReportData:
       type: object
       properties:
-        chartType:
-          type: string
-        dataSet:
-          type: array
-          items:
-            type: object
-            properties:
-              label:
-                type: string
-              data:
-                type: array
-                items:
-                  type: object
+        xAxis:
+          type: object
+          properties:
+            label: 
+              type: string
+            data:
+              type: array
+              items:
+                type: object      
+        yAxis:
+          type: object
+          properties:
+            label: 
+              type: string
+            data:
+              type: array
+              items:
+                type: object                          
+
     PublicQuote:
       type: object
       properties:

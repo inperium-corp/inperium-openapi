@@ -1012,7 +1012,7 @@ components:
         replyToThreadId:
           type: string
           format: uuid
-        replyToMessgeId:
+        replyToMessageId:
           type: string
           format: uuid
         subject:

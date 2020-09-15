@@ -20,6 +20,7 @@ tags:
   - name: Accounts
   - name: Threads
   - name: Messages
+  - name: Messages sending
   - name: Folders
   - name: Drafts
   - name: Attachments
@@ -316,6 +317,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    post:
+      summary: TBD
+      description: TBD
+      operationId: sendMessage
+      tags:
+        - Messages sending
+      requestBody:
+        description: TBD
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageSendRequest'
+      responses:
+        200:
+          description: TBD
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /messages/{id}:
     get:
       tags:
@@ -351,7 +377,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageRequest'
+              $ref: '#/components/schemas/MessageUpdateRequest'
       responses:
         200:
           description: TBD
@@ -967,8 +993,9 @@ components:
             $ref: '#/components/schemas/Attachment'
         folderId:
           type: string
+          format: UUID
 
-    MessageRequest:
+    MessageUpdateRequest:
       type: object
       properties:
         unread:
@@ -978,6 +1005,46 @@ components:
         folderId:
           type: string
           format: uuid
+
+    MessageSendRequest:
+      type: object
+      properties:
+        replyToThreadId:
+          type: string
+          format: uuid
+        replyToMessageId:
+          type: string
+          format: uuid
+        subject:
+          type: string
+        body:
+          type: string
+        from:
+          $ref: '#/components/schemas/ThreadParticipant'
+        to:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        replyTo:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        cc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        bcc:
+          type: array
+          items:
+            $ref: '#/components/schemas/ThreadParticipant'
+        attachmentIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - from
+        - to
 
     Folders:
       type: object

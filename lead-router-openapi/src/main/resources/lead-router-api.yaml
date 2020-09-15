@@ -225,7 +225,7 @@ components:
             plan:
               type: string
               enum:
-                - STARTER
+                - ESSENTIAL
                 - PROFESSIONAL
                 - ENTERPRISE
 

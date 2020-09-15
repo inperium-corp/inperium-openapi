@@ -9,11 +9,11 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lead-router-openapi</artifactId>
+    <artifactId>talk-openapi</artifactId>
     <version>1.0.34</version>
     <packaging>jar</packaging>
 
-    <name>Inperium Lead Router Web API</name>
+    <name>Inperium Talk Web API</name>
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -52,22 +52,20 @@
                 <version>${openapi-generator.version}</version>
                 <executions>
                     <execution>
-                        <id>server</id>
+                        <id>generate-controllers</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
                         </goals>
                         <configuration>
                             <generatorName>spring</generatorName>
-                            <inputSpec>${project.basedir}/src/main/resources/lead-router-api.yaml</inputSpec>
-                            <output>${project.build.directory}/generated-sources</output>
-                            <apiPackage>com.inperiumcorp.inperium.lead-router.web.api.server</apiPackage>
-                            <modelPackage>com.inperiumcorp.inperium.lead-router.web.model</modelPackage>
+                            <inputSpec>${project.basedir}/src/main/resources/talk-api.yaml</inputSpec>
+                            <apiPackage>com.inperiumcorp.inperium.server.talk.web.api</apiPackage>
+                            <modelPackage>com.inperiumcorp.inperium.server.talk.web.model</modelPackage>
                             <supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
-                            <modelNamePrefix>ApiModelLeadRouter</modelNamePrefix>
+                            <modelNamePrefix>ApiModelTalk</modelNamePrefix>
                             <configOptions>
                                 <library>spring-boot</library>
-                                <sourceFolder>swagger</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <dateLibrary>java8</dateLibrary>
                                 <useTags>true</useTags>
@@ -75,13 +73,10 @@
                                 <booleanGetterPrefix>is</booleanGetterPrefix>
                             </configOptions>
                             <typeMappings>
-                                <typeMapping>Integer=Long</typeMapping>
-                                <typeMapping>OffsetDateTime=java.time.LocalDateTime</typeMapping>
+                                <typeMapping>x-time=java.time.LocalTime</typeMapping>
+                                <typeMapping>x-date=java.time.LocalDate</typeMapping>
+                                <typeMapping>x-date-time=java.time.LocalDateTime</typeMapping>
                             </typeMappings>
-                            <importMappings>
-                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
-                            </importMappings>
-                            <ignoreFileOverride>${project.basedir}/.swagger-codegen-ignore</ignoreFileOverride>
                         </configuration>
                     </execution>
                 </executions>

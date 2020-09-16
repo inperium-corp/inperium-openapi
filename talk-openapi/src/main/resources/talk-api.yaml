@@ -1157,7 +1157,7 @@ paths:
   /participants/{id}:
     patch:
       tags:
-        - Participant
+        - Participants
       summary: Update participant
       operationId: patchParticipant
       parameters:
@@ -1185,7 +1185,7 @@ paths:
   /participants:
     patch:
       tags:
-        - Participant
+        - Participants
       summary: Update list of participants
       operationId: patchParticipants
       requestBody:

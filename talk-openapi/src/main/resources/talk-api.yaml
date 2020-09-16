@@ -1153,22 +1153,51 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: participant
-  /calls/participants/hold:
-    post:
+
+  /participants/{id}:
+    patch:
       tags:
-        - Call
-      summary: Put a calls on hold with a speicific participants
-      operationId: holdParticipants
+        - Participants
+      summary: Update participant
+      operationId: patchParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        required: false
+      responses:
+        200:
+          description: The participant has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      x-codegen-request-body-name: change
+  /participants:
+    patch:
+      tags:
+        - Participants
+      summary: Update list of participants
+      operationId: patchParticipants
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/ParticipantHold'
+                $ref: '#/components/schemas/ParticipantChangeRequest'
       responses:
         200:
-          description: The participant is on hold now
+          description: The updated participants have been retreived
           content:
             application/json:
               schema:
@@ -1179,7 +1208,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: holds
   /calls/callbacks/conference/{id}:
     post:
       tags:
@@ -2381,13 +2409,22 @@ components:
         token:
           type: string
           description: Twilio capability token
-    ParticipantHold:
+    ParticipantChangeRequestBody:
       type: object
       properties:
-        participantId:
-          $ref: '#/components/schemas/Id'
         hold:
           type: boolean
+        muted:
+          type: boolean
+    ParticipantChangeRequest:
+      type: object
+      required:
+        - participantId
+      allOf:
+        - properties:
+            participantId:
+              $ref: '#/components/schemas/Id'
+        - $ref: '#/components/schemas/ParticipantChangeRequestBody'
     VoiceToken:
       type: object
       properties:

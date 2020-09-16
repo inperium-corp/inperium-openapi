@@ -1170,7 +1170,7 @@ paths:
         required: false
       responses:
         200:
-          description: The updated participant has been received
+          description: The participant has been updated
           content:
             application/json:
               schema:

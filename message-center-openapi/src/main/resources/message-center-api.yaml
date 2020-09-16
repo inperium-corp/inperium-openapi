@@ -859,6 +859,7 @@ components:
             - CONNECTED
             - FAILED
             - INITIAL_SYNC
+            - CANCELED
         provider:
           type: string
         unreadMessagesAmount:

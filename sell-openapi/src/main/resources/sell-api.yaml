@@ -4514,6 +4514,26 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PropertyOption"
+            validation: 
+              type: object
+              properties:
+                required:
+                  type: boolean
+                max: 
+                  type: integer
+                  format: int64
+                min:
+                  type: integer
+                  format: int64
+                maxLength: 
+                  type: integer
+                  format: int64
+                minLength: 
+                  type: integer
+                  format: int64
+                pattern:
+                  type: string
+
     PropertyConfigs:
       type: object
       properties:

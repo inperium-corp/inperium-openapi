@@ -4130,8 +4130,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Id"
-        documentUrl:
-          type: string
+        document:
+          $ref: "#/components/schemas/Document"
       description: Document model returned by Inperium API
     AttachmentRequest:
       type: object

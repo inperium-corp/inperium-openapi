@@ -154,15 +154,6 @@ components:
           $ref: '#/components/schemas/Id'
         type:
           type: string
-          enum:
-            - PDF
-            - RTF
-            - JPG
-            - PNG
-            - TXT
-            - MP3
-            - CSV
-            - UNKNOWN
         name:
           minLength: 1
           type: string

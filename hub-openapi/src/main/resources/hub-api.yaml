@@ -195,6 +195,11 @@ paths:
           description: Unique ID of the API key
           schema:
             type: string
+        - name: name
+          in: query
+          description: Name of the API key
+          schema:
+            type: string
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"

@@ -11,8 +11,8 @@ servers:
   - url: https://api.inperium.com/v1/talk
 
 security:
-  - BearerAuth: []
-  - ApiKeyAuth: []
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
 
 tags:
 
@@ -119,6 +119,30 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
       x-codegen-request-body-name: content
+  /audioLibrary/textToSpeech:
+    post:
+      tags:
+        - Audio library
+      summary: Convert text into a new audio file to the library
+      operationId: textToSpeechToLibrary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudioLibraryFileTextToSpeechRequest'
+      responses:
+        200:
+          description: The audio file have been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AudioLibraryFile'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /audioLibrary/{id}:
     get:
       tags:
@@ -1838,7 +1862,6 @@ components:
             $ref: '#/components/schemas/AudioLibraryFile'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-
     AudioLibraryFile:
       type: object
       properties:
@@ -1854,6 +1877,21 @@ components:
       required:
         - id
         - name
+    AudioLibraryFileTextToSpeechRequest:
+      type: object
+      description: Request model to create an audio library file from text
+      properties:
+        name:
+          type: string
+          description: An optional name of this document
+        text:
+          type: string
+          description: A text to be converted into audio
+        voice:
+          type: string
+          description: A voice to dub the text
+        predefined:
+          type: boolean
 
     AutoReceptionistRequest:
       type: object
@@ -2416,6 +2454,9 @@ components:
         - participants
     ParticipantChangeRequestBody:
       type: object
+      required:
+        - hold
+        - muted
       properties:
         hold:
           type: boolean
@@ -2423,13 +2464,18 @@ components:
           type: boolean
     ParticipantChangeRequest:
       type: object
+      # TODO return inheritance (allOf with discriminator propertyName: schema)
       required:
         - participantId
-      allOf:
-        - properties:
-            participantId:
-              $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        - hold
+        - muted
+      properties:
+        participantId:
+          $ref: '#/components/schemas/Id'
+        hold:
+          type: boolean
+        muted:
+          type: boolean
     VoiceToken:
       type: object
       properties:
@@ -2446,13 +2492,27 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Contact:
-      discriminator:
-        propertyName: schema
-      allOf:
-        - properties:
-            id:
-              $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/ContactRequest'
+      type: object
+      # TODO return inheritance (allOf with discriminator propertyName: schema)
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        shared:
+          type: boolean
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPhoneNumber'
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
       properties:

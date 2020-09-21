@@ -1086,6 +1086,11 @@ paths:
           description: Unique ID of the security roles.
           schema:
             type: string
+        - name: name
+          in: query
+          description: Search roles by name or part of name.
+          schema:
+            type: string
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"

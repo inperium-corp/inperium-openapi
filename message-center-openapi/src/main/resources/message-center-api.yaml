@@ -1010,9 +1010,6 @@ components:
     MessageSendRequest:
       type: object
       properties:
-        replyToThreadId:
-          type: string
-          format: uuid
         replyToMessageId:
           type: string
           format: uuid
@@ -1020,8 +1017,9 @@ components:
           type: string
         body:
           type: string
-        from:
-          $ref: '#/components/schemas/ThreadParticipant'
+        fromUserAccountId:
+          type: string
+          format: UUID
         to:
           type: array
           items:

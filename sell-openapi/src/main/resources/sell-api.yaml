@@ -2644,6 +2644,10 @@ paths:
       description: Use this endpoint to get a list of pipelines enabled for the current tenant. This operation supports sorting and paging.
       operationId: getPipelines
       parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
         - $ref: "#/components/parameters/QuerySort"

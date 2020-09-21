@@ -869,6 +869,47 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /companies/merge:
+    post:
+      tags:
+        - Companies
+      summary: Merge company properties
+      description: Use this endpoint to merge companies with removing one of them.
+      operationId: mergeCompanies
+      parameters:
+        - name: sourceId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: targetId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid          
+      requestBody:
+        description: In the request body, pass the details that need to be updated
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/CompanyRequest"
+        required: false    
+      responses:
+        200:
+          description: The company has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Company"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"    
+      
   /companyRelationships:
     get:
       tags:
@@ -1160,6 +1201,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /contacts/merge:
+    post:
+      tags:
+        - Contacts
+      summary: Merge contact properties
+      description: Use this endpoint to merge contacts with removing one of them.
+      operationId: mergeContacts
+      parameters:
+        - name: sourceId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: targetId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid          
+      requestBody:
+        description: In the request body, pass the details that need to be updated
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+        required: false    
+      responses:
+        200:
+          description: The contact has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"      
   /contacts/{id}/communication-methods:
     get:
       tags:
@@ -1439,6 +1520,46 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /deals/merge:
+    post:
+      tags:
+        - Deals
+      summary: Merge deal properties
+      description: Use this endpoint to merge deals with removing one of them.
+      operationId: mergeDeals
+      parameters:
+        - name: sourceId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: targetId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid          
+      requestBody:
+        description: In the request body, pass the details that need to be updated
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/DealRequest"
+        required: false    
+      responses:
+        200:
+          description: The deal has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Deal"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"                    
   /deals/{id}/items:
     get:
       tags:

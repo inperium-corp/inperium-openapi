@@ -63,12 +63,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /audioLibrary:
+  /audio/files:
     get:
       tags:
-        - Audio library
-      summary: Get list of audio files from the library
-      operationId: getAudioLibraryList
+        - Audio
+      summary: Get list of audio files
+      operationId: getAudioFiles
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
@@ -79,7 +79,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AudioLibrary'
+                $ref: '#/components/schemas/AudioFiles'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -88,9 +88,9 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Audio library
-      summary: Upload a new audio file to the library
-      operationId: uploadToLibrary
+        - Audio
+      summary: Upload a new audio file
+      operationId: uploadAudioFile
       requestBody:
         content:
           multipart/form-data:
@@ -111,53 +111,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AudioLibraryFile'
+                $ref: '#/components/schemas/AudioFile'
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: content
-  /audioLibrary/textToSpeech:
-    post:
-      tags:
-        - Audio library
-      summary: Convert text into a new audio file to the library
-      operationId: textToSpeechToLibrary
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AudioLibraryFileTextToSpeechRequest'
-      responses:
-        200:
-          description: The audio file have been created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AudioLibraryFile'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /audioLibrary/{id}:
+  /audio/files/{id}:
     get:
       tags:
-        - Audio library
-      summary: Download a audio file from the library by id
-      operationId: downloadLibraryFile
+        - Audio
+      summary: Get direct link to the audio file by id
+      operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: Redirect to file location in AWS
+          description: Direct link to audio file location in file storage
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/AudioFileLink'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -166,15 +141,40 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Audio library
-      summary: Delete a audio file from the library
-      operationId: deleteLibraryFile
+        - Audio
+      summary: Delete the audio file
+      operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: The audio file has been deleted
           content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /audio/textToSpeech:
+    post:
+      tags:
+        - Audio
+      summary: Convert text into audio
+      operationId: textToSpeech
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AudioTextToSpeechRequest'
+      responses:
+        200:
+          description: The synthesized audio
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -290,7 +290,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
   /phoneNumbers/create:
     post:
       tags:
@@ -316,7 +315,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
   /phoneNumbers/{id}:
     get:
       tags:
@@ -364,7 +362,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
     delete:
       tags:
         - Phone Numbers
@@ -530,7 +527,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumbers
 
   /autoReceptionists:
     get:
@@ -778,7 +774,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: address
 
   /regulatoryBundles:
     get:
@@ -1039,7 +1034,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: call
   /calls/find/{sid}:
     get:
       tags:
@@ -1131,7 +1125,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: call
     delete:
       tags:
         - Call
@@ -1176,7 +1169,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: participant
 
   /participants/{id}:
     patch:
@@ -1205,7 +1197,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: change
   /participants:
     patch:
       tags:
@@ -1609,7 +1600,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: contact
   /contacts/{id}:
     get:
       tags:
@@ -1657,7 +1647,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: contact
     delete:
       tags:
         - Contacts
@@ -1853,45 +1842,75 @@ components:
           type: boolean
       description: Paging and sorting information
 
-    AudioLibrary:
+    AudioFiles:
       type: object
+      required:
+        - data
+        - paging
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/AudioLibraryFile'
+            $ref: '#/components/schemas/AudioFile'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    AudioLibraryFile:
+    AudioFileLink:
       type: object
+      required:
+        - link
+      properties:
+        link:
+          type: string
+          description: Direct link to audio file location in file storage
+    AudioFile:
+      type: object
+      description: Audio file
+      required:
+        - id
+        - name
+        - predefined
+        - createdAt
+        - updatedAt
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: Name of the audio file
+        duration:
+          type: number
+          format: double
+          description: Duration of the audio file
         predefined:
           type: boolean
+          description: If the audio file is predefined and is not editable
         createdAt:
-          type: string
-          format: x-date
-      required:
-        - id
-        - name
-    AudioLibraryFileTextToSpeechRequest:
+          type: integer
+          format: int64
+          description: Timestamp of the create
+        updatedAt:
+          type: integer
+          format: int64
+          description: Timestamp of the update
+    AudioTextToSpeechRequest:
       type: object
-      description: Request model to create an audio library file from text
+      description: Request model to convert text into audio
+      required:
+        - text
+        - voice
       properties:
-        name:
-          type: string
-          description: An optional name of this document
         text:
           type: string
-          description: A text to be converted into audio
+          description: Text to be converted into audio
         voice:
           type: string
-          description: A voice to dub the text
-        predefined:
-          type: boolean
+          description: Voice to dub the text
+        audioFormat:
+          type: string
+          enum:
+            - MP3
+          default: MP3
+          description: Format (type) of audio to be synthesized
 
     AutoReceptionistRequest:
       type: object
@@ -1991,7 +2010,7 @@ components:
         - routeTo
       properties:
         greetingPrompt:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
@@ -2001,7 +2020,7 @@ components:
         user:
           $ref: '#/components/schemas/User'
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
     AutoReceptionistHour:
@@ -2059,7 +2078,7 @@ components:
         id:
           $ref: '#/components/schemas/Id'
         voicemail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         autoReceptionist:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
@@ -2068,12 +2087,6 @@ components:
           $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        createdAt:
-          type: string
-          format: x-date-time
-        updatedAt:
-          type: string
-          format: x-date-time
         phoneNumber:
           type: string
         timeout:
@@ -2117,12 +2130,6 @@ components:
           $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        createdAt:
-          type: string
-          format: x-date-time
-        updatedAt:
-          type: string
-          format: x-date-time
         phoneNumber:
           type: string
         timeout:
@@ -2170,7 +2177,7 @@ components:
         - actions
       properties:
         audioPrompt:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         actions:
           type: array
           items:
@@ -2493,6 +2500,12 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Contact:
       type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - companyName
+        - shared
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:
@@ -2515,6 +2528,11 @@ components:
             $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
+      required:
+        - firstName
+        - lastName
+        - companyName
+        - shared
       properties:
         firstName:
           type: string
@@ -2616,7 +2634,7 @@ components:
           minimum: 1
           maximum: 5
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
       enum:
@@ -2636,7 +2654,7 @@ components:
       type: object
       properties:
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
         forwardingPhoneNumber:

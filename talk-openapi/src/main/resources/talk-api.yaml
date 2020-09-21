@@ -1853,6 +1853,7 @@ components:
           format: x-date
       required:
         - id
+        - name
 
     AutoReceptionistRequest:
       type: object
@@ -2409,6 +2410,10 @@ components:
         token:
           type: string
           description: Twilio capability token
+      required:
+        - id
+        - caller
+        - participants
     ParticipantChangeRequestBody:
       type: object
       properties:

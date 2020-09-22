@@ -14,15 +14,11 @@ security:
   - BearerAuth: [ ]
   - ApiKeyAuth: [ ]
 
-tags:
-
-  - name: Users
-
 paths:
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Checks the health of the microservice
       operationId: checkHealth
       responses:
@@ -36,37 +32,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /dictionaryGroups/{groupId}:
+  /audioFiles:
     get:
       tags:
-        - Dictionaries
-      summary: Retrieve a dictionary group by its ID
-      operationId: getDictionaryGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/EntityProperties'
-      responses:
-        200:
-          description: The dictionary group has been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DictionaryItems'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /audio/files:
-    get:
-      tags:
-        - Audio
+        - Audio Files
       summary: Get list of audio files
       operationId: getAudioFiles
       parameters:
@@ -88,7 +57,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Audio
+        - Audio Files
       summary: Upload a new audio file
       operationId: uploadAudioFile
       requestBody:
@@ -118,10 +87,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /audio/files/{id}:
+  /audioFiles/{id}:
     get:
       tags:
-        - Audio
+        - Audio Files
       summary: Get direct link to the audio file by id
       operationId: getAudioFile
       parameters:
@@ -141,7 +110,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Audio
+        - Audio Files
       summary: Delete the audio file
       operationId: deleteAudioFile
       parameters:
@@ -156,17 +125,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /audio/textToSpeech:
+
+  /services/textToSpeech:
     post:
       tags:
-        - Audio
+        - Services
       summary: Convert text into audio
       operationId: textToSpeech
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AudioTextToSpeechRequest'
+              $ref: '#/components/schemas/TextToSpeechRequest'
       responses:
         200:
           description: The synthesized audio
@@ -181,6 +151,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
   /phoneNumbers:
     get:
       tags:
@@ -383,7 +354,7 @@ paths:
   /phoneNumbers/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the list of voice mails for phone number
       operationId: getPhoneNumberVoiceMails
       parameters:
@@ -408,7 +379,7 @@ paths:
   /autoReceptionists/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the list of voice mails for auto receptionist
       operationId: getReceptionistVoiceMails
       parameters:
@@ -433,7 +404,7 @@ paths:
   /users/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the mp3 voice mail for user
       operationId: getUserVoiceMails
       parameters:
@@ -531,7 +502,7 @@ paths:
   /autoReceptionists:
     get:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Retrieve a list of auto receptionists.
       operationId: findAutoReceptionists
       parameters:
@@ -553,7 +524,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Create a new auto receptionist
       operationId: createAutoReceptionist
       requestBody:
@@ -578,7 +549,7 @@ paths:
   /autoReceptionists/{id}:
     get:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Retrieve details of the auto receptionist by its ID
       operationId: findAutoReceptionist
       parameters:
@@ -598,7 +569,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     patch:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Partially update an auto receptionist
       operationId: partiallyUpdateAutoReceptionist
       parameters:
@@ -624,7 +595,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Update an auto receptionist
       operationId: updateAutoReceptionist
       parameters:
@@ -650,7 +621,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Delete an auto receptionist
       operationId: deleteAutoReceptionist
       parameters:
@@ -778,7 +749,7 @@ paths:
   /regulatoryBundles:
     get:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Retrieve regulatory bundles
       operationId: getRegulatoryBundles
       parameters:
@@ -810,7 +781,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Create new regulatory bundle
       operationId: createRegulatoryBundle
       requestBody:
@@ -836,7 +807,7 @@ paths:
   /regulatoryBundles/{id}:
     get:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Retrieve the regulatory bundle by id
       operationId: getRegulatoryBundle
       parameters:
@@ -856,7 +827,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Update regulatory bundle by id
       operationId: updateRegulatoryBundle
       parameters:
@@ -1667,7 +1638,7 @@ paths:
   /userSettings:
     get:
       tags:
-        - User settings
+        - User Settings
       summary: Retrieve user settings of current user
       operationId: getUserSettings
       responses:
@@ -1685,7 +1656,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - User settings
+        - User Settings
       summary: Update a contact
       operationId: updateUserSettings
       requestBody:
@@ -1719,14 +1690,6 @@ components:
       name: X-API-KEY
 
   parameters:
-
-    EntityProperties:
-      name: properties
-      in: query
-      schema:
-        type: object
-        additionalProperties:
-          type: string
 
     ResourceId:
       name: id
@@ -1789,33 +1752,6 @@ components:
     TimezoneId:
       type: string
       description: Timezone value
-
-    DictionaryItem:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        anchor:
-          minLength: 1
-          type: string
-        caption:
-          minLength: 1
-          type: string
-        description:
-          type: string
-        extendedAttributes:
-          type: object
-          properties: { }
-      description: A dictionary item which cannot be modified
-
-    DictionaryItems:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DictionaryItem'
-      description: An aggregation of dictionary items
 
     PageAndSort:
       type: object
@@ -1892,7 +1828,7 @@ components:
           type: integer
           format: int64
           description: Timestamp of the update
-    AudioTextToSpeechRequest:
+    TextToSpeechRequest:
       type: object
       description: Request model to convert text into audio
       required:

@@ -2461,9 +2461,6 @@ components:
         - participants
     ParticipantChangeRequestBody:
       type: object
-      required:
-        - hold
-        - muted
       properties:
         hold:
           type: boolean
@@ -2474,8 +2471,6 @@ components:
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       required:
         - participantId
-        - hold
-        - muted
       properties:
         participantId:
           $ref: '#/components/schemas/Id'

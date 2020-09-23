@@ -2335,6 +2335,8 @@ components:
           type: boolean
     CallParticipant:
       type: object
+      required:
+        - id
       properties:
         id:
           $ref: '#/components/schemas/Id'

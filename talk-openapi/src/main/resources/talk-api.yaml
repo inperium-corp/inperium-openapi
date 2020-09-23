@@ -11,18 +11,14 @@ servers:
   - url: https://api.inperium.com/v1/talk
 
 security:
-  - BearerAuth: []
-  - ApiKeyAuth: []
-
-tags:
-
-  - name: Users
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
 
 paths:
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Checks the health of the microservice
       operationId: checkHealth
       responses:
@@ -36,39 +32,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /dictionaryGroups/{groupId}:
+  /audioFiles:
     get:
       tags:
-        - Dictionaries
-      summary: Retrieve a dictionary group by its ID
-      operationId: getDictionaryGroup
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-        - $ref: '#/components/parameters/EntityProperties'
-      responses:
-        200:
-          description: The dictionary group has been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/DictionaryItems'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /audioLibrary:
-    get:
-      tags:
-        - Audio library
-      summary: Get list of audio files from the library
-      operationId: getAudioLibraryList
+        - Audio Files
+      summary: Get list of audio files
+      operationId: getAudioFiles
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
@@ -79,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AudioLibrary'
+                $ref: '#/components/schemas/AudioFiles'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -88,9 +57,9 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Audio library
-      summary: Upload a new audio file to the library
-      operationId: uploadToLibrary
+        - Audio Files
+      summary: Upload a new audio file
+      operationId: uploadAudioFile
       requestBody:
         content:
           multipart/form-data:
@@ -111,29 +80,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AudioLibraryFile'
+                $ref: '#/components/schemas/AudioFile'
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: content
-  /audioLibrary/{id}:
+  /audioFiles/{id}:
     get:
       tags:
-        - Audio library
-      summary: Download a audio file from the library by id
-      operationId: downloadLibraryFile
+        - Audio Files
+      summary: Get direct link to the audio file by id
+      operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: Redirect to file location in AWS
+          description: Direct link to audio file location in file storage
           content:
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/AudioFileLink'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -142,9 +110,9 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Audio library
-      summary: Delete a audio file from the library
-      operationId: deleteLibraryFile
+        - Audio Files
+      summary: Delete the audio file
+      operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
@@ -157,6 +125,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /services/textToSpeech:
+    post:
+      tags:
+        - Services
+      summary: Convert text into audio
+      operationId: textToSpeech
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        200:
+          description: The synthesized audio
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /phoneNumbers:
     get:
       tags:
@@ -266,7 +261,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
   /phoneNumbers/create:
     post:
       tags:
@@ -292,7 +286,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
   /phoneNumbers/{id}:
     get:
       tags:
@@ -340,7 +333,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumber
     delete:
       tags:
         - Phone Numbers
@@ -362,7 +354,7 @@ paths:
   /phoneNumbers/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the list of voice mails for phone number
       operationId: getPhoneNumberVoiceMails
       parameters:
@@ -387,7 +379,7 @@ paths:
   /autoReceptionists/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the list of voice mails for auto receptionist
       operationId: getReceptionistVoiceMails
       parameters:
@@ -412,7 +404,7 @@ paths:
   /users/{id}/voicemails:
     get:
       tags:
-        - Voice mails
+        - Voice Mails
       summary: Retrieve the mp3 voice mail for user
       operationId: getUserVoiceMails
       parameters:
@@ -506,12 +498,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: phoneNumbers
 
   /autoReceptionists:
     get:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Retrieve a list of auto receptionists.
       operationId: findAutoReceptionists
       parameters:
@@ -533,7 +524,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Create a new auto receptionist
       operationId: createAutoReceptionist
       requestBody:
@@ -558,7 +549,7 @@ paths:
   /autoReceptionists/{id}:
     get:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Retrieve details of the auto receptionist by its ID
       operationId: findAutoReceptionist
       parameters:
@@ -578,7 +569,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     patch:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Partially update an auto receptionist
       operationId: partiallyUpdateAutoReceptionist
       parameters:
@@ -604,7 +595,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Update an auto receptionist
       operationId: updateAutoReceptionist
       parameters:
@@ -630,7 +621,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Auto receptionists
+        - Auto Receptionists
       summary: Delete an auto receptionist
       operationId: deleteAutoReceptionist
       parameters:
@@ -754,12 +745,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: address
 
   /regulatoryBundles:
     get:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Retrieve regulatory bundles
       operationId: getRegulatoryBundles
       parameters:
@@ -791,7 +781,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Create new regulatory bundle
       operationId: createRegulatoryBundle
       requestBody:
@@ -817,7 +807,7 @@ paths:
   /regulatoryBundles/{id}:
     get:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Retrieve the regulatory bundle by id
       operationId: getRegulatoryBundle
       parameters:
@@ -837,7 +827,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Update regulatory bundle by id
       operationId: updateRegulatoryBundle
       parameters:
@@ -1015,7 +1005,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: call
   /calls/find/{sid}:
     get:
       tags:
@@ -1107,7 +1096,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: call
     delete:
       tags:
         - Call
@@ -1152,7 +1140,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: participant
 
   /participants/{id}:
     patch:
@@ -1181,7 +1168,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: change
   /participants:
     patch:
       tags:
@@ -1585,7 +1571,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: contact
   /contacts/{id}:
     get:
       tags:
@@ -1633,7 +1618,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: contact
     delete:
       tags:
         - Contacts
@@ -1654,7 +1638,7 @@ paths:
   /userSettings:
     get:
       tags:
-        - User settings
+        - User Settings
       summary: Retrieve user settings of current user
       operationId: getUserSettings
       responses:
@@ -1672,7 +1656,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - User settings
+        - User Settings
       summary: Update a contact
       operationId: updateUserSettings
       requestBody:
@@ -1706,14 +1690,6 @@ components:
       name: X-API-KEY
 
   parameters:
-
-    EntityProperties:
-      name: properties
-      in: query
-      schema:
-        type: object
-        additionalProperties:
-          type: string
 
     ResourceId:
       name: id
@@ -1777,33 +1753,6 @@ components:
       type: string
       description: Timezone value
 
-    DictionaryItem:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        anchor:
-          minLength: 1
-          type: string
-        caption:
-          minLength: 1
-          type: string
-        description:
-          type: string
-        extendedAttributes:
-          type: object
-          properties: { }
-      description: A dictionary item which cannot be modified
-
-    DictionaryItems:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/DictionaryItem'
-      description: An aggregation of dictionary items
-
     PageAndSort:
       type: object
       properties:
@@ -1829,31 +1778,75 @@ components:
           type: boolean
       description: Paging and sorting information
 
-    AudioLibrary:
+    AudioFiles:
       type: object
+      required:
+        - data
+        - paging
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/AudioLibraryFile'
+            $ref: '#/components/schemas/AudioFile'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-
-    AudioLibraryFile:
+    AudioFileLink:
       type: object
+      required:
+        - link
+      properties:
+        link:
+          type: string
+          description: Direct link to audio file location in file storage
+    AudioFile:
+      type: object
+      description: Audio file
+      required:
+        - id
+        - name
+        - predefined
+        - createdAt
+        - updatedAt
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: Name of the audio file
+        duration:
+          type: number
+          format: double
+          description: Duration of the audio file
         predefined:
           type: boolean
+          description: If the audio file is predefined and is not editable
         createdAt:
-          type: string
-          format: x-date
+          type: integer
+          format: int64
+          description: Timestamp of the create
+        updatedAt:
+          type: integer
+          format: int64
+          description: Timestamp of the update
+    TextToSpeechRequest:
+      type: object
+      description: Request model to convert text into audio
       required:
-        - id
-        - name
+        - text
+        - voice
+      properties:
+        text:
+          type: string
+          description: Text to be converted into audio
+        voice:
+          type: string
+          description: Voice to dub the text
+        audioFormat:
+          type: string
+          enum:
+            - MP3
+          default: MP3
+          description: Format (type) of audio to be synthesized
 
     AutoReceptionistRequest:
       type: object
@@ -1953,7 +1946,7 @@ components:
         - routeTo
       properties:
         greetingPrompt:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
@@ -1963,7 +1956,7 @@ components:
         user:
           $ref: '#/components/schemas/User'
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
     AutoReceptionistHour:
@@ -2021,7 +2014,7 @@ components:
         id:
           $ref: '#/components/schemas/Id'
         voicemail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         autoReceptionist:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
@@ -2030,12 +2023,6 @@ components:
           $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        createdAt:
-          type: string
-          format: x-date-time
-        updatedAt:
-          type: string
-          format: x-date-time
         phoneNumber:
           type: string
         timeout:
@@ -2079,12 +2066,6 @@ components:
           $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        createdAt:
-          type: string
-          format: x-date-time
-        updatedAt:
-          type: string
-          format: x-date-time
         phoneNumber:
           type: string
         timeout:
@@ -2132,7 +2113,7 @@ components:
         - actions
       properties:
         audioPrompt:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         actions:
           type: array
           items:
@@ -2354,6 +2335,8 @@ components:
           type: boolean
     CallParticipant:
       type: object
+      required:
+        - id
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2423,13 +2406,16 @@ components:
           type: boolean
     ParticipantChangeRequest:
       type: object
+      # TODO return inheritance (allOf with discriminator propertyName: schema)
       required:
         - participantId
-      allOf:
-        - properties:
-            participantId:
-              $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/ParticipantChangeRequestBody'
+      properties:
+        participantId:
+          $ref: '#/components/schemas/Id'
+        hold:
+          type: boolean
+        muted:
+          type: boolean
     VoiceToken:
       type: object
       properties:
@@ -2446,15 +2432,40 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Contact:
-      discriminator:
-        propertyName: schema
-      allOf:
-        - properties:
-            id:
-              $ref: '#/components/schemas/Id'
-        - $ref: '#/components/schemas/ContactRequest'
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - companyName
+        - shared
+      # TODO return inheritance (allOf with discriminator propertyName: schema)
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        shared:
+          type: boolean
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactPhoneNumber'
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
+      required:
+        - firstName
+        - lastName
+        - companyName
+        - shared
       properties:
         firstName:
           type: string
@@ -2556,7 +2567,7 @@ components:
           minimum: 1
           maximum: 5
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
       enum:
@@ -2576,7 +2587,7 @@ components:
       type: object
       properties:
         voiceMail:
-          $ref: '#/components/schemas/AudioLibraryFile'
+          $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
         forwardingPhoneNumber:

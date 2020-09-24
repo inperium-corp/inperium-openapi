@@ -952,7 +952,7 @@ paths:
   /calls:
     get:
       tags:
-        - Call
+        - Calls
       summary: Retrieve a list of voice calls
       operationId: getCalls
       parameters:
@@ -984,7 +984,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Call
+        - Calls
       summary: Create an outcoming call
       operationId: createCall
       requestBody:
@@ -1008,7 +1008,7 @@ paths:
   /calls/find/{sid}:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a Voice call by Twilio call sid
       operationId: findBySid
       parameters:
@@ -1033,7 +1033,7 @@ paths:
   /calls/token:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a Twillio token for Voice API SDK
       operationId: getVoiceToken
       responses:
@@ -1052,7 +1052,7 @@ paths:
   /calls/{id}:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a voice call by its ID
       operationId: getCallById
       parameters:
@@ -1070,9 +1070,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Calls
+      summary: Partially update a voice call
+      operationId: patchCallById
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Call to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallChangeRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+      x-codegen-request-body-name: call
     put:
       tags:
-        - Call
+        - Calls
       summary: Update a voice call
       operationId: updateCallById
       parameters:
@@ -1098,7 +1125,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Call
+        - Calls
       summary: Delete a voice call
       operationId: deleteCallById
       parameters:
@@ -1116,7 +1143,7 @@ paths:
   /calls/{id}/join:
     post:
       tags:
-        - Call
+        - Calls
       summary: Join a call
       operationId: joinCall
       parameters:
@@ -2299,6 +2326,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
+    CallChangeRequest:
+      type: object
+      properties:
+        record:
+          type: boolean
     CallRequest:
       example: { }
       type: object

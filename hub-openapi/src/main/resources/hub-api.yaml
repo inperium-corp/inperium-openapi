@@ -18,6 +18,9 @@ tags:
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name: Limits
+    description: |
+      Volume- and usege-based limitation of tenant subscriptions and plans.
   - name: Tenants
     description: |
       Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users.
@@ -350,6 +353,36 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
+  /limits:
+    get:
+      tags:
+        - Limits
+      summary: Retrieves existing limits.
+      description: Use this endpoint to get a list of existing limits.
+      operationId: getLimits
+      parameters:
+        - name: anchor
+          in: query
+          description: The anchor of a limit
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Search result of existing limits
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Limits"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /tenants/{id}:
     get:
       tags:
@@ -568,6 +601,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /limitUsages:
+    get:
+      tags:
+        - Limits
+      summary: Retrieves existing limit usages.
+      description: Use this endpoint to get a list of existing limit usages.
+      operationId: getLimitUsages
+      parameters:
+        - name: anchor
+          in: query
+          description: The anchor of a referenced limit
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Search result of existing limit usages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LimitUsages"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    post:
+      tags:
+        - Limits
+      summary: Updates a referenced limit usage
+      description: Use this endpoint to update the current value of existing
+        limit usage.
+      operationId: updateLimitUsage
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/LimitUsageUpdateRequest"
+      responses:
+        204:
+          description: The limit usage has been updated
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1729,6 +1813,58 @@ components:
           type: string
         defaultTimezone:
           type: string
+
+    Limit:
+      type: object
+      description: TBD
+      properties:
+        achor:
+          type: string
+        planId:
+          type: string
+        threshold:
+          type: number
+
+    Limits:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Limit"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    LimitUsage:
+      type: object
+      description: TBD
+      properties:
+        limit:
+          type: string
+        currentValue:
+          type: number
+
+    LimitUsageUpdateRequest:
+      type: object
+      properties:
+        limit:
+          type: string
+        referenceId:
+          type: string
+        description:
+          type: string
+        deltaValue:
+          type: number
+
+    LimitUsages:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/LimitUsage"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
 
     BillingContact:
       type: object

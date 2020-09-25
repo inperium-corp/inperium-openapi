@@ -1822,7 +1822,7 @@ components:
           type: string
         planId:
           type: string
-        threshold:
+        thresholdValue:
           type: number
 
     Limits:

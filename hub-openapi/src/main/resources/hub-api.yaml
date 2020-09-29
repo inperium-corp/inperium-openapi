@@ -20,7 +20,7 @@ tags:
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
   - name: Limits
     description: |
-      Volume- and usege-based limitation of tenant subscriptions and plans.
+      Volume- and usage-based limitation of tenant subscriptions and plans.
   - name: Tenants
     description: |
       Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users.
@@ -346,36 +346,6 @@ paths:
         200:
           description: An empty response that is used for OK non-returning operations
           content: {}
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /limits:
-    get:
-      tags:
-        - Limits
-      summary: Retrieves existing limits.
-      description: Use this endpoint to get a list of existing limits.
-      operationId: getLimits
-      parameters:
-        - name: anchor
-          in: query
-          description: The anchor of a limit
-          schema:
-            type: string
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: Search result of existing limits
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Limits"
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1602,6 +1572,10 @@ components:
           type: array
           items:
             type: string
+        limitUsages:
+          type: array
+          items:
+            $ref: "#/components/schemas/LimitUsage"
 
     User:
       type: object
@@ -1820,41 +1794,19 @@ components:
       properties:
         achor:
           type: string
-        planId:
-          type: string
+        infinite:
+          type: boolean
         thresholdValue:
-          type: number
-
-    Limits:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/Limit"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
+          type: integer
 
     LimitUsage:
       type: object
       description: TBD
       properties:
         limit:
-          type: string
+          $ref: "#/components/schemas/Limit"
         currentValue:
-          type: number
-
-    LimitUsageUpdateRequest:
-      type: object
-      properties:
-        limit:
-          type: string
-        referenceId:
-          type: string
-        description:
-          type: string
-        deltaValue:
-          type: number
+          type: integer
 
     LimitUsages:
       type: object
@@ -1865,6 +1817,18 @@ components:
             $ref: "#/components/schemas/LimitUsage"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+
+    LimitUsageUpdateRequest:
+      type: object
+      properties:
+        limit:
+          type: string
+        deltaValue:
+          type: integer
+        newValue:
+          type: integer
+      required:
+        - limit
 
     BillingContact:
       type: object
@@ -2123,6 +2087,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Price"
+        limits:
+          type: array
+          items:
+            $ref: "#/components/schemas/Limit"
 
     Price:
       type: object

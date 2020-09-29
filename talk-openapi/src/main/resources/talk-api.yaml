@@ -1112,7 +1112,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-      x-codegen-request-body-name: call
     put:
       tags:
         - Calls

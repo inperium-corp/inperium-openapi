@@ -1458,6 +1458,8 @@ paths:
               properties:
                 RecordingUrl:
                   type: string
+                RecordingSid:
+                  type: string
       responses:
         200:
           description: TwiML response has been received
@@ -2489,6 +2491,9 @@ components:
         token:
           type: string
           description: Twilio capability token
+        record:
+          type: boolean
+          description: if true this call is being recorded now
       required:
         - id
         - caller

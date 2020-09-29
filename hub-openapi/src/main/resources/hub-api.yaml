@@ -1823,12 +1823,11 @@ components:
       properties:
         limit:
           type: string
-        deltaValue:
-          type: integer
         newValue:
           type: integer
       required:
         - limit
+        - newValue
 
     BillingContact:
       type: object

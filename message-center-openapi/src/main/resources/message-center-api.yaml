@@ -1071,6 +1071,10 @@ components:
         unreadMessagesAmount:
           type: integer
           format: int64
+        subfolders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Folder'
 
     FolderRequest:
       type: object

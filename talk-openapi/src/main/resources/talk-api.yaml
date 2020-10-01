@@ -64,18 +64,9 @@ paths:
         content:
           multipart/form-data:
             schema:
-              properties:
-                file:
-                  type: string
-                  description: A file to be uploaded as a audio file
-                  format: binary
-                name:
-                  type: string
-                  description: An optional name of this document
-                predefined:
-                  type: boolean
+              $ref: '#/components/schemas/AudioFileRequest'
       responses:
-        200:
+        201:
           description: The audio file have been created
           content:
             application/json:
@@ -125,6 +116,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Audio Files
+      summary: Update (partially) the audio file
+      operationId: updateAudioFile
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AudioFileUpdateRequest'
+      responses:
+        200:
+          description: The audio file have been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AudioFile'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /services/textToSpeech:
     post:
@@ -148,7 +164,7 @@ paths:
         default:
           description: Bad request, security violation, or internal server error
           content:
-            application/json:
+            audio/*:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
@@ -274,7 +290,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
-        200:
+        201:
           description: A new phone number entity has been created
           content:
             application/json:
@@ -534,7 +550,7 @@ paths:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
-        200:
+        201:
           description: A new auto receptionist has been created
           content:
             application/json:
@@ -733,7 +749,7 @@ paths:
             schema:
               $ref: '#/components/schemas/AddressRequest'
       responses:
-        200:
+        201:
           description: A new address has been created
           content:
             application/json:
@@ -792,7 +808,7 @@ paths:
               $ref: '#/components/schemas/RegulatoryBundleRequest'
         required: true
       responses:
-        200:
+        201:
           description: The regulatory bundle have been created
           content:
             application/json:
@@ -952,7 +968,7 @@ paths:
   /calls:
     get:
       tags:
-        - Call
+        - Calls
       summary: Retrieve a list of voice calls
       operationId: getCalls
       parameters:
@@ -984,7 +1000,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Call
+        - Calls
       summary: Create an outcoming call
       operationId: createCall
       requestBody:
@@ -993,7 +1009,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CallRequest'
       responses:
-        200:
+        201:
           description: A new voice call started
           content:
             application/json:
@@ -1008,7 +1024,7 @@ paths:
   /calls/find/{sid}:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a Voice call by Twilio call sid
       operationId: findBySid
       parameters:
@@ -1033,7 +1049,7 @@ paths:
   /calls/token:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a Twillio token for Voice API SDK
       operationId: getVoiceToken
       responses:
@@ -1052,7 +1068,7 @@ paths:
   /calls/{id}:
     get:
       tags:
-        - Call
+        - Calls
       summary: Get a voice call by its ID
       operationId: getCallById
       parameters:
@@ -1070,9 +1086,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Calls
+      summary: Partially update a voice call
+      operationId: patchCallById
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Call to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallChangeRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     put:
       tags:
-        - Call
+        - Calls
       summary: Update a voice call
       operationId: updateCallById
       parameters:
@@ -1098,7 +1140,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Call
+        - Calls
       summary: Delete a voice call
       operationId: deleteCallById
       parameters:
@@ -1116,7 +1158,7 @@ paths:
   /calls/{id}/join:
     post:
       tags:
-        - Call
+        - Calls
       summary: Join a call
       operationId: joinCall
       parameters:
@@ -1414,6 +1456,8 @@ paths:
             schema:
               properties:
                 RecordingUrl:
+                  type: string
+                RecordingSid:
                   type: string
       responses:
         200:
@@ -1799,11 +1843,14 @@ components:
           type: string
           description: Direct link to audio file location in file storage
     AudioFile:
+      # TODO use inheritance (allOf with discriminator propertyName: schema)
       type: object
       description: Audio file
       required:
         - id
         - name
+        - duration
+        - origin
         - predefined
         - createdAt
         - updatedAt
@@ -1815,8 +1862,9 @@ components:
           description: Name of the audio file
         duration:
           type: number
-          format: double
           description: Duration of the audio file
+        origin:
+          $ref: '#/components/schemas/AudioFileOrigin'
         predefined:
           type: boolean
           description: If the audio file is predefined and is not editable
@@ -1828,6 +1876,50 @@ components:
           type: integer
           format: int64
           description: Timestamp of the update
+    AudioFileRequest:
+      # TODO use inheritance (allOf with discriminator propertyName: schema)
+      type: object
+      description: Audio file upload request
+      required:
+        - file
+        - duration
+        - origin
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to be uploaded as a audio file
+        name:
+          type: string
+          description: Optional name of this document
+        duration:
+          type: number
+          description: Duration of the audio in seconds
+        origin:
+          $ref: '#/components/schemas/AudioFileOrigin'
+    AudioFileUpdateRequest:
+      type: object
+      description: Audio file update request
+      properties:
+        file:
+          type: string
+          format: binary
+          description: File to be uploaded as a audio file
+        name:
+          type: string
+          description: Optional name of this document
+        duration:
+          type: number
+          description: Duration of the audio in seconds
+        origin:
+          $ref: '#/components/schemas/AudioFileOrigin'
+    AudioFileOrigin:
+      type: string
+      enum:
+        - TEXT_TO_SPEECH
+        - UPLOAD
+        - RECORD
+      description: Type of origin of the uploaded audio
     TextToSpeechRequest:
       type: object
       description: Request model to convert text into audio
@@ -2299,6 +2391,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
+    CallChangeRequest:
+      type: object
+      properties:
+        record:
+          type: boolean
     CallRequest:
       example: { }
       type: object
@@ -2393,6 +2490,9 @@ components:
         token:
           type: string
           description: Twilio capability token
+        record:
+          type: boolean
+          description: if true this call is being recorded now
       required:
         - id
         - caller

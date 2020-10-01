@@ -1631,9 +1631,8 @@ components:
           type: array
           items:
             type: string
-        avatarId:
+        avatarUrl:
           type: string
-          format: uuid
 
     UserPartialRequest:
       type: object

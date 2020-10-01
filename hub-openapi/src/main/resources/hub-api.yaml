@@ -607,6 +607,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /internal/limitUsages:
     post:
       tags:
         - Limits

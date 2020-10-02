@@ -1793,7 +1793,7 @@ components:
       type: object
       description: TBD
       properties:
-        achor:
+        anchor:
           type: string
         infinite:
           type: boolean

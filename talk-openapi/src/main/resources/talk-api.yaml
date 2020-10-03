@@ -2551,8 +2551,6 @@ components:
           type: string
         shared:
           type: boolean
-        company:
-          type: string
         addressLine1:
           type: string
         addressLine2:
@@ -2593,8 +2591,6 @@ components:
           type: string
         shared:
           type: boolean
-        company:
-          type: string
         addressLine1:
           type: string
         addressLine2:

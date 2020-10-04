@@ -975,16 +975,27 @@ paths:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
-        - name: contactName
+        - name: direction
           in: query
-          description: Query parameter for the "last name or first name" filter
+          description: Query parameter for the "direction" filter
           schema:
             type: string
-        - name: user
+        - name: status
           in: query
-          description: Query parameter for the "user" filter
+          description: Query parameter for the "status" filter
           schema:
             type: string
+        - name: phoneNumberId
+          in: query
+          description: Query parameter for the "phoneNumberId" filter
+          schema:
+            type: string
+        - name: phoneNumber
+          in: query
+          description: Query parameter for the "phoneNumber" filter
+          schema:
+            type: string
+
       responses:
         200:
           description: The list of voice calls has been retrieved

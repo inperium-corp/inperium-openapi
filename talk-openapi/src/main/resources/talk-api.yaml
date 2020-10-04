@@ -995,7 +995,6 @@ paths:
           description: Query parameter for the "phoneNumber" filter
           schema:
             type: string
-
       responses:
         200:
           description: The list of voice calls has been retrieved

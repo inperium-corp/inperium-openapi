@@ -220,12 +220,11 @@ paths:
       summary: Retrieve a list of available phone numbers from Twilio
       operationId: findAvailablePhoneNumbers
       parameters:
-        - name: country
+        - name: countryCode
           in: query
-          description: The ISO country code
           required: true
           schema:
-            type: string
+            $ref: '#/components/schemas/CountryCode'
         - name: areaCode
           in: query
           description: The rate center of the phone number
@@ -913,11 +912,11 @@ paths:
       summary: Retrieve the list of requirements
       operationId: getRegulatoryRequirements
       parameters:
-        - name: countryId
+        - name: countryCode
           in: query
           required: true
           schema:
-            $ref: '#/components/schemas/CountryId'
+            $ref: '#/components/schemas/CountryCode'
         - name: type
           in: query
           required: true
@@ -1799,7 +1798,7 @@ components:
       type: string
       format: uuid
 
-    CountryId:
+    CountryCode:
       type: string
       description: Country code (ISO alpha-2)
 
@@ -2129,8 +2128,8 @@ components:
           type: string
         timeout:
           type: integer
-        country:
-          $ref: '#/components/schemas/Country'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         city:
           type: string
         state:
@@ -2172,8 +2171,8 @@ components:
           type: string
         timeout:
           type: integer
-        countryId:
-          $ref: '#/components/schemas/CountryId'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         city:
           type: string
         state:
@@ -2235,17 +2234,6 @@ components:
         actionEntityId:
           type: string
           format: uuid
-    Country:
-      type: object
-      properties:
-        value:
-          type: string
-        name:
-          type: string
-        iso:
-          type: string
-        numCode:
-          type: integer
     Addresses:
       type: object
       properties:
@@ -2270,8 +2258,8 @@ components:
           type: string
         state:
           type: string
-        countryId:
-          $ref: '#/components/schemas/CountryId'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
       required:
         - id
     AddressRequest:
@@ -2289,8 +2277,8 @@ components:
           type: string
         state:
           type: string
-        countryId:
-          $ref: '#/components/schemas/CountryId'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
     AvailablePhoneNumber:
       type: object
       properties:
@@ -2298,8 +2286,8 @@ components:
           type: string
         basePrice:
           type: number
-        countryId:
-          $ref: '#/components/schemas/CountryId'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         postalCode:
           type: string
         phoneNumber:
@@ -2347,8 +2335,8 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
-        country:
-          $ref: '#/components/schemas/Country'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         type:
           type: string
         status:
@@ -2360,8 +2348,8 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
-        countryId:
-          $ref: '#/components/schemas/CountryId'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         type:
           type: string
         status:
@@ -2549,6 +2537,8 @@ components:
         - lastName
         - companyName
         - shared
+        - phoneNumbers
+        - emails
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:
@@ -2561,6 +2551,20 @@ components:
           type: string
         shared:
           type: boolean
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        avatarUrl:
+          type: string
         phoneNumbers:
           type: array
           items:
@@ -2576,6 +2580,8 @@ components:
         - lastName
         - companyName
         - shared
+        - phoneNumbers
+        - emails
       properties:
         firstName:
           type: string
@@ -2585,6 +2591,20 @@ components:
           type: string
         shared:
           type: boolean
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        state:
+          type: string
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        avatarUrl:
+          type: string
         phoneNumbers:
           type: array
           items:
@@ -2595,6 +2615,8 @@ components:
             $ref: '#/components/schemas/ContactEmail'
     ContactPhoneNumber:
       type: object
+      required:
+        - phoneNumber
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2604,6 +2626,8 @@ components:
           type: string
     ContactEmail:
       type: object
+      required:
+        - email
       properties:
         id:
           $ref: '#/components/schemas/Id'

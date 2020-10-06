@@ -1655,6 +1655,10 @@ components:
           type: array
           items:
             type: string
+        subcriptionIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Id"
 
     UserInviteRequest:
       type: object
@@ -2183,6 +2187,15 @@ components:
 
     Subscription:
       type: object
+      required:
+        - id
+        - state
+        - price
+        - currentPeriodStart
+        - currentPeriodEnd
+        - startDate
+        - licensedQuantity
+        - quantity
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -2199,6 +2212,9 @@ components:
         startDate:
           type: string
           format: date-time
+        licensedQuantity:
+          type: integer
+          format: int64
         quantity:
           type: integer
           format: int64

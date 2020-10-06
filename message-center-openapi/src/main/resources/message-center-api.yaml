@@ -1081,6 +1081,9 @@ components:
       properties:
         displayName:
           type: string
+        parentFolderId:
+          type: string
+          format: UUID
         userAccountId:
           type: string
           format: UUID

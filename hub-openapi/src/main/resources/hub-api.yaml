@@ -18,6 +18,9 @@ tags:
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name: Limits
+    description: |
+      Volume- and usage-based limitation of tenant subscriptions and plans.
   - name: Tenants
     description: |
       Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users.
@@ -568,6 +571,59 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /limitUsages:
+    get:
+      tags:
+        - Limits
+      summary: Retrieves existing limit usages.
+      description: Use this endpoint to get a list of existing limit usages.
+      operationId: getLimitUsages
+      parameters:
+        - name: anchor
+          in: query
+          description: The anchor of a referenced limit
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Search result of existing limit usages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LimitUsages"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /internal/limitUsages:
+    post:
+      tags:
+        - Limits
+      summary: Updates a referenced limit usage
+      description: Use this endpoint to update the current value of existing
+        limit usage.
+      operationId: updateLimitUsage
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/LimitUsageUpdateRequest"
+      responses:
+        204:
+          description: The limit usage has been updated
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1518,6 +1574,10 @@ components:
           type: array
           items:
             type: string
+        limitUsages:
+          type: array
+          items:
+            $ref: "#/components/schemas/LimitUsage"
 
     User:
       type: object
@@ -1728,6 +1788,47 @@ components:
           type: string
         defaultTimezone:
           type: string
+
+    Limit:
+      type: object
+      description: TBD
+      properties:
+        anchor:
+          type: string
+        infinite:
+          type: boolean
+        thresholdValue:
+          type: integer
+
+    LimitUsage:
+      type: object
+      description: TBD
+      properties:
+        limit:
+          $ref: "#/components/schemas/Limit"
+        currentValue:
+          type: integer
+
+    LimitUsages:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/LimitUsage"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    LimitUsageUpdateRequest:
+      type: object
+      properties:
+        limit:
+          type: string
+        newValue:
+          type: integer
+      required:
+        - limit
+        - newValue
 
     Beta:
       type: object
@@ -2004,6 +2105,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Price"
+        limits:
+          type: array
+          items:
+            $ref: "#/components/schemas/Limit"
         beta:
           $ref: "#/components/schemas/Beta"
 

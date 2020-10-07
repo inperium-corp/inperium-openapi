@@ -1607,6 +1607,10 @@ components:
           type: string
         avatarUrl:
           type: string
+        roles: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
 
     UserRequest:
       type: object

@@ -2215,7 +2215,7 @@ components:
           description: If the subscription should be a trial or not
         interval:
           $ref: "#/components/schemas/PriceInterval"
-        betaCodeActivationKey:
+        betaAccessCode:
           type: string
 
     SubscriptionUpdateRequest:

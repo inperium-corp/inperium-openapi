@@ -1830,6 +1830,24 @@ components:
         - limit
         - newValue
 
+    Beta:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+        description:
+          type: string
+        trialOnly:
+          type: boolean
+        since:
+          type: integer
+          format: int64
+        until:
+          type: integer
+          format: int64
+
     BillingContact:
       type: object
       description: Tenant billing model
@@ -2062,6 +2080,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Plan"
+        inBeta:
+          type: boolean
 
     Feature:
       type: object
@@ -2091,6 +2111,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Limit"
+        beta:
+          $ref: "#/components/schemas/Beta"
 
     Price:
       type: object
@@ -2193,6 +2215,8 @@ components:
           description: If the subscription should be a trial or not
         interval:
           $ref: "#/components/schemas/PriceInterval"
+        betaAccessCode:
+          type: string
 
     SubscriptionUpdateRequest:
       type: object

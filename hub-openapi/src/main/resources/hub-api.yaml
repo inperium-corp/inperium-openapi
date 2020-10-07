@@ -2081,7 +2081,7 @@ components:
           items:
             $ref: "#/components/schemas/Plan"
         inBeta:
-          type: Boolean
+          type: boolean
 
     Feature:
       type: object

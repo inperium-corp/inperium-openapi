@@ -244,7 +244,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AvailablePhoneNumbers'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailablePhoneNumber'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1254,7 +1256,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CallParticipants'
+                type: array
+                items:
+                  $ref: '#/components/schemas/CallParticipant'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1824,27 +1828,6 @@ components:
 
     PageAndSort:
       type: object
-      properties:
-        pageNumber:
-          type: integer
-          format: int64
-        pageSize:
-          type: integer
-          format: int64
-        totalNumberOfRecords:
-          type: integer
-          format: int64
-        totalNumberOfPages:
-          type: integer
-          format: int64
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        sortingCriteria:
-          type: string
-        hasMore:
-          type: boolean
       description: Paging and sorting information
 
     AudioFiles:
@@ -2326,15 +2309,6 @@ components:
           type: string
         state:
           type: string
-    AvailablePhoneNumbers:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/AvailablePhoneNumber'
-        paging:
-          $ref: '#/components/schemas/PageAndSort'
     RegulatoryBundles:
       type: object
       properties:
@@ -2461,15 +2435,6 @@ components:
           type: boolean
         callStatus:
           type: string
-    CallParticipants:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/CallParticipant'
-        paging:
-          $ref: '#/components/schemas/PageAndSort'
     Calls:
       type: object
       properties:

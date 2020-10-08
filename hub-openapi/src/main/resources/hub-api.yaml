@@ -11,8 +11,8 @@ servers:
   - url: https://api.inperium.com/v1/hub
 
 security:
-  - BearerAuth: []
-  - ApiKeyAuth: []
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
 
 tags:
   - name: Dictionaries
@@ -105,7 +105,7 @@ paths:
       responses:
         200:
           description: The user was successfully logged out.
-          content: {}
+          content: { }
         401:
           description: Wrong credentials or two factor authentication required.
           content:
@@ -345,7 +345,7 @@ paths:
       responses:
         200:
           description: An empty response that is used for OK non-returning operations
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -444,7 +444,7 @@ paths:
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -698,7 +698,7 @@ paths:
       responses:
         204:
           description: An empty response that is used for OK non-returning operations
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1607,6 +1607,10 @@ components:
           type: string
         avatarUrl:
           type: string
+        roles: 
+          type: array
+          items:
+            $ref: '#/components/schemas/Role'
 
     UserRequest:
       type: object
@@ -1651,6 +1655,10 @@ components:
           type: array
           items:
             type: string
+        subscriptionIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/Id"
 
     UserInviteRequest:
       type: object
@@ -1753,11 +1761,11 @@ components:
           items:
             type: string
         createdAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         updatedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
 
     TenantAddressRequest:
       type: object
@@ -1829,6 +1837,24 @@ components:
       required:
         - limit
         - newValue
+
+    Beta:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+        description:
+          type: string
+        trialOnly:
+          type: boolean
+        since:
+          type: integer
+          format: int64
+        until:
+          type: integer
+          format: int64
 
     BillingContact:
       type: object
@@ -2062,6 +2088,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Plan"
+        inBeta:
+          type: boolean
 
     Feature:
       type: object
@@ -2091,6 +2119,8 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Limit"
+        beta:
+          $ref: "#/components/schemas/Beta"
 
     Price:
       type: object
@@ -2157,6 +2187,15 @@ components:
 
     Subscription:
       type: object
+      required:
+        - id
+        - state
+        - price
+        - currentPeriodStart
+        - currentPeriodEnd
+        - startDate
+        - licensedQuantity
+        - quantity
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -2165,17 +2204,25 @@ components:
         price:
           $ref: "#/components/schemas/Price"
         currentPeriodStart:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
+          description: Timestamp of start of subscription period (month or year)
         currentPeriodEnd:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
+          description: Timestamp of end of subscription period (month or year)
         startDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
+          description: Timestamp of start of subscription (first purchased/trialed)
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: Number of used licenses
         quantity:
           type: integer
           format: int64
+          description: Number of available licenses (overall purchased)
         discountAmount:
           type: integer
           format: int64
@@ -2193,6 +2240,8 @@ components:
           description: If the subscription should be a trial or not
         interval:
           $ref: "#/components/schemas/PriceInterval"
+        betaAccessCode:
+          type: string
 
     SubscriptionUpdateRequest:
       type: object

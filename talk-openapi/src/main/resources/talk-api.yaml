@@ -1221,6 +1221,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Participants
+      summary: Delete participant from conference
+      operationId: removeParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The participant has been deleted
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /participants:
     patch:
       tags:

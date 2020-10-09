@@ -1340,7 +1340,7 @@ paths:
         - Subscriptions
       parameters:
         - $ref: '#/components/parameters/ResourceId'
-        - name: newLicenseCount
+        - name: newLicenseQuantity
           in: query
           description: New license count to calculate the price
           schema:
@@ -2304,7 +2304,7 @@ components:
           $ref: "#/components/schemas/Id"
         newInterval:
           $ref: "#/components/schemas/PriceInterval"
-        licenseQuantity:
+        newLicenseQuantity:
           type: integer
           format: int64
           description: License quantity for updated subscription

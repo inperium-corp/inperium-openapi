@@ -1353,7 +1353,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubscriptionAdditionalInfo'
+                $ref: '#/components/schemas/SubscriptionFullInfo'
         default:
           $ref: '#/components/responses/DefaultResponse'
 
@@ -2104,7 +2104,11 @@ components:
           type: string
         name:
           type: string
+        shortDescripton:
+          type: string
         description:
+          type: string
+        longDescription:
           type: string
         unitLabel:
           type: string
@@ -2122,6 +2126,10 @@ components:
             $ref: "#/components/schemas/Plan"
         inBeta:
           type: boolean
+        iconPath:
+          type: string
+        previewIconPath:
+          type: string
 
     Feature:
       type: object
@@ -2217,7 +2225,7 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
 
-    SubscriptionAdditionalInfo:
+    SubscriptionFullInfo:
       type: object
       required:
         - price
@@ -2230,7 +2238,7 @@ components:
           type: number
           format: double
           description: Price for current number of licenses
-        nextBillingDate:
+        nextPeriodStart:
           type: integer
           format: int64
           description: Next billing period start date for the subscription

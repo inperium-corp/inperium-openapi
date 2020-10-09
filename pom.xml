@@ -6,7 +6,7 @@
 
     <groupId>com.inperiumcorp.inperium</groupId>
     <artifactId>openapi</artifactId>
-    <version>1.0.56</version>
+    <version>1.0.57</version>
     <packaging>pom</packaging>
 
     <name>Inperium Web API</name>

@@ -1332,6 +1332,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+    get:
+      summary: Get additional info about the subscription
+      description: Use this endpoint to get additional info about the subscription.
+      operationId: getSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: newLicenseCount
+          in: query
+          description: New license count to calculate the price
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: The subscription have been retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionAdditionalInfo'
+        default:
+          $ref: '#/components/responses/DefaultResponse'
 
   /subscriptions/webhooks/stripe:
     post:
@@ -1355,6 +1379,14 @@ paths:
           description: The webhook was successfully executed
 
 components:
+  responses:
+    DefaultResponse:
+      description: Bad request, security violation, or internal server error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseError"
+
   securitySchemes:
     BearerAuth:
       type: http
@@ -1607,7 +1639,7 @@ components:
           type: string
         avatarUrl:
           type: string
-        roles: 
+        roles:
           type: array
           items:
             $ref: '#/components/schemas/Role'
@@ -2185,6 +2217,28 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
 
+    SubscriptionAdditionalInfo:
+      type: object
+      required:
+        - price
+        - currentPrice
+        - nextBillingDate
+      properties:
+        price:
+          $ref: '#/components/schemas/Price'
+        currentPrice:
+          type: number
+          format: double
+          description: Price for current number of licenses
+        nextBillingDate:
+          type: integer
+          format: int64
+          description: Next billing period start date for the subscription
+        newPrice:
+          type: number
+          format: double
+          description: Optional new price for requested number of licenses
+
     Subscription:
       type: object
       required:
@@ -2245,13 +2299,16 @@ components:
 
     SubscriptionUpdateRequest:
       type: object
-      required:
-        - newPlanId
       properties:
         newPlanId:
           $ref: "#/components/schemas/Id"
         newInterval:
           $ref: "#/components/schemas/PriceInterval"
+        licenseQuantity:
+          type: integer
+          format: int64
+          description: License quantity for updated subscription
+          minimum: 1
 
     PriceInterval:
       type: string

@@ -2104,7 +2104,7 @@ components:
           type: string
         name:
           type: string
-        shortDescripiton:
+        shortDescription:
           type: string
         description:
           type: string

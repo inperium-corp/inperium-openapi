@@ -105,27 +105,27 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          email_subscription: "#/components/schemas/EmailSubscriptionActivityRequest"
-          EMAIL_SUBSCRIPTION: "#/components/schemas/EmailSubscriptionActivityRequest"
-          content_download: "#/components/schemas/ContentDownloadActivityRequest"
-          CONTENT_DOWNLOAD: "#/components/schemas/ContentDownloadActivityRequest"
-          profile_completion: "#/components/schemas/ProfileCompletionActivityRequest"
-          PROFILE_COMPLETION: "#/components/schemas/ProfileCompletionActivityRequest"
-          trial_start: "#/components/schemas/TrialStartActivityRequest"
-          TRIAL_START: "#/components/schemas/TrialStartActivityRequest"
-          demo_request: "#/components/schemas/DemoRequestActivityRequest"
-          DEMO_REQUEST: "#/components/schemas/DemoRequestActivityRequest"
-          account_creation: "#/components/schemas/AccountCreationActivityRequest"
-          ACCOUNT_CREATION: "#/components/schemas/AccountCreationActivityRequest"
-          email_verification: "#/components/schemas/EmailVerificationActivityRequest"
-          EMAIL_VERIFICATION: "#/components/schemas/EmailVerificationActivityRequest"
-          contact_us: "#/components/schemas/ContactUsActivityRequest"
-          CONTACT_US: "#/components/schemas/ContactUsActivityRequest"
+          subscribed: "#/components/schemas/SubscriptionActivityRequest"
+          SUBSCRIBED: "#/components/schemas/SubscriptionActivityRequest"
+          content_downloaded: "#/components/schemas/ContentDownloadActivityRequest"
+          CONTENT_DOWNLOADED: "#/components/schemas/ContentDownloadActivityRequest"
+          profile_completed: "#/components/schemas/ProfileCompletionActivityRequest"
+          PROFILE_COMPLETED: "#/components/schemas/ProfileCompletionActivityRequest"
+          trial_started: "#/components/schemas/TrialStartActivityRequest"
+          TRIAL_STARTED: "#/components/schemas/TrialStartActivityRequest"
+          demo_requested: "#/components/schemas/DemoRequestActivityRequest"
+          DEMO_REQUESTED: "#/components/schemas/DemoRequestActivityRequest"
+          account_created: "#/components/schemas/AccountCreationActivityRequest"
+          ACCOUNT_CREATED: "#/components/schemas/AccountCreationActivityRequest"
+          email_verified: "#/components/schemas/EmailVerificationActivityRequest"
+          EMAIL_VERIFIED: "#/components/schemas/EmailVerificationActivityRequest"
+          contacted_us: "#/components/schemas/ContactUsActivityRequest"
+          CONTACTED_US: "#/components/schemas/ContactUsActivityRequest"
       properties:
         lastReferrerUrl:
           type: string
 
-    EmailSubscriptionActivityRequest:
+    SubscriptionActivityRequest:
       type: object
       description: The request model to log an activity for a lead that subscribed to our email list.
       allOf:

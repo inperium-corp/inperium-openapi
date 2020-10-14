@@ -2128,7 +2128,7 @@ components:
           type: boolean
         iconUrl:
           type: string
-        previewIconUrl:
+        previewUrl:
           type: string
 
     Feature:
@@ -2145,6 +2145,8 @@ components:
         id:
           $ref: "#/components/schemas/Id"
         name:
+          type: string
+        description:
           type: string
         trialPeriodDays:
           type: integer

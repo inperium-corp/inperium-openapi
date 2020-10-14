@@ -4632,6 +4632,12 @@ components:
         - $ref: "#/components/schemas/PropertyDefinition"
         - type: object
           properties:
+            usedIn:
+              type: integer
+              format: int64
+            ownerId:
+              type: string
+              format: uuid
             configuration:
               type: object
               additionalProperties: true
@@ -5246,6 +5252,8 @@ components:
           type: string
         caption:
           minLength: 1
+          type: string
+        label:
           type: string
         description:
           type: string

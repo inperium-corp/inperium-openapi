@@ -1643,6 +1643,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Role'
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
 
     UserRequest:
       type: object

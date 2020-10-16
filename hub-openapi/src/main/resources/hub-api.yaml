@@ -2148,6 +2148,8 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
+        anchor:
+          type: string
         name:
           type: string
         description:
@@ -2178,8 +2180,8 @@ components:
         currency:
           type: string
         amount:
-          type: integer
-          format: int64
+          type: number
+          format: double
         interval:
           $ref: "#/components/schemas/PriceInterval"
         intervalCount:
@@ -2326,8 +2328,6 @@ components:
     PriceInterval:
       type: string
       enum:
-        - DAY
-        - WEEK
         - MONTH
         - YEAR
       description: The frequency at which a subscription is billed

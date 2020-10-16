@@ -1643,6 +1643,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Role'
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
 
     UserRequest:
       type: object
@@ -2128,7 +2132,7 @@ components:
           type: boolean
         iconUrl:
           type: string
-        previewIconUrl:
+        previewUrl:
           type: string
 
     Feature:
@@ -2144,7 +2148,11 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
+        anchor:
+          type: string
         name:
+          type: string
+        description:
           type: string
         trialPeriodDays:
           type: integer
@@ -2172,8 +2180,8 @@ components:
         currency:
           type: string
         amount:
-          type: integer
-          format: int64
+          type: number
+          format: double
         interval:
           $ref: "#/components/schemas/PriceInterval"
         intervalCount:
@@ -2320,8 +2328,6 @@ components:
     PriceInterval:
       type: string
       enum:
-        - DAY
-        - WEEK
         - MONTH
         - YEAR
       description: The frequency at which a subscription is billed

@@ -2471,7 +2471,11 @@ components:
           description: Twilio capability token
         record:
           type: boolean
-          description: if true this call is being recorded now
+          description: If true this call is being recorded now
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
       required:
         - id
         - caller

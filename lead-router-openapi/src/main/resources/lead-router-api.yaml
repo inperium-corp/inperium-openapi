@@ -240,6 +240,7 @@ components:
           required:
             - email
             - product
+            - message
           properties:
             email:
               type: string
@@ -247,6 +248,8 @@ components:
               type: string
               enum:
                 - TALK
+            message:
+              type: string
 
     DemoRequestActivityRequest:
       type: object

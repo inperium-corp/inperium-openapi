@@ -113,6 +113,8 @@ components:
           PROFILE_COMPLETED: "#/components/schemas/ProfileCompletionActivityRequest"
           trial_started: "#/components/schemas/TrialStartActivityRequest"
           TRIAL_STARTED: "#/components/schemas/TrialStartActivityRequest"
+          beta_access_requested: "#/components/schemas/BetaAccessRequestActivityRequest"
+          BETA_ACCESS_REQUESTED: "#/components/schemas/BetaAccessRequestActivityRequest"
           demo_requested: "#/components/schemas/DemoRequestActivityRequest"
           DEMO_REQUESTED: "#/components/schemas/DemoRequestActivityRequest"
           account_created: "#/components/schemas/AccountCreationActivityRequest"
@@ -228,6 +230,23 @@ components:
                 - ESSENTIAL
                 - PROFESSIONAL
                 - ENTERPRISE
+
+    BetaAccessRequestActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that requested a Beta to an Inperium product.
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - product
+          properties:
+            email:
+              type: string
+            product:
+              type: string
+              enum:
+                - TALK
 
     DemoRequestActivityRequest:
       type: object

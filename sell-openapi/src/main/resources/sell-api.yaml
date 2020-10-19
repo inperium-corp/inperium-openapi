@@ -3282,14 +3282,14 @@ paths:
           in: query
           description: The start date
           schema:
-            type: string
-            format: "date-time"
+            type: integer
+            format: int64
         - name: to
           in: query
           description: The finish date
           schema:
-            type: string
-            format: "date-time"
+            type: integer
+            format: int64
       responses:
         200:
           description: The data has been retrieved.
@@ -3918,14 +3918,14 @@ paths:
           in: query
           description: The date when the widgets data set calculation starts
           schema:
-            type: string
-            format: "date-time"
+            type: integer
+            format: int64
         - name: to
           in: query
           description: The date when the widgets data set calculation starts
           schema:
-            type: string
-            format: "date-time"
+            type: integer
+            format: int64
         - name: who
           in: query
           description: The widgets can show data for the currently authenticated user (ME) or the whole team (TEAM).
@@ -4017,8 +4017,8 @@ components:
             to:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - body
             - subject
@@ -4035,8 +4035,8 @@ components:
             subject:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - activityDate
@@ -4051,8 +4051,8 @@ components:
             subject:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - activityDate
@@ -4074,8 +4074,8 @@ components:
                 - DONE
               default: TODO
             dueDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - dueDate
@@ -4119,11 +4119,11 @@ components:
         authorId:
           $ref: "#/components/schemas/Id"
         createdAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         updatedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
       required:
         - type
     NoteActivity:
@@ -4151,8 +4151,8 @@ components:
             to:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - body
             - subject
@@ -4170,8 +4170,8 @@ components:
             subject:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - activityDate
@@ -4187,8 +4187,8 @@ components:
             subject:
               type: string
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - activityDate
@@ -4210,8 +4210,8 @@ components:
                 - DONE
               default: TODO
             dueDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - subject
             - dueDate
@@ -4232,8 +4232,8 @@ components:
                 - DEAL_LOST
                 - OTHER
             activityDate:
-              type: string
-              format: date-time
+              type: integer
+              format: int64
           required:
             - eventType
             - activityDate
@@ -4465,8 +4465,8 @@ components:
           items:
             $ref: "#/components/schemas/Activity"
         createdAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
     DealRequest:
       type: object
       additionalProperties: true
@@ -4563,11 +4563,11 @@ components:
         description:
           type: string
         createdAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         updatedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
       description: A document stored in CRM
     ErrorModel:
       required:
@@ -4814,8 +4814,8 @@ components:
         filename:
           type: string
         importDate:
-          type: string
-          format: "date-time"
+          type: integer
+          format: int64
         result:
           type: object
           additionalProperties: true
@@ -4886,13 +4886,13 @@ components:
         contactId:
           $ref: "#/components/schemas/Id"
         date:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         dealId:
           $ref: "#/components/schemas/Id"
         dueDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         items:
           type: array
           items:
@@ -4927,13 +4927,13 @@ components:
         contact:
           $ref: "#/components/schemas/Contact"
         date:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         deal:
           $ref: "#/components/schemas/Deal"
         dueDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         items:
           type: array
           items:
@@ -4988,8 +4988,8 @@ components:
         invoiceNumber:
           type: string
         paymentDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         paymentMethod:
           type: string
         contactFirstName:
@@ -5079,8 +5079,8 @@ components:
         amount:
           type: number
         date:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         stripePaymentMethod:
           $ref: "#/components/schemas/StripePaymentMethod"
         paymentMethod:
@@ -5108,8 +5108,8 @@ components:
         description:
           type: string
         date:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         status:
           type: string
         declinedReason:
@@ -5370,8 +5370,8 @@ components:
         name:
           type: string
         expirationDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         comment:
           type: string
         purchaseTerm:
@@ -5379,8 +5379,8 @@ components:
         value:
           type: number
         createdDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         paymentPlans:
           type: array
           items:
@@ -5448,8 +5448,8 @@ components:
         amount:
           type: number
         paymentDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         paymentMethod:
           type: string
     PublicQuoteUser:
@@ -5530,11 +5530,11 @@ components:
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         acceptedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         comment:
           type: string
         purchaseTerm:
@@ -5597,11 +5597,11 @@ components:
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         acceptedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         comment:
           type: string
         purchaseTerm:
@@ -5699,8 +5699,8 @@ components:
         quoteId:
           $ref: "#/components/schemas/Id"
         paymentDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         paymentMethod:
           type: string
       description: Payment plan model
@@ -5710,8 +5710,8 @@ components:
         contactId:
           $ref: "#/components/schemas/Id"
         dueDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         addressLine1:
           type: string
         addressLine2:

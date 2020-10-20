@@ -162,11 +162,11 @@ components:
         description:
           type: string
         createdAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         updatedAt:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
       description: A file stored in CRM
     ErrorModel:
       required:

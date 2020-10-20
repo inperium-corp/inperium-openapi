@@ -851,8 +851,8 @@ components:
         email:
           type: string
         connectionDate:
-          type: string
-          format: date-time
+          type: integer
+          format: int64
         status:
           type: string
           enum:
@@ -897,12 +897,12 @@ components:
           type: boolean
         lastMessageReceivedAt:
           description: Date and time of the most recently received message.
-          type: string
-          format: 'date-time'
+          type: integer
+          format: int64
         lastMessageSentAt:
           description: Date and time of the most recently sent message in the thread
-          type: string
-          format: 'date-time'
+          type: integer
+          format: int64
         lastMessageFrom:
           $ref: '#/components/schemas/ThreadParticipant'
         bodyExcerpt:
@@ -980,8 +980,8 @@ components:
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         receivedAt:
-          type: string
-          format: 'date-time'
+          type: integer
+          format: int64
         unread:
           type: boolean
         starred:

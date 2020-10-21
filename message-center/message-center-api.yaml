@@ -1209,7 +1209,7 @@ components:
         id:
           type: string
         attributes:
-          type: Attributes
+          $ref: '#/components/schemas/Attributes'
 
     Delta:
       description: Dto for nylas sync process
@@ -1222,7 +1222,7 @@ components:
         type:
           type: string
         object_data:
-          type: ObjectData
+          $ref: '#/components/schemas/ObjectData'
 
     Deltas:
       description: Dto for nylas sync process
@@ -1231,4 +1231,4 @@ components:
         deltas:
           type: array
           items:
-            type: Delta
+            $ref: '#/components/schemas/Delta'

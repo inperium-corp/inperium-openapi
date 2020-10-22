@@ -1820,6 +1820,24 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+    delete:
+      tags:
+        - Properties
+      summary: Delete a property
+      description: Use this endpoint to remove a propety.
+      operationId: deleteProperty
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: An empty response that is used for OK non-returning operations
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
 
   /properties/{objectType}:
     get:

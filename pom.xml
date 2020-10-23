@@ -14,7 +14,6 @@
     <modules>
         <module>hub-openapi</module>
         <module>lead-router-openapi</module>
-        <module>sell-openapi</module>
         <module>obs-openapi</module>
         <module>talk-openapi</module>
     </modules>

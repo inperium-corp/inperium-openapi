@@ -4120,6 +4120,9 @@ components:
           TASK: "#/components/schemas/TaskActivity"
           EVENT: "#/components/schemas/EventActivity"
       properties:
+        type:
+          type: string
+          description: Discriminator # this is a workaround while openapi generator generates @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = >>> JsonTypeInfo.As.EXISTING_PROPERTY <<<, property = "type", visible = true) since 4.3.0
         id:
           $ref: "#/components/schemas/Id"
         associatedCompanies:

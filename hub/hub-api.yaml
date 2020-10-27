@@ -1033,7 +1033,7 @@ paths:
     get:
       summary: Retrieve product payment tenants
       description: Use this endpoint to see what payment plans are available for a certain product.
-      operationId: getProductPlanAvailabilities
+      operationId: getAvailableProductPlans
       tags:
         - Products
       parameters:
@@ -1927,6 +1927,15 @@ components:
 
     BillingContactRequest:
       type: object
+      required:
+        - companyName
+        - firstName
+        - lastName
+        - email
+        - addressLine1
+        - city
+        - zip
+        - country
       properties:
         companyName:
           type: string
@@ -1943,8 +1952,6 @@ components:
         addressLine2:
           type: string
         city:
-          type: string
-        domainName:
           type: string
         state:
           type: string
@@ -2352,20 +2359,20 @@ components:
     PlanAvailability:
       type: object
       description: Availability of a plan for a specific tenant
-      properties:
-        plan:
-          $ref: "#/components/schemas/Plan"
-        subscription:
-          $ref: "#/components/schemas/Subscription"
-        isPlanCurrentlyOwned:
-          type: boolean
-        isPlanCurrentlyTrialing:
-          type: boolean
-        isPlanTrialAllowed:
-          type: boolean
-        isSalesContactRequired:
-          type: boolean
-        ownsHigherPlan:
-          type: boolean
-        preferredCurrency:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/Plan'
+        - properties:
+            subscription:
+              $ref: "#/components/schemas/Subscription"
+            isPlanCurrentlyOwned:
+              type: boolean
+            isPlanCurrentlyTrialing:
+              type: boolean
+            isPlanTrialAllowed:
+              type: boolean
+            isSalesContactRequired:
+              type: boolean
+            ownsHigherPlan:
+              type: boolean
+            preferredCurrency:
+              type: string

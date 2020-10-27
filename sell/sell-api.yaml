@@ -5979,10 +5979,10 @@ components:
           type: string
         quoteContactAcceptAllowed:
           type: boolean
-        companyLogoId:
-          $ref: "#/components/schemas/Id"
-        squareLogoId:
-          $ref: "#/components/schemas/Id"
+        companyLogoUrl:
+          type: string
+        squareLogoUrl:
+          type: string
         logoAltText:
           type: string
         revenueGoalPeriod:

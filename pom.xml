@@ -12,7 +12,6 @@
     <name>Inperium Web API</name>
 
     <modules>
-        <module>hub-openapi</module>
         <module>lead-router-openapi</module>
     </modules>
 

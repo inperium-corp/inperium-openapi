@@ -637,6 +637,8 @@ paths:
       summary: TBD
       description: TBD
       operationId: uploadAttachmentContent
+      parameters:
+          - $ref: "#/components/parameters/UserAccountUUID"
       requestBody:
         content:
           multipart/form-data:
@@ -707,6 +709,7 @@ paths:
       operationId: getAttachmentContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
+        - $ref: "#/components/parameters/UserAccountUUID"
       responses:
         200:
           description: The file contents have been retrieved
@@ -810,6 +813,13 @@ components:
       required: true
       schema:
         type: string
+    UserAccountUUID:
+      name: userAccountId
+      in: query
+      required: true
+      schema:
+        type: string
+        format: uuid
     QueryPageNumber:
       name: pageNumber
       in: query

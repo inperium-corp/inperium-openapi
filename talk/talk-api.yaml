@@ -2641,6 +2641,10 @@ components:
           format: int64
         message:
           type: string
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
     DayOfWeek:

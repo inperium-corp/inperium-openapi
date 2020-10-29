@@ -918,8 +918,11 @@ components:
         bodyExcerpt:
           description: A shortened plain-text preview of the most recent message in the thread
           type: string
-        folderId:
-          type: string
+        folderIds:
+          type: array
+          items:
+            type: string
+            format: uuid
         hasAttachments:
           description: Indicates if the thread has files attached to it.
           type: boolean

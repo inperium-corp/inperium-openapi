@@ -926,14 +926,8 @@ components:
         hasAttachments:
           description: Indicates if the thread has files attached to it.
           type: boolean
-        messages:
-          type: array
-          items:
-            $ref: '#/components/schemas/Message'
-        drafts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Draft'
+        messagesCount:
+          type: integer
 
     ThreadRequest:
       type: object

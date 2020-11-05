@@ -6,7 +6,9 @@ The API is used internally for service-to-service communication. Clients can als
 
 
 Path: `api.inperium.com`
+
 Current version: `v1`
+
 Formats accepted & returned: json
 
 

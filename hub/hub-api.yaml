@@ -15,42 +15,48 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+ - name: App Settings
+    description: |
+      Enable integration with other apps such as Stripe.
+  - name: Auth
+    description: |
+      Authenticate with the Bearer token or an API key.
+  - name: API Keys
+    description: |
+      API keys are used instead of bearer token to authenticate applications connecting to Inperium via API.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
   - name: Limits
     description: |
-      Volume- and usage-based limitation of tenant subscriptions and plans.
+      Volume- and usage-based restrictions applied to tenant subscriptions and plans.
   - name: Tenants
     description: |
-      Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users.
+      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products,and users.
   - name: Users
     description: |
-      Users are individuals working for the tenant. Depending on their roles, users have access to different Inperium products and features.
-  - name: App Settings
-    description: |
-      Integration with other apps such as Stripe.
+      Users are individuals included in tenant subscription. Depending on the role, users have access to different Inperium products and features. 
   - name: Products
     description: |
-      Inperium apps, for example, Sell or Talk.
+      Inperium develops business solutions. Currently, the following apps are available: Sell, Talk.
   - name: Roles
     description: |
-      Inperium user security roles.
+      Configure security roles to delegate access to Inperium features. For example, you ca distinguish administrators and managers.
   - name: Subscriptions
     description: |
-      Payment model associated with a tenant.
+      Tenant have an option to choose the subscription type and billing period.
 
 paths:
   /auth/signature:
     get:
       tags:
         - Auth
-      summary: Retrieve a public key of Hub auth signature
-      description: TBD
+      summary: Get a public key of Hub auth signature
+      description: Use this endpoint
       operationId: getAuthSignature
       responses:
         200:
-          description: Auth signature retrieved
+          description: Returns auth signature.
           content:
             application/json:
               schema:

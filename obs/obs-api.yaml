@@ -87,7 +87,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: The unique ID of the file you would like to retrieve.
+          description: The unique ID of the file you want to like to retrieve.
           required: true
           schema:
             type: string

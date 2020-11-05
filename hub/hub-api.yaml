@@ -2363,8 +2363,6 @@ components:
       discriminator:
         propertyName: schema
       properties:
-        subscription:
-          $ref: "#/components/schemas/Subscription"
         product:
           $ref: "#/components/schemas/Product"
         prices:
@@ -2390,7 +2388,7 @@ components:
         - TRIAL
         - PURCHASE
         - UPGRADE
-        - CONTACT_TO_DOWNGRADE
+        - DOWNGRADE
 
     LocalizedFeature:
       type: object

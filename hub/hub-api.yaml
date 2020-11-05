@@ -1049,9 +1049,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PlanAvailability"
+                $ref: "#/components/schemas/PlanAvailabilities"
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -2164,16 +2162,6 @@ components:
         trialPeriodDays:
           type: integer
           format: int64
-        product:
-          $ref: "#/components/schemas/Product"
-        prices:
-          type: array
-          items:
-            $ref: "#/components/schemas/Price"
-        limits:
-          type: array
-          items:
-            $ref: "#/components/schemas/Limit"
         beta:
           $ref: "#/components/schemas/Beta"
 
@@ -2242,6 +2230,8 @@ components:
 
     SubscriptionFullInfo:
       type: object
+      discriminator:
+        propertyName: schema
       required:
         - currentPrice
         - nextBillingDate
@@ -2356,23 +2346,60 @@ components:
         - CANCELED
       description: The state of the subscription
 
-    PlanAvailability:
+    PlanAvailabilities:
+      type: object
+      description: The plans have been retrieved
+      properties:
+        activeSubscription:
+          $ref: '#/components/schemas/Subscription'
+        plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanFullInfo'
+
+    PlanFullInfo:
       type: object
       description: Availability of a plan for a specific tenant
+      discriminator:
+        propertyName: schema
+      properties:
+        subscription:
+          $ref: "#/components/schemas/Subscription"
+        product:
+          $ref: "#/components/schemas/Product"
+        prices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Price"
+        features:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/LocalizedFeature'
+        affordances:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanAffordance'
       allOf:
         - $ref: '#/components/schemas/Plan'
-        - properties:
-            subscription:
-              $ref: "#/components/schemas/Subscription"
-            isPlanCurrentlyOwned:
-              type: boolean
-            isPlanCurrentlyTrialing:
-              type: boolean
-            isPlanTrialAllowed:
-              type: boolean
-            isSalesContactRequired:
-              type: boolean
-            ownsHigherPlan:
-              type: boolean
-            preferredCurrency:
-              type: string
+
+    PlanAffordance:
+      type: string
+      enum:
+        - TRIAL
+        - PURCHASE
+        - UPGRADE
+        - CONTACT_TO_DOWNGRADE
+
+    LocalizedFeature:
+      type: object
+      description: The limit or the feature with its translation
+      required:
+        - translation
+      properties:
+        translation:
+          type: string
+      allOf:
+        - $ref: '#/components/schemas/Feature'
+        - $ref: '#/components/schemas/Limit'

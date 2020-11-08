@@ -2329,6 +2329,9 @@ components:
           format: int64
           description: License quantity for updated subscription
           minimum: 1
+        promotionCode:
+          type: string
+          description: A promotion code to receive a discount off the subscription.
 
     PriceInterval:
       type: string

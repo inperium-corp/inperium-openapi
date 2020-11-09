@@ -167,6 +167,43 @@ paths:
             audio/*:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /services/phoneNumbersToBuy:
+    get:
+      tags:
+        - Services
+      summary: Retrieve a list of available phone numbers from Twilio
+      operationId: findPhoneNumbersAvailableToBuy
+      parameters:
+        - name: countryCode
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CountryCode'
+        - name: areaCode
+          in: query
+          description: The rate center of the phone number
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Filter phone numbers by type
+          schema:
+            $ref: '#/components/schemas/PhoneNumberType'
+      responses:
+        200:
+          description: The list of phone numbers has been retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailablePhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /phoneNumbers:
     get:
@@ -242,68 +279,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /phoneNumbers/available:
-    get:
-      tags:
-        - Phone Numbers
-      summary: Retrieve a list of available phone numbers from Twilio
-      operationId: findAvailablePhoneNumbers
-      parameters:
-        - name: countryCode
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CountryCode'
-        - name: areaCode
-          in: query
-          description: The rate center of the phone number
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: Filter phone numbers by type
-          schema:
-            $ref: '#/components/schemas/PhoneNumberType'
-      responses:
-        200:
-          description: The list of phone numbers has been retrieved
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AvailablePhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /phoneNumbers/create:
-    post:
-      tags:
-        - Phone Numbers
-      summary: Create a phone number entity
-      operationId: createPhoneNumber
-      requestBody:
-        description: Phone number to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        201:
-          description: A new phone number entity has been created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+
   /phoneNumbers/{id}:
     get:
       tags:

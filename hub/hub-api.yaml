@@ -1049,7 +1049,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PlanAvailabilities"
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanFullInfo'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1261,6 +1263,19 @@ paths:
       operationId: getSubscriptions
       tags:
         - Subscriptions
+      parameters:
+        - name: state
+          in: query
+          description: The state of the subscription to be found.
+          schema:
+            type: string
+          example: in::ACTIVE,TRIALING
+        - name: product
+          in: query
+          description: The product th subscription is associated with.
+          schema:
+            type: string
+          example: eq::SELL
       responses:
         200:
           description: The subscriptions have been retrieved.
@@ -2345,17 +2360,6 @@ components:
         - PAST_DUE
         - CANCELED
       description: The state of the subscription
-
-    PlanAvailabilities:
-      type: object
-      description: The plans have been retrieved
-      properties:
-        activeSubscription:
-          $ref: '#/components/schemas/Subscription'
-        plans:
-          type: array
-          items:
-            $ref: '#/components/schemas/PlanFullInfo'
 
     PlanFullInfo:
       type: object

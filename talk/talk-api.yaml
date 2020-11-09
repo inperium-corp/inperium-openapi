@@ -2088,7 +2088,7 @@ components:
           type: string
           description: The given name of the phone number
         assignmentType:
-          $ref: '#/components/schemas/PhoneNumberAssigmentType'
+          $ref: '#/components/schemas/PhoneNumberAssignmentType'
         voicemail:
           $ref: '#/components/schemas/AudioFile'
         autoReceptionist:

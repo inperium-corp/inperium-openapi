@@ -2103,7 +2103,7 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
-    PhoneNumberAssigmentType:
+    PhoneNumberAssignmentType:
       type: string
       enum:
         - USER

@@ -433,7 +433,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/PhoneNumber'
+                $ref: '#/components/schemas/Id'
       responses:
         201:
           description: The phone number has been created and assigned to the user

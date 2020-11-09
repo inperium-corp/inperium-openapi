@@ -2290,8 +2290,9 @@ components:
           format: int64
           description: Number of available licenses (overall purchased)
         discountAmount:
-          type: integer
-          format: int64
+          type: number
+          format: double
+          description: Amount of discount applied to the subscription
 
     SubscriptionRequest:
       type: object
@@ -2303,11 +2304,15 @@ components:
           $ref: "#/components/schemas/Id"
         trial:
           type: boolean
-          description: If the subscription should be a trial or not
+          description: If the subscription should be a trial or not.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         betaAccessCode:
           type: string
+          description: An access code to start a subscription to a product that is in beta.
+        promotionCode:
+          type: string
+          description: A promotion code to receive a discount off the subscription.
 
     SubscriptionUpdateRequest:
       type: object
@@ -2321,6 +2326,9 @@ components:
           format: int64
           description: License quantity for updated subscription
           minimum: 1
+        promotionCode:
+          type: string
+          description: A promotion code to receive a discount off the subscription.
 
     PriceInterval:
       type: string

@@ -135,6 +135,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /imports:
+    post:
+      tags:
+        - Imports
+      summary: Import entities
+      description: Use this endpoint to upload files containing entities into Inperium. For example, you can upload your client data exported from other CRMs and that was previously stored in spreadsheets.
+      operationId: importFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                mappings:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        201:
+          description: The entities have been imported
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
 components:
   securitySchemes:
     BearerAuth:

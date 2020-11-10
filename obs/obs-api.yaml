@@ -81,16 +81,11 @@ paths:
       description: Use this endpoint to retrieve a file by its ID.
       operationId: getFile
       parameters:
-        - name: id
-          in: path
-          description: The ID of the file you would like to retrieve
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ResourceId'
         - name: token
           in: query
           description: Your JWT token or API key
+          required: true
           schema:
             type: string
       responses:
@@ -119,6 +114,7 @@ paths:
         - name: token
           in: query
           description: Your JWT token or API key
+          required: true
           schema:
             type: string
       responses:

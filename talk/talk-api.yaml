@@ -2055,7 +2055,7 @@ components:
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         timeout:
-          type: integer
+          $ref: '#/components/schemas/PhoneNumberTimeout'
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         whatsappEnabled:
@@ -2081,15 +2081,20 @@ components:
           $ref: '#/components/schemas/Address'
     PhoneNumberAssignmentType:
       type: string
+      description: Assignment type of the phone number (to whom is it assigned)
       enum:
         - USER
         - UNASSIGNED
         - AUTO_RECEPTIONIST
     PhoneNumberType:
       type: string
+      description: Type of the phone number
       enum:
         - LOCAL
         - TOLL_FREE
+    PhoneNumberTimeout:
+      type: integer
+      description: Timeout of the phone number (to finish the call)
     PhoneNumberRequest:
       type: object
       description: User phone number request model
@@ -2118,7 +2123,7 @@ components:
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
         timeout:
-          type: integer
+          $ref: '#/components/schemas/PhoneNumberTimeout'
         city:
           type: string
         state:

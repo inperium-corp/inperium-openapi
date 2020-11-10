@@ -2336,6 +2336,8 @@ components:
           $ref: '#/components/schemas/Id'
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
+        recipient:
+          $ref: '#/components/schemas/CallParticipantRequest'
         participants:
           type: array
           items:
@@ -2399,6 +2401,8 @@ components:
           format: int64
           description: Call duration in seconds
         caller:
+          $ref: '#/components/schemas/CallParticipant'
+        recipient:
           $ref: '#/components/schemas/CallParticipant'
         participants:
           type: array

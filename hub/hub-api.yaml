@@ -2177,6 +2177,8 @@ components:
         trialPeriodDays:
           type: integer
           format: int64
+        product:
+          $ref: "#/components/schemas/Product"
         beta:
           $ref: "#/components/schemas/Beta"
 
@@ -2367,8 +2369,6 @@ components:
       discriminator:
         propertyName: schema
       properties:
-        product:
-          $ref: "#/components/schemas/Product"
         prices:
           type: array
           items:

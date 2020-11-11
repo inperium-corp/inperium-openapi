@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Inperium Hub Server API
   description: |
-    RESTful API providing access to Inperium Hub.
+     This RESTful API provides access to the Inperium Hub Server that manages tenant and app settings, user rights and permissions, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -20,13 +20,16 @@ tags:
       Enable integration with other apps such as Stripe.
   - name: Auth
     description: |
-      Authenticate with the Bearer token or an API key.
+      Inperium enables you to authenticate with the Bearer token or an API key.
   - name: API Keys
     description: |
-      API keys are used instead of bearer token to authenticate applications connecting to Inperium via API.
+      API keys are used instead of bearer tokens to authenticate applications connecting to Inperium via API.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name:  Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crutial to identify the health state of each service. You can rely on the healthstate information when troubleshooting issues.   
   - name: Limits
     description: |
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
@@ -51,12 +54,13 @@ paths:
     get:
       tags:
         - Auth
-      summary: Get a public key of Hub auth signature
-      description: Use this endpoint
+      summary: Get a public key for Hub auth signature
+      summary: Verify signature
+      description: Use this endpoint to get a public key and check Hub auth signature.
       operationId: getAuthSignature
       responses:
         200:
-          description: Returns auth signature.
+          description: Returns the auth signature.
           content:
             application/json:
               schema:
@@ -72,30 +76,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Get new authentication tokens.
-      description: This endpoint will authenticate the user and return the access token and refresh token.
+      summary: Request a token
+      description: Use this endpoint to authenticate a user. This endpoint returns an access token and refresh token.
       operationId: getAuthTokens
       requestBody:
-        description: Input parameters for a new auth token generation
+        description: In the request body, pass information the AuthTokensRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/AuthTokensRequest"
       responses:
         200:
-          description: The newly generated auth tokens
+          description: Returns the newly generated auth tokens.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         401:
-          description: Wrong credentials or two factor authentication required.
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -105,21 +109,21 @@ paths:
     post:
       tags:
         - Auth
-      summary: Logout the principal.
-      description: This endpoint logs out the principal and invalidates his access and refresh tokens.
+      summary: Log out
+      description: Use this endpoint to log out the principal and invalidate the principal's access and refresh tokens.
       operationId: logout
       responses:
         200:
-          description: The user was successfully logged out.
+          description: The user logged out.
           content: { }
         401:
-          description: Wrong credentials or two factor authentication required.
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -129,30 +133,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Request a two factor authentication token
-      description: This endpoint will send a two factor authentication token to the user.
+      summary: Request a 2FA token
+      description: Use this endpoint to send a two-factor authentication token to a user.
       operationId: sendTwoFactorAuthToken
       requestBody:
-        description: Input parameters to verify the two factor authentication token.
+        description: In the request body, pass the TwoFactorAuthTokenRequest object. It is used to verify the two-factor authentication token.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/TwoFactorAuthTokenRequest"
       responses:
         200:
-          description: The two factor auth token has successfully been sent.
+          description: Returns the 2FA token.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/TwoFactorAuthTokenResponse"
         401:
-          description: The attempt to request a two factor auth token was unsuccessful.
+          description: Unauthorized. The attempt to request a 2FA token failed.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -162,30 +166,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Verify two factor authentication token
-      description: This endpoint will verify the two factor authentication token of a user.
+      summary: Verify a 2FA token
+      description: Use this endpoint to verify the two-factor authentication token of a user.
       operationId: verifyTwoFactorAuthToken
       requestBody:
-        description: Input parameters to verify the two factor authentication token
+        description: In the request body, pass the TwoFactorAuthVerificationRequest object. 
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/TwoFactorAuthVerificationRequest"
       responses:
         200:
-          description: The newly generated auth tokens
+          description: Returns newly generated tokens.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         401:
-          description: The two factor authentication token was invalid.
+          description: Unauthorized. The 2FA token is invalid.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -195,7 +199,7 @@ paths:
     get:
       tags:
         - API Keys
-      summary: Retrieves existing API keys.
+      summary: Retrieve API keys
       description: Use this endpoint to get a list of API keys.
       operationId: getApiKeys
       parameters:
@@ -214,13 +218,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing API keys
+          description: Returns API keys.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKeys"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -228,24 +232,24 @@ paths:
     post:
       tags:
         - API Keys
-      summary: Create a new API key.
+      summary: Create an API key
       description: Use this endpoint to create a new API key.
       operationId: createApiKey
       requestBody:
-        description: Input parameters for a new API key
+        description: In the request body, pass the ApiKeyRequest object. 
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
         201:
-          description: The newly created API Key.
+          description: Returns a new API key. Make sure to save it to a secure location. Inperium Hub doesn't store API keys.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -255,14 +259,14 @@ paths:
     get:
       tags:
         - API Keys
-      summary: Retrieves an existing API key by its ID.
-      description: Use this endpoint to retrieve an existing API key by its ID.
+      summary: Get an API key
+      description: Use this endpoint to retrieve an existing API key by its ID. Note that Inperium doesn't store the API key itself, just its hash or prefix.
       operationId: getApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The requested API key
+          description: Returns the requested API key. 
           content:
             application/json:
               schema:
@@ -276,26 +280,26 @@ paths:
     put:
       tags:
         - API Keys
-      summary: Updates an existing API key by its ID.
+      summary: Update an API key
       description: Use this endpoint to update an existing API key by its ID.
       operationId: updateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: Input parameters for API key properties update
+        description: In the request body, pass the updated ApiKeyRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
         200:
-          description: The updated API key
+          description: Returns the updated API key.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -303,16 +307,16 @@ paths:
     delete:
       tags:
         - API Keys
-      summary: Deletes an existing API key by its ID.
-      description: Use this endpoint to delete an existing API Key by its ID.
+      summary: Delete an API key
+      description: Use this endpoint to locate an API key by its ID and delete it. Note that this action will instantly revoke access for users and services utilizing this key.
       operationId: deleteApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The user has been successfully deleted
+          description: The key has been removed.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -322,20 +326,20 @@ paths:
     put:
       tags:
         - API Keys
-      summary: Regenerates the token of an existing API key by its ID.
-      description: Use this token to rotate the key of the existing API key by its ID.
+      summary: Regenerate a token
+      description: Use this endpoint to regenerate a token for an existing API key.
       operationId: regenerateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The updated API key
+          description: Returns the updated API key.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -345,15 +349,15 @@ paths:
     get:
       tags:
         - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -363,20 +367,20 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Get company information
-      description: Use this endpoint to get information about the tenant's company.
+      summary: Retrieve a tenant
+      description: Use this endpoint to get information about the tenant.
       operationId: getTenant
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The tenant
+          description: Returns the Tenant object.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -386,20 +390,20 @@ paths:
     post:
       tags:
         - Tenants
-      summary: Create a new tenant
-      description: Use this endpoint to create a tenant. Send a POST request to this endpoint to add a new Inperium tenant.
+      summary: Create a tenant
+      description: Use this endpoint to create a new tenant. 
       operationId: createTenant
       requestBody:
-        description: Pass information about the new tenant
+        description: In the request body, pass the CreateTenantRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/CreateTenantRequest"
       responses:
         201:
-          description: A new account has been created
+          description: A new account has been created.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -409,8 +413,8 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Confirm the account of the tenant's owner
-      description: Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
+      summary: Confirm owner
+      description: Use this endpoint to confirm the account of the user who signed up for Inperium and created the tenant. Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
       operationId: confirmTenant
       parameters:
         - name: confirmationToken

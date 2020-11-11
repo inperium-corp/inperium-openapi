@@ -37,7 +37,7 @@ paths:
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: {}
         default:
           description: Bad request, security violation, or internal server error

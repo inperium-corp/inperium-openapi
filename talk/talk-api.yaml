@@ -167,13 +167,50 @@ paths:
             audio/*:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /services/phoneNumbersToBuy:
+    get:
+      tags:
+        - Services
+      summary: Retrieve a list of available phone numbers from Twilio
+      operationId: findPhoneNumbersAvailableToBuy
+      parameters:
+        - name: countryCode
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CountryCode'
+        - name: areaCode
+          in: query
+          description: The rate center of the phone number
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Filter phone numbers by type
+          schema:
+            $ref: '#/components/schemas/PhoneNumberType'
+      responses:
+        200:
+          description: The list of phone numbers has been retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailablePhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /phoneNumbers:
     get:
       tags:
         - Phone Numbers
       summary: Retrieve a list of phone numbers
-      operationId: listTenantPhoneNumbers
+      operationId: getPhoneNumbers
       parameters:
         - name: assignmentType
           in: query
@@ -181,10 +218,6 @@ paths:
           schema:
             type: string
             example: eq::USER
-            enum:
-              - USER
-              - AUTO_RECEPTIONIST
-              - UNASSIGNED
         - name: number
           in: query
           description: Search parameters by the phone number
@@ -197,6 +230,11 @@ paths:
           schema:
             type: string
             example: eq::LOCAL
+        - name: regulatoryStatus
+          in: query
+          description: Filter by the status of the phone number's regulatory bundle
+          schema:
+            type: string
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
@@ -213,96 +251,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /phoneNumbers/available:
-    get:
+    post:
       tags:
         - Phone Numbers
-      summary: Retrieve a list of available phone numbers from Twilio
-      operationId: findAvailablePhoneNumbers
-      parameters:
-        - name: countryCode
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CountryCode'
-        - name: areaCode
-          in: query
-          description: The rate center of the phone number
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: Filter phone numbers by type
-          schema:
-            type: string
-            enum:
-              - LOCAL
-              - TOLL_FREE
+      summary: Buy and create a list of Twilio phone numbers
+      operationId: buyPhoneNumbers
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: The list of phone numbers has been retrieved
+          description: A list of new Twilio phone numbers has been created and bought
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AvailablePhoneNumber'
+                  $ref: '#/components/schemas/PhoneNumber'
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /phoneNumbers/buy:
-    post:
-      tags:
-        - Phone Numbers
-      summary: Buy and create a Twilio phone number
-      operationId: buyPhoneNumber
-      requestBody:
-        description: Phone number to create and buy
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        200:
-          description: A new Twilio phone number has been created and bought
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /phoneNumbers/create:
-    post:
-      tags:
-        - Phone Numbers
-      summary: Create a phone number entity
-      operationId: createPhoneNumber
-      requestBody:
-        description: Phone number to create
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        201:
-          description: A new phone number entity has been created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+
   /phoneNumbers/{id}:
     get:
       tags:
@@ -442,58 +419,10 @@ paths:
             audio/*:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /users/phoneNumbers:
-    get:
-      tags:
-        - User Phone Numbers
-      summary: Retrieve a list of phone numbers
-      operationId: listPhoneNumbers
-      parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of phone numbers has been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumbers'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /users/{id}/phoneNumbers:
-    get:
-      tags:
-        - User Phone Numbers
-      summary: Retrieve a list of user's phone numbers
-      operationId: listUserPhoneNumbers
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of phone numbers has been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumbers'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - User Phone Numbers
+        - Phone Numbers
       summary: Add a phone number and assign it to the user
       operationId: assignUserPhoneNumber
       parameters:
@@ -504,7 +433,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/PhoneNumber'
+                $ref: '#/components/schemas/Id'
       responses:
         201:
           description: The phone number has been created and assigned to the user
@@ -2110,88 +2039,99 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     PhoneNumber:
       type: object
+      description: User phone number model
+      required:
+        - id
+        - phoneNumber
+        - type
+        - timeout
+        - countryCode
+        - whatsappEnabled
       properties:
         id:
           $ref: '#/components/schemas/Id'
+        phoneNumber:
+          type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        timeout:
+          $ref: '#/components/schemas/PhoneNumberTimeout'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        whatsappEnabled:
+          type: boolean
+        name:
+          type: string
+          description: The given name of the phone number
+        assignmentType:
+          $ref: '#/components/schemas/PhoneNumberAssignmentType'
         voicemail:
           $ref: '#/components/schemas/AudioFile'
         autoReceptionist:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
           $ref: '#/components/schemas/User'
-        tenantId:
-          $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        phoneNumber:
-          type: string
-        timeout:
-          type: integer
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
         city:
           type: string
         state:
           type: string
-        type:
-          type: string
-          enum:
-            - LOCAL
-            - TOLL_FREE
         address:
           $ref: '#/components/schemas/Address'
-        assignmentType:
-          type: string
-          enum:
-            - USER
-            - UNASSIGNED
-            - AUTO_RECEPTIONIST
-        whatsappEnabled:
-          type: boolean
-      required:
-        - id
-      description: User phone number model
+    PhoneNumberAssignmentType:
+      type: string
+      description: Assignment type of the phone number (to whom is it assigned)
+      enum:
+        - USER
+        - UNASSIGNED
+        - AUTO_RECEPTIONIST
+    PhoneNumberType:
+      type: string
+      description: Type of the phone number
+      enum:
+        - LOCAL
+        - TOLL_FREE
+    PhoneNumberTimeout:
+      type: integer
+      description: Timeout of the phone number (to finish the call)
     PhoneNumberRequest:
       type: object
+      description: User phone number request model
+      required:
+        - phoneNumber
+        - type
+        - countryCode
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
+        phoneNumber:
+          type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        name:
+          type: string
+          description: The given name of the phone number
+          example: Maxim's phone number
+          maxLength: 63
         voicemailId:
           $ref: '#/components/schemas/Id'
         autoReceptionistId:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
-        tenantId:
-          $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
-        phoneNumber:
-          type: string
         timeout:
-          type: integer
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
+          $ref: '#/components/schemas/PhoneNumberTimeout'
         city:
           type: string
         state:
           type: string
-        type:
-          type: string
-          enum:
-            - LOCAL
-            - TOLL_FREE
         addressId:
           $ref: '#/components/schemas/Id'
-        assign:
-          type: string
-          enum:
-            - USER
-            - UNASSIGNED
-            - AUTO_RECEPTIONIST
         whatsappEnabled:
           type: boolean
-      description: User phone number model
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -2280,24 +2220,24 @@ components:
           $ref: '#/components/schemas/CountryCode'
     AvailablePhoneNumber:
       type: object
+      required:
+        - name
+        - phoneNumber
+        - countryCode
+        - city
+        - type
+        - addressRequirements
       properties:
         name:
           type: string
-        basePrice:
-          type: number
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-        postalCode:
-          type: string
         phoneNumber:
           type: string
-        currentPrice:
-          type: number
-        type:
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        city:
           type: string
-          enum:
-            - LOCAL
-            - TOLL_FREE
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
         addressRequirements:
           type: string
           enum:
@@ -2305,10 +2245,14 @@ components:
             - ANY
             - LOCAL
             - FOREIGN
-        city:
+        postalCode:
           type: string
         state:
           type: string
+        basePrice:
+          type: number
+        currentPrice:
+          type: number
     RegulatoryBundles:
       type: object
       properties:
@@ -2392,6 +2336,8 @@ components:
           $ref: '#/components/schemas/Id'
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
+        recipient:
+          $ref: '#/components/schemas/CallParticipantRequest'
         participants:
           type: array
           items:
@@ -2455,6 +2401,8 @@ components:
           format: int64
           description: Call duration in seconds
         caller:
+          $ref: '#/components/schemas/CallParticipant'
+        recipient:
           $ref: '#/components/schemas/CallParticipant'
         participants:
           type: array

@@ -248,6 +248,10 @@ components:
               type: string
               enum:
                 - TALK
+            firstName:
+              type: string
+            lastName:
+              type: string
             message:
               type: string
 

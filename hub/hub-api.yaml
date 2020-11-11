@@ -29,16 +29,10 @@ tags:
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
   - name:  Health checks
     description: |
-      Since Inperium runs multiple services under the hood, it's crutial to identify the health state of each service. You can rely on the healthstate information when troubleshooting issues.   
+      Since Inperium runs multiple services under the hood, it's crutial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
   - name: Limits
     description: |
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
-  - name: Tenants
-    description: |
-      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products,and users.
-  - name: Users
-    description: |
-      Users are individuals included in tenant subscription. Depending on the role, users have access to different Inperium products and features. 
   - name: Products
     description: |
       Inperium develops business solutions. Currently, the following apps are available: Sell, Talk.
@@ -47,7 +41,14 @@ tags:
       Configure security roles to delegate access to Inperium features. For example, you ca distinguish administrators and managers.
   - name: Subscriptions
     description: |
-      Tenant have an option to choose the subscription type and billing period.
+      Tenant have an option to choose the subscription type and billing period.      
+  - name: Tenants
+    description: |
+      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products,and users.
+  - name: Users
+    description: |
+      Users are individuals included in tenant subscription. Depending on the role, users have access to different Inperium products and features. 
+
 
 paths:
   /auth/signature:
@@ -419,20 +420,20 @@ paths:
       parameters:
         - name: confirmationToken
           in: path
-          description: Confirmation token
+          description: The confirmation token.
           required: true
           schema:
             type: string
             format: uuid
       responses:
         200:
-          description: The tenant owner has successfully been authorized
+          description: Returns a token. It means that the account has been successfully verified.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -442,21 +443,22 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Resend the confirmation email
+      summary: Resend confirmation
+      description: Use this endpoint to resend the confirmation email.
       operationId: resendTenantConfirmation
       parameters:
         - name: email
           in: query
-          description: User email
+          description: Provide an email address of the tenant's owner. The owner is the user who initially signed up for Inperium.
           required: true
           schema:
             type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -466,19 +468,20 @@ paths:
     put:
       tags:
         - Tenants
-      summary: Onboard tenant
-      description: Use this endpoint to add information about the tenant such as name, company name, employee count to finish the onboarding.
+      summary: Onboard a tenant
+      description: Use this endpoint to add information about the tenant such as the name, company name, and employee count to finish the onboarding.
       operationId: onboardTenant
       requestBody:
+        description: In the request body, pass the OnboardTenantRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/OnboardTenantRequest"
       responses:
         200:
-          description: The tenant has completed onboarding
+          description: The tenant has completed onboarding.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -489,22 +492,23 @@ paths:
       tags:
         - Tenants
       summary: Update company information
-      description: Use this endpoint to update information about the tenant's company.
+      description: Use this endpoint to update information about the tenant's company such as address or default timezone.
       operationId: updateTenantCompanyInfo
       requestBody:
+        description: In the request body, pass the TenantCompanyInfoRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/TenantCompanyInfoRequest"
       responses:
         200:
-          description: The tenant has been updated
+          description: The tenant has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -515,22 +519,23 @@ paths:
       tags:
         - Tenants
       summary: Update an address
-      description: Use this endpoint to update tenant's address.
+      description: Use this endpoint to update the address.
       operationId: updateTenantAddress
       requestBody:
+        description: In the request body, pass the TenantAddressRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/TenantAddressRequest"
       responses:
         200:
-          description: The tenant's address has been updated
+          description: The tenant's address has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -544,19 +549,20 @@ paths:
       description: Use this endpoint to update tenant's billing details.
       operationId: updateTenantBillingContact
       requestBody:
+        description: In the request body, pass the BillingContactRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/BillingContactRequest"
       responses:
         200:
-          description: The tenant's billing contract has been updated
+          description: The billing details have been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -567,22 +573,23 @@ paths:
       tags:
         - Tenants
       summary: Update a payment method
-      description: Use this endpoint to change tenant's payment method.
+      description: Use this endpoint to change the tenant's payment method.
       operationId: updateTenantPaymentMethod
       requestBody:
         content:
+          description: In the request body, pass the PaymentMethodRequest object.
           "*/*":
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
       responses:
         200:
-          description: The tenant's payment method has been updated
+          description: The tenant's payment method has been updated. The endpoint returns the updated Tenant object.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -592,13 +599,13 @@ paths:
     get:
       tags:
         - Limits
-      summary: Retrieves existing limit usages.
+      summary: Retrieve limits
       description: Use this endpoint to get a list of existing limit usages.
       operationId: getLimitUsages
       parameters:
         - name: anchor
           in: query
-          description: The anchor of a referenced limit
+          description: The anchor of a referenced limit.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -606,13 +613,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing limit usages
+          description: Returns the list of limit usages.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/LimitUsages"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -622,9 +629,8 @@ paths:
     post:
       tags:
         - Limits
-      summary: Updates a referenced limit usage
-      description: Use this endpoint to update the current value of existing
-        limit usage.
+      summary: Update a limit usage
+      description: Use this endpoint to update the current value of the existing limit usage.
       operationId: updateLimitUsage
       requestBody:
         content:
@@ -633,9 +639,9 @@ paths:
               $ref: "#/components/schemas/LimitUsageUpdateRequest"
       responses:
         204:
-          description: The limit usage has been updated
+          description: The limit usage has been updated.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -645,23 +651,24 @@ paths:
     post:
       tags:
         - Users
-      summary: Invite a new user
-      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. He or she will receieve an invitation by email.
+      summary: Invite a user
+      description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receieve an invitation by email.
       operationId: inviteUser
       requestBody:
         content:
+          description: In the request body, pass the UserInviteRequest object. 
           "*/*":
             schema:
               $ref: "#/components/schemas/UserInviteRequest"
       responses:
         201:
-          description: A new user has been invited
+          description: Returns a user record. It means the user has been invited to join Inperium.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -677,18 +684,19 @@ paths:
       requestBody:
         required: true
         content:
+          description: In the request body, pass the UserConfirmInviteRequest object. 
           "*/*":
             schema:
               $ref: "#/components/schemas/UserConfirmInviteRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: Returns authentication tokens. The user account is confirmed and the password has successfully been reset.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -696,7 +704,8 @@ paths:
     get:
       tags:
         - Users
-      summary: Resend the confirmation email
+      summary: Resend confirmation
+      description: 
       operationId: resendUserConfirmation
       parameters:
         - name: email
@@ -707,7 +716,7 @@ paths:
             type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations
           content: { }
         default:
           description: Bad request, security violation, or internal server error

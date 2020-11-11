@@ -217,7 +217,7 @@ components:
             $ref: '#/components/schemas/ErrorModel'
   responses:
     EmptyResponse:
-      description: An empty response that is used for OK non-returning operations.
+      description: Returns an empty response that is used for OK non-returning operations.
       content: {}
     ErrorResponse:
       description: Bad request, security violation, or internal server error.

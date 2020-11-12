@@ -2021,13 +2021,12 @@ components:
       type: object
       description: Model for changing user password
       required:
-        - passwordResetToken
+        - oneTimePassword
         - confirmPassword
         - newPassword
       properties:
-        passwordResetToken:
+        oneTimePassword:
           type: string
-          format: uuid
         confirmPassword:
           type: string
         newPassword:

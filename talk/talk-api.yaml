@@ -452,6 +452,12 @@ paths:
       summary: Retrieve a list of auto receptionists.
       operationId: findAutoReceptionists
       parameters:
+        - name: name
+          in: query
+          description: Filter by name
+          schema:
+            type: string
+            example: like::Some name
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'

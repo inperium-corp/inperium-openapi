@@ -376,29 +376,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /tenants/create:
-    post:
-      tags:
-        - Tenants
-      summary: Create a new tenant
-      description: Use this endpoint to create a tenant. Send a POST request to this endpoint to add a new Inperium tenant.
-      operationId: createTenant
-      requestBody:
-        description: Pass information about the new tenant
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CreateTenantRequest"
-      responses:
-        201:
-          description: A new account has been created
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /tenants/confirm/{confirmationToken}:
     get:
       tags:
@@ -631,32 +608,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /users/invite:
-    post:
-      tags:
-        - Users
-      summary: Invite a new user
-      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. He or she will receieve an invitation by email.
-      operationId: inviteUser
-      requestBody:
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserInviteRequest"
-      responses:
-        201:
-          description: A new user has been invited
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /users/invite/confirm:
     post:
       tags:
@@ -825,6 +776,30 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
 
   /users:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. They will receieve an invitation by email.
+      operationId: createUser
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/UserCreationRequest"
+      responses:
+        201:
+          description: A new user has been created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
     get:
       summary: Retrieve users
       description: Use this endpoint to get a list of users. Leverage query parameters to search for a specific user or users. This endpoint supports paging and sorting.
@@ -917,7 +892,7 @@ paths:
     patch:
       summary: Update user details partially
       description: Use this endpoint to update a specific user, for example promote user to admin or update his first/last name.
-      operationId: updateUserPartially
+      operationId: updatePartialUser
       tags:
         - Users
       parameters:
@@ -1566,6 +1541,8 @@ components:
                 - TWO_FACTOR_AUTH_TOKEN_INVALID
                 - EMAIL_VERIFICATION_REQUIRED
                 - REFRESH_TOKEN_EXPIRED
+                - INSUFFICIENT_PERMISSIONS
+                - AUTHENTICATION_REQUIRED
 
     ResponseError:
       type: object
@@ -1623,6 +1600,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LimitUsage"
+
+    UserCreationRequest:
+      type: object
+      description: A model to create a new user.
+      required:
+        - email
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        isAdmin:
+          type: boolean
+        roles:
+          type: array
+          items:
+            type: string
+        tenantId:
+          $ref: "#/components/schemas/Id"
 
     User:
       type: object

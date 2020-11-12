@@ -2256,6 +2256,8 @@ components:
 
     Subscription:
       type: object
+      discriminator:
+        propertyName: schema
       required:
         - id
         - state

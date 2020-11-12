@@ -405,30 +405,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /tenants/confirm:
-    get:
-      tags:
-        - Tenants
-      summary: Resend the confirmation email
-      operationId: resendTenantConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: User email
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /tenants/onboard:
     put:
       tags:
@@ -1542,7 +1518,6 @@ components:
                 - EMAIL_VERIFICATION_REQUIRED
                 - REFRESH_TOKEN_EXPIRED
                 - INSUFFICIENT_PERMISSIONS
-                - AUTHENTICATION_REQUIRED
 
     ResponseError:
       type: object
@@ -1773,7 +1748,7 @@ components:
           type: string
         industry:
           type: string
-        finishedOnboarding:
+        completedProfile:
           type: boolean
         addressLine1:
           type: string

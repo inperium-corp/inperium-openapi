@@ -15,7 +15,7 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
- - name: App Settings
+  - name: App Settings
     description: |
       Enable integration with other apps such as Stripe.
   - name: Auth
@@ -55,7 +55,6 @@ paths:
     get:
       tags:
         - Auth
-      summary: Get a public key for Hub auth signature
       summary: Verify signature
       description: Use this endpoint to get a public key and check Hub auth signature.
       operationId: getAuthSignature
@@ -576,8 +575,8 @@ paths:
       description: Use this endpoint to change the tenant's payment method.
       operationId: updateTenantPaymentMethod
       requestBody:
-        content:
-          description: In the request body, pass the PaymentMethodRequest object.
+        description: In the request body, pass the PaymentMethodRequest object.
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
@@ -655,8 +654,8 @@ paths:
       description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receieve an invitation by email.
       operationId: inviteUser
       requestBody:
-        content:
-          description: In the request body, pass the UserInviteRequest object. 
+        description: In the request body, pass the UserInviteRequest object. 
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/UserInviteRequest"
@@ -683,8 +682,8 @@ paths:
       operationId: confirmUserInvite
       requestBody:
         required: true
-        content:
-          description: In the request body, pass the UserConfirmInviteRequest object. 
+        description: In the request body, pass the UserConfirmInviteRequest object. 
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/UserConfirmInviteRequest"
@@ -705,21 +704,21 @@ paths:
       tags:
         - Users
       summary: Resend confirmation
-      description: 
+      description: Use this endpoint to resend a confirmation email.
       operationId: resendUserConfirmation
       parameters:
         - name: email
           in: query
-          description: User email
+          description: The email address associated with the user.
           required: true
           schema:
             type: string
       responses:
         204:
-          description: Returns an empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -733,6 +732,7 @@ paths:
       description: Use this endpoint to send a "forgot password" request.
       operationId: forgotPassword
       requestBody:
+        description: In the request body, pass the UserForgotPasswordRequest object.
         required: true
         content:
           application/json:
@@ -742,7 +742,7 @@ paths:
         200:
           description: The request has been sent.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -753,9 +753,10 @@ paths:
       tags:
         - Users
       summary: Reset a password
-      description: Use this endpoint to reset the user's password. Provide `passowordResetToken` that was sent by email.
+      description: Use this endpoint to reset a password. To update a password, you'll have to provide `passwordResetToken` that was sent by email.
       operationId: resetPassword
       requestBody:
+        description: In the request body, pass the UserResetPasswordRequest object. 
         required: true
         content:
           "*/*":
@@ -763,13 +764,13 @@ paths:
               $ref: "#/components/schemas/UserResetPasswordRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: Returns tokens. The password has successfully been reset.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -777,44 +778,45 @@ paths:
 
   /users/me:
     get:
-      summary: Check current user
-      description: Use this endpoint to retrieve details about the currently authenticated user
-      operationId: getPrincipalUser
       tags:
         - Users
+      summary: Check a current user
+      description: Use this endpoint to retrieve details about the currently authenticated user.
+      operationId: getPrincipalUser
       responses:
         200:
-          description: The requested user details
+          description: Returns user data.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserPrincipal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
-      summary: Update the logged in user
+      summary: Update a user
+      description: Use this endpoint to update the currently logged in user. 
       operationId: updatePrincipalUser
       tags:
         - Users
       requestBody:
-        description: User to update
+        description: In the request body, pass the UserRequest object. 
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -824,10 +826,11 @@ paths:
     put:
       tags:
         - Users
-      summary: Reset the principals password
+      summary: Reset a password
+      description: Use this endpoint to reset the principal's password.
       operationId: updatePrincipalPassword
       requestBody:
-        description: Reset user password
+        description: In the request body, pass the UserPasswordRequest object.
         required: true
         content:
           "*/*":
@@ -835,9 +838,9 @@ paths:
               $ref: "#/components/schemas/UserPasswordRequest"
       responses:
         200:
-          description: The user has successfully reseted password
+          description: The password has been reset.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -855,7 +858,7 @@ paths:
           in: query
           description: >
             Allows searching both in "last name" or "first name".
-            Supports eq, neq, in, nin, like, notlike
+            Supports eq, neq, in, nin, like, notlike.
           schema:
             type: string
         - name: id

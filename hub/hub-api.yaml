@@ -2021,10 +2021,13 @@ components:
       type: object
       description: Model for changing user password
       required:
+        - email
         - oneTimePassword
         - confirmPassword
         - newPassword
       properties:
+        email:
+          type: string
         oneTimePassword:
           type: string
         confirmPassword:

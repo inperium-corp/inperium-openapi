@@ -27,21 +27,27 @@ tags:
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name: Features
+    description: |
+      Each subscription plan includes a list features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
   - name:  Health checks
     description: |
       Since Inperium runs multiple services under the hood, it's crutial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
   - name: Limits
     description: |
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
+  - name: Permissions
+    description: |
+      Inperium enables customers delegate access to features within Inperum products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'Company management' feature. The 'MANAGE_TENANT_SETTINGS' is a unique permission that isn't tied to any feature.
   - name: Products
     description: |
-      Inperium develops business solutions. Currently, the following apps are available: Sell, Talk.
+      Inperium provides several solutions that seamlessly integrate with each other and your business ecosystem. The list of products keeps evolving and currently includes Inperium Talk and Sell. While each product has its own API as a service, their subscriptions are managed thought the Hub API.
   - name: Roles
     description: |
-      Configure security roles to delegate access to Inperium features. For example, you ca distinguish administrators and managers.
+      Configure user roles to delegate access to Inperium features. For example, you can distinguish administrators and managers.
   - name: Subscriptions
     description: |
-      Tenant have an option to choose the subscription type and billing period.      
+      Tenants have an option to choose the subscription type and billing period.      
   - name: Tenants
     description: |
       Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products,and users.
@@ -863,12 +869,12 @@ paths:
             type: string
         - name: id
           in: query
-          description: Unique ID of the user
+          description: Unique ID of the user.
           schema:
             type: string
         - name: email
           in: query
-          description: Email address associated with the user
+          description: Email address associated with the user.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -876,13 +882,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Users have been retrieved
+          description: Returns an array of user records. 
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Users"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -890,8 +896,8 @@ paths:
 
   /users/{id}:
     get:
-      summary: Retrieve user details by ID
-      description: Use this endpoitn to search for a specific user and retrieve detailed information such as full name, email, and job title.
+      summary: Get user details
+      description: Use this endpoint to search for a specific user and retrieve detailed information such as full name, email, and job title.
       operationId: getUser
       tags:
         - Users
@@ -899,65 +905,67 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: User details have been retrieved
+          description: Returns the user record. 
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
-      summary: Update user details
-      description: Use this endpoint to update a specific user (replace with all given properties).
+      summary: Update a user
+      description: Use this endpoint to update a specific user. Note that all user properties (fields) will be overwritten. 
       operationId: updateUser
       tags:
         - Users
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the UserRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     patch:
-      summary: Update user details partially
-      description: Use this endpoint to update a specific user, for example promote user to admin or update his first/last name.
+      summary: Partially update a user
+      description: Use this endpoint to change some properties in the user record, e.g., the last name or email.
       operationId: updateUserPartially
       tags:
         - Users
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the UserPartialRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/UserPartialRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -966,15 +974,15 @@ paths:
       tags:
         - Users
       summary: Delete a user
-      description: Use this endpoint to remove user from the Inperium system.
+      description: Use this endpoint to remove a user from Inperium.
       operationId: deleteUser
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The user has been successfully deleted
+          description: The user has been successfully deleted.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -982,20 +990,20 @@ paths:
 
   /publicAppSettings:
     get:
-      summary: Retrieve the public app settings
-      description: Use this endpoint to learn how the tenant is connected to the public apps such as Stripe and Google Analitycs.
+      summary: Get app settings
+      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analitycs.
       operationId: getPublicAppSettings
       tags:
         - App Settings
       responses:
         200:
-          description: The requested settings
+          description: Returns the list of public apps and their settings.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppSettings"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1004,13 +1012,13 @@ paths:
   /products:
     get:
       summary: Retrieve products
-      description: Use this endpoint to get a complete list of products associated with the tenant, with name and available payment plan for each product.
+      description: Use this endpoint to get a list of products available to your tenant, with names, available subscription plans, etc.
       operationId: getProducts
       tags:
         - Products
       responses:
         200:
-          description: The requested products
+          description: Returns an array of products.
           content:
             application/json:
               schema:
@@ -1018,7 +1026,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Product"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1026,26 +1034,27 @@ paths:
 
   /products/{anchor}:
     get:
-      summary: Retrieves data of an existing product
+      summary: Get a specific product
+      description: Use this endpoint to retrieve information about a specific product. 
       operationId: getProduct
       tags:
         - Products
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product
+          description: The unique anchor of a product, e.g. Sell or Talk.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The requested product
+          description: Returns a product.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1053,21 +1062,21 @@ paths:
 
   /products/{anchor}/plans:
     get:
-      summary: Retrieve product payment tenants
-      description: Use this endpoint to see what payment plans are available for a certain product.
+      summary: Get subscription plans
+      description: Use this endpoint to see the payment plans available for a certain product. You'll also see the plan that is active now.
       operationId: getProductPlanAvailabilities
       tags:
         - Products
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product
+          description: The unique anchor of a product, e.g., Sell or Talk.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The plans have been retrieved
+          description: Returns plans.
           content:
             application/json:
               schema:
@@ -1075,7 +1084,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/PlanAvailability"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1083,13 +1092,14 @@ paths:
 
   /features:
     get:
-      summary: Retrieve all existing features to be potentially used by users/tenants
+      summary: Retrieve features
+      description: Use this endpoint to retrieve a list of available features.
       operationId: getFeatureList
       tags:
         - Features
       responses:
         200:
-          description: A list of all existing features
+          description: Returns an array of features.
           content:
             application/json:
               schema:
@@ -1097,7 +1107,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Feature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1105,26 +1115,27 @@ paths:
 
   /features/{anchor}:
     get:
-      summary: Retrieves data of an existing feature
+      summary: Retrieve a feature
+      description: Use this endpoint to retrieve details for a specific feature.
       operationId: getFeature
       tags:
         - Features
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of feature
+          description: The unique anchor of feature.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The requested feature
+          description: Returns the feature record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Feature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1132,13 +1143,14 @@ paths:
 
   /permissions:
     get:
-      summary: Retrieve all existing permissions to be potentially used by users
+      summary: Retrieve permissions
+      description: Use this endpoint to retrieve a list of available permissions.
       operationId: getPermissionList
       tags:
         - Permissions
       responses:
         200:
-          description: A list of all existing permissions
+          description: Returns an array with permissions.
           content:
             application/json:
               schema:
@@ -1146,7 +1158,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Permission"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1155,18 +1167,18 @@ paths:
     get:
       tags:
         - Roles
-      summary: Retrieves existing security roles.
-      description: TBD
+      summary: Retrieve roles
+      description: Use this endpoint to get a list of available roles, with permissions assigned to each role.
       operationId: getRoles
       parameters:
         - name: id
           in: query
-          description: Unique ID of the security roles.
+          description: Unique ID of the role.
           schema:
             type: string
         - name: name
           in: query
-          description: Search roles by name or part of name.
+          description: The role title.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -1174,13 +1186,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing security roles.
+          description: Returns the list of roles.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Roles"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1188,24 +1200,24 @@ paths:
     post:
       tags:
         - Roles
-      summary: Create a new custom security role.
-      description: TBD.
+      summary: Create a role
+      description: Use this endpoint to add a new role to Inperium.
       operationId: createRole
       requestBody:
-        description: Input parameters for a new custom security role.
+        description: In the request body, pass the RoleRequest object that describes a new role.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/RoleRequest"
       responses:
         201:
-          description: The newly created security role.
+          description: Returns the newly created role.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1215,14 +1227,14 @@ paths:
     get:
       tags:
         - Roles
-      summary: Retrieves an existing security role by its ID.
-      description: TBD.
+      summary: Retrieve a role
+      description: Use this endpoint to retrieve a specific role and see associated permissions.
       operationId: getRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The requested security role
+          description: Returns a requested role.
           content:
             application/json:
               schema:
@@ -1236,26 +1248,26 @@ paths:
     put:
       tags:
         - Roles
-      summary: Updates an existing security role by its ID.
-      description: TBD.
+      summary: Update a role
+      description: Use this endpoint to update an existing role. Note that the role properties will be overwritten.
       operationId: updateRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: Input parameters for security role properties update
+        description: In the request body, pass the updated RoleRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/RoleRequest"
       responses:
         200:
-          description: The updated security role
+          description: Returns an updated role.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1263,16 +1275,16 @@ paths:
     delete:
       tags:
         - Roles
-      summary: Deletes an existing security role by its ID.
-      description: TBD.
+      summary: Delete a role
+      description: Use this endpoint to remove an existing role.
       operationId: deleteRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The security role has been successfully deleted
+          description: The role has been successfully deleted.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1281,13 +1293,13 @@ paths:
   /subscriptions:
     get:
       summary: Retrieve subscriptions
-      description: Use this endpoint to get a complete list of subscriptions of the current tenant.
+      description: Use this endpoint to get a complete list of subscriptions for the current tenant.
       operationId: getSubscriptions
       tags:
         - Subscriptions
       responses:
         200:
-          description: The subscriptions have been retrieved.
+          description: Returns the list of subscriptions.
           content:
             application/json:
               schema:
@@ -1295,7 +1307,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1307,20 +1319,20 @@ paths:
       description: Use this endpoint to start a new trial subscription or to purchase one.
       operationId: createSubscription
       requestBody:
-        description: In the request body, provide information about the plan you want to start.
+        description: In the request body, provide information about the plan you want to start. Pass the SubscriptionRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/SubscriptionRequest"
       responses:
         200:
-          description: The subscription has successfully started
+          description: Returns a new subscription. The subscription has successfully started.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1343,20 +1355,20 @@ paths:
               $ref: "#/components/schemas/SubscriptionUpdateRequest"
       responses:
         200:
-          description: The subscription has been updated
+          description: Returns an updated subscription. The subscription has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     get:
-      summary: Get additional info about the subscription
-      description: Use this endpoint to get additional info about the subscription.
+      summary: Retrieve a subscription
+      description: Use this endpoint to get additional information about the subscription.
       operationId: getSubscription
       tags:
         - Subscriptions
@@ -1364,14 +1376,14 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
         - name: newLicenseQuantity
           in: query
-          description: New license count to calculate the price
+          description: The new license count to calculate the price. Minimum is 1.
           schema:
             type: integer
             format: int64
             minimum: 1
       responses:
         200:
-          description: The subscription have been retrieved.
+          description: Returns full information about a subscription. 
           content:
             application/json:
               schema:
@@ -1382,28 +1394,30 @@ paths:
   /subscriptions/webhooks/stripe:
     post:
       summary: Handle Stripe webhooks
+      description: Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook
       tags:
         - Subscriptions
       parameters:
         - in: header
           name: Stripe-Signature
+          description: To verify events, Stripe signs the webhooks. This information is provided in the 'Stripe-Signature' header.
           schema:
             type: string
       requestBody:
-        description: In the request body, pass the the payload of the webhook
+        description: In the request body, pass the the payload of the webhook.
         content:
           application/json:
             schema:
               type: string
       responses:
         200:
-          description: The webhook was successfully executed
+          description: The webhook was executed and verified by Stripe.
 
 components:
   responses:
     DefaultResponse:
-      description: Bad request, security violation, or internal server error
+      description: Bad request, security violation, or internal server error.
       content:
         application/json:
           schema:

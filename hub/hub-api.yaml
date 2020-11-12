@@ -375,22 +375,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /tenants/onboard:
-    put:
+    patch:
+      summary: Update tenant details partially
+      description: Use this endpoint to update a specific tenant partially.
+      operationId: updatePartialTenant
       tags:
         - Tenants
-      summary: Onboard tenant
-      description: Use this endpoint to add information about the tenant such as name, company name, employee count to finish the onboarding.
-      operationId: onboardTenant
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
-              $ref: "#/components/schemas/OnboardTenantRequest"
+              $ref: "#/components/schemas/TenantPartialRequest"
       responses:
         200:
-          description: The tenant has completed onboarding
+          description: The tenant has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1622,6 +1626,8 @@ components:
           type: string
         lastName:
           type: string
+        jobTitle:
+          type: string
         roles:
           type: array
           items:
@@ -1733,6 +1739,36 @@ components:
         updatedAt:
           type: integer
           format: int64
+
+    TenantPartialRequest:
+      type: object
+      description: Tenant partial update model
+      properties:
+        companyName:
+          type: string
+        companySize:
+          type: string
+          enum:
+            - 1
+            - 2
+            - 11
+            - 51
+            - 201
+            - 501
+            - 1001
+            - 5001
+            - 10001
+        industry:
+          type: string
+          enum:
+            - SOFTWARE
+            - REAL_ESTATE
+            - FINANCIAL_SERVICES
+            - RETAIL
+            - MEDIA
+            - HEALTHCARE
+            - GOVERNMENT
+            - OTHER
 
     TenantAddressRequest:
       type: object
@@ -1995,48 +2031,6 @@ components:
         confirmPassword:
           type: string
         newPassword:
-          type: string
-
-    OnboardTenantRequest:
-      type: object
-      required:
-        - firstName
-        - lastName
-        - jobTitle
-        - companyName
-        - companySize
-        - industry
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        companySize:
-          type: string
-          enum:
-            - 1
-            - 2
-            - 11
-            - 51
-            - 201
-            - 501
-            - 1001
-            - 5001
-            - 10001
-        industry:
-          type: string
-          enum:
-            - SOFTWARE
-            - REAL_ESTATE
-            - FINANCIAL_SERVICES
-            - RETAIL
-            - MEDIA
-            - HEALTHCARE
-            - GOVERNMENT
-            - OTHER
-        jobTitle:
           type: string
 
     Product:

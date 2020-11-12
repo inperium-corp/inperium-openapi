@@ -376,35 +376,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /tenants/confirm/{confirmationToken}:
-    get:
-      tags:
-        - Tenants
-      summary: Confirm the account of the tenant's owner
-      description: Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
-      operationId: confirmTenant
-      parameters:
-        - name: confirmationToken
-          in: path
-          description: Confirmation token
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: The tenant owner has successfully been authorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /tenants/onboard:
     put:
       tags:
@@ -584,48 +555,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /users/invite/confirm:
+  /users/verify:
     post:
       tags:
         - Users
-      summary: Confirm an invitation
-      description: Use this endpoint accept the invitation. Pass user credentials to confirm invitation and finilize the process.
-      operationId: confirmUserInvite
+      summary: Verify a new user
+      description: Use this endpoint to verify a new user and activate the account.
+      operationId: verifyUser
       requestBody:
         required: true
         content:
           "*/*":
             schema:
-              $ref: "#/components/schemas/UserConfirmInviteRequest"
+              $ref: "#/components/schemas/UserVerificationRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: The user account has successfully been verified.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    get:
-      tags:
-        - Users
-      summary: Resend the confirmation email
-      operationId: resendUserConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: User email
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1702,20 +1651,16 @@ components:
           items:
             type: string
 
-    UserConfirmInviteRequest:
+    UserVerificationRequest:
       type: object
-      description: Invitation model
+      description: User verification model
       required:
-        - passwordResetToken
-        - password
-        - confirmPassword
+        - email
+        - oneTimePassword
       properties:
-        passwordResetToken:
+        email:
           type: string
-          format: uuid
-        password:
-          type: string
-        confirmPassword:
+        oneTimePassword:
           type: string
 
     UserForgotPasswordRequest:

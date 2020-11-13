@@ -2274,24 +2274,26 @@ components:
       required:
         - currentPrice
         - nextBillingDate
-      properties:
-        currentPrice:
-          type: number
-          format: double
-          description: Price for current number of licenses
-        nextPeriodStart:
-          type: integer
-          format: int64
-          description: Next billing period start date for the subscription
-        newPrice:
-          type: number
-          format: double
-          description: Optional new price for requested number of licenses
       allOf:
         - $ref: '#/components/schemas/Subscription'
+        - properties:
+            currentPrice:
+              type: number
+              format: double
+              description: Price for current number of licenses
+            nextPeriodStart:
+              type: integer
+              format: int64
+              description: Next billing period start date for the subscription
+            newPrice:
+              type: number
+              format: double
+              description: Optional new price for requested number of licenses
 
     Subscription:
       type: object
+      discriminator:
+        propertyName: schema
       required:
         - id
         - state

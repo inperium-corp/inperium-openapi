@@ -709,7 +709,7 @@ paths:
       tags:
         - Users
       summary: Create a new user
-      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. They will receieve an invitation by email.
+      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user.
       operationId: createUser
       requestBody:
         content:

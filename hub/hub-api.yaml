@@ -713,7 +713,7 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserCreationRequest"
       responses:
@@ -1470,7 +1470,6 @@ components:
                 - TWO_FACTOR_AUTH_TOKEN_INVALID
                 - EMAIL_VERIFICATION_REQUIRED
                 - REFRESH_TOKEN_EXPIRED
-                - INSUFFICIENT_PERMISSIONS
 
     ResponseError:
       type: object

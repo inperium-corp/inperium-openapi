@@ -64,7 +64,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/AudioFileRequest'
+              $ref: '#/components/schemas/AudioFileUploadRequest'
       responses:
         201:
           description: The audio file have been created
@@ -79,26 +79,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /audioFiles/{id}:
-    get:
-      tags:
-        - Audio Files
-      summary: Get direct link to the audio file by id
-      operationId: getAudioFile
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: Direct link to audio file location in file storage
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AudioFileLink'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Audio Files
@@ -1904,21 +1884,13 @@ components:
             $ref: '#/components/schemas/AudioFile'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-    AudioFileLink:
-      type: object
-      required:
-        - link
-      properties:
-        link:
-          type: string
-          description: Direct link to audio file location in file storage
     AudioFile:
-      # TODO use inheritance (allOf with discriminator propertyName: schema)
       type: object
       description: Audio file
       required:
         - id
         - name
+        - url
         - duration
         - origin
         - predefined
@@ -1930,6 +1902,9 @@ components:
         name:
           type: string
           description: Name of the audio file
+        url:
+          type: string
+          description: URL to the file location in OBS
         duration:
           type: number
           description: Duration of the audio file
@@ -1946,8 +1921,7 @@ components:
           type: integer
           format: int64
           description: Timestamp of the update
-    AudioFileRequest:
-      # TODO use inheritance (allOf with discriminator propertyName: schema)
+    AudioFileUploadRequest:
       type: object
       description: Audio file upload request
       required:

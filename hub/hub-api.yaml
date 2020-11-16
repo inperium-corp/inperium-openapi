@@ -1529,25 +1529,60 @@ components:
             $ref: "#/components/schemas/LimitUsage"
 
     UserCreationRequest:
+      description: A model that combines all user creation requests.
       type: object
-      description: A model to create a new user.
+      example: {}
+      discriminator:
+        propertyName: type
+        mapping:
+          invitation: "#/components/schemas/UserInvitationRequest"
+          INVITATION: "#/components/schemas/UserInvitationRequest"
+          account_creation: "#/components/schemas/UserAccountCreationRequest"
+          ACCOUNT_CREATION: "#/components/schemas/UserAccountCreationRequest"
       required:
         - email
       properties:
         email:
           type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        isAdmin:
-          type: boolean
-        roles:
-          type: array
-          items:
-            type: string
-        tenantId:
-          $ref: "#/components/schemas/Id"
+
+    UserInvitationRequest:
+      type: object
+      description: A model to create a new user by inviting them to an existing account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - firstName
+            - lastName
+            - tenantId
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            isAdmin:
+              type: boolean
+            roles:
+              type: array
+              items:
+                type: string
+            tenantId:
+              $ref: "#/components/schemas/Id"
+
+    UserAccountCreationRequest:
+      type: object
+      description: A model to create a new user for a new Inperium account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - password
+            - confirmPassword
+          properties:
+            password:
+              type: string
+            confirmPassword:
+              type: string
 
     User:
       type: object
@@ -1635,26 +1670,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Id"
-
-    UserInviteRequest:
-      type: object
-      required:
-        - firstName
-        - lastName
-        - email
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        isAdmin:
-          type: boolean
-        roles:
-          type: array
-          items:
-            type: string
 
     UserVerificationRequest:
       type: object

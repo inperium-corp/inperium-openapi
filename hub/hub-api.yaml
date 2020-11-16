@@ -1558,6 +1558,7 @@ components:
 
     TwoFactorAuthTokenRequest:
       type: object
+      description: The incoming object that facilitates 2FA.
       properties:
         email:
           type: string
@@ -1568,6 +1569,7 @@ components:
 
     TwoFactorAuthTokenResponse:
       type: object
+      description: The object that is returned after requesting the 2FA token.
       properties:
         method:
           type: string
@@ -1578,6 +1580,7 @@ components:
 
     TwoFactorAuthVerificationRequest:
       type: object
+      description: Inperium Hub recieves the TwoFactorAuthVerificationRequest object and verifies a user.
       properties:
         email:
           type: string
@@ -1590,6 +1593,7 @@ components:
           description: The token to verify.
 
     AuthError:
+      description: The error that occurred during authentication. Use this information for further error handeling and troubleshooting authentication issues.
       discriminator:
         propertyName: schema
       allOf:
@@ -1599,7 +1603,7 @@ components:
           properties:
             type:
               type: string
-              description: Type of authentication error for further handeling
+              description: The type of the authentication error.
               enum:
                 - CREDENTIALS_INVALID
                 - TWO_FACTOR_AUTH_REQUIRED
@@ -1609,88 +1613,105 @@ components:
 
     ResponseError:
       type: object
+      description: The error that is returned as a response to a request.
       required:
         - status
         - message
       properties:
         status:
           type: string
-          description: Http status code
+          description: The HTTP status code.
         code:
           type: string
           format: uuid
-          description: Optional code of the exception
+          description: The optional code of the exception.
         message:
           type: string
-          description: Error message
+          description: The error message text.
         errors:
           type: object
-          description: Map of field -> list of errors
+          description: Mapping of fields and errors.
 
     Id:
       type: string
       format: uuid
+      description: The unique identifier of a record or resource.
 
     PageAndSort:
       type: object
-      description: Paging and sorting information
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
 
     UserPrincipal:
       type: object
-      description: User details model
+      description: The UserPrincipal object contains information about the current user, including the user contact  details, the associated tenant account, all licensed features and enabled permissions, etc.
       properties:
         user:
           $ref: "#/components/schemas/User"
         tenant:
           $ref: "#/components/schemas/Tenant"
         products:
+          description: The list of products licensed for the user.
           type: array
           items:
             type: string
-        features:
+        features: 
+          description: The list of features enabled for the user.
           type: array
           items:
             type: string
         permissions:
+          description: The list of permissions enabled for the user.
           type: array
           items:
             type: string
         roles:
+          description: The list of roles enabled for the user.
           type: array
           items:
             type: string
         limitUsages:
+          description: The list of limits set for the user.
           type: array
           items:
             $ref: "#/components/schemas/LimitUsage"
 
     User:
       type: object
-      description: User model
+      description: The user contact details and profile settings, including preferred authentication method, assigned roles, etc.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         hash:
           type: string
         email:
+          description: The email address associated with this account.
           type: string
         hasVerifiedEmail:
+          description: The true/false value that marks if the email address has been verified or is still pending verification.
           type: boolean
         phoneNumber:
+          description: The user's phone number.
           type: string
         isAdmin:
+          description: The true/false value that marks if the user is administrator. Unlike other permissions that are grouped in to custom roles are custom, administration has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
         useTwoFa:
+          description: The true/false value that indicates if 2FA is enabled for the user.
           type: boolean
         language:
+          description: The preferred language. The default value is 'EN'.
           type: string
         firstName:
+          description: The given name of the user.
           type: string
         lastName:
+          description: The family name of the user.
           type: string
         jobTitle:
+          description: The user's current title or role in the company, e.g., 'senior manager'.
           type: string
         avatarUrl:
+          description: The user's profile image. 
           type: string
         roles:
           type: array
@@ -1702,6 +1723,7 @@ components:
             $ref: '#/components/schemas/Subscription'
 
     UserRequest:
+      description: The incoming object that describes a user. 
       type: object
       properties:
         email:

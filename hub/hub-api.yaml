@@ -657,7 +657,7 @@ paths:
       tags:
         - Users
       summary: Invite a user
-      description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receieve an invitation by email.
+      description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receive an invitation by email.
       operationId: inviteUser
       requestBody:
         description: In the request body, pass the UserInviteRequest object. 
@@ -684,7 +684,7 @@ paths:
       tags:
         - Users
       summary: Confirm an invitation
-      description: Use this endpoint accept the invitation. Pass user credentials to confirm invitation and finilize the process.
+      description: Use this endpoint to accept the invitation. Pass user credentials to confirm invitation and finilize the process.
       operationId: confirmUserInvite
       requestBody:
         required: true
@@ -1684,19 +1684,19 @@ components:
         hash:
           type: string
         email:
-          description: The email address associated with this account.
+          description: The email address associated with the user account.
           type: string
         hasVerifiedEmail:
-          description: The true/false value that marks if the email address has been verified or is still pending verification.
+          description: The true/false parameter that marks if the email address has been verified or is still pending verification.
           type: boolean
         phoneNumber:
           description: The user's phone number.
           type: string
         isAdmin:
-          description: The true/false value that marks if the user is administrator. Unlike other permissions that are grouped in to custom roles are custom, administration has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
         useTwoFa:
-          description: The true/false value that indicates if 2FA is enabled for the user.
+          description: The true/false parameter that indicates if 2FA is enabled for the user.
           type: boolean
         language:
           description: The preferred language. The default value is 'EN'.
@@ -1715,64 +1715,85 @@ components:
           type: string
         roles:
           type: array
+          description: The list of roles.
           items:
             $ref: '#/components/schemas/Role'
         subscriptions:
           type: array
+          description: The list of subscriptions enabled for the user.
           items:
             $ref: '#/components/schemas/Subscription'
 
     UserRequest:
-      description: The incoming object that describes a user. 
+      description: The UserRequest object is sent to Inperum Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.
       type: object
       properties:
         email:
           type: string
+          description: The email address associated with the user account. 
         hasVerifiedEmail:
           type: boolean
+          description: The true/false parameter that marks if the email address has been verified or is still pending verification.
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         useTwoFa:
           type: boolean
+          description: The true/false parameter that indicates if 2FA is enabled for the user.
         phoneNumber:
           type: string
+          description: The user's phone number.
         language:
           type: string
+          description: The preferred language. The default value is 'EN'.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         jobTitle:
           type: string
+          description: The user's current title or role in the company, e.g., 'senior manager'.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
         avatarUrl:
           type: string
+          description: The user's profile image. 
 
     UserPartialRequest:
+      description: The UserRequest object is sent to Inperum Hub service when you need to partilally update the user record. It will change only the parameters that were submitted. 
       type: object
       properties:
         email:
           type: string
+          description: The email address associated with the user account.
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
         subscriptionIds:
           type: array
+          description: The list of subscriptions enabled for the user.
           items:
             $ref: "#/components/schemas/Id"
 
     UserInviteRequest:
       type: object
+      description: The UserInviteRequest object is submitted to Hub when you add a new user to Inperium. It includes basic information about the user that he or she can update later.
       required:
         - firstName
         - lastName
@@ -1780,20 +1801,25 @@ components:
       properties:
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account. 
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
 
     UserConfirmInviteRequest:
       type: object
-      description: Invitation model
+      description: The UserConfirmInviteRequest object validates and verifies user creation.
       required:
         - passwordResetToken
         - password
@@ -1801,22 +1827,28 @@ components:
       properties:
         passwordResetToken:
           type: string
+          description: The token that allows password resetting.
           format: uuid
         password:
           type: string
+          description: The user's password. Further on, this password will be utilized for user authentication.
         confirmPassword:
           type: string
+          description: The user's password. It should be the same as 'password'.
 
     UserForgotPasswordRequest:
       type: object
+      description: The object specifies the email address for sending out password reset instructions.
       required:
         - email
       properties:
         email:
           type: string
+          description: The email address associated with the user account. 
 
     Users:
       type: object
+      description: The list of user records.
       properties:
         data:
           type: array
@@ -1827,109 +1859,142 @@ components:
 
     Tenant:
       type: object
-      description: Tenant settings model
+      description: The Tenant object contains data related to the tenant account, i.e., the name of the company that signed up for Inperium, its size, industry, etc.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
+          description: The name of the company. 
         companySize:
           type: string
+          description: The number of employees.
         industry:
           type: string
+          description: The business area the company belongs to.
         finishedOnboarding:
           type: boolean
+          description: The true/false parameter indicating if the tenant completed the onboarding procedure. 
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         country:
           type: string
+          description: The origin country.
         zip:
           type: string
+          description: The postal code.
         billingContact:
           $ref: "#/components/schemas/BillingContact"
         paymentMethod:
           $ref: "#/components/schemas/PaymentMethod"
         subscriptions:
           type: array
+          description: The list of tenant's subscriptions.
           items:
             $ref: "#/components/schemas/Subscription"
         defaultLanguage:
           type: string
+          description: The preferred language.
         defaultTimezone:
           type: string
+          description: The operational time zone.
         billingCurrency:
           type: string
+          description: The default currency.
         features:
           type: array
+          description: The list of features available to the tenant.
           items:
             type: string
         createdAt:
           type: integer
           format: int64
+          description: The date the tenant account was created.
         updatedAt:
           type: integer
           format: int64
+          description: The most recent date the tenant was modified.
 
     TenantAddressRequest:
       type: object
-      description: Tenant address model
+      description: The incoming object containing information about the tenant address.
       properties:
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         country:
           type: string
+          description: The origin country.
         zip:
           type: string
+          description: The postal code.
 
     TenantCompanyInfoRequest:
       type: object
-      description: Tenant company information model
+      description: the incoming object describing tcompany details.
       properties:
         companyName:
           type: string
+          description: The name of the company.
         domainName:
           type: string
+          description: The company website.
         defaultLanguage:
           type: string
+          description: The preferred language.
         defaultTimezone:
           type: string
+          description: The operational time zone.
 
     Limit:
       type: object
-      description: TBD
+      description: The object describing restrictions within the subscription plans.
       properties:
         anchor:
           type: string
+          description: The name of the limit. For example, 'ROLES_TOTAL'.
         infinite:
           type: boolean
+          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support infinite number of templates.
         thresholdValue:
           type: integer
+          description: The maximum value allowed by the Limit.
 
     LimitUsage:
       type: object
-      description: TBD
+      description: The LimitUsage object describes the applicable limit and the current state. For example, 'ROLES_TOTAL' threshold is 10 and currently there are 6 roles created in Inperium.
       properties:
         limit:
           $ref: "#/components/schemas/Limit"
         currentValue:
           type: integer
+          description: The counter, it displays how close you are to reaching the threshold. 
 
     LimitUsages:
       type: object
+      description: The list of available limits.
       properties:
         data:
           type: array
@@ -1940,31 +2005,40 @@ components:
 
     LimitUsageUpdateRequest:
       type: object
+      description: The incoming object that is sent when you need to update your limits. For example, the change the number of supported roles.
       properties:
         limit:
           type: string
+          description: The limit name.
         newValue:
           type: integer
+          description: The updated value.
       required:
         - limit
         - newValue
 
     Beta:
       type: object
+      description: The special object that is created specifically for managing early user access to Inperium products.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The product name.
         description:
           type: string
+          description: The product description.
         trialOnly:
           type: boolean
+          description: The true/false parameter defining if the beta program is available in trial or both trial/subscription modes.
         since:
           type: integer
+          description: The date the beta started.
           format: int64
         until:
           type: integer
+          description: The date the beta ends.
           format: int64
 
     BillingContact:
@@ -2384,7 +2458,7 @@ components:
           $ref: "#/components/schemas/Id"
         trial:
           type: boolean
-          description: If the subscription should be a trial or not.
+          description: The true/false parameter defining if the subscription should be a trial or not.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         betaAccessCode:

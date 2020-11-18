@@ -1868,6 +1868,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /properties/{ids}:
+    get:
+      tags:
+        - Properties
+      summary: List properties of a specific type
+      description: Retrieve property definitions of a specific type such as monetary or boolean.
+      operationId: getPropertiesByIds
+      parameters:
+        - name: ids
+          in: path
+          description: Property object type, e.g., companies, contacts, or deals
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+      responses:
+        200:
+          description: Properties have been retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PropertyConfig"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /forms:
     get:
       tags:

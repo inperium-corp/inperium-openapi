@@ -2107,6 +2107,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /imports/obs:
+    post:
+      tags:
+        - Imports
+      summary: Import from obs
+      description: Use this endpoint to import file from obs into Inperium sell.
+      operationId: importFromObs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImportUrl"
+
+      responses:
+        201:
+          description: The file from obs have been imported
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /integrations:
     get:
       tags:
@@ -4884,6 +4908,11 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
       description: An aggregation of import log entries
+    ImportUrl:
+      type: object
+      properties:
+        url:
+          type: string
     Integration:
       type: object
       properties:

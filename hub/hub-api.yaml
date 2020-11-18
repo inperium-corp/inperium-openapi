@@ -1,9 +1,9 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Hub Server API
+  title: Inperium Hub API
   description: |
-     This RESTful API provides access to the Inperium Hub Server that manages tenant and app settings, user rights and permissions, etc.
+     This RESTful API provides access to the Inperium Hub service that manages tenant and account settings, subscriptions, user rights and permissions, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -29,31 +29,31 @@ tags:
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
   - name: Features
     description: |
-      Each subscription plan includes a list features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
+      Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
   - name:  Health checks
     description: |
-      Since Inperium runs multiple services under the hood, it's crutial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
   - name: Limits
     description: |
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
   - name: Permissions
     description: |
-      Inperium enables customers delegate access to features within Inperum products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'Company management' feature. The 'MANAGE_TENANT_SETTINGS' is a unique permission that isn't tied to any feature.
+      Inperium enables customers to delegate access to features within Inperum products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'COMPANY_MANAGEMENT' feature. The 'MANAGE_TENANT_SETTINGS' is unique permission that isn't tied to any feature.
   - name: Products
     description: |
-      Inperium provides several solutions that seamlessly integrate with each other and your business ecosystem. The list of products keeps evolving and currently includes Inperium Talk and Sell. While each product has its own API as a service, their subscriptions are managed thought the Hub API.
+      Inperium provides several solutions that seamlessly integrate with each other and your business ecosystem. The list of products keeps evolving and currently includes Inperium Talk and Sell. The subscription to Inperium products are managed through the Hub API.
   - name: Roles
     description: |
-      Configure user roles to delegate access to Inperium features. For example, you can distinguish administrators and managers.
+      Configure user roles to delegate access to Inperium features. For example, you can create administrator and manager roles.
   - name: Subscriptions
     description: |
       Tenants have an option to choose the subscription type and billing period.      
   - name: Tenants
     description: |
-      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products,and users.
+      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products, and users.
   - name: Users
     description: |
-      Users are individuals included in tenant subscription. Depending on the role, users have access to different Inperium products and features. 
+      Users are individuals included in a tenant subscription. Depending on the role, users have access to different Inperium products and features. 
 
 
 paths:
@@ -62,7 +62,7 @@ paths:
       tags:
         - Auth
       summary: Verify signature
-      description: Use this endpoint to get a public key and check Hub auth signature.
+      description: Use this endpoint to get a public key and check Hub auth signature. Other Inperium services and third-party apps or plugins leverage this signature to verify the authenticity of the token.
       operationId: getAuthSignature
       responses:
         200:
@@ -72,7 +72,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/AuthSignature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -82,8 +82,8 @@ paths:
     post:
       tags:
         - Auth
-      summary: Request a token
-      description: Use this endpoint to authenticate a user. This endpoint returns an access token and refresh token.
+      summary: Create a token
+      description: Use this endpoint to request a new token. This endpoint returns an access token and refresh token.
       operationId: getAuthTokens
       requestBody:
         description: In the request body, pass information the AuthTokensRequest object.
@@ -93,7 +93,7 @@ paths:
               $ref: "#/components/schemas/AuthTokensRequest"
       responses:
         200:
-          description: Returns the newly generated auth tokens.
+          description: Returns the newly generated auth token.
           content:
             application/json:
               schema:
@@ -139,8 +139,8 @@ paths:
     post:
       tags:
         - Auth
-      summary: Request a 2FA token
-      description: Use this endpoint to send a two-factor authentication token to a user.
+      summary: Create a 2FA token
+      description: Use this endpoint to create a new two-factor authentication token.
       operationId: sendTwoFactorAuthToken
       requestBody:
         description: In the request body, pass the TwoFactorAuthTokenRequest object. It is used to verify the two-factor authentication token.
@@ -173,7 +173,7 @@ paths:
       tags:
         - Auth
       summary: Verify a 2FA token
-      description: Use this endpoint to verify the two-factor authentication token of a user.
+      description: Use this endpoint to verify the one-off code sent to a user.
       operationId: verifyTwoFactorAuthToken
       requestBody:
         description: In the request body, pass the TwoFactorAuthVerificationRequest object. 
@@ -206,7 +206,7 @@ paths:
       tags:
         - API Keys
       summary: Retrieve API keys
-      description: Use this endpoint to get a list of API keys.
+      description: Use this endpoint to get a list of API keys. This endpoint supports paging and sorting.
       operationId: getApiKeys
       parameters:
         - name: id
@@ -266,7 +266,7 @@ paths:
       tags:
         - API Keys
       summary: Get an API key
-      description: Use this endpoint to retrieve an existing API key by its ID. Note that Inperium doesn't store the API key itself, just its hash or prefix.
+      description: Use this endpoint to retrieve an existing API key by its ID. Note that Inperium doesn't store the unencrypted API key, just the last four digits.
       operationId: getApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -332,8 +332,8 @@ paths:
     put:
       tags:
         - API Keys
-      summary: Regenerate a token
-      description: Use this endpoint to regenerate a token for an existing API key.
+      summary: Regenerate a key
+      description: Use this endpoint to regenerate an existing API key if it was compromised. The key secret will be regenerated. 
       operationId: regenerateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -605,7 +605,7 @@ paths:
       tags:
         - Limits
       summary: Retrieve limits
-      description: Use this endpoint to get a list of existing limit usages.
+      description: Use this endpoint to get a list of existing limit usages. This endpoint supports paging and sorting.
       operationId: getLimitUsages
       parameters:
         - name: anchor
@@ -635,7 +635,7 @@ paths:
       tags:
         - Limits
       summary: Update a limit usage
-      description: Use this endpoint to update the current value of the existing limit usage.
+      description: THIS IS INTERNAL ENDPOINT. Inperium services send requests to this endpoint to update the occupied limits in Inperium Hub. For example, when you add a template in Inperium Sell, the service sends a request to '/internal/limitUsages' to update the quota.
       operationId: updateLimitUsage
       requestBody:
         content:
@@ -991,7 +991,7 @@ paths:
   /publicAppSettings:
     get:
       summary: Get app settings
-      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analitycs.
+      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
       operationId: getPublicAppSettings
       tags:
         - App Settings
@@ -1042,7 +1042,7 @@ paths:
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product, e.g. Sell or Talk.
+          description: A unique anchor of a product, e.g. Sell or Talk.
           required: true
           schema:
             type: string
@@ -1063,20 +1063,20 @@ paths:
   /products/{anchor}/plans:
     get:
       summary: Get subscription plans
-      description: Use this endpoint to see the payment plans available for a certain product. You'll also see the plan that is active now.
+      description: Use this endpoint to see the plans available for a certain product. You'll also see the plan that is active now.
       operationId: getProductPlanAvailabilities
       tags:
         - Products
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product, e.g., Sell or Talk.
+          description: A unique anchor of a product, e.g., Sell or Talk.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: Returns plans.
+          description: Returns available plans.
           content:
             application/json:
               schema:
@@ -1123,7 +1123,7 @@ paths:
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of feature.
+          description: A unique anchor of feature.
           required: true
           schema:
             type: string
@@ -1150,7 +1150,7 @@ paths:
         - Permissions
       responses:
         200:
-          description: Returns an array with permissions.
+          description: Returns a list of permissions.
           content:
             application/json:
               schema:
@@ -1168,7 +1168,7 @@ paths:
       tags:
         - Roles
       summary: Retrieve roles
-      description: Use this endpoint to get a list of available roles, with permissions assigned to each role.
+      description: Use this endpoint to get a list of available roles, with permissions assigned to each role. This endpoint supports paging and sorting.
       operationId: getRoles
       parameters:
         - name: id
@@ -1413,6 +1413,8 @@ paths:
       responses:
         200:
           description: The webhook was executed and verified by Stripe.
+        default:
+          $ref: '#/components/responses/DefaultResponse'  
 
 components:
   responses:
@@ -1425,12 +1427,12 @@ components:
 
   securitySchemes:
     BearerAuth:
-      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note that it expires every 24 hours. 
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note due to security concerns it frequently expires. 
       type: http
       scheme: bearer
 
     ApiKeyAuth:
-      description: API key is a secure key generated by administrator that can be used for authentication. The API keys has an expriration date after which your API requests will be denied by the server.
+      description: API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
       type: apiKey
       in: header
       name: X-API-KEY
@@ -1447,7 +1449,7 @@ components:
     QueryPageNumber:
       name: pageNumber
       in: query
-      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from the page 3.
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
       schema:
         type: integer
         format: int64
@@ -1470,7 +1472,7 @@ components:
   schemas:
     AuthSignature:
       type: object
-      descriptuon: The AuthSignature object includes information about the public API key used for authentication.
+      description: The AuthSignature object includes information about the public API key used for authentication.
       properties:
         publicKey:
           type: string
@@ -1478,7 +1480,7 @@ components:
 
     AuthTokensRequest:
       type: object
-      description: The AuthTokensRequest is submitted to Inperium Hub when you want to get an renewed AuthTokens object. 
+      description: The AuthTokensRequest is submitted to Inperium Hub when you want to get a new AuthTokens object. 
       required:
         - strategy
       properties:
@@ -1497,7 +1499,7 @@ components:
           description: The password of the user.
         token:
           type: string
-          description: The token for generating of a new auth token
+          description: The token for generating a new authentication token. Depending on the authentication strategy, pass the refresh token or the API key.
 
     AuthTokens:
       type: object
@@ -1590,10 +1592,10 @@ components:
           description: The password of the user.
         token:
           type: string
-          description: The token to verify.
+          description: The one-off code to verify.
 
     AuthError:
-      description: The error that occurred during authentication. Use this information for further error handeling and troubleshooting authentication issues.
+      description: The error that occurred during authentication. Use this information for further error handling and troubleshooting authentication issues.
       discriminator:
         propertyName: schema
       allOf:
@@ -1635,7 +1637,7 @@ components:
     Id:
       type: string
       format: uuid
-      description: The unique identifier of a record or resource.
+      description: A unique identifier of a record or resource.
 
     PageAndSort:
       type: object
@@ -1643,7 +1645,7 @@ components:
 
     UserPrincipal:
       type: object
-      description: The UserPrincipal object contains information about the current user, including the user contact  details, the associated tenant account, all licensed features and enabled permissions, etc.
+      description: The UserPrincipal object contains information about the current user, including the user contact details, the associated tenant account, all licensed features and enabled permissions, etc.
       properties:
         user:
           $ref: "#/components/schemas/User"
@@ -1660,7 +1662,7 @@ components:
           items:
             type: string
         permissions:
-          description: The list of permissions enabled for the user.
+          description: The list of permissions assigned to the user.
           type: array
           items:
             type: string
@@ -1683,6 +1685,7 @@ components:
           $ref: "#/components/schemas/Id"
         hash:
           type: string
+          description: The hash value of the user record.
         email:
           description: The email address associated with the user account.
           type: string
@@ -1693,7 +1696,7 @@ components:
           description: The user's phone number.
           type: string
         isAdmin:
-          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
         useTwoFa:
           description: The true/false parameter that indicates if 2FA is enabled for the user.
@@ -1736,7 +1739,7 @@ components:
           description: The true/false parameter that marks if the email address has been verified or is still pending verification.
         isAdmin:
           type: boolean
-          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         useTwoFa:
           type: boolean
           description: The true/false parameter that indicates if 2FA is enabled for the user.
@@ -1765,7 +1768,7 @@ components:
           description: The user's profile image. 
 
     UserPartialRequest:
-      description: The UserRequest object is sent to Inperum Hub service when you need to partilally update the user record. It will change only the parameters that were submitted. 
+      description: The UserRequest object is sent to Inperum Hub service when you need to partially update the user record. It will change only the parameters that were submitted. 
       type: object
       properties:
         email:
@@ -1773,7 +1776,7 @@ components:
           description: The email address associated with the user account.
         isAdmin:
           type: boolean
-          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         firstName:
           type: string
           description: The given name of the user.
@@ -1810,7 +1813,7 @@ components:
           description: The email address associated with the user account. 
         isAdmin:
           type: boolean
-          description: The true/false parameter that marks if the user is administrator. Unlike other permissions that are organized into custom roles, the admin role has its own flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         roles:
           type: array
           description: The list of roles.
@@ -1930,7 +1933,7 @@ components:
 
     TenantAddressRequest:
       type: object
-      description: The incoming object containing information about the tenant address.
+      description: The incoming object containing information about the tenant's address.
       properties:
         addressLine1:
           type: string
@@ -1977,7 +1980,7 @@ components:
           description: The name of the limit. For example, 'ROLES_TOTAL'.
         infinite:
           type: boolean
-          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support infinite number of templates.
+          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
         thresholdValue:
           type: integer
           description: The maximum value allowed by the Limit.
@@ -2005,7 +2008,7 @@ components:
 
     LimitUsageUpdateRequest:
       type: object
-      description: The incoming object that is sent when you need to update your limits. For example, the change the number of supported roles.
+      description: The incoming object sent by Inperium services to Hub when a limit usage is updated outside the Hub. For example, you add a new template (in Inperium Sell) and the limit usage must be updated.
       properties:
         limit:
           type: string
@@ -2043,125 +2046,171 @@ components:
 
     BillingContact:
       type: object
-      description: Tenant billing model
+      description: The object contains the tenant's billing details such as the billing address and company name. Inperium issues invoices according to the data provided in the BillingContact object while the 'PaymentMethod' object is used as a source of payment information. The invoices are billed to the user (tenant owner) who has initially configured Inperium tenant account.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
+          description: The name of the company.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account.
         phoneNumber:
           type: string
+          description: The user's phone number.
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         zip:
           type: string
+          description: The postal code.
         country:
           type: string
+          description: The origin country.
         ein:
           type: string
+          description: A unique nine-digit employer identification number assigned by the Internal Revenue Service (IRS).
 
     BillingContactRequest:
       type: object
+      description: The incoming object containing the updated tenant's contact details. 
       properties:
         companyName:
           type: string
+          description: The name of the company.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account.
         phoneNumber:
           type: string
+          description: The user's phone number.
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         zip:
           type: string
+          description: The postal code.
         country:
           type: string
+          description: The origin country.
         ein:
           type: string
+          description: A unique nine-digit employer identification number assigned by the Internal Revenue Service (IRS).
 
     PaymentMethod:
       type: object
+      description: The object contains the tenant's payment information. 
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The payer's full name.
         type:
           type: string
+          description: The payment method, e.g., credit card.
         last4:
           type: string
+          description: The last four digits of the credit card.
         expMonth:
           type: integer
+          description: The month the card expires.
           format: int64
         expYear:
           type: integer
+          description: The year the card expires.
           format: int64
 
     PaymentMethodRequest:
       type: object
+      description: The incoming object that updates the preferred tenant's method of payment. 
       properties:
         paymentMethodId:
           type: string
+          description: An indentifier of the payment method.
         name:
           type: string
+          description: The payer's full name.
         type:
           type: string
+          description: The payment method, e.g., credit card.
         last4:
           type: string
+          description: The last four digits of the credit card.
         expMonth:
           type: integer
+          description: The month the card expires.
           format: int64
         expYear:
           type: integer
+          description: The year the card expires.
           format: int64
 
     Permission:
       type: object
+      description: The Permission object ties permission to a feature.
       properties:
         anchor:
           type: string
+          description: The permission name.
         feature:
           type: string
-      description: Permission request model
+          description: The feature name to which the permission is applied.
 
     AppSettings:
       type: object
+      description: The object containing public IDs of the apps connected to the tenant.
       properties:
         stripePublishableKey:
           type: string
+          description: The key facilitating Stripe authentication.  
         googleAnalyticsTrackingId:
           type: string
+          description: The Google Analytics code embedded in the tracked websites.
         googleTagManagerContainerId:
           type: string
+          description: The name of your Google Tag Manager container.
 
     CreateTenantRequest:
       type: object
-      description: Model for creating a new tenant and user
+      description: The object sent when creating a new tenant and its owner.
       required:
         - email
         - password
@@ -2169,17 +2218,17 @@ components:
       properties:
         email:
           type: string
-          description: The email address that will be associated with a new tenant
+          description: The email address that will be associated with a new tenant and the owner account.
         password:
           type: string
-          description: The password of the user
+          description: The owner's password.
         confirmPassword:
           type: string
-          description: The confirmation of the user password (must be the same as password)
+          description: The owner's password (must be the same as 'password'). 
 
     UserPasswordRequest:
       type: object
-      description: Model for user password change
+      description: The object containing details for updating a password.
       required:
         - password
         - newPassword
@@ -2187,14 +2236,17 @@ components:
       properties:
         password:
           type: string
+          description: The current user password.
         newPassword:
           type: string
+          description: The new user password.
         confirmPassword:
           type: string
+          description: The new user password (must be the same as 'newPassword').
 
     UserResetPasswordRequest:
       type: object
-      description: Model for changing user password
+      description: The object containing details for password reset.
       required:
         - passwordResetToken
         - confirmPassword
@@ -2202,14 +2254,18 @@ components:
       properties:
         passwordResetToken:
           type: string
+          description: An identifier that verifies that the user has requested a password reset.
           format: uuid
         confirmPassword:
           type: string
+          description: The new password (must be the same as 'newPassword').
         newPassword:
           type: string
+          description: The new password.
 
     OnboardTenantRequest:
       type: object
+      description: This object helps assemble a new tenant. it contains various information about the tenant owner and company.
       required:
         - firstName
         - lastName
@@ -2220,12 +2276,16 @@ components:
       properties:
         firstName:
           type: string
+          description: The given name of the tenant owner.
         lastName:
           type: string
+          description: The family name of the tenant owner.
         companyName:
           type: string
+          description: The company name.
         companySize:
           type: string
+          description: The number of employees. This is the enum parameter. Pick the closest value from the list that equals or smaller than your total number of employees. For example, if you have 12 employees, then pick 11. Inperium Hub will identify your slot as '11-50 employees'.
           enum:
             - 1
             - 2
@@ -2238,6 +2298,7 @@ components:
             - 10001
         industry:
           type: string
+          description: The business area. This is the enum parameter. Pick the value from the list.
           enum:
             - SOFTWARE
             - REAL_ESTATE
@@ -2249,71 +2310,97 @@ components:
             - OTHER
         jobTitle:
           type: string
+          description: The title or role in the company, e.g., 'senior manager'.
 
     Product:
       type: object
+      description: The object describing the Inperium app or service.
       properties:
         anchor:
           type: string
+          description: The internal name.
         name:
           type: string
+          description: The name of the product.
         shortDescription:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         description:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         longDescription:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         unitLabel:
           type: string
+          description: The units taken into account when calculating the price. In most cases, the 'unitLabel' is 'Users' and the price depends on how many users you've got.
         aggregateUsage:
           type: string
+          description: The aggregation.
         usageType:
           type: string
+          description: The status of the product, e.g., licensed.
         type:
           type: string
+          description: The way the product status is maintained, e.g., recurring.
         billingScheme:
           type: string
+          description: This parameter specifies how the product price is calculated, e.g., per unit.
         plans:
           type: array
+          description: The list of available plans.
           items:
             $ref: "#/components/schemas/Plan"
         inBeta:
           type: boolean
+          description: The true/false parameter that marks if the product is generally available or is available as a limited access option for beta customers. The 'true' value means the product is in beta.
         iconUrl:
           type: string
+          description: The official icon of the app.
         previewUrl:
           type: string
+          description: The product preview screen.
 
     Feature:
       type: object
+      description: The object mapping a feature name to a corresponding Inperium product. 
       properties:
         anchor:
           type: string
+          description: The feature name, e.g., 'CONTACT_IMPORT' or 'PIPELINE_MANAGEMENT'.
         product:
           type: string
+          description: The Inperium app.
 
     Plan:
       type: object
+      description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         anchor:
           type: string
+          description: The internal plan name. 
         name:
           type: string
+          description: The plan name. 
         description:
           type: string
+          description: The plan description.
         trialPeriodDays:
           type: integer
+          description: The number of days.
           format: int64
         product:
           $ref: "#/components/schemas/Product"
         prices:
           type: array
+          description: The list of prices.
           items:
             $ref: "#/components/schemas/Price"
         limits:
           type: array
+          description: The list of limits set for the plan.
           items:
             $ref: "#/components/schemas/Limit"
         beta:
@@ -2321,15 +2408,19 @@ components:
 
     Price:
       type: object
+      description: The object contains information about the product price as well as the pricing model.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         isActive:
           type: boolean
+          description: The true/false parameter that marks what plan is currently in use.
         currency:
           type: string
+          description: The currency units.
         amount:
           type: number
+          description: The sum to be paid according to this plan.
           format: double
         interval:
           $ref: "#/components/schemas/PriceInterval"
@@ -2341,31 +2432,41 @@ components:
 
     Role:
       type: object
+      description: The object defines the permissions that will be granted to any user who is assigned this role.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         hash:
           type: string
+          description: The role hash.
         name:
           type: string
+          description: The role title.
         description:
           type: string
+          description: The optional description.
         predefined:
           type: boolean
+          description: The true/false parameter that marks if the role is shipped with Inperium by default. For custom roles, this parameter will be 'false'.
         permissions:
           type: array
+          description: The list of associated permissions.
           items:
             type: string
 
     RoleRequest:
       type: object
+      description: The incoming object that describes an updated role.
       properties:
         name:
           type: string
+          description: The role title.
         description:
           type: string
+          description: The optional description.
         permissions:
           type: array
+          description: The list of permissions.
           items:
             type: string
       required:
@@ -2374,6 +2475,7 @@ components:
 
     Roles:
       type: object
+      description: The list of roles.
       properties:
         data:
           type: array
@@ -2384,6 +2486,7 @@ components:
 
     SubscriptionFullInfo:
       type: object
+      description: The complete information about a subscription. This object extends the 'Subscription' object.
       required:
         - currentPrice
         - nextBillingDate
@@ -2393,18 +2496,19 @@ components:
             currentPrice:
               type: number
               format: double
-              description: Price for current number of licenses
+              description: The due price. It is calculated based on the license quantity.
             nextPeriodStart:
               type: integer
               format: int64
-              description: Next billing period start date for the subscription
+              description: The starting date of the next billing period.
             newPrice:
               type: number
               format: double
-              description: Optional new price for requested number of licenses
+              description: The new price for the requested number of licenses. This parameter is optional and can be omitted.
 
     Subscription:
       type: object
+      description: The object contains information about the tenant's active plan, product usage, etc.
       discriminator:
         propertyName: schema
       required:
@@ -2426,30 +2530,31 @@ components:
         currentPeriodStart:
           type: integer
           format: int64
-          description: Timestamp of start of subscription period (month or year)
+          description: The timestamp when the current subscription period started (month or year).
         currentPeriodEnd:
           type: integer
           format: int64
-          description: Timestamp of end of subscription period (month or year)
+          description: The timestamp when the current subscription period ends (month or year).
         startDate:
           type: integer
           format: int64
-          description: Timestamp of start of subscription (first purchased/trialed)
+          description: The timestamp when the subscription was purchased or trialed for the first time.
         licensedQuantity:
           type: integer
           format: int64
-          description: Number of used licenses
+          description: The number of used licenses.
         quantity:
           type: integer
           format: int64
-          description: Number of available licenses (overall purchased)
+          description: The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity', it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
         discountAmount:
           type: number
           format: double
-          description: Amount of discount applied to the subscription
+          description: The discount applied to the subscription.
 
     SubscriptionRequest:
       type: object
+      description: The incoming object that contains all the necessary information to subscribe to a product.
       required:
         - planId
         - trial
@@ -2458,18 +2563,19 @@ components:
           $ref: "#/components/schemas/Id"
         trial:
           type: boolean
-          description: The true/false parameter defining if the subscription should be a trial or not.
+          description: The true/false parameter defining if the subscription is trial or not.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         betaAccessCode:
           type: string
-          description: An access code to start a subscription to a product that is in beta.
+          description: An access code to allow subscribing to a product that is in beta.
         promotionCode:
           type: string
           description: A promotion code to receive a discount off the subscription.
 
     SubscriptionUpdateRequest:
       type: object
+      description: The incoming object containing the updated subscription details.
       properties:
         newPlanId:
           $ref: "#/components/schemas/Id"
@@ -2478,7 +2584,7 @@ components:
         newLicenseQuantity:
           type: integer
           format: int64
-          description: License quantity for updated subscription
+          description: The number of licenses. The minimum number is 1.
           minimum: 1
         promotionCode:
           type: string
@@ -2489,7 +2595,7 @@ components:
       enum:
         - MONTH
         - YEAR
-      description: The frequency at which a subscription is billed
+      description: The billing frequency. This is the enum parameter.
 
     SubscriptionState:
       type: string
@@ -2498,11 +2604,11 @@ components:
         - TRIALING
         - PAST_DUE
         - CANCELED
-      description: The state of the subscription
+      description: The state of the subscription. This is the enum parameter.
 
     PlanAvailability:
       type: object
-      description: Availability of a plan for a specific tenant
+      description: The PlanAvailability object contains information about available plans.
       properties:
         plan:
           $ref: "#/components/schemas/Plan"
@@ -2510,13 +2616,19 @@ components:
           $ref: "#/components/schemas/Subscription"
         isPlanCurrentlyOwned:
           type: boolean
+          description: The true/false parameter indicating if this plan is currently active.
         isPlanCurrentlyTrialing:
           type: boolean
+          description: The true/false parameter indicating if this plan is currently in trial.
         isPlanTrialAllowed:
           type: boolean
+          description: The true/false parameter indicating if you can start a trial of this plan. For example, you can start a trial of a more advanced plan.
         isSalesContactRequired:
           type: boolean
+          description: The true/false parameter indicating if you need to contact the Sales team to sign up for this plan.
         ownsHigherPlan:
           type: boolean
+          description: The true/false parameter indicating if there is a more advanced plan.
         preferredCurrency:
           type: string
+          description: The default currency.

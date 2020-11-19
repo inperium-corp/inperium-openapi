@@ -1,9 +1,9 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Hub Server API
+  title: Inperium Hub API
   description: |
-    RESTful API providing access to Inperium Hub.
+     This RESTful API provides access to the Inperium Hub service that manages tenant and account settings, subscriptions, user rights and permissions, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -15,48 +15,64 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: App Settings
+    description: |
+      Enable integration with other apps such as Stripe.
+  - name: Auth
+    description: |
+      Inperium enables you to authenticate with the Bearer token or an API key.
+  - name: API Keys
+    description: |
+      API keys are used instead of bearer tokens to authenticate applications connecting to Inperium via API.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
+  - name: Features
+    description: |
+      Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
+  - name:  Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
   - name: Limits
     description: |
-      Volume- and usage-based limitation of tenant subscriptions and plans.
-  - name: Tenants
+      Volume- and usage-based restrictions applied to tenant subscriptions and plans.
+  - name: Permissions
     description: |
-      Tenant is the central concept of Inperium. On a high level, the tenant is a company that signed up for Inperium. In Inperium Hub, you will configure the main tenant settings such as payment plans, Inperium products, users.
-  - name: Users
-    description: |
-      Users are individuals working for the tenant. Depending on their roles, users have access to different Inperium products and features.
-  - name: App Settings
-    description: |
-      Integration with other apps such as Stripe.
+      Inperium enables customers to delegate access to features within Inperum products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'COMPANY_MANAGEMENT' feature. The 'MANAGE_TENANT_SETTINGS' is unique permission that isn't tied to any feature.
   - name: Products
     description: |
-      Inperium apps, for example, Sell or Talk.
+      Inperium provides several solutions that seamlessly integrate with each other and your business ecosystem. The list of products keeps evolving and currently includes Inperium Talk and Sell. The subscription to Inperium products are managed through the Hub API.
   - name: Roles
     description: |
-      Inperium user security roles.
+      Configure user roles to delegate access to Inperium features. For example, you can create administrator and manager roles.
   - name: Subscriptions
     description: |
-      Payment model associated with a tenant.
+      Tenants have an option to choose the subscription type and billing period.      
+  - name: Tenants
+    description: |
+      Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products, and users.
+  - name: Users
+    description: |
+      Users are individuals included in a tenant subscription. Depending on the role, users have access to different Inperium products and features. 
+
 
 paths:
   /auth/signature:
     get:
       tags:
         - Auth
-      summary: Retrieve a public key of Hub auth signature
-      description: TBD
+      summary: Verify signature
+      description: Use this endpoint to get a public key and check Hub auth signature. Other Inperium services and third-party apps or plugins leverage this signature to verify the authenticity of the token.
       operationId: getAuthSignature
       responses:
         200:
-          description: Auth signature retrieved
+          description: Returns the auth signature.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthSignature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -66,30 +82,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Get new authentication tokens.
-      description: This endpoint will authenticate the user and return the access token and refresh token.
+      summary: Create a token
+      description: Use this endpoint to request a new token. This endpoint returns an access token and refresh token.
       operationId: getAuthTokens
       requestBody:
-        description: Input parameters for a new auth token generation
+        description: In the request body, pass information the AuthTokensRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/AuthTokensRequest"
       responses:
         200:
-          description: The newly generated auth tokens
+          description: Returns the newly generated auth token.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         401:
-          description: Wrong credentials or two factor authentication required.
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -99,21 +115,21 @@ paths:
     post:
       tags:
         - Auth
-      summary: Logout the principal.
-      description: This endpoint logs out the principal and invalidates his access and refresh tokens.
+      summary: Log out
+      description: Use this endpoint to log out the principal and invalidate the principal's access and refresh tokens.
       operationId: logout
       responses:
         200:
-          description: The user was successfully logged out.
+          description: The user logged out.
           content: { }
         401:
-          description: Wrong credentials or two factor authentication required.
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -123,30 +139,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Request a two factor authentication token
-      description: This endpoint will send a two factor authentication token to the user.
+      summary: Create a 2FA token
+      description: Use this endpoint to create a new two-factor authentication token.
       operationId: sendTwoFactorAuthToken
       requestBody:
-        description: Input parameters to verify the two factor authentication token.
+        description: In the request body, pass the TwoFactorAuthTokenRequest object. It is used to verify the two-factor authentication token.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/TwoFactorAuthTokenRequest"
       responses:
         200:
-          description: The two factor auth token has successfully been sent.
+          description: Returns the 2FA token.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/TwoFactorAuthTokenResponse"
         401:
-          description: The attempt to request a two factor auth token was unsuccessful.
+          description: Unauthorized. The attempt to request a 2FA token failed.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -156,30 +172,30 @@ paths:
     post:
       tags:
         - Auth
-      summary: Verify two factor authentication token
-      description: This endpoint will verify the two factor authentication token of a user.
+      summary: Verify a 2FA token
+      description: Use this endpoint to verify the one-off code sent to a user.
       operationId: verifyTwoFactorAuthToken
       requestBody:
-        description: Input parameters to verify the two factor authentication token
+        description: In the request body, pass the TwoFactorAuthVerificationRequest object. 
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/TwoFactorAuthVerificationRequest"
       responses:
         200:
-          description: The newly generated auth tokens
+          description: Returns newly generated tokens.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         401:
-          description: The two factor authentication token was invalid.
+          description: Unauthorized. The 2FA token is invalid.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthError"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -189,8 +205,8 @@ paths:
     get:
       tags:
         - API Keys
-      summary: Retrieves existing API keys.
-      description: Use this endpoint to get a list of API keys.
+      summary: Retrieve API keys
+      description: Use this endpoint to get a list of API keys. This endpoint supports paging and sorting.
       operationId: getApiKeys
       parameters:
         - name: id
@@ -208,13 +224,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing API keys
+          description: Returns API keys.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKeys"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -222,24 +238,24 @@ paths:
     post:
       tags:
         - API Keys
-      summary: Create a new API key.
+      summary: Create an API key
       description: Use this endpoint to create a new API key.
       operationId: createApiKey
       requestBody:
-        description: Input parameters for a new API key
+        description: In the request body, pass the ApiKeyRequest object. 
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
         201:
-          description: The newly created API Key.
+          description: Returns a new API key. Make sure to save it to a secure location. Inperium Hub doesn't store API keys.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -249,14 +265,14 @@ paths:
     get:
       tags:
         - API Keys
-      summary: Retrieves an existing API key by its ID.
-      description: Use this endpoint to retrieve an existing API key by its ID.
+      summary: Get an API key
+      description: Use this endpoint to retrieve an existing API key by its ID. Note that Inperium doesn't store the unencrypted API key, just the last four digits.
       operationId: getApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The requested API key
+          description: Returns the requested API key. 
           content:
             application/json:
               schema:
@@ -270,26 +286,26 @@ paths:
     put:
       tags:
         - API Keys
-      summary: Updates an existing API key by its ID.
+      summary: Update an API key
       description: Use this endpoint to update an existing API key by its ID.
       operationId: updateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: Input parameters for API key properties update
+        description: In the request body, pass the updated ApiKeyRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
         200:
-          description: The updated API key
+          description: Returns the updated API key.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -297,16 +313,16 @@ paths:
     delete:
       tags:
         - API Keys
-      summary: Deletes an existing API key by its ID.
-      description: Use this endpoint to delete an existing API Key by its ID.
+      summary: Delete an API key
+      description: Use this endpoint to locate an API key by its ID and delete it. Note that this action will instantly revoke access for users and services utilizing this key.
       operationId: deleteApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The user has been successfully deleted
+          description: The key has been removed.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -316,20 +332,20 @@ paths:
     put:
       tags:
         - API Keys
-      summary: Regenerates the token of an existing API key by its ID.
-      description: Use this token to rotate the key of the existing API key by its ID.
+      summary: Regenerate a key
+      description: Use this endpoint to regenerate an existing API key if it was compromised. The key secret will be regenerated. 
       operationId: regenerateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The updated API key
+          description: Returns the updated API key.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiKey"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -339,15 +355,15 @@ paths:
     get:
       tags:
         - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -357,20 +373,20 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Get company information
-      description: Use this endpoint to get information about the tenant's company.
+      summary: Retrieve a tenant
+      description: Use this endpoint to get information about the tenant.
       operationId: getTenant
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The tenant
+          description: Returns the Tenant object.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -380,20 +396,20 @@ paths:
     post:
       tags:
         - Tenants
-      summary: Create a new tenant
-      description: Use this endpoint to create a tenant. Send a POST request to this endpoint to add a new Inperium tenant.
+      summary: Create a tenant
+      description: Use this endpoint to create a new tenant. 
       operationId: createTenant
       requestBody:
-        description: Pass information about the new tenant
+        description: In the request body, pass the CreateTenantRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/CreateTenantRequest"
       responses:
         201:
-          description: A new account has been created
+          description: A new account has been created.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -403,26 +419,26 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Confirm the account of the tenant's owner
-      description: Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
+      summary: Confirm owner
+      description: Use this endpoint to confirm the account of the user who signed up for Inperium and created the tenant. Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
       operationId: confirmTenant
       parameters:
         - name: confirmationToken
           in: path
-          description: Confirmation token
+          description: The confirmation token.
           required: true
           schema:
             type: string
             format: uuid
       responses:
         200:
-          description: The tenant owner has successfully been authorized
+          description: Returns a token. It means that the account has been successfully verified.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -432,21 +448,22 @@ paths:
     get:
       tags:
         - Tenants
-      summary: Resend the confirmation email
+      summary: Resend confirmation
+      description: Use this endpoint to resend the confirmation email.
       operationId: resendTenantConfirmation
       parameters:
         - name: email
           in: query
-          description: User email
+          description: Provide an email address of the tenant's owner. The owner is the user who initially signed up for Inperium.
           required: true
           schema:
             type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -456,19 +473,20 @@ paths:
     put:
       tags:
         - Tenants
-      summary: Onboard tenant
-      description: Use this endpoint to add information about the tenant such as name, company name, employee count to finish the onboarding.
+      summary: Onboard a tenant
+      description: Use this endpoint to add information about the tenant such as the name, company name, and employee count to finish the onboarding.
       operationId: onboardTenant
       requestBody:
+        description: In the request body, pass the OnboardTenantRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/OnboardTenantRequest"
       responses:
         200:
-          description: The tenant has completed onboarding
+          description: The tenant has completed onboarding.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -479,22 +497,23 @@ paths:
       tags:
         - Tenants
       summary: Update company information
-      description: Use this endpoint to update information about the tenant's company.
+      description: Use this endpoint to update information about the tenant's company such as address or default timezone.
       operationId: updateTenantCompanyInfo
       requestBody:
+        description: In the request body, pass the TenantCompanyInfoRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/TenantCompanyInfoRequest"
       responses:
         200:
-          description: The tenant has been updated
+          description: The tenant has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -505,22 +524,23 @@ paths:
       tags:
         - Tenants
       summary: Update an address
-      description: Use this endpoint to update tenant's address.
+      description: Use this endpoint to update the address.
       operationId: updateTenantAddress
       requestBody:
+        description: In the request body, pass the TenantAddressRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/TenantAddressRequest"
       responses:
         200:
-          description: The tenant's address has been updated
+          description: The tenant's address has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -534,19 +554,20 @@ paths:
       description: Use this endpoint to update tenant's billing details.
       operationId: updateTenantBillingContact
       requestBody:
+        description: In the request body, pass the BillingContactRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/BillingContactRequest"
       responses:
         200:
-          description: The tenant's billing contract has been updated
+          description: The billing details have been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -557,22 +578,23 @@ paths:
       tags:
         - Tenants
       summary: Update a payment method
-      description: Use this endpoint to change tenant's payment method.
+      description: Use this endpoint to change the tenant's payment method.
       operationId: updateTenantPaymentMethod
       requestBody:
-        content:
+        description: In the request body, pass the PaymentMethodRequest object.
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
       responses:
         200:
-          description: The tenant's payment method has been updated
+          description: The tenant's payment method has been updated. The endpoint returns the updated Tenant object.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -582,13 +604,13 @@ paths:
     get:
       tags:
         - Limits
-      summary: Retrieves existing limit usages.
-      description: Use this endpoint to get a list of existing limit usages.
+      summary: Retrieve limits
+      description: Use this endpoint to get a list of existing limit usages. This endpoint supports paging and sorting.
       operationId: getLimitUsages
       parameters:
         - name: anchor
           in: query
-          description: The anchor of a referenced limit
+          description: The anchor of a referenced limit.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -596,13 +618,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing limit usages
+          description: Returns the list of limit usages.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/LimitUsages"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -612,9 +634,8 @@ paths:
     post:
       tags:
         - Limits
-      summary: Updates a referenced limit usage
-      description: Use this endpoint to update the current value of existing
-        limit usage.
+      summary: Update a limit usage
+      description: THIS IS INTERNAL ENDPOINT. Inperium services send requests to this endpoint to update the occupied limits in Inperium Hub. For example, when you add a template in Inperium Sell, the service sends a request to '/internal/limitUsages' to update the quota.
       operationId: updateLimitUsage
       requestBody:
         content:
@@ -623,9 +644,9 @@ paths:
               $ref: "#/components/schemas/LimitUsageUpdateRequest"
       responses:
         204:
-          description: The limit usage has been updated
+          description: The limit usage has been updated.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -635,23 +656,24 @@ paths:
     post:
       tags:
         - Users
-      summary: Invite a new user
-      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. He or she will receieve an invitation by email.
+      summary: Invite a user
+      description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receive an invitation by email.
       operationId: inviteUser
       requestBody:
-        content:
+        description: In the request body, pass the UserInviteRequest object. 
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/UserInviteRequest"
       responses:
         201:
-          description: A new user has been invited
+          description: Returns a user record. It means the user has been invited to join Inperium.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -662,23 +684,24 @@ paths:
       tags:
         - Users
       summary: Confirm an invitation
-      description: Use this endpoint accept the invitation. Pass user credentials to confirm invitation and finilize the process.
+      description: Use this endpoint to accept the invitation. Pass user credentials to confirm invitation and finilize the process.
       operationId: confirmUserInvite
       requestBody:
         required: true
-        content:
+        description: In the request body, pass the UserConfirmInviteRequest object. 
+        content:          
           "*/*":
             schema:
               $ref: "#/components/schemas/UserConfirmInviteRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: Returns authentication tokens. The user account is confirmed and the password has successfully been reset.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -686,21 +709,22 @@ paths:
     get:
       tags:
         - Users
-      summary: Resend the confirmation email
+      summary: Resend confirmation
+      description: Use this endpoint to resend a confirmation email.
       operationId: resendUserConfirmation
       parameters:
         - name: email
           in: query
-          description: User email
+          description: The email address associated with the user.
           required: true
           schema:
             type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -714,6 +738,7 @@ paths:
       description: Use this endpoint to send a "forgot password" request.
       operationId: forgotPassword
       requestBody:
+        description: In the request body, pass the UserForgotPasswordRequest object.
         required: true
         content:
           application/json:
@@ -723,7 +748,7 @@ paths:
         200:
           description: The request has been sent.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -734,9 +759,10 @@ paths:
       tags:
         - Users
       summary: Reset a password
-      description: Use this endpoint to reset the user's password. Provide `passowordResetToken` that was sent by email.
+      description: Use this endpoint to reset a password. To update a password, you'll have to provide `passwordResetToken` that was sent by email.
       operationId: resetPassword
       requestBody:
+        description: In the request body, pass the UserResetPasswordRequest object. 
         required: true
         content:
           "*/*":
@@ -744,13 +770,13 @@ paths:
               $ref: "#/components/schemas/UserResetPasswordRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: Returns tokens. The password has successfully been reset.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -758,44 +784,45 @@ paths:
 
   /users/me:
     get:
-      summary: Check current user
-      description: Use this endpoint to retrieve details about the currently authenticated user
-      operationId: getPrincipalUser
       tags:
         - Users
+      summary: Check a current user
+      description: Use this endpoint to retrieve details about the currently authenticated user.
+      operationId: getPrincipalUser
       responses:
         200:
-          description: The requested user details
+          description: Returns user data.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserPrincipal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
-      summary: Update the logged in user
+      summary: Update a user
+      description: Use this endpoint to update the currently logged in user. 
       operationId: updatePrincipalUser
       tags:
         - Users
       requestBody:
-        description: User to update
+        description: In the request body, pass the UserRequest object. 
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -805,10 +832,11 @@ paths:
     put:
       tags:
         - Users
-      summary: Reset the principals password
+      summary: Reset a password
+      description: Use this endpoint to reset the principal's password.
       operationId: updatePrincipalPassword
       requestBody:
-        description: Reset user password
+        description: In the request body, pass the UserPasswordRequest object.
         required: true
         content:
           "*/*":
@@ -816,9 +844,9 @@ paths:
               $ref: "#/components/schemas/UserPasswordRequest"
       responses:
         200:
-          description: The user has successfully reseted password
+          description: The password has been reset.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -836,17 +864,17 @@ paths:
           in: query
           description: >
             Allows searching both in "last name" or "first name".
-            Supports eq, neq, in, nin, like, notlike
+            Supports eq, neq, in, nin, like, notlike.
           schema:
             type: string
         - name: id
           in: query
-          description: Unique ID of the user
+          description: Unique ID of the user.
           schema:
             type: string
         - name: email
           in: query
-          description: Email address associated with the user
+          description: Email address associated with the user.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -854,13 +882,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Users have been retrieved
+          description: Returns an array of user records. 
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Users"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -868,8 +896,8 @@ paths:
 
   /users/{id}:
     get:
-      summary: Retrieve user details by ID
-      description: Use this endpoitn to search for a specific user and retrieve detailed information such as full name, email, and job title.
+      summary: Get user details
+      description: Use this endpoint to search for a specific user and retrieve detailed information such as full name, email, and job title.
       operationId: getUser
       tags:
         - Users
@@ -877,65 +905,67 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: User details have been retrieved
+          description: Returns the user record. 
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
-      summary: Update user details
-      description: Use this endpoint to update a specific user (replace with all given properties).
+      summary: Update a user
+      description: Use this endpoint to update a specific user. Note that all user properties (fields) will be overwritten. 
       operationId: updateUser
       tags:
         - Users
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the UserRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     patch:
-      summary: Update user details partially
-      description: Use this endpoint to update a specific user, for example promote user to admin or update his first/last name.
+      summary: Partially update a user
+      description: Use this endpoint to change some properties in the user record, e.g., the last name or email.
       operationId: updateUserPartially
       tags:
         - Users
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the UserPartialRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/UserPartialRequest"
       responses:
         200:
-          description: The user has been updated
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -944,15 +974,15 @@ paths:
       tags:
         - Users
       summary: Delete a user
-      description: Use this endpoint to remove user from the Inperium system.
+      description: Use this endpoint to remove a user from Inperium.
       operationId: deleteUser
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The user has been successfully deleted
+          description: The user has been successfully deleted.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -960,20 +990,20 @@ paths:
 
   /publicAppSettings:
     get:
-      summary: Retrieve the public app settings
-      description: Use this endpoint to learn how the tenant is connected to the public apps such as Stripe and Google Analitycs.
+      summary: Get app settings
+      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
       operationId: getPublicAppSettings
       tags:
         - App Settings
       responses:
         200:
-          description: The requested settings
+          description: Returns the list of public apps and their settings.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AppSettings"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -982,13 +1012,13 @@ paths:
   /products:
     get:
       summary: Retrieve products
-      description: Use this endpoint to get a complete list of products associated with the tenant, with name and available payment plan for each product.
+      description: Use this endpoint to get a list of products available to your tenant, with names, available subscription plans, etc.
       operationId: getProducts
       tags:
         - Products
       responses:
         200:
-          description: The requested products
+          description: Returns an array of products.
           content:
             application/json:
               schema:
@@ -996,7 +1026,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Product"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1004,26 +1034,27 @@ paths:
 
   /products/{anchor}:
     get:
-      summary: Retrieves data of an existing product
+      summary: Get a specific product
+      description: Use this endpoint to retrieve information about a specific product. 
       operationId: getProduct
       tags:
         - Products
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product
+          description: A unique anchor of a product, e.g. Sell or Talk.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The requested product
+          description: Returns a product.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Product"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1031,21 +1062,21 @@ paths:
 
   /products/{anchor}/plans:
     get:
-      summary: Retrieve product payment tenants
-      description: Use this endpoint to see what payment plans are available for a certain product.
+      summary: Get subscription plans
+      description: Use this endpoint to see the plans available for a certain product. You'll also see the plan that is active now.
       operationId: getProductPlanAvailabilities
       tags:
         - Products
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of a product
+          description: A unique anchor of a product, e.g., Sell or Talk.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The plans have been retrieved
+          description: Returns available plans.
           content:
             application/json:
               schema:
@@ -1053,7 +1084,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/PlanAvailability"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1061,13 +1092,14 @@ paths:
 
   /features:
     get:
-      summary: Retrieve all existing features to be potentially used by users/tenants
+      summary: Retrieve features
+      description: Use this endpoint to retrieve a list of available features.
       operationId: getFeatureList
       tags:
         - Features
       responses:
         200:
-          description: A list of all existing features
+          description: Returns an array of features.
           content:
             application/json:
               schema:
@@ -1075,7 +1107,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Feature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1083,26 +1115,27 @@ paths:
 
   /features/{anchor}:
     get:
-      summary: Retrieves data of an existing feature
+      summary: Retrieve a feature
+      description: Use this endpoint to retrieve details for a specific feature.
       operationId: getFeature
       tags:
         - Features
       parameters:
         - name: anchor
           in: path
-          description: The unique anchor of feature
+          description: A unique anchor of feature.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The requested feature
+          description: Returns the feature record.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Feature"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1110,13 +1143,14 @@ paths:
 
   /permissions:
     get:
-      summary: Retrieve all existing permissions to be potentially used by users
+      summary: Retrieve permissions
+      description: Use this endpoint to retrieve a list of available permissions.
       operationId: getPermissionList
       tags:
         - Permissions
       responses:
         200:
-          description: A list of all existing permissions
+          description: Returns a list of permissions.
           content:
             application/json:
               schema:
@@ -1124,7 +1158,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Permission"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1133,18 +1167,18 @@ paths:
     get:
       tags:
         - Roles
-      summary: Retrieves existing security roles.
-      description: TBD
+      summary: Retrieve roles
+      description: Use this endpoint to get a list of available roles, with permissions assigned to each role. This endpoint supports paging and sorting.
       operationId: getRoles
       parameters:
         - name: id
           in: query
-          description: Unique ID of the security roles.
+          description: Unique ID of the role.
           schema:
             type: string
         - name: name
           in: query
-          description: Search roles by name or part of name.
+          description: The role title.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -1152,13 +1186,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Search result of existing security roles.
+          description: Returns the list of roles.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Roles"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1166,24 +1200,24 @@ paths:
     post:
       tags:
         - Roles
-      summary: Create a new custom security role.
-      description: TBD.
+      summary: Create a role
+      description: Use this endpoint to add a new role to Inperium.
       operationId: createRole
       requestBody:
-        description: Input parameters for a new custom security role.
+        description: In the request body, pass the RoleRequest object that describes a new role.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/RoleRequest"
       responses:
         201:
-          description: The newly created security role.
+          description: Returns the newly created role.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1193,14 +1227,14 @@ paths:
     get:
       tags:
         - Roles
-      summary: Retrieves an existing security role by its ID.
-      description: TBD.
+      summary: Retrieve a role
+      description: Use this endpoint to retrieve a specific role and see associated permissions.
       operationId: getRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The requested security role
+          description: Returns a requested role.
           content:
             application/json:
               schema:
@@ -1214,26 +1248,26 @@ paths:
     put:
       tags:
         - Roles
-      summary: Updates an existing security role by its ID.
-      description: TBD.
+      summary: Update a role
+      description: Use this endpoint to update an existing role. Note that the role properties will be overwritten.
       operationId: updateRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: Input parameters for security role properties update
+        description: In the request body, pass the updated RoleRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/RoleRequest"
       responses:
         200:
-          description: The updated security role
+          description: Returns an updated role.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Role"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1241,16 +1275,16 @@ paths:
     delete:
       tags:
         - Roles
-      summary: Deletes an existing security role by its ID.
-      description: TBD.
+      summary: Delete a role
+      description: Use this endpoint to remove an existing role.
       operationId: deleteRole
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The security role has been successfully deleted
+          description: The role has been successfully deleted.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1259,13 +1293,13 @@ paths:
   /subscriptions:
     get:
       summary: Retrieve subscriptions
-      description: Use this endpoint to get a complete list of subscriptions of the current tenant.
+      description: Use this endpoint to get a complete list of subscriptions for the current tenant.
       operationId: getSubscriptions
       tags:
         - Subscriptions
       responses:
         200:
-          description: The subscriptions have been retrieved.
+          description: Returns the list of subscriptions.
           content:
             application/json:
               schema:
@@ -1273,7 +1307,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1285,20 +1319,20 @@ paths:
       description: Use this endpoint to start a new trial subscription or to purchase one.
       operationId: createSubscription
       requestBody:
-        description: In the request body, provide information about the plan you want to start.
+        description: In the request body, provide information about the plan you want to start. Pass the SubscriptionRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/SubscriptionRequest"
       responses:
         200:
-          description: The subscription has successfully started
+          description: Returns a new subscription. The subscription has successfully started.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1321,20 +1355,20 @@ paths:
               $ref: "#/components/schemas/SubscriptionUpdateRequest"
       responses:
         200:
-          description: The subscription has been updated
+          description: Returns an updated subscription. The subscription has been updated.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Subscription"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     get:
-      summary: Get additional info about the subscription
-      description: Use this endpoint to get additional info about the subscription.
+      summary: Retrieve a subscription
+      description: Use this endpoint to get additional information about the subscription.
       operationId: getSubscription
       tags:
         - Subscriptions
@@ -1342,14 +1376,14 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
         - name: newLicenseQuantity
           in: query
-          description: New license count to calculate the price
+          description: The new license count to calculate the price. Minimum is 1.
           schema:
             type: integer
             format: int64
             minimum: 1
       responses:
         200:
-          description: The subscription have been retrieved.
+          description: Returns full information about a subscription. 
           content:
             application/json:
               schema:
@@ -1360,28 +1394,32 @@ paths:
   /subscriptions/webhooks/stripe:
     post:
       summary: Handle Stripe webhooks
+      description: Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook
       tags:
         - Subscriptions
       parameters:
         - in: header
           name: Stripe-Signature
+          description: To verify events, Stripe signs the webhooks. This information is provided in the 'Stripe-Signature' header.
           schema:
             type: string
       requestBody:
-        description: In the request body, pass the the payload of the webhook
+        description: In the request body, pass the the payload of the webhook.
         content:
           application/json:
             schema:
               type: string
       responses:
         200:
-          description: The webhook was successfully executed
+          description: The webhook was executed and verified by Stripe.
+        default:
+          $ref: '#/components/responses/DefaultResponse'  
 
 components:
   responses:
     DefaultResponse:
-      description: Bad request, security violation, or internal server error
+      description: Bad request, security violation, or internal server error.
       content:
         application/json:
           schema:
@@ -1389,10 +1427,12 @@ components:
 
   securitySchemes:
     BearerAuth:
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note due to security concerns it frequently expires. 
       type: http
       scheme: bearer
 
     ApiKeyAuth:
+      description: API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
       type: apiKey
       in: header
       name: X-API-KEY
@@ -1400,6 +1440,7 @@ components:
   parameters:
     ResourceId:
       name: id
+      description: A unique ID of the object.
       in: path
       required: true
       schema:
@@ -1408,7 +1449,7 @@ components:
     QueryPageNumber:
       name: pageNumber
       in: query
-      description: Controls paging
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
       schema:
         type: integer
         format: int64
@@ -1416,7 +1457,7 @@ components:
     QueryPageSize:
       name: pageSize
       in: query
-      description: Defines the number of entries per page
+      description: This parameter affects paging. It defines the number of records per page, e.g., 20 records per page.
       schema:
         type: integer
         format: int64
@@ -1424,25 +1465,28 @@ components:
     QuerySort:
       name: sort
       in: query
-      description: Controls sorting
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
       schema:
         type: string
 
   schemas:
     AuthSignature:
       type: object
+      description: The AuthSignature object includes information about the public API key used for authentication.
       properties:
         publicKey:
           type: string
-          description: Public key of Hub auth signature
+          description: The public key of Hub auth signature.
 
     AuthTokensRequest:
       type: object
+      description: The AuthTokensRequest is submitted to Inperium Hub when you want to get a new AuthTokens object. 
       required:
         - strategy
       properties:
         strategy:
           type: string
+          description: The authentication strategy. Select one of the available options.
           enum:
             - API_KEY
             - PASSWORD
@@ -1455,46 +1499,57 @@ components:
           description: The password of the user.
         token:
           type: string
-          description: Another token to be used for generation of a new auth token
+          description: The token for generating a new authentication token. Depending on the authentication strategy, pass the refresh token or the API key.
 
     AuthTokens:
       type: object
+      description: Unlike the AuthTokenRequest object, this object is returned by the Hub service and contains new tokens.
       properties:
         accessToken:
           type: string
-          description: Main access token
+          description: The main access token
         refreshToken:
           type: string
-          description: Auxiliary token for main access renewal
+          description: The auxiliary token used for the main token renewal.
 
     ApiKeyRequest:
+      description: To create an API key, you have to supply an ApiKeyRequest object.
       type: object
       properties:
         name:
           type: string
+          description: A user-friendly key name.
         enabled:
           type: boolean
+          description: The key status.
       required:
         - name
         - enabled
 
     ApiKey:
+      description: The ApiKey object is returned by the Hub service and contains the authentication string.
       type: object
       properties:
         id:
           type: string
+          description: A unique key identifier.
         name:
           type: string
+          description: A user-friendly key name.
         enabled:
           type: boolean
+          description: The key status.
         key:
           type: string
+          description: The key is a unique sequence of characters, e.g., 5d5b4ed1-0000-XXXX-0000-8c9d90d23c2b+58df84fc-0000-XXXX-0000-8d381496bc2a.
         expiresAt:
           type: integer
           format: int64
+          description: Each key has an expiration date. You won't be able to authenticate using this key after the expiration date.
 
     ApiKeys:
       type: object
+      description: The array of ApiKey objects.
       properties:
         data:
           type: array
@@ -1505,26 +1560,29 @@ components:
 
     TwoFactorAuthTokenRequest:
       type: object
+      description: The incoming object that facilitates 2FA.
       properties:
         email:
           type: string
-          description: The email of the user requesting the two factor auth token.
+          description: The email of the user requesting the two-factor auth token.
         password:
           type: string
-          description: The password of the user requesting the two factor auth token.
+          description: The password of the user requesting the two-factor auth token.
 
     TwoFactorAuthTokenResponse:
       type: object
+      description: The object that is returned after requesting the 2FA token.
       properties:
         method:
           type: string
-          description: The method used for sending the two factor auth token.
+          description: The method used for sending the two-factor auth token.
         redactedMethod:
           type: string
-          description: The redacted part of the actual method to which the two factor auth token was sent to.
+          description: The redacted part of the actual method to which the two-factor auth token was sent to.
 
     TwoFactorAuthVerificationRequest:
       type: object
+      description: Inperium Hub recieves the TwoFactorAuthVerificationRequest object and verifies a user.
       properties:
         email:
           type: string
@@ -1534,9 +1592,10 @@ components:
           description: The password of the user.
         token:
           type: string
-          description: The token to verify
+          description: The one-off code to verify.
 
     AuthError:
+      description: The error that occurred during authentication. Use this information for further error handling and troubleshooting authentication issues.
       discriminator:
         propertyName: schema
       allOf:
@@ -1546,7 +1605,7 @@ components:
           properties:
             type:
               type: string
-              description: Type of authentication error for further handeling
+              description: The type of the authentication error.
               enum:
                 - CREDENTIALS_INVALID
                 - TWO_FACTOR_AUTH_REQUIRED
@@ -1556,148 +1615,188 @@ components:
 
     ResponseError:
       type: object
+      description: The error that is returned as a response to a request.
       required:
         - status
         - message
       properties:
         status:
           type: string
-          description: Http status code
+          description: The HTTP status code.
         code:
           type: string
           format: uuid
-          description: Optional code of the exception
+          description: The optional code of the exception.
         message:
           type: string
-          description: Error message
+          description: The error message text.
         errors:
           type: object
-          description: Map of field -> list of errors
+          description: Mapping of fields and errors.
 
     Id:
       type: string
       format: uuid
+      description: A unique identifier of a record or resource.
 
     PageAndSort:
       type: object
-      description: Paging and sorting information
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
 
     UserPrincipal:
       type: object
-      description: User details model
+      description: The UserPrincipal object contains information about the current user, including the user contact details, the associated tenant account, all licensed features and enabled permissions, etc.
       properties:
         user:
           $ref: "#/components/schemas/User"
         tenant:
           $ref: "#/components/schemas/Tenant"
         products:
+          description: The list of products licensed for the user.
           type: array
           items:
             type: string
-        features:
+        features: 
+          description: The list of features enabled for the user.
           type: array
           items:
             type: string
         permissions:
+          description: The list of permissions assigned to the user.
           type: array
           items:
             type: string
         roles:
+          description: The list of roles enabled for the user.
           type: array
           items:
             type: string
         limitUsages:
+          description: The list of limits set for the user.
           type: array
           items:
             $ref: "#/components/schemas/LimitUsage"
 
     User:
       type: object
-      description: User model
+      description: The user contact details and profile settings, including preferred authentication method, assigned roles, etc.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         hash:
           type: string
+          description: The hash value of the user record.
         email:
+          description: The email address associated with the user account.
           type: string
         hasVerifiedEmail:
+          description: The true/false parameter that marks if the email address has been verified or is still pending verification.
           type: boolean
         phoneNumber:
+          description: The user's phone number.
           type: string
         isAdmin:
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
         useTwoFa:
+          description: The true/false parameter that indicates if 2FA is enabled for the user.
           type: boolean
         language:
+          description: The preferred language. The default value is 'EN'.
           type: string
         firstName:
+          description: The given name of the user.
           type: string
         lastName:
+          description: The family name of the user.
           type: string
         jobTitle:
+          description: The user's current title or role in the company, e.g., 'senior manager'.
           type: string
         avatarUrl:
+          description: The user's profile image. 
           type: string
         roles:
           type: array
+          description: The list of roles.
           items:
             $ref: '#/components/schemas/Role'
         subscriptions:
           type: array
+          description: The list of subscriptions enabled for the user.
           items:
             $ref: '#/components/schemas/Subscription'
 
     UserRequest:
+      description: The UserRequest object is sent to Inperum Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.
       type: object
       properties:
         email:
           type: string
+          description: The email address associated with the user account. 
         hasVerifiedEmail:
           type: boolean
+          description: The true/false parameter that marks if the email address has been verified or is still pending verification.
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         useTwoFa:
           type: boolean
+          description: The true/false parameter that indicates if 2FA is enabled for the user.
         phoneNumber:
           type: string
+          description: The user's phone number.
         language:
           type: string
+          description: The preferred language. The default value is 'EN'.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         jobTitle:
           type: string
+          description: The user's current title or role in the company, e.g., 'senior manager'.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
         avatarUrl:
           type: string
+          description: The user's profile image. 
 
     UserPartialRequest:
+      description: The UserRequest object is sent to Inperum Hub service when you need to partially update the user record. It will change only the parameters that were submitted. 
       type: object
       properties:
         email:
           type: string
+          description: The email address associated with the user account.
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
         subscriptionIds:
           type: array
+          description: The list of subscriptions enabled for the user.
           items:
             $ref: "#/components/schemas/Id"
 
     UserInviteRequest:
       type: object
+      description: The UserInviteRequest object is submitted to Hub when you add a new user to Inperium. It includes basic information about the user that he or she can update later.
       required:
         - firstName
         - lastName
@@ -1705,20 +1804,25 @@ components:
       properties:
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account. 
         isAdmin:
           type: boolean
+          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
         roles:
           type: array
+          description: The list of roles.
           items:
             type: string
 
     UserConfirmInviteRequest:
       type: object
-      description: Invitation model
+      description: The UserConfirmInviteRequest object validates and verifies user creation.
       required:
         - passwordResetToken
         - password
@@ -1726,22 +1830,28 @@ components:
       properties:
         passwordResetToken:
           type: string
+          description: The token that allows password resetting.
           format: uuid
         password:
           type: string
+          description: The user's password. Further on, this password will be utilized for user authentication.
         confirmPassword:
           type: string
+          description: The user's password. It should be the same as 'password'.
 
     UserForgotPasswordRequest:
       type: object
+      description: The object specifies the email address for sending out password reset instructions.
       required:
         - email
       properties:
         email:
           type: string
+          description: The email address associated with the user account. 
 
     Users:
       type: object
+      description: The list of user records.
       properties:
         data:
           type: array
@@ -1752,109 +1862,142 @@ components:
 
     Tenant:
       type: object
-      description: Tenant settings model
+      description: The Tenant object contains data related to the tenant account, i.e., the name of the company that signed up for Inperium, its size, industry, etc.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
+          description: The name of the company. 
         companySize:
           type: string
+          description: The number of employees.
         industry:
           type: string
+          description: The business area the company belongs to.
         finishedOnboarding:
           type: boolean
+          description: The true/false parameter indicating if the tenant completed the onboarding procedure. 
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         country:
           type: string
+          description: The origin country.
         zip:
           type: string
+          description: The postal code.
         billingContact:
           $ref: "#/components/schemas/BillingContact"
         paymentMethod:
           $ref: "#/components/schemas/PaymentMethod"
         subscriptions:
           type: array
+          description: The list of tenant's subscriptions.
           items:
             $ref: "#/components/schemas/Subscription"
         defaultLanguage:
           type: string
+          description: The preferred language.
         defaultTimezone:
           type: string
+          description: The operational time zone.
         billingCurrency:
           type: string
+          description: The default currency.
         features:
           type: array
+          description: The list of features available to the tenant.
           items:
             type: string
         createdAt:
           type: integer
           format: int64
+          description: The date the tenant account was created.
         updatedAt:
           type: integer
           format: int64
+          description: The most recent date the tenant was modified.
 
     TenantAddressRequest:
       type: object
-      description: Tenant address model
+      description: The incoming object containing information about the tenant's address.
       properties:
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         country:
           type: string
+          description: The origin country.
         zip:
           type: string
+          description: The postal code.
 
     TenantCompanyInfoRequest:
       type: object
-      description: Tenant company information model
+      description: the incoming object describing tcompany details.
       properties:
         companyName:
           type: string
+          description: The name of the company.
         domainName:
           type: string
+          description: The company website.
         defaultLanguage:
           type: string
+          description: The preferred language.
         defaultTimezone:
           type: string
+          description: The operational time zone.
 
     Limit:
       type: object
-      description: TBD
+      description: The object describing restrictions within the subscription plans.
       properties:
         anchor:
           type: string
+          description: The name of the limit. For example, 'ROLES_TOTAL'.
         infinite:
           type: boolean
+          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
         thresholdValue:
           type: integer
+          description: The maximum value allowed by the Limit.
 
     LimitUsage:
       type: object
-      description: TBD
+      description: The LimitUsage object describes the applicable limit and the current state. For example, 'ROLES_TOTAL' threshold is 10 and currently there are 6 roles created in Inperium.
       properties:
         limit:
           $ref: "#/components/schemas/Limit"
         currentValue:
           type: integer
+          description: The counter, it displays how close you are to reaching the threshold. 
 
     LimitUsages:
       type: object
+      description: The list of available limits.
       properties:
         data:
           type: array
@@ -1865,154 +2008,209 @@ components:
 
     LimitUsageUpdateRequest:
       type: object
+      description: The incoming object sent by Inperium services to Hub when a limit usage is updated outside the Hub. For example, you add a new template (in Inperium Sell) and the limit usage must be updated.
       properties:
         limit:
           type: string
+          description: The limit name.
         newValue:
           type: integer
+          description: The updated value.
       required:
         - limit
         - newValue
 
     Beta:
       type: object
+      description: The special object that is created specifically for managing early user access to Inperium products.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The product name.
         description:
           type: string
+          description: The product description.
         trialOnly:
           type: boolean
+          description: The true/false parameter defining if the beta program is available in trial or both trial/subscription modes.
         since:
           type: integer
+          description: The date the beta started.
           format: int64
         until:
           type: integer
+          description: The date the beta ends.
           format: int64
 
     BillingContact:
       type: object
-      description: Tenant billing model
+      description: The object contains the tenant's billing details such as the billing address and company name. Inperium issues invoices according to the data provided in the BillingContact object while the 'PaymentMethod' object is used as a source of payment information. The invoices are billed to the user (tenant owner) who has initially configured Inperium tenant account.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
+          description: The name of the company.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account.
         phoneNumber:
           type: string
+          description: The user's phone number.
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         zip:
           type: string
+          description: The postal code.
         country:
           type: string
+          description: The origin country.
         ein:
           type: string
+          description: A unique nine-digit employer identification number assigned by the Internal Revenue Service (IRS).
 
     BillingContactRequest:
       type: object
+      description: The incoming object containing the updated tenant's contact details. 
       properties:
         companyName:
           type: string
+          description: The name of the company.
         firstName:
           type: string
+          description: The given name of the user.
         lastName:
           type: string
+          description: The family name of the user.
         email:
           type: string
+          description: The email address associated with the user account.
         phoneNumber:
           type: string
+          description: The user's phone number.
         addressLine1:
           type: string
+          description: The street, building, office, or suite.
         addressLine2:
           type: string
+          description: The street, building, office, or suite.
         city:
           type: string
+          description: The city where the business is registered or where its office is located.
         domainName:
           type: string
+          description: The company website.
         state:
           type: string
+          description: The state where the business is registered or where its office is located.
         zip:
           type: string
+          description: The postal code.
         country:
           type: string
+          description: The origin country.
         ein:
           type: string
+          description: A unique nine-digit employer identification number assigned by the Internal Revenue Service (IRS).
 
     PaymentMethod:
       type: object
+      description: The object contains the tenant's payment information. 
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The payer's full name.
         type:
           type: string
+          description: The payment method, e.g., credit card.
         last4:
           type: string
+          description: The last four digits of the credit card.
         expMonth:
           type: integer
+          description: The month the card expires.
           format: int64
         expYear:
           type: integer
+          description: The year the card expires.
           format: int64
 
     PaymentMethodRequest:
       type: object
+      description: The incoming object that updates the preferred tenant's method of payment. 
       properties:
         paymentMethodId:
           type: string
+          description: An indentifier of the payment method.
         name:
           type: string
+          description: The payer's full name.
         type:
           type: string
+          description: The payment method, e.g., credit card.
         last4:
           type: string
+          description: The last four digits of the credit card.
         expMonth:
           type: integer
+          description: The month the card expires.
           format: int64
         expYear:
           type: integer
+          description: The year the card expires.
           format: int64
 
     Permission:
       type: object
+      description: The Permission object ties permission to a feature.
       properties:
         anchor:
           type: string
+          description: The permission name.
         feature:
           type: string
-      description: Permission request model
+          description: The feature name to which the permission is applied.
 
     AppSettings:
       type: object
+      description: The object containing public IDs of the apps connected to the tenant.
       properties:
         stripePublishableKey:
           type: string
+          description: The key facilitating Stripe authentication.  
         googleAnalyticsTrackingId:
           type: string
+          description: The Google Analytics code embedded in the tracked websites.
         googleTagManagerContainerId:
           type: string
+          description: The name of your Google Tag Manager container.
 
     CreateTenantRequest:
       type: object
-      description: Model for creating a new tenant and user
+      description: The object sent when creating a new tenant and its owner.
       required:
         - email
         - password
@@ -2020,17 +2218,17 @@ components:
       properties:
         email:
           type: string
-          description: The email address that will be associated with a new tenant
+          description: The email address that will be associated with a new tenant and the owner account.
         password:
           type: string
-          description: The password of the user
+          description: The owner's password.
         confirmPassword:
           type: string
-          description: The confirmation of the user password (must be the same as password)
+          description: The owner's password (must be the same as 'password'). 
 
     UserPasswordRequest:
       type: object
-      description: Model for user password change
+      description: The object containing details for updating a password.
       required:
         - password
         - newPassword
@@ -2038,14 +2236,17 @@ components:
       properties:
         password:
           type: string
+          description: The current user password.
         newPassword:
           type: string
+          description: The new user password.
         confirmPassword:
           type: string
+          description: The new user password (must be the same as 'newPassword').
 
     UserResetPasswordRequest:
       type: object
-      description: Model for changing user password
+      description: The object containing details for password reset.
       required:
         - passwordResetToken
         - confirmPassword
@@ -2053,14 +2254,18 @@ components:
       properties:
         passwordResetToken:
           type: string
+          description: An identifier that verifies that the user has requested a password reset.
           format: uuid
         confirmPassword:
           type: string
+          description: The new password (must be the same as 'newPassword').
         newPassword:
           type: string
+          description: The new password.
 
     OnboardTenantRequest:
       type: object
+      description: This object helps assemble a new tenant. it contains various information about the tenant owner and company.
       required:
         - firstName
         - lastName
@@ -2071,12 +2276,16 @@ components:
       properties:
         firstName:
           type: string
+          description: The given name of the tenant owner.
         lastName:
           type: string
+          description: The family name of the tenant owner.
         companyName:
           type: string
+          description: The company name.
         companySize:
           type: string
+          description: The number of employees. This is the enum parameter. Pick the closest value from the list that equals or smaller than your total number of employees. For example, if you have 12 employees, then pick 11. Inperium Hub will identify your slot as '11-50 employees'.
           enum:
             - 1
             - 2
@@ -2089,6 +2298,7 @@ components:
             - 10001
         industry:
           type: string
+          description: The business area. This is the enum parameter. Pick the value from the list.
           enum:
             - SOFTWARE
             - REAL_ESTATE
@@ -2100,71 +2310,97 @@ components:
             - OTHER
         jobTitle:
           type: string
+          description: The title or role in the company, e.g., 'senior manager'.
 
     Product:
       type: object
+      description: The object describing the Inperium app or service.
       properties:
         anchor:
           type: string
+          description: The internal name.
         name:
           type: string
+          description: The name of the product.
         shortDescription:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         description:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         longDescription:
           type: string
+          description: The product description. This parameter hints at product functionality and features. 
         unitLabel:
           type: string
+          description: The units taken into account when calculating the price. In most cases, the 'unitLabel' is 'Users' and the price depends on how many users you've got.
         aggregateUsage:
           type: string
+          description: The aggregation.
         usageType:
           type: string
+          description: The status of the product, e.g., licensed.
         type:
           type: string
+          description: The way the product status is maintained, e.g., recurring.
         billingScheme:
           type: string
+          description: This parameter specifies how the product price is calculated, e.g., per unit.
         plans:
           type: array
+          description: The list of available plans.
           items:
             $ref: "#/components/schemas/Plan"
         inBeta:
           type: boolean
+          description: The true/false parameter that marks if the product is generally available or is available as a limited access option for beta customers. The 'true' value means the product is in beta.
         iconUrl:
           type: string
+          description: The official icon of the app.
         previewUrl:
           type: string
+          description: The product preview screen.
 
     Feature:
       type: object
+      description: The object mapping a feature name to a corresponding Inperium product. 
       properties:
         anchor:
           type: string
+          description: The feature name, e.g., 'CONTACT_IMPORT' or 'PIPELINE_MANAGEMENT'.
         product:
           type: string
+          description: The Inperium app.
 
     Plan:
       type: object
+      description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         anchor:
           type: string
+          description: The internal plan name. 
         name:
           type: string
+          description: The plan name. 
         description:
           type: string
+          description: The plan description.
         trialPeriodDays:
           type: integer
+          description: The number of days.
           format: int64
         product:
           $ref: "#/components/schemas/Product"
         prices:
           type: array
+          description: The list of prices.
           items:
             $ref: "#/components/schemas/Price"
         limits:
           type: array
+          description: The list of limits set for the plan.
           items:
             $ref: "#/components/schemas/Limit"
         beta:
@@ -2172,15 +2408,19 @@ components:
 
     Price:
       type: object
+      description: The object contains information about the product price as well as the pricing model.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         isActive:
           type: boolean
+          description: The true/false parameter that marks what plan is currently in use.
         currency:
           type: string
+          description: The currency units.
         amount:
           type: number
+          description: The sum to be paid according to this plan.
           format: double
         interval:
           $ref: "#/components/schemas/PriceInterval"
@@ -2192,31 +2432,41 @@ components:
 
     Role:
       type: object
+      description: The object defines the permissions that will be granted to any user who is assigned this role.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         hash:
           type: string
+          description: The role hash.
         name:
           type: string
+          description: The role title.
         description:
           type: string
+          description: The optional description.
         predefined:
           type: boolean
+          description: The true/false parameter that marks if the role is shipped with Inperium by default. For custom roles, this parameter will be 'false'.
         permissions:
           type: array
+          description: The list of associated permissions.
           items:
             type: string
 
     RoleRequest:
       type: object
+      description: The incoming object that describes an updated role.
       properties:
         name:
           type: string
+          description: The role title.
         description:
           type: string
+          description: The optional description.
         permissions:
           type: array
+          description: The list of permissions.
           items:
             type: string
       required:
@@ -2225,6 +2475,7 @@ components:
 
     Roles:
       type: object
+      description: The list of roles.
       properties:
         data:
           type: array
@@ -2235,6 +2486,7 @@ components:
 
     SubscriptionFullInfo:
       type: object
+      description: The complete information about a subscription. This object extends the 'Subscription' object.
       required:
         - currentPrice
         - nextBillingDate
@@ -2244,18 +2496,19 @@ components:
             currentPrice:
               type: number
               format: double
-              description: Price for current number of licenses
+              description: The due price. It is calculated based on the license quantity.
             nextPeriodStart:
               type: integer
               format: int64
-              description: Next billing period start date for the subscription
+              description: The starting date of the next billing period.
             newPrice:
               type: number
               format: double
-              description: Optional new price for requested number of licenses
+              description: The new price for the requested number of licenses. This parameter is optional and can be omitted.
 
     Subscription:
       type: object
+      description: The object contains information about the tenant's active plan, product usage, etc.
       discriminator:
         propertyName: schema
       required:
@@ -2277,30 +2530,31 @@ components:
         currentPeriodStart:
           type: integer
           format: int64
-          description: Timestamp of start of subscription period (month or year)
+          description: The timestamp when the current subscription period started (month or year).
         currentPeriodEnd:
           type: integer
           format: int64
-          description: Timestamp of end of subscription period (month or year)
+          description: The timestamp when the current subscription period ends (month or year).
         startDate:
           type: integer
           format: int64
-          description: Timestamp of start of subscription (first purchased/trialed)
+          description: The timestamp when the subscription was purchased or trialed for the first time.
         licensedQuantity:
           type: integer
           format: int64
-          description: Number of used licenses
+          description: The number of used licenses.
         quantity:
           type: integer
           format: int64
-          description: Number of available licenses (overall purchased)
+          description: The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity', it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
         discountAmount:
           type: number
           format: double
-          description: Amount of discount applied to the subscription
+          description: The discount applied to the subscription.
 
     SubscriptionRequest:
       type: object
+      description: The incoming object that contains all the necessary information to subscribe to a product.
       required:
         - planId
         - trial
@@ -2309,18 +2563,19 @@ components:
           $ref: "#/components/schemas/Id"
         trial:
           type: boolean
-          description: If the subscription should be a trial or not.
+          description: The true/false parameter defining if the subscription is trial or not.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         betaAccessCode:
           type: string
-          description: An access code to start a subscription to a product that is in beta.
+          description: An access code to allow subscribing to a product that is in beta.
         promotionCode:
           type: string
           description: A promotion code to receive a discount off the subscription.
 
     SubscriptionUpdateRequest:
       type: object
+      description: The incoming object containing the updated subscription details.
       properties:
         newPlanId:
           $ref: "#/components/schemas/Id"
@@ -2329,7 +2584,7 @@ components:
         newLicenseQuantity:
           type: integer
           format: int64
-          description: License quantity for updated subscription
+          description: The number of licenses. The minimum number is 1.
           minimum: 1
         promotionCode:
           type: string
@@ -2340,7 +2595,7 @@ components:
       enum:
         - MONTH
         - YEAR
-      description: The frequency at which a subscription is billed
+      description: The billing frequency. This is the enum parameter.
 
     SubscriptionState:
       type: string
@@ -2349,11 +2604,11 @@ components:
         - TRIALING
         - PAST_DUE
         - CANCELED
-      description: The state of the subscription
+      description: The state of the subscription. This is the enum parameter.
 
     PlanAvailability:
       type: object
-      description: Availability of a plan for a specific tenant
+      description: The PlanAvailability object contains information about available plans.
       properties:
         plan:
           $ref: "#/components/schemas/Plan"
@@ -2361,13 +2616,19 @@ components:
           $ref: "#/components/schemas/Subscription"
         isPlanCurrentlyOwned:
           type: boolean
+          description: The true/false parameter indicating if this plan is currently active.
         isPlanCurrentlyTrialing:
           type: boolean
+          description: The true/false parameter indicating if this plan is currently in trial.
         isPlanTrialAllowed:
           type: boolean
+          description: The true/false parameter indicating if you can start a trial of this plan. For example, you can start a trial of a more advanced plan.
         isSalesContactRequired:
           type: boolean
+          description: The true/false parameter indicating if you need to contact the Sales team to sign up for this plan.
         ownsHigherPlan:
           type: boolean
+          description: The true/false parameter indicating if there is a more advanced plan.
         preferredCurrency:
           type: string
+          description: The default currency.

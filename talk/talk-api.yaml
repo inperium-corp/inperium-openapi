@@ -1686,6 +1686,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /widgets:
+    get:
+      tags:
+        - Widgets
+      summary: Widgets
+      operationId: getWidgets
+      parameters:
+        - name: from
+          in: query
+          description: The date when the widgets data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          description: The date when the widgets data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: who
+          in: query
+          description: The widgets can show data for the currently authenticated user (ME) or the whole team (TEAM).
+          schema:
+            type: string
+            enum:
+              - ME
+              - TEAM
+      responses:
+        200:
+          description: Widgets
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Widgets'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 components:
 
   securitySchemes:
@@ -2688,3 +2729,74 @@ components:
         - id
         - email
       description: User model
+
+    Widgets:
+      type: object
+      properties:
+        totalCalls:
+          $ref: '#/components/schemas/TotalCallsWidget'
+        missedCalls:
+          $ref: '#/components/schemas/MissedCallsWidget'
+        totalCallsTime:
+          $ref: '#/components/schemas/TotalCallsTimeWidget'
+        averageCallTime:
+          $ref: '#/components/schemas/AverageCallTimeWidget'  
+        liveCalls:
+          $ref: '#/components/schemas/LiveCallsWidget'  
+
+    TotalCallsWidget:
+      type: object
+      properties:
+        inbound: 
+          type: integer
+          format: int64
+        inboundDifference:
+          type: integer
+          format: int64        
+        outbound:
+          type: integer
+          format: int64      
+        outboundDifference:
+          type: integer
+          format: int64
+
+    MissedCallsWidget:
+      type: object
+      properties:
+        missedCalls: 
+          type: integer
+          format: int64
+        missedCallsDifference:
+          type: integer
+          format: int64        
+
+    TotalCallsTimeWidget:
+      type: object
+      properties:
+        totalTime: 
+          type: integer
+          format: int64
+        totalTimeDifference:
+          type: integer
+          format: int64  
+
+    AverageCallTimeWidget:
+      type: object
+      properties:
+        time: 
+          type: integer
+          format: int64
+        timeDifference:
+          type: integer
+          format: int64
+
+    LiveCallsWidget:
+      type: object
+      properties:
+        inProgress: 
+          type: integer
+          format: int64
+        inQueue:
+          type: integer
+          format: int64
+

@@ -1696,12 +1696,14 @@ paths:
       parameters:
         - name: from
           in: query
+          required: true
           description: The date when the widgets data set calculation starts
           schema:
             type: integer
             format: int64
         - name: to
           in: query
+          required: true
           description: The date when the widgets data set calculation starts
           schema:
             type: integer
@@ -2743,6 +2745,10 @@ components:
           $ref: '#/components/schemas/AverageCallTimeWidget'  
         liveCalls:
           $ref: '#/components/schemas/LiveCallsWidget'  
+        callsDuration:
+          $ref: '#/components/schemas/CallsDurationWidget'  
+        callsVolume:
+          $ref: '#/components/schemas/CallsVolumeWidget'  
 
     TotalCallsWidget:
       type: object
@@ -2763,10 +2769,10 @@ components:
     MissedCallsWidget:
       type: object
       properties:
-        missedCalls: 
+        missed: 
           type: integer
           format: int64
-        missedCallsDifference:
+        missedDifference:
           type: integer
           format: int64        
 
@@ -2799,4 +2805,50 @@ components:
         inQueue:
           type: integer
           format: int64
+
+    CallsDurationWidget:
+      type: object
+      properties:
+        durations:
+          type: array
+          items:
+            type: object
+            properties:
+              hour: 
+                type: integer
+              averageInbound:
+                type: integer
+                format: int64
+              averageOutbound:
+                type: integer
+                format: int64
+              todayInbound:
+                type: integer
+                format: int64
+              todayOutbound:
+                type: integer
+                format: int64
+
+    CallsVolumeWidget:
+      type: object
+      properties:
+        volumes:
+          type: array
+          items:
+            type: object
+            properties:
+              hour:
+                type: integer
+              answered:
+                type: integer
+                format: int64
+              missed:
+                type: integer
+                format: int64
+              voiceMails:
+                type: integer
+                format: int64
+
+                
+
 

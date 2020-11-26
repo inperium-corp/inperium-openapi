@@ -2749,6 +2749,8 @@ components:
           $ref: '#/components/schemas/CallsDurationWidget'  
         callsVolume:
           $ref: '#/components/schemas/CallsVolumeWidget'  
+        userStatisticsCalls:
+          $ref: '#/components/schemas/UserStatisticsCallsWidget'  
 
     TotalCallsWidget:
       type: object
@@ -2865,19 +2867,75 @@ components:
             type: object
             required:
               - hour
-              - answered
-              - missed
-              - voiceMails
+              - answeredInbound
+              - answeredOutbound
+              - missedInbound
+              - missedOutbounв
+              - voiceMailsInbound
+              - voiceMailsOutbound
             properties:
               hour:
                 type: integer
-              answered:
+              answeredInbound:
+                type: integer
+                format: int64
+              answeredOutbound:
+                type: integer
+                format: int64
+              missedInbound:
+                type: integer
+                format: int64
+              missedOutbound:
+                type: integer
+                format: int64                
+              voiceMailsInbound:
+                type: integer
+                format: int64
+              voiceMailsOutbound:
+                type: integer
+                format: int64                
+
+    UserStatisticsCallsWidget:
+      type: object
+      required:
+        - statistics
+      properties:
+        statistics:
+          type: array
+          items:
+            type: object
+            required:
+              - firstName
+              - lastName
+              - inbound
+              - outbound
+              - averageTime
+              - forwardedToVoiceMail
+              - missed
+              - total
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              avatarUrl: 
+                type: string
+              inbound:
+                type: integer
+                format: int64
+              outbound:
+                type: integer
+                format: int64
+              averageTime:
+                type: integer
+                format: int64
+              forwardedToVoiceMail:
                 type: integer
                 format: int64
               missed:
                 type: integer
                 format: int64
-              voiceMails:
+              total:
                 type: integer
                 format: int64
 

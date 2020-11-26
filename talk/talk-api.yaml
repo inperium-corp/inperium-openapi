@@ -2752,6 +2752,11 @@ components:
 
     TotalCallsWidget:
       type: object
+      required:
+        - inbound
+        - inboundDifference
+        - outbound
+        - outboundDifference
       properties:
         inbound: 
           type: integer
@@ -2768,6 +2773,9 @@ components:
 
     MissedCallsWidget:
       type: object
+      required:
+        - missed
+        - missedDifference
       properties:
         missed: 
           type: integer
@@ -2778,6 +2786,9 @@ components:
 
     TotalCallsTimeWidget:
       type: object
+      required:
+        - totalTime
+        - totalTimeDifference
       properties:
         totalTime: 
           type: integer
@@ -2788,6 +2799,9 @@ components:
 
     AverageCallTimeWidget:
       type: object
+      required:
+        - time
+        - timeDifference
       properties:
         time: 
           type: integer
@@ -2798,6 +2812,9 @@ components:
 
     LiveCallsWidget:
       type: object
+      required:
+        - inProgress
+        - inQueue
       properties:
         inProgress: 
           type: integer
@@ -2808,11 +2825,19 @@ components:
 
     CallsDurationWidget:
       type: object
+      required:
+        - durations
       properties:
         durations:
           type: array
           items:
             type: object
+            required:
+              - hour
+              - averageInbound
+              - averageOutbound
+              - todayInbound
+              - todayOutbound
             properties:
               hour: 
                 type: integer
@@ -2831,11 +2856,18 @@ components:
 
     CallsVolumeWidget:
       type: object
+      required:
+        - volumes
       properties:
         volumes:
           type: array
           items:
             type: object
+            required:
+              - hour
+              - answered
+              - missed
+              - voiceMails
             properties:
               hour:
                 type: integer

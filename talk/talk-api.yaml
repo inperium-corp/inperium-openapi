@@ -2751,6 +2751,9 @@ components:
           $ref: '#/components/schemas/CallsVolumeWidget'  
         userStatisticsCalls:
           $ref: '#/components/schemas/UserStatisticsCallsWidget'  
+        callsByCountries:
+          $ref: '#/components/schemas/CallsByCountriesWidget'            
+          
 
     TotalCallsWidget:
       type: object
@@ -2939,6 +2942,31 @@ components:
                 type: integer
                 format: int64
 
-                
-
+      
+    CallsByCountriesWidget:
+      type: object
+      required:
+        - calls
+      properties:
+        calls:
+          type: array
+          items:
+            type: object
+            required:
+              - countryCode
+              - inbound
+              - outbound
+              - total
+            properties:
+              countryCode:
+                type: string
+              inbound: 
+                type: integer
+                format: int64
+              outbound:
+                type: integer
+                format: int64
+              total: 
+                type: integer
+                format: int64
 

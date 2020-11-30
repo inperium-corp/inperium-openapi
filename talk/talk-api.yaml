@@ -2752,9 +2752,10 @@ components:
         userStatisticsCalls:
           $ref: '#/components/schemas/UserStatisticsCallsWidget'  
         callsByCountries:
-          $ref: '#/components/schemas/CallsByCountriesWidget'            
+          $ref: '#/components/schemas/CallsByCountriesWidget'  
+        agentStatus:
+          $ref: '#/components/schemas/AgentStatusWidget'  
           
-
     TotalCallsWidget:
       type: object
       required:
@@ -2969,4 +2970,18 @@ components:
               total: 
                 type: integer
                 format: int64
+
+    AgentStatusWidget:
+      type: object
+      required:
+        - avaliable
+        - onCall
+      properties:
+        avaliable:
+          type: integer
+          format: int64
+        onCall:
+          type: integer
+          format: int64
+
 

@@ -172,7 +172,7 @@ paths:
       tags:
         - Services
       summary: Retrieve a list of available phone numbers from Twilio
-      operationId: findPhoneNumbersAvailableToBuy
+      operationId: getPhoneNumbersAvailableToBuy
       parameters:
         - name: countryCode
           in: query
@@ -198,6 +198,39 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AvailablePhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /services/regulationDocuments:
+    get:
+      tags:
+        - Services
+      summary: Retrieve a list of regulation requirements for given country and phone number type
+      operationId: getRegulations
+      parameters:
+        - name: countryCode
+          in: query
+          description: Country of the regulations to find
+          required: true
+          schema:
+            $ref: '#/components/schemas/CountryCode'
+        - name: phoneNumberType
+          in: query
+          description: Phone number type of the regulations to find
+          required: true
+          schema:
+            $ref: '#/components/schemas/PhoneNumberType'
+      responses:
+        200:
+          description: The list of phone numbers has been retrieved
+          content:
+            application/json:
+              schema:
+                { }
+        #                $ref: '#/components/schemas/RegulatoryDocumentDescription' TODO finish
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -711,14 +744,24 @@ paths:
       summary: Retrieve regulatory bundles
       operationId: getRegulatoryBundles
       parameters:
+        - name: name
+          in: query
+          description: Filter bundles by "name"
+          schema:
+            type: string
         - name: type
           in: query
-          description: Filter parameter by "type"
+          description: Filter bundles by "type"
           schema:
             type: string
         - name: status
           in: query
-          description: Filter parameter by "status"
+          description: Filter bundles by "status"
+          schema:
+            type: string
+        - name: countryCode
+          in: query
+          description: Filter bundles by "countryCode"
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -810,9 +853,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Regulatory Bundles
+      summary: Patch regulatory bundle by id
+      operationId: patchRegulatoryBundle
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Regulatory bundle partial information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegulatoryBundlePatchRequest'
+        required: true
+      responses:
+        200:
+          description: The regulatory bundle have been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundle'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Delete a regulatory bundle by id
       operationId: deleteRegulatoryBundle
       parameters:
@@ -827,62 +897,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/{id}/sendToReview:
-    post:
-      tags:
-        - Regulatory bundles
-      summary: Send the regulatory bundle to review
-      operationId: sendRegulatoryBundleToReview
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The regulatory requirements have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundle'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/requirements:
-    get:
-      tags:
-        - Regulatory bundles
-      summary: Retrieve the list of requirements
-      operationId: getRegulatoryRequirements
-      parameters:
-        - name: countryCode
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CountryCode'
-        - name: type
-          in: query
-          required: true
-          description: Phone number type
-          schema:
-            type: string
-      responses:
-        200:
-          description: The regulatory requirements have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundleRequirements'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /regulatoryBundles/callbacks:
     post:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
       summary: Twilio callback for notify about changes status of regulatory bundle status
       operationId: regulatoryBundleCallback
       requestBody:
@@ -897,7 +915,7 @@ paths:
                 FailureReason:
                   type: string
       responses:
-        204:
+        200:
           description: An empty response that is used for OK non-returning operations
           content: { }
         default:
@@ -929,7 +947,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError' 
+                $ref: '#/components/schemas/ResponseError'
 
   /reports/{id}/data:
     get:
@@ -1796,7 +1814,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Widgets'
+                $ref: '#/components/schemas/Widgets'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -2376,6 +2394,13 @@ components:
           type: number
         currentPrice:
           type: number
+    RegulatoryBundlePatchRequest:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/RegulatoryBundleStatus'
     RegulatoryBundles:
       type: object
       properties:
@@ -2387,65 +2412,97 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     RegulatoryBundle:
       type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        name:
-          type: string
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-        type:
-          type: string
-        status:
-          type: string
+      required:
+        - id
+        - status
+      allOf:
+        - $ref: '#/components/schemas/RegulatoryBundleRequest'
+        - properties:
+            id:
+              $ref: '#/components/schemas/Id'
+            status:
+              $ref: '#/components/schemas/RegulatoryBundleStatus'
     RegulatoryBundleRequest:
       type: object
+      required:
+        - name
+        - countryCode
+        - type
+        - endUsers
+        - supportingDocument
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         name:
           type: string
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         type:
-          type: string
-        status:
-          type: string
-    RegulatoryBundleRequirements:
-      type: object
-      properties:
-        fields:
+          $ref: '#/components/schemas/PhoneNumberType'
+        endUsers:
           type: array
           items:
-            $ref: '#/components/schemas/RegulatoryBundleRequirementField'
-        documents:
+            $ref: '#/components/schemas/EndUser'
+        supportingDocument:
           type: array
           items:
-            $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
-    RegulatoryBundleRequirementField:
+            $ref: '#/components/schemas/SupportingDocument'
+    EndUser:
       type: object
       properties:
+        id:
+          $ref: '#/components/schemas/Id'
         name:
           type: string
-        type:
+        attributes:
+          additionalProperties:
+            type: string
+    SupportingDocument:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
           type: string
-        requirement_name:
-          type: string
-    RegulatoryBundleRequirementDocument:
+        attributes:
+          additionalProperties:
+            type: string
+    RegulatoryBundleStatus:
+      type: string
+      enum:
+        - DRAFT
+        - PENDING_REVIEW
+        - IN_REVIEW
+        - TWILIO_REJECTED
+        - TWILIO_APPROVED
+    RegulationEndUserDescription:
+      type: object
+    #      properties: TODO finish
+
+    RegulationSupportingDocumentDescription:
       type: object
       properties:
         name:
           type: string
         description:
           type: string
-        type:
-          type: string
-        requirement_name:
-          type: string
-        accepted_documents:
+        fields:
           type: array
           items:
-            $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
+            properties:
+              friendlyName:
+                type: string
+              machineName:
+                type: string
+              type:
+                type: string
+    RegulationFieldDescription:
+      type: object
+      properties:
+        friendlyName:
+          type: string
+        machineName:
+          type: string
+        type:
+          type: string
     CallChangeRequest:
       type: object
       properties:
@@ -2730,15 +2787,15 @@ components:
           items:
             $ref: '#/components/schemas/Report'
         paging:
-          $ref: '#/components/schemas/PageAndSort'  
-    
+          $ref: '#/components/schemas/PageAndSort'
+
     Report:
       type: object
       required:
         - id
         - name
       properties:
-        id: 
+        id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
@@ -2757,15 +2814,15 @@ components:
             - LINE
             - MULTI_BAR
         yAxis:
-          $ref: '#/components/schemas/ReportDataYAxis' 
+          $ref: '#/components/schemas/ReportDataYAxis'
         xAxises:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataXAxis' 
+            $ref: '#/components/schemas/ReportDataXAxis'
         xAxisesDifferences:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataXAxis'             
+            $ref: '#/components/schemas/ReportDataXAxis'
 
     ReportDataXAxis:
       type: object
@@ -2773,12 +2830,12 @@ components:
         - label
         - data
       properties:
-        label: 
+        label:
           type: string
         data:
           type: array
           items:
-            type: object   
+            type: object
 
     ReportDataYAxis:
       type: object
@@ -2786,12 +2843,12 @@ components:
         - label
         - data
       properties:
-        label: 
+        label:
           type: string
         data:
           type: array
           items:
-            type: object               
+            type: object
 
     DayOfWeek:
       type: string
@@ -2891,20 +2948,20 @@ components:
         totalCallsTime:
           $ref: '#/components/schemas/TotalCallsTimeWidget'
         averageCallTime:
-          $ref: '#/components/schemas/AverageCallTimeWidget'  
+          $ref: '#/components/schemas/AverageCallTimeWidget'
         liveCalls:
-          $ref: '#/components/schemas/LiveCallsWidget'  
+          $ref: '#/components/schemas/LiveCallsWidget'
         callsDuration:
-          $ref: '#/components/schemas/CallsDurationWidget'  
+          $ref: '#/components/schemas/CallsDurationWidget'
         callsVolume:
-          $ref: '#/components/schemas/CallsVolumeWidget'  
+          $ref: '#/components/schemas/CallsVolumeWidget'
         userStatisticsCalls:
-          $ref: '#/components/schemas/UserStatisticsCallsWidget'  
+          $ref: '#/components/schemas/UserStatisticsCallsWidget'
         callsByCountries:
-          $ref: '#/components/schemas/CallsByCountriesWidget'  
+          $ref: '#/components/schemas/CallsByCountriesWidget'
         agentStatus:
-          $ref: '#/components/schemas/AgentStatusWidget'  
-          
+          $ref: '#/components/schemas/AgentStatusWidget'
+
     TotalCallsWidget:
       type: object
       required:
@@ -2913,15 +2970,15 @@ components:
         - outbound
         - outboundDifference
       properties:
-        inbound: 
+        inbound:
           type: integer
           format: int64
         inboundDifference:
           type: integer
-          format: int64        
+          format: int64
         outbound:
           type: integer
-          format: int64      
+          format: int64
         outboundDifference:
           type: integer
           format: int64
@@ -2932,12 +2989,12 @@ components:
         - missed
         - missedDifference
       properties:
-        missed: 
+        missed:
           type: integer
           format: int64
         missedDifference:
           type: integer
-          format: int64        
+          format: int64
 
     TotalCallsTimeWidget:
       type: object
@@ -2945,12 +3002,12 @@ components:
         - totalTime
         - totalTimeDifference
       properties:
-        totalTime: 
+        totalTime:
           type: integer
           format: int64
         totalTimeDifference:
           type: integer
-          format: int64  
+          format: int64
 
     AverageCallTimeWidget:
       type: object
@@ -2958,7 +3015,7 @@ components:
         - time
         - timeDifference
       properties:
-        time: 
+        time:
           type: integer
           format: int64
         timeDifference:
@@ -2971,7 +3028,7 @@ components:
         - inProgress
         - inQueue
       properties:
-        inProgress: 
+        inProgress:
           type: integer
           format: int64
         inQueue:
@@ -2988,7 +3045,7 @@ components:
           items:
             $ref: '#/components/schemas/CallsDurationWidgetDurations'
 
-    CallsDurationWidgetDurations:            
+    CallsDurationWidgetDurations:
       type: object
       required:
         - hour
@@ -2997,7 +3054,7 @@ components:
         - todayInbound
         - todayOutbound
       properties:
-        hour: 
+        hour:
           type: integer
         averageInbound:
           type: integer
@@ -3011,7 +3068,7 @@ components:
         todayOutbound:
           type: integer
           format: int64
-          
+
     CallsVolumeWidget:
       type: object
       required:
@@ -3020,7 +3077,7 @@ components:
         volumes:
           type: array
           items:
-            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'  
+            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'
 
     CallsVolumeWidgetVolumes:
       type: object
@@ -3046,13 +3103,13 @@ components:
           format: int64
         missedOutbound:
           type: integer
-          format: int64                
+          format: int64
         voiceMailsInbound:
           type: integer
           format: int64
         voiceMailsOutbound:
           type: integer
-          format: int64          
+          format: int64
 
     UserStatisticsCallsWidget:
       type: object
@@ -3062,7 +3119,7 @@ components:
         statistics:
           type: array
           items:
-            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'  
+            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'
 
     UserStatisticsCallsWidgetStatistics:
       type: object
@@ -3080,7 +3137,7 @@ components:
           type: string
         lastName:
           type: string
-        avatarUrl: 
+        avatarUrl:
           type: string
         inbound:
           type: integer
@@ -3109,7 +3166,7 @@ components:
         calls:
           type: array
           items:
-            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'  
+            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'
 
     CallsByCountriesWidgetCalls:
       type: object
@@ -3121,13 +3178,13 @@ components:
       properties:
         countryCode:
           type: string
-        inbound: 
+        inbound:
           type: integer
           format: int64
         outbound:
           type: integer
           format: int64
-        total: 
+        total:
           type: integer
           format: int64
 
@@ -3143,4 +3200,3 @@ components:
         onCall:
           type: integer
           format: int64
-

@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Inperium Message Center Server API
   description: |
-    RESTful API providing access to Inperium Message Center.
+    This RESTful API provides access to the Inperium Message Center service.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -16,14 +16,30 @@ security:
 
 tags:
   - name: Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
   - name: Webhook
+    description: |
+      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
   - name: Accounts
+    description: |
+      Clients can connect multiple mail accounts to the Message Center. The number of accounts available per user depends on the subscription plan. For more information about the plans and limits, see the Hub API reference.
   - name: Threads
+    description: |
+      Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order. 
   - name: Messages
+    description: |
+      Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
   - name: Messages sending
   - name: Folders
+    description: |
+      The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
   - name: Drafts
+    description: |
+      Drafts are messages that were prepared and haven't been sent. These messages are kept in a separate folder and can be discarded or sent upon request.
   - name: Attachments
+    description: |
+      Users can send or receive files as attachments.
 
 paths:
   /health:

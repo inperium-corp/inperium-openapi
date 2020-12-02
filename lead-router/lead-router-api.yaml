@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Inperium Lead Router API
   description: |
-    This RESTful API provides access to the Lead Router service that manages incoming leads.
+    This RESTful API provides access to the Lead Router service that records and processes incoming requests such as new subscriptions, demo and beta access requests.
   version: 1.0.0-SNAPSHOT
 servers:
   - url: http://api.inperium.com/v1/leadRouter

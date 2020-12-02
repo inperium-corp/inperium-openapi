@@ -2843,29 +2843,32 @@ components:
         durations:
           type: array
           items:
-            type: object
-            required:
-              - hour
-              - averageInbound
-              - averageOutbound
-              - todayInbound
-              - todayOutbound
-            properties:
-              hour: 
-                type: integer
-              averageInbound:
-                type: integer
-                format: int64
-              averageOutbound:
-                type: integer
-                format: int64
-              todayInbound:
-                type: integer
-                format: int64
-              todayOutbound:
-                type: integer
-                format: int64
+            $ref: '#/components/schemas/CallsDurationWidgetDurations'
 
+    CallsDurationWidgetDurations:            
+      type: object
+      required:
+        - hour
+        - averageInbound
+        - averageOutbound
+        - todayInbound
+        - todayOutbound
+      properties:
+        hour: 
+          type: integer
+        averageInbound:
+          type: integer
+          format: int64
+        averageOutbound:
+          type: integer
+          format: int64
+        todayInbound:
+          type: integer
+          format: int64
+        todayOutbound:
+          type: integer
+          format: int64
+          
     CallsVolumeWidget:
       type: object
       required:
@@ -2874,36 +2877,39 @@ components:
         volumes:
           type: array
           items:
-            type: object
-            required:
-              - hour
-              - answeredInbound
-              - answeredOutbound
-              - missedInbound
-              - missedOutbounв
-              - voiceMailsInbound
-              - voiceMailsOutbound
-            properties:
-              hour:
-                type: integer
-              answeredInbound:
-                type: integer
-                format: int64
-              answeredOutbound:
-                type: integer
-                format: int64
-              missedInbound:
-                type: integer
-                format: int64
-              missedOutbound:
-                type: integer
-                format: int64                
-              voiceMailsInbound:
-                type: integer
-                format: int64
-              voiceMailsOutbound:
-                type: integer
-                format: int64                
+            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'  
+
+    CallsVolumeWidgetVolumes:
+      type: object
+      required:
+        - hour
+        - answeredInbound
+        - answeredOutbound
+        - missedInbound
+        - missedOutbounв
+        - voiceMailsInbound
+        - voiceMailsOutbound
+      properties:
+        hour:
+          type: integer
+        answeredInbound:
+          type: integer
+          format: int64
+        answeredOutbound:
+          type: integer
+          format: int64
+        missedInbound:
+          type: integer
+          format: int64
+        missedOutbound:
+          type: integer
+          format: int64                
+        voiceMailsInbound:
+          type: integer
+          format: int64
+        voiceMailsOutbound:
+          type: integer
+          format: int64          
 
     UserStatisticsCallsWidget:
       type: object
@@ -2913,42 +2919,44 @@ components:
         statistics:
           type: array
           items:
-            type: object
-            required:
-              - firstName
-              - lastName
-              - inbound
-              - outbound
-              - averageTime
-              - forwardedToVoiceMail
-              - missed
-              - total
-            properties:
-              firstName:
-                type: string
-              lastName:
-                type: string
-              avatarUrl: 
-                type: string
-              inbound:
-                type: integer
-                format: int64
-              outbound:
-                type: integer
-                format: int64
-              averageTime:
-                type: integer
-                format: int64
-              forwardedToVoiceMail:
-                type: integer
-                format: int64
-              missed:
-                type: integer
-                format: int64
-              total:
-                type: integer
-                format: int64
+            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'  
 
+    UserStatisticsCallsWidgetStatistics:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - inbound
+        - outbound
+        - averageTime
+        - forwardedToVoiceMail
+        - missed
+        - total
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl: 
+          type: string
+        inbound:
+          type: integer
+          format: int64
+        outbound:
+          type: integer
+          format: int64
+        averageTime:
+          type: integer
+          format: int64
+        forwardedToVoiceMail:
+          type: integer
+          format: int64
+        missed:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
       
     CallsByCountriesWidget:
       type: object
@@ -2958,24 +2966,27 @@ components:
         calls:
           type: array
           items:
-            type: object
-            required:
-              - countryCode
-              - inbound
-              - outbound
-              - total
-            properties:
-              countryCode:
-                type: string
-              inbound: 
-                type: integer
-                format: int64
-              outbound:
-                type: integer
-                format: int64
-              total: 
-                type: integer
-                format: int64
+            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'  
+
+    CallsByCountriesWidgetCalls:
+      type: object
+      required:
+        - countryCode
+        - inbound
+        - outbound
+        - total
+      properties:
+        countryCode:
+          type: string
+        inbound: 
+          type: integer
+          format: int64
+        outbound:
+          type: integer
+          format: int64
+        total: 
+          type: integer
+          format: int64
 
     AgentStatusWidget:
       type: object

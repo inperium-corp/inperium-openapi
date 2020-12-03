@@ -31,6 +31,8 @@ tags:
     description: |
       Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
   - name: Messages sending
+    description: |
+      The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to. 
   - name: Folders
     description: |
       The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
@@ -51,10 +53,10 @@ paths:
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response that is used for OK non-returning operations.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -64,18 +66,18 @@ paths:
     get:
       tags:
         - Webhook
-      summary: TBD
-      description: TBD
+      summary: Connect a mailbox
+      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas. 
       operationId: getNylasAuthUrl
       responses:
         200:
-          description: TBD
+          description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
           content:
             application/json:
               schema:
                 type: string
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -85,27 +87,27 @@ paths:
     get:
       tags:
         - Webhook
-      summary: TBD
-      description: TBD
+      summary: Register a mailbox
+      description: Use this endpoint to get the confirmation token from Nylas. 
       operationId: registerToken
       parameters:
         - name: code
           in: query
-          description: TBD
+          description: After you follow the auth URL and submit credentials, Nylas issues a verification code. 
           required: true
           schema:
             type: string
         - name: state
           in: query
-          description: TBD
+          description: The ID of the user.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: TBD
+          description: Returns a confirmation token.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -114,13 +116,13 @@ paths:
     get:
       tags:
         - Accounts
-      summary: TBD
-      description: TBD
+      summary: Retrieve accounts
+      description: Use this endpoint to get a list of conntect accounts. This endpoint supports paging and sorting. 
       operationId: getAccounts
       parameters:
         - name: email
           in: query
-          description: TBD
+          description: The email account connected to the Inperium Message Center.
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -128,13 +130,13 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: TBD
+          description: Returns the list of accounts.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -144,20 +146,20 @@ paths:
     get:
       tags:
         - Accounts
-      summary: TBD
-      description: TBD
+      summary: Retrieve an account
+      description: Use this endpoint to locate a specific email account and retrieve its details.
       operationId: getAccount
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns the Account object.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -165,16 +167,16 @@ paths:
     delete:
       tags:
         - Accounts
-      summary: TBD
-      description: TBD
+      summary: Delete an account
+      description: Use this endpoint to disconnect and remove a mailbox from Inperium.
       operationId: deleteAccount
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: TBD
+          description: The mailbox has been removed.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -184,16 +186,16 @@ paths:
     get:
       tags:
         - Accounts
-      summary: TBD
-      description: TBD
+      summary: Sync a mailbox
+      description: Use this endpoint to synchronize data with a mailbox.
       parameters:
           - $ref: '#/components/parameters/ResourceId'
       operationId: syncAccount
       responses:
         200:
-          description: TBD
+          description: The mailbox and the Message Center are now in sync.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -203,39 +205,47 @@ paths:
     get:
       tags:
         - Threads
-      summary: TBD
-      description: TBD
+      summary: Retrieve theads
+      description: Use this endpoint to get message threads. This endpoint supports paging and sorting.
       operationId: getThreads
       parameters:
         - name: folderId
+          description: The ID of the folder where the thread belongs to.
           in: query
           schema:
             type: string
         - name: toMe
+          description: This parameter marks if the thread is addressed to a user.
           in: query
           schema:
             type: string
         - name: flagged
+          description: This parameter marks if the thread has a flag on it.
           in: query
           schema:
             type: string
         - name: unread
+          description: This parameter marks of the thread contains unread messages.
           in: query
           schema:
             type: string
         - name: mentions
+          description: This parameter marks if the user is mentioned somewhere down the thread.
           in: query
           schema:
             type: string
         - name: attachments
+          description: This parameter allows searching and filtering by attached files.
           in: query
           schema:
             type: string
         - name: body
+          description: This parameter allows searching in the message body.
           in: query
           schema:
             type: string
         - name: userAccountId
+          description: This parameter allows searching and filtering by the user ID.
           in: query
           schema:
             type: string
@@ -244,13 +254,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: TBD
+          description: Returns the list of threads.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Threads'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

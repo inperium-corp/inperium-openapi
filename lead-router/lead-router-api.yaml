@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Inperium Lead Router API
   description: |
-    RESTful API to internally route leads within Inperium.
+    This RESTful API provides access to the Lead Router service that records and processes incoming requests such as new subscriptions, demo and beta access requests.
   version: 1.0.0-SNAPSHOT
 servers:
   - url: http://api.inperium.com/v1/leadRouter
@@ -11,7 +11,10 @@ servers:
 tags:
   - name: Activities
     description: |
-      Activities are events performed by a lead which are internally logged/recorded for the Inperium sales and support team.
+      Activities are events performed by leads. For example, a customer requests a beta access to a new product. These activities are internally recorded by the Lead Router service.
+  - name:  Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.      
 
 paths:
 
@@ -19,12 +22,12 @@ paths:
     get:
       tags:
         - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
       responses:
         200:
-          description: The server is healthy.
+          description: OK
           content: {}
         default:
           description: Bad request, security violation, or internal server error.
@@ -37,7 +40,7 @@ paths:
     post:
       tags:
         - Activities
-      summary: Create an activity.
+      summary: Create an activity
       description: Use this endpoint to create a new activity.
       operationId: createActivity
       requestBody:
@@ -65,6 +68,7 @@ components:
 
     ResourceId:
       name: id
+      description: A unique identifier.
       in: path
       required: true
       schema:
@@ -76,30 +80,31 @@ components:
     Id:
       type: string
       format: uuid
+      description: A unique identifier.
 
     ResponseError:
       type: object
-      description: The common response error model for this API.
+      description: The common response error model for the Lead Router API.
       required:
         - status
         - message
       properties:
         status:
           type: string
-          description: Http status code
+          description: The HTTP status code.
         code:
           type: string
           format: uuid
-          description: Optional code of the exception
+          description: An optional code of the exception.
         message:
           type: string
-          description: Error message
+          description: The error message text.
         errors:
           type: object
-          description: Map of field -> list of errors
+          description: Mapping the fields to the list of errors.
 
     ActivityRequest:
-      description: A model that combines all lead activity requests that we internally log.
+      description: The ActivityRequest object combines all types of lead activity requests that Inperium internally logs.
       type: object
       example: {}
       discriminator:
@@ -126,10 +131,11 @@ components:
       properties:
         lastReferrerUrl:
           type: string
+          description: The URL address.
 
     SubscriptionActivityRequest:
       type: object
-      description: The request model to log an activity for a lead that subscribed to our email list.
+      description: The request model to log an activity for a lead that subscribed to the Inperium mail list.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object
@@ -138,10 +144,11 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
 
     ContentDownloadActivityRequest:
       type: object
-      description: The request model to log an activity for a lead that downloaded some of our content.
+      description: The request model to log an activity for a lead that downloaded a piece of Inperium content.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object
@@ -152,14 +159,17 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             firstName:
               type: string
+              description: The first name of the lead.
             downloadedContentName:
               type: string
+              description: The content identifier or title.
 
     ProfileCompletionActivityRequest:
       type: object
-      description: The request model to log an activity for a lead that completed his profile as part of the onboarding.
+      description: The request model to log an activity for a lead that completed the profile as part of the onboarding procedure.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object
@@ -174,16 +184,22 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             firstName:
               type: string
+              description: The lead's given name.
             lastName:
               type: string
+              description: The lead's family name.
             jobTitle:
               type: string
+              description: The lead's job title.
             companyName:
               type: string
+              description: The name of the tenant company.
             companySize:
               type: string
+              description: The number of employees. 
               enum:
                 - 1
                 - 2
@@ -196,6 +212,7 @@ components:
                 - 10001
             industry:
               type: string
+              description: The business area the company operates in.
               enum:
                 - SOFTWARE
                 - REAL_ESTATE
@@ -219,13 +236,16 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             product:
               type: string
+              description: The Inperium product the lead is evaluating.
               enum:
                 - SELL
                 - TALK
             plan:
               type: string
+              description: The subscription plan the lead has chosen.
               enum:
                 - ESSENTIAL
                 - PROFESSIONAL
@@ -244,16 +264,21 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             product:
               type: string
+              description: The Inperium product the lead requests Beta access to.
               enum:
                 - TALK
             firstName:
               type: string
+              description: The lead's given name.
             lastName:
               type: string
+              description: The lead's family name.
             message:
               type: string
+              description: The Beta access request message.
 
     DemoRequestActivityRequest:
       type: object
@@ -270,14 +295,19 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             firstName:
               type: string
+              description: The lead's given name.
             lastName:
               type: string
+              description: The lead's family name.
             subject:
               type: string
+              description: The subject of the message.
             message:
               type: string
+              description: The demo request message provided by the lead.
 
     AccountCreationActivityRequest:
       type: object
@@ -290,6 +320,7 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
 
     EmailVerificationActivityRequest:
       type: object
@@ -302,6 +333,7 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
 
     ContactUsActivityRequest:
       type: object
@@ -318,11 +350,16 @@ components:
           properties:
             email:
               type: string
+              description: The lead's email address.
             firstName:
               type: string
+              description: The lead's given name.
             lastName:
               type: string
+              description: The lead's family name.
             subject:
               type: string
+              description: The message subject.
             message:
               type: string
+              description: The message text submitted by the lead.

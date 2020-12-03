@@ -212,6 +212,12 @@ paths:
       summary: Retrieve a list of phone numbers
       operationId: getPhoneNumbers
       parameters:
+        - name: userId
+          in: query
+          description: Filter by the user assignment
+          schema:
+            type: string
+            example: eq::fda3787b-9f4e-45e3-91a3-46d61003c2d7
         - name: assignmentType
           in: query
           description: Filter by the assignment type
@@ -894,6 +900,74 @@ paths:
         204:
           description: An empty response that is used for OK non-returning operations
           content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /reports:
+    get:
+      tags:
+        - Reports
+      summary: Retrieve a list of available reports.
+      operationId: getReports
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The list of reports has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reports'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError' 
+
+  /reports/{id}/data:
+    get:
+      tags:
+        - Report Data
+      summary: Gets data of the specific report.
+      operationId: getReportData
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: from
+          in: query
+          required: true
+          description: The date when the report data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: true
+          description: The date when the report data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: who
+          in: query
+          description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
+          schema:
+            type: string
+            enum:
+              - ME
+              - TEAM
+      responses:
+        200:
+          description: The data of the report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportData'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -1680,6 +1754,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserSettings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /widgets:
+    get:
+      tags:
+        - Widgets
+      summary: Widgets
+      operationId: getWidgets
+      parameters:
+        - name: from
+          in: query
+          required: true
+          description: The date when the widgets data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: true
+          description: The date when the widgets data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: who
+          in: query
+          description: The widgets can show data for the currently authenticated user (ME) or the whole team (TEAM).
+          schema:
+            type: string
+            enum:
+              - ME
+              - TEAM
+      responses:
+        200:
+          description: Widgets
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Widgets'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -2601,6 +2718,81 @@ components:
           description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
+
+    Reports:
+      type: object
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Report'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'  
+    
+    Report:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id: 
+          $ref: '#/components/schemas/Id'
+        name:
+          type: string
+
+    ReportData:
+      type: object
+      required:
+        - chartType
+        - yAxis
+        - xAxises
+        - xAxisesDifferences
+      properties:
+        chartType:
+          type: string
+          enum:
+            - LINE
+            - MULTI_BAR
+        yAxis:
+          $ref: '#/components/schemas/ReportDataYAxis' 
+        xAxises:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportDataXAxis' 
+        xAxisesDifferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportDataXAxis'             
+
+    ReportDataXAxis:
+      type: object
+      required:
+        - label
+        - data
+      properties:
+        label: 
+          type: string
+        data:
+          type: array
+          items:
+            type: object   
+
+    ReportDataYAxis:
+      type: object
+      required:
+        - label
+        - data
+      properties:
+        label: 
+          type: string
+        data:
+          type: array
+          items:
+            type: object               
+
     DayOfWeek:
       type: string
       enum:
@@ -2688,3 +2880,267 @@ components:
         - id
         - email
       description: User model
+
+    Widgets:
+      type: object
+      properties:
+        totalCalls:
+          $ref: '#/components/schemas/TotalCallsWidget'
+        missedCalls:
+          $ref: '#/components/schemas/MissedCallsWidget'
+        totalCallsTime:
+          $ref: '#/components/schemas/TotalCallsTimeWidget'
+        averageCallTime:
+          $ref: '#/components/schemas/AverageCallTimeWidget'  
+        liveCalls:
+          $ref: '#/components/schemas/LiveCallsWidget'  
+        callsDuration:
+          $ref: '#/components/schemas/CallsDurationWidget'  
+        callsVolume:
+          $ref: '#/components/schemas/CallsVolumeWidget'  
+        userStatisticsCalls:
+          $ref: '#/components/schemas/UserStatisticsCallsWidget'  
+        callsByCountries:
+          $ref: '#/components/schemas/CallsByCountriesWidget'  
+        agentStatus:
+          $ref: '#/components/schemas/AgentStatusWidget'  
+          
+    TotalCallsWidget:
+      type: object
+      required:
+        - inbound
+        - inboundDifference
+        - outbound
+        - outboundDifference
+      properties:
+        inbound: 
+          type: integer
+          format: int64
+        inboundDifference:
+          type: integer
+          format: int64        
+        outbound:
+          type: integer
+          format: int64      
+        outboundDifference:
+          type: integer
+          format: int64
+
+    MissedCallsWidget:
+      type: object
+      required:
+        - missed
+        - missedDifference
+      properties:
+        missed: 
+          type: integer
+          format: int64
+        missedDifference:
+          type: integer
+          format: int64        
+
+    TotalCallsTimeWidget:
+      type: object
+      required:
+        - totalTime
+        - totalTimeDifference
+      properties:
+        totalTime: 
+          type: integer
+          format: int64
+        totalTimeDifference:
+          type: integer
+          format: int64  
+
+    AverageCallTimeWidget:
+      type: object
+      required:
+        - time
+        - timeDifference
+      properties:
+        time: 
+          type: integer
+          format: int64
+        timeDifference:
+          type: integer
+          format: int64
+
+    LiveCallsWidget:
+      type: object
+      required:
+        - inProgress
+        - inQueue
+      properties:
+        inProgress: 
+          type: integer
+          format: int64
+        inQueue:
+          type: integer
+          format: int64
+
+    CallsDurationWidget:
+      type: object
+      required:
+        - durations
+      properties:
+        durations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallsDurationWidgetDurations'
+
+    CallsDurationWidgetDurations:            
+      type: object
+      required:
+        - hour
+        - averageInbound
+        - averageOutbound
+        - todayInbound
+        - todayOutbound
+      properties:
+        hour: 
+          type: integer
+        averageInbound:
+          type: integer
+          format: int64
+        averageOutbound:
+          type: integer
+          format: int64
+        todayInbound:
+          type: integer
+          format: int64
+        todayOutbound:
+          type: integer
+          format: int64
+          
+    CallsVolumeWidget:
+      type: object
+      required:
+        - volumes
+      properties:
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'  
+
+    CallsVolumeWidgetVolumes:
+      type: object
+      required:
+        - hour
+        - answeredInbound
+        - answeredOutbound
+        - missedInbound
+        - missedOutbounв
+        - voiceMailsInbound
+        - voiceMailsOutbound
+      properties:
+        hour:
+          type: integer
+        answeredInbound:
+          type: integer
+          format: int64
+        answeredOutbound:
+          type: integer
+          format: int64
+        missedInbound:
+          type: integer
+          format: int64
+        missedOutbound:
+          type: integer
+          format: int64                
+        voiceMailsInbound:
+          type: integer
+          format: int64
+        voiceMailsOutbound:
+          type: integer
+          format: int64          
+
+    UserStatisticsCallsWidget:
+      type: object
+      required:
+        - statistics
+      properties:
+        statistics:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'  
+
+    UserStatisticsCallsWidgetStatistics:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - inbound
+        - outbound
+        - averageTime
+        - forwardedToVoiceMail
+        - missed
+        - total
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        avatarUrl: 
+          type: string
+        inbound:
+          type: integer
+          format: int64
+        outbound:
+          type: integer
+          format: int64
+        averageTime:
+          type: integer
+          format: int64
+        forwardedToVoiceMail:
+          type: integer
+          format: int64
+        missed:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+      
+    CallsByCountriesWidget:
+      type: object
+      required:
+        - calls
+      properties:
+        calls:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'  
+
+    CallsByCountriesWidgetCalls:
+      type: object
+      required:
+        - countryCode
+        - inbound
+        - outbound
+        - total
+      properties:
+        countryCode:
+          type: string
+        inbound: 
+          type: integer
+          format: int64
+        outbound:
+          type: integer
+          format: int64
+        total: 
+          type: integer
+          format: int64
+
+    AgentStatusWidget:
+      type: object
+      required:
+        - avaliable
+        - onCall
+      properties:
+        avaliable:
+          type: integer
+          format: int64
+        onCall:
+          type: integer
+          format: int64
+

@@ -1566,8 +1566,6 @@ components:
               type: array
               items:
                 type: string
-            tenantId:
-              $ref: "#/components/schemas/Id"
 
     UserAccountCreationRequest:
       type: object

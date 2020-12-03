@@ -2746,20 +2746,26 @@ components:
     ReportData:
       type: object
       required:
+        - chartType
         - xAxis
-        - yAxises
-        - yAxisesDifferences
+        - xAxises
+        - xAxisesDifferences
       properties:
-        xAxis:
-          $ref: '#/components/schemas/ReportDataXAxis' 
-        yAxises:
+        chartType:
+          type: string
+          enum:
+            - LINE
+            - MULTI_BAR
+        yAxis:
+          $ref: '#/components/schemas/ReportDataYAxis' 
+        xAxises:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataYAxis' 
-        yAxisesDifferences:
+            $ref: '#/components/schemas/ReportDataXAxis' 
+        xAxisesDifferences:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataYAxis'             
+            $ref: '#/components/schemas/ReportDataXAxis'             
 
     ReportDataXAxis:
       type: object

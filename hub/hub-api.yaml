@@ -375,98 +375,26 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /tenants/create:
-    post:
+    patch:
+      summary: Update tenant details partially
+      description: Use this endpoint to update a specific tenant partially.
+      operationId: updatePartialTenant
       tags:
         - Tenants
-      summary: Create a new tenant
-      description: Use this endpoint to create a tenant. Send a POST request to this endpoint to add a new Inperium tenant.
-      operationId: createTenant
-      requestBody:
-        description: Pass information about the new tenant
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CreateTenantRequest"
-      responses:
-        201:
-          description: A new account has been created
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/confirm/{confirmationToken}:
-    get:
-      tags:
-        - Tenants
-      summary: Confirm the account of the tenant's owner
-      description: Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
-      operationId: confirmTenant
       parameters:
-        - name: confirmationToken
-          in: path
-          description: Confirmation token
-          required: true
-          schema:
-            type: string
-            format: uuid
-      responses:
-        200:
-          description: The tenant owner has successfully been authorized
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/confirm:
-    get:
-      tags:
-        - Tenants
-      summary: Resend the confirmation email
-      operationId: resendTenantConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: User email
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/onboard:
-    put:
-      tags:
-        - Tenants
-      summary: Onboard tenant
-      description: Use this endpoint to add information about the tenant such as name, company name, employee count to finish the onboarding.
-      operationId: onboardTenant
+        - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
-              $ref: "#/components/schemas/OnboardTenantRequest"
+              $ref: "#/components/schemas/TenantPartialRequest"
       responses:
         200:
-          description: The tenant has completed onboarding
+          description: The tenant has been updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -631,74 +559,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /users/invite:
+  /users/verify:
     post:
       tags:
         - Users
-      summary: Invite a new user
-      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user. He or she will receieve an invitation by email.
-      operationId: inviteUser
-      requestBody:
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserInviteRequest"
-      responses:
-        201:
-          description: A new user has been invited
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/invite/confirm:
-    post:
-      tags:
-        - Users
-      summary: Confirm an invitation
-      description: Use this endpoint accept the invitation. Pass user credentials to confirm invitation and finilize the process.
-      operationId: confirmUserInvite
+      summary: Verify a new user
+      description: Use this endpoint to verify a new user and activate the account.
+      operationId: verifyUser
       requestBody:
         required: true
         content:
           "*/*":
             schema:
-              $ref: "#/components/schemas/UserConfirmInviteRequest"
+              $ref: "#/components/schemas/UserVerificationRequest"
       responses:
         200:
-          description: The password has successfully been reset.
+          description: The user account has successfully been verified.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    get:
-      tags:
-        - Users
-      summary: Resend the confirmation email
-      operationId: resendUserConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: User email
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -825,6 +705,30 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
 
   /users:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationRequest"
+      responses:
+        201:
+          description: A new user has been created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
     get:
       summary: Retrieve users
       description: Use this endpoint to get a list of users. Leverage query parameters to search for a specific user or users. This endpoint supports paging and sorting.
@@ -917,7 +821,7 @@ paths:
     patch:
       summary: Update user details partially
       description: Use this endpoint to update a specific user, for example promote user to admin or update his first/last name.
-      operationId: updateUserPartially
+      operationId: updatePartialUser
       tags:
         - Users
       parameters:
@@ -1624,6 +1528,60 @@ components:
           items:
             $ref: "#/components/schemas/LimitUsage"
 
+    UserCreationRequest:
+      description: A model that combines all user creation requests.
+      type: object
+      example: {}
+      discriminator:
+        propertyName: type
+        mapping:
+          invitation: "#/components/schemas/UserInvitationRequest"
+          INVITATION: "#/components/schemas/UserInvitationRequest"
+          account_creation: "#/components/schemas/UserAccountCreationRequest"
+          ACCOUNT_CREATION: "#/components/schemas/UserAccountCreationRequest"
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
+    UserInvitationRequest:
+      type: object
+      description: A model to create a new user by inviting them to an existing account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - firstName
+            - lastName
+            - tenantId
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+            isAdmin:
+              type: boolean
+            roles:
+              type: array
+              items:
+                type: string
+
+    UserAccountCreationRequest:
+      type: object
+      description: A model to create a new user for a new Inperium account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - password
+            - confirmPassword
+          properties:
+            password:
+              type: string
+            confirmPassword:
+              type: string
+
     User:
       type: object
       description: User model
@@ -1700,6 +1658,8 @@ components:
           type: string
         lastName:
           type: string
+        jobTitle:
+          type: string
         roles:
           type: array
           items:
@@ -1709,40 +1669,16 @@ components:
           items:
             $ref: "#/components/schemas/Id"
 
-    UserInviteRequest:
+    UserVerificationRequest:
       type: object
+      description: User verification model
       required:
-        - firstName
-        - lastName
         - email
+        - oneTimePassword
       properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
         email:
           type: string
-        isAdmin:
-          type: boolean
-        roles:
-          type: array
-          items:
-            type: string
-
-    UserConfirmInviteRequest:
-      type: object
-      description: Invitation model
-      required:
-        - passwordResetToken
-        - password
-        - confirmPassword
-      properties:
-        passwordResetToken:
-          type: string
-          format: uuid
-        password:
-          type: string
-        confirmPassword:
+        oneTimePassword:
           type: string
 
     UserForgotPasswordRequest:
@@ -1775,7 +1711,7 @@ components:
           type: string
         industry:
           type: string
-        finishedOnboarding:
+        completedProfile:
           type: boolean
         addressLine1:
           type: string
@@ -1815,6 +1751,36 @@ components:
         updatedAt:
           type: integer
           format: int64
+
+    TenantPartialRequest:
+      type: object
+      description: Tenant partial update model
+      properties:
+        companyName:
+          type: string
+        companySize:
+          type: string
+          enum:
+            - 1
+            - 2
+            - 11
+            - 51
+            - 201
+            - 501
+            - 1001
+            - 5001
+            - 10001
+        industry:
+          type: string
+          enum:
+            - SOFTWARE
+            - REAL_ESTATE
+            - FINANCIAL_SERVICES
+            - RETAIL
+            - MEDIA
+            - HEALTHCARE
+            - GOVERNMENT
+            - OTHER
 
     TenantAddressRequest:
       type: object
@@ -2067,58 +2033,18 @@ components:
       type: object
       description: Model for changing user password
       required:
-        - passwordResetToken
+        - email
+        - oneTimePassword
         - confirmPassword
         - newPassword
       properties:
-        passwordResetToken:
+        email:
           type: string
-          format: uuid
+        oneTimePassword:
+          type: string
         confirmPassword:
           type: string
         newPassword:
-          type: string
-
-    OnboardTenantRequest:
-      type: object
-      required:
-        - firstName
-        - lastName
-        - jobTitle
-        - companyName
-        - companySize
-        - industry
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        companySize:
-          type: string
-          enum:
-            - 1
-            - 2
-            - 11
-            - 51
-            - 201
-            - 501
-            - 1001
-            - 5001
-            - 10001
-        industry:
-          type: string
-          enum:
-            - SOFTWARE
-            - REAL_ESTATE
-            - FINANCIAL_SERVICES
-            - RETAIL
-            - MEDIA
-            - HEALTHCARE
-            - GOVERNMENT
-            - OTHER
-        jobTitle:
           type: string
 
     Product:

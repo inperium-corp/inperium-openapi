@@ -2747,7 +2747,7 @@ components:
       type: object
       required:
         - chartType
-        - xAxis
+        - yAxis
         - xAxises
         - xAxisesDifferences
       properties:
@@ -3143,5 +3143,4 @@ components:
         onCall:
           type: integer
           format: int64
-
 

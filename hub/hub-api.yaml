@@ -392,21 +392,22 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     patch:
-      summary: Update tenant details partially
-      description: Use this endpoint to update a specific tenant partially.
+      summary: Partially update a tenant
+      description: Use this endpoint to partially update a specific tenant.
       operationId: updatePartialTenant
       tags:
         - Tenants
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the TenantPartialRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/TenantPartialRequest"
       responses:
         200:
-          description: The tenant has been updated
+          description: Returns an updated Tenant object.
           content:
             application/json:
               schema:
@@ -732,23 +733,24 @@ paths:
     post:
       tags:
         - Users
-      summary: Create a new user
+      summary: Create a user
       description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user.
       operationId: createUser
       requestBody:
+        description: In the request body, pass the UserCreationRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/UserCreationRequest"
       responses:
         201:
-          description: A new user has been created
+          description: Returns the newly created user account.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -763,18 +765,18 @@ paths:
         - name: fullName
           in: query
           description: >
-            Allows searching both in "last name" or "first name".
+            The user name. This parameter allows searching both in "last name" or "first name".
             Supports eq, neq, in, nin, like, notlike.
           schema:
             type: string
         - name: id
           in: query
-          description: Unique ID of the user.
+          description: The unique ID of the user.
           schema:
             type: string
         - name: email
           in: query
-          description: Email address associated with the user.
+          description: The email address associated with the user.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -1206,7 +1208,7 @@ paths:
           example: in::ACTIVE,TRIALING
         - name: product
           in: query
-          description: The product th subscription is associated with.
+          description: The product the subscription is associated with.
           schema:
             type: string
           example: eq::SELL
@@ -1593,7 +1595,7 @@ components:
             $ref: "#/components/schemas/LimitUsage"
 
     UserCreationRequest:
-      description: A model that combines all user creation requests.
+      description: A request model that combines all user creation requests.
       type: object
       example: {}
       discriminator:
@@ -1608,10 +1610,11 @@ components:
       properties:
         email:
           type: string
+          description: The email addess of the user.
 
     UserInvitationRequest:
       type: object
-      description: A model to create a new user by inviting them to an existing account.
+      description: A request model to create a new user by inviting them to an existing account.
       allOf:
         - $ref: "#/components/schemas/UserCreationRequest"
         - type: object
@@ -1622,18 +1625,22 @@ components:
           properties:
             firstName:
               type: string
+              description: The given name of the user.
             lastName:
               type: string
+              description: The family name of the user.
             isAdmin:
               type: boolean
+              description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
             roles:
               type: array
+              description: The roles assigned to the user.
               items:
                 type: string
 
     UserAccountCreationRequest:
       type: object
-      description: A model to create a new user for a new Inperium account.
+      description: A request model to create a new user for a new Inperium account.
       allOf:
         - $ref: "#/components/schemas/UserCreationRequest"
         - type: object
@@ -1643,8 +1650,10 @@ components:
           properties:
             password:
               type: string
+              description: The user password.
             confirmPassword:
               type: string
+              description: The user password.
 
     User:
       type: object
@@ -1767,15 +1776,17 @@ components:
 
     UserVerificationRequest:
       type: object
-      description: User verification model
+      description: A request model that facilitates user verification.
       required:
         - email
         - oneTimePassword
       properties:
         email:
           type: string
+          description: The email address associated with the user account.
         oneTimePassword:
           type: string
+          description: The one-off verification code sent to the user.
 
     UserForgotPasswordRequest:
       type: object
@@ -1871,12 +1882,14 @@ components:
 
     TenantPartialRequest:
       type: object
-      description: Tenant partial update model
+      description: A request model to partially update a tenant.
       properties:
         companyName:
           type: string
+          description: The name of the company.
         companySize:
           type: string
+          description: The number of employees.
           enum:
             - 1
             - 2
@@ -1889,6 +1902,7 @@ components:
             - 10001
         industry:
           type: string
+          description: The business area the company belongs to.
           enum:
             - SOFTWARE
             - REAL_ESTATE
@@ -1901,7 +1915,7 @@ components:
 
     TenantAddressRequest:
       type: object
-      description: The incoming object containing information about the tenant's address.
+      description: A request model containing information about the tenant's address.
       properties:
         addressLine1:
           type: string
@@ -2229,8 +2243,10 @@ components:
       properties:
         email:
           type: string
+          description: The email address associated with the user.
         oneTimePassword:
           type: string
+          description: The one-off code sent to the user.
         confirmPassword:
           type: string
           description: The new password (must be the same as 'newPassword').
@@ -2526,7 +2542,7 @@ components:
 
     PlanFullInfo:
       type: object
-      description: Full information of a plan for a specific tenant.
+      description: The PlanFullInfo object contains complete information about a plan enabled for a specific tenant.
       allOf:
         - $ref: '#/components/schemas/Plan'
         - properties:
@@ -2547,6 +2563,7 @@ components:
 
     PlanAffordance:
       type: string
+      description: The PlanAffordance object defines what licensing options available for this plan. For example, user can start a trial of this plan to upgrade to this plan.
       enum:
         - TRIAL
         - PURCHASE
@@ -2561,6 +2578,7 @@ components:
       properties:
         translation:
           type: string
+          description: The text in a foreign langauge.
       allOf:
         - $ref: '#/components/schemas/Feature'
         - $ref: '#/components/schemas/Limit'

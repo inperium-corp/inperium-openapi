@@ -2509,7 +2509,7 @@ paths:
     get:
       tags:
         - Payments
-      summary: List ayments
+      summary: List payments
       description: Use this endpoint to get a payment log and see what invoices have been paid. This operation supports paging and sorting. Search for specific payments or narrow down the result to similar payments (e.g., by credit card)
       operationId: getPayments
       parameters:

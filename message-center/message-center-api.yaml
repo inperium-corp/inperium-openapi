@@ -269,20 +269,20 @@ paths:
     get:
       tags:
         - Threads
-      summary: TBD
-      description: TBD
+      summary: Retrieve a thread
+      description: Use this endpoint to get a specific thread by its ID.
       operationId: getThread
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns the Thread object. 
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Thread'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -290,26 +290,26 @@ paths:
     put:
       tags:
         - Threads
-      summary: TBD
-      description: TBD
+      summary: Update a thread
+      description: Use this endpoint to update an existing thread. The thread contents will be overwritten.
       operationId: updateThread
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: TBD
+        description: In the request body, pass the ThreadRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ThreadRequest'
       responses:
         204:
-          description: TBD
+          description: Returns an updated thread.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Thread'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -318,11 +318,12 @@ paths:
     get:
       tags:
         - Messages
-      summary: TBD
-      description: TBD
+      summary: Retrieve messages
+      description: Use this endpoint to retrieve a list of messages. This endpoint supports paging and sorting.
       operationId: getMessages
       parameters:
         - name: threadId
+          description: An ID of the thread where the message belongs to.
           in: query
           schema:
             type: string
@@ -332,38 +333,38 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: TBD
+          description: Returns the list the messages.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Messages'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     post:
-      summary: TBD
-      description: TBD
+      summary: Create a message
+      description: Use this endpoint to compose a new message.
       operationId: sendMessage
       tags:
         - Messages sending
       requestBody:
-        description: TBD
+        description: In the request body, pass the MessageSendRequest object. 
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MessageSendRequest'
       responses:
         200:
-          description: TBD
+          description: Returns a newly created message.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -372,8 +373,8 @@ paths:
     get:
       tags:
         - Messages
-      summary: TBD
-      description: TBD
+      summary: Retrieve a message
+      description: Use this endpoint to get a specific message by its ID. 
       operationId: getMessage
       parameters:
         - $ref: '#/components/parameters/ResourceId'

@@ -2601,13 +2601,7 @@ components:
         - currency
       properties:
         price:
-          type: number
-          format: double
-          description: The price per user of the calculated subscription without discount.
-        discountedPrice:
-          type: number
-          format: double
-          description: The discpunted price per user of the calculated subscription.
+          $ref: '#/components/schemas/Price'
         discountAmount:
           type: number
           format: double
@@ -2616,7 +2610,5 @@ components:
           type: integer
           format: int64
           description: The number of calculated licenses.
-        currency:
-          $ref: '#/components/schemas/Currency'
         promotionCode:
           $ref: '#/components/schemas/PromotionCode'

@@ -1329,7 +1329,7 @@ paths:
         default:
           $ref: '#/components/responses/DefaultResponse'
 
-  /services/calculateSubscription:
+  /services/estimateSubscriptionCost:
     get:
       tags:
         - Services
@@ -1364,7 +1364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CalculatedSubscription'
+                $ref: '#/components/schemas/SubscriptionCostEstimate'
         default:
           $ref: '#/components/responses/DefaultResponse'
 
@@ -2594,7 +2594,7 @@ components:
         - $ref: '#/components/schemas/Feature'
         - $ref: '#/components/schemas/Limit'
 
-    CalculatedSubscription:
+    SubscriptionCostEstimate:
       type: object
       required:
         - amountPerUser

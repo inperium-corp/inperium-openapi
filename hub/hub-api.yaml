@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Inperium Hub API
   description: |
-     This RESTful API provides access to the Inperium Hub service that manages tenant and account settings, subscriptions, user rights and permissions, etc.
+    This RESTful API provides access to the Inperium Hub service that manages tenant and account settings, subscriptions, user rights and permissions, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -30,7 +30,7 @@ tags:
   - name: Features
     description: |
       Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
-  - name:  Health checks
+  - name: Health checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Limits
@@ -1331,6 +1331,45 @@ paths:
         default:
           $ref: '#/components/responses/DefaultResponse'
 
+  /services/estimateSubscriptionCost:
+    get:
+      tags:
+        - Services
+      summary: Calculates the estimated cost of a subscription, based on the given parameters.
+      operationId: estimateSubscriptionCost
+      parameters:
+        - name: planId
+          in: query
+          required: true
+          description: An id of the plan to be calculated.
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: interval
+          in: query
+          description: A price interval to be calculated.
+          schema:
+            $ref: '#/components/schemas/PriceInterval'
+        - name: promotionCode
+          in: query
+          description: A promotion code to be applied to calculations.
+          schema:
+            $ref: '#/components/schemas/PromotionCode'
+        - name: licensedQuantity
+          in: query
+          description: A number of licenses to be calculated.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Returns the calculated estimated cost of the subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCostEstimate'
+        default:
+          $ref: '#/components/responses/DefaultResponse'
+
 components:
   responses:
     DefaultResponse:
@@ -1597,7 +1636,7 @@ components:
     UserCreationRequest:
       description: A request model that combines all user creation requests.
       type: object
-      example: {}
+      example: { }
       discriminator:
         propertyName: type
         mapping:
@@ -1864,8 +1903,7 @@ components:
           type: string
           description: The operational time zone.
         billingCurrency:
-          type: string
-          description: The default currency.
+          $ref: '#/components/schemas/Currency'
         features:
           type: array
           description: The list of features available to the tenant.
@@ -2196,24 +2234,6 @@ components:
           type: string
           description: The name of your Google Tag Manager container.
 
-    CreateTenantRequest:
-      type: object
-      description: The object sent when creating a new tenant and its owner.
-      required:
-        - email
-        - password
-        - confirmPassword
-      properties:
-        email:
-          type: string
-          description: The email address that will be associated with a new tenant and the owner account.
-        password:
-          type: string
-          description: The owner's password.
-        confirmPassword:
-          type: string
-          description: The owner's password (must be the same as 'password').
-
     UserPasswordRequest:
       type: object
       description: The object containing details for updating a password.
@@ -2350,8 +2370,7 @@ components:
           type: boolean
           description: The true/false parameter that marks what plan is currently in use.
         currency:
-          type: string
-          description: The currency units.
+          $ref: '#/components/schemas/Currency'
         amount:
           type: number
           description: The sum to be paid according to this plan.
@@ -2500,12 +2519,15 @@ components:
           description: The true/false parameter defining if the subscription is trial or not.
         interval:
           $ref: "#/components/schemas/PriceInterval"
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of requested licenses.
         betaAccessCode:
           type: string
           description: An access code to allow subscribing to a product that is in beta.
         promotionCode:
-          type: string
-          description: A promotion code to receive a discount off the subscription.
+          $ref: '#/components/schemas/PromotionCode'
 
     SubscriptionUpdateRequest:
       type: object
@@ -2521,8 +2543,7 @@ components:
           description: The number of licenses. The minimum number is 1.
           minimum: 1
         promotionCode:
-          type: string
-          description: A promotion code to receive a discount off the subscription.
+          $ref: '#/components/schemas/PromotionCode'
 
     PriceInterval:
       type: string
@@ -2530,6 +2551,14 @@ components:
         - MONTH
         - YEAR
       description: The billing frequency. This is the enum parameter.
+
+    Currency:
+      type: string
+      description: The currency unit.
+
+    PromotionCode:
+      type: string
+      description: A promotion code to receive a discount off the subscription.
 
     SubscriptionState:
       type: string
@@ -2582,3 +2611,39 @@ components:
       allOf:
         - $ref: '#/components/schemas/Feature'
         - $ref: '#/components/schemas/Limit'
+
+    SubscriptionCostEstimate:
+      type: object
+      required:
+        - amountPerUser
+        - totalAmount
+        - currency
+        - interval
+        - licensedQuantity
+      properties:
+        amountPerUser:
+          type: number
+          format: double
+          description: The price per user per interval of the calculated subscription without discount.
+        totalAmount:
+          type: number
+          format: double
+          description: The overall price per interval of the calculated subscription without discount.
+        discountAmount:
+          type: number
+          format: double
+          description: The discount applied to the subscription.
+        totalDiscountedAmount:
+          type: number
+          format: double
+          description: The overall discounted price per interval of the calculated subscription.
+        currency:
+          $ref: '#/components/schemas/Currency'
+        interval:
+          $ref: '#/components/schemas/PriceInterval'
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of calculated licenses.
+        promotionCode:
+          $ref: '#/components/schemas/PromotionCode'

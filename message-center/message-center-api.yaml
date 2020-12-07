@@ -15,33 +15,36 @@ security:
   - ApiKeyAuth: []
 
 tags:
-  - name: Health checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
-  - name: Webhook
-    description: |
-      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
   - name: Accounts
     description: |
       Clients can connect multiple mail accounts to the Message Center. The number of accounts available per user depends on the subscription plan. For more information about the plans and limits, see the Hub API reference.
-  - name: Threads
+  - name: Attachments
     description: |
-      Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order. 
+      Users can send or receive files as attachments. 
+  - name: Drafts
+    description: |
+      Drafts are messages that have been  but haven't been sent. These messages are kept in a separate folder and can be discarded or sent upon request. 
+  - name: Folders
+    description: |
+      The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.          
+  - name: Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues. 
   - name: Messages
     description: |
       Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
   - name: Messages sending
     description: |
-      The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to. 
-  - name: Folders
+      The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to.
+  - name: Threads
     description: |
-      The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
-  - name: Drafts
+      Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.         
+  - name: Webhook
     description: |
-      Drafts are messages that were prepared and haven't been sent. These messages are kept in a separate folder and can be discarded or sent upon request.
-  - name: Attachments
+      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
+  - name: WebhookSync
     description: |
-      Users can send or receive files as attachments.
+       To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.  
 
 paths:
   /health:
@@ -392,28 +395,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
-      summary: TBD
-      description: TBD
+      summary: Update a message
+      description: Use this endpoint to update an existing message. Note that the message contents will be overwritten.
       operationId: updateMessage
       tags:
         - Messages
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: TBD
+        description: In the request body, pass the MessageUpdateRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/MessageUpdateRequest'
       responses:
         200:
-          description: TBD
+          description: Returns an updated message.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -422,8 +425,8 @@ paths:
     get:
       tags:
         - Folders
-      summary: TBD
-      description: TBD
+      summary: Retrieve folders
+      description: Use this endpoint to retrieve a list of mailbox folders. This endpoint supports paging and sorting. 
       operationId: getFolders
       parameters:
         - $ref: "#/components/parameters/UserAccountId"
@@ -432,13 +435,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: TBD
+          description: Returns the list of folders.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folders'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -446,24 +449,24 @@ paths:
     post:
       tags:
         - Folders
-      summary: TBD
-      description: TBD
+      summary: Create a folder
+      description: Use this endpoint to add a new mailbox folder.
       operationId: createFolder
       requestBody:
-        description: TBD
+        description: In the request body, pass the FolderRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/FolderRequest'
       responses:
         200:
-          description: TBD
+          description: Returns a newly created folder.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -472,27 +475,27 @@ paths:
     get:
       tags:
         - Folders
-      summary: TBD
-      description: TBD
+      summary: Retrieve a folder
+      description: Use this endpoint to get folder details by its ID. 
       operationId: getFolder
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns the folder.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
-      summary: TBD
-      description: TBD
+      summary: Update a folder
+      description: Use this endpoint to modify an existing folder such as a folder name. Note that the folder properties will be overwritten.
       operationId: updateFolder
       tags:
         - Folders
@@ -506,13 +509,13 @@ paths:
               $ref: '#/components/schemas/FolderRequest'
       responses:
         200:
-          description: TBD
+          description: In the request body, pass the FolderRequest object.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -520,16 +523,16 @@ paths:
     delete:
       tags:
         - Folders
-      summary: TBD
-      description: TBD
+      summary: Delete a folder
+      description: Use this endpoint to remove an existing folder.
       operationId: deleteFolder
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: TBD
+          description: The folder has been removed.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -538,8 +541,8 @@ paths:
     get:
       tags:
         - Drafts
-      summary: TBD
-      description: TBD
+      summary: Retrieve drafts
+      description: Use this endpoint to get a list of draft messages. This endpoint supports sorting and paging.
       operationId: getDrafts
       parameters:
           - $ref: "#/components/parameters/UserAccountId"
@@ -548,13 +551,13 @@ paths:
           - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: TBD
+          description: Returns the list of drafts.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Drafts'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -562,24 +565,24 @@ paths:
     post:
       tags:
         - Drafts
-      summary: TBD
-      description: TBD
+      summary: Create a draft
+      description: Use this endpoint to add a message draft. 
       operationId: createDraft
       requestBody:
-        description: TBD
+        description: In the request body, pass the DraftRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/DraftRequest'
       responses:
         200:
-          description: TBD
+          description: Returns the newly created draft.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Draft'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -588,47 +591,47 @@ paths:
     get:
       tags:
         - Drafts
-      summary: TBD
-      description: TBD
+      summary: Retrieve a draft
+      description: Use this endpoint to get a specific draft message by its ID.
       operationId: getDraft
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns a draft.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Draft'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
-      summary: TBD
-      description: TBD
+      summary: Update a draft
+      description: Use this endpoint to update an existing draft. Note that the draft contents will be overwritten.
       operationId: updateDraft
       tags:
         - Drafts
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: TBD
+        description: In the request body, pass the DraftRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/DraftRequest'
       responses:
         200:
-          description: TBD
+          description: Returns an updated draft.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Draft'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -637,8 +640,8 @@ paths:
     get:
       tags:
         - Attachments
-      summary: TBD
-      description: TBD
+      summary: Retrieve attachments
+      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting.
       operationId: getAttachments
       parameters:
           - $ref: "#/components/parameters/UserAccountId"
@@ -647,13 +650,13 @@ paths:
           - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: TBD
+          description: Returns attachments.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -661,8 +664,8 @@ paths:
     post:
       tags:
         - Attachments
-      summary: TBD
-      description: TBD
+      summary: Create an attachment
+      description: Use this endpoint to add a new attachment.
       operationId: uploadAttachmentContent
       parameters:
           - $ref: "#/components/parameters/UserAccountUUID"
@@ -673,17 +676,17 @@ paths:
               properties:
                 content:
                   type: string
-                  description: A attachment to be uploaded
+                  description: An attachment to be uploaded. For example, a pdf or docx file.
                   format: binary
       responses:
         200:
-          description: TBD
+          description: Returns a newly created attachment.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachment'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -692,20 +695,20 @@ paths:
     get:
       tags:
         - Attachments
-      summary: TBD
-      description: description
+      summary: Retrieve an attachment
+      description: Use this endpoint to get a specific attachment by its ID.
       operationId: getAttachment
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns the attachment.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachment'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -713,14 +716,14 @@ paths:
     delete:
       tags:
         - Attachments
-      summary: TBD
-      description: TBD
+      summary: Delete an attachment
+      description: Use this endpoint to remove an existing attachment. 
       operationId: deleteAttachment
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: TBD
+          description: The attachment has been removed.
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -731,22 +734,22 @@ paths:
     get:
       tags:
         - Attachments
-      summary: Retrieve the contents of an attachment.
-      description: Use this endpoint to download the content of an attachment.
+      summary: Retrieve attachment contents
+      description: Use this endpoint to download the contents of the  attachment.
       operationId: getAttachmentContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
         - $ref: "#/components/parameters/UserAccountUUID"
       responses:
         200:
-          description: The file contents have been retrieved
+          description: The file contents have been retrieved.
           content:
             application/json:
               schema:
                 type: string
                 format: binary
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -755,14 +758,14 @@ paths:
     get:
       tags:
         - WebhookSync
-      summary: TBD
-      description: TBD
+      summary: Register a webhook
+      description: Use this endpoint to register a webhook in Nylas.
       operationId: registerWebhook
       responses:
         200:
-          description: Register webhook in nylas
+          description: The webhook has been registered.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -771,24 +774,25 @@ paths:
     get:
       tags:
         - WebhookSync
-      summary: Sync nylas
-      description: Use this endpoint for synchronization process between application and nylas
+      summary: Sync with Nylas (incoming)
+      description: Use this endpoint to synchronize the Message Center service with Nylas. Pull the incoming messages, threads, and other changes. 
       operationId: synchronizationRequest
       parameters:
         - name: challenge
+          description: The synchronization request.
           in: query
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The synchronization is successful
+          description: The synchronization was successful.
           content:
             text/plain:
               schema:
                 type: string
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -796,20 +800,20 @@ paths:
     post:
       tags:
         - WebhookSync
-      summary: Sync nylas
-      description: Use this endpoint for sync between application and nylas
+      summary: Sync with Nylas (outcoming)
+      description: Use this endpoint to synchronize the Message Center service with Nylas. Feed outcoming messages and other changes to the mail provider.
       operationId: processNotification
       requestBody:
-        description: TBD
+        description: In the request body, pass the Deltas object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Deltas'
       responses:
         200:
-          description: The synchronization is successful
+          description: The synchronization was successful.
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -819,9 +823,11 @@ paths:
 components:
   securitySchemes:
     BearerAuth:
+      description: The token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note that due to security concerns it frequently expires.
       type: http
       scheme: bearer
     ApiKeyAuth:
+      description: The API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
       type: apiKey
       in: header
       name: X-API-KEY
@@ -829,6 +835,7 @@ components:
   parameters:
     ResourceId:
       name: id
+      description: A unique ID of the object.
       in: path
       required: true
       schema:
@@ -836,12 +843,14 @@ components:
         format: UUID
     UserAccountId:
       name: userAccountId
+      description: A unique ID assigned to a user account.
       in: query
       required: true
       schema:
         type: string
     UserAccountUUID:
       name: userAccountId
+      description: A unique ID assigned to a user account.
       in: query
       required: true
       schema:
@@ -850,14 +859,14 @@ components:
     QueryPageNumber:
       name: pageNumber
       in: query
-      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from the page 3.
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
       schema:
         type: integer
         format: int64
     QueryPageSize:
       name: pageSize
       in: query
-      description: This parameter affects paging. It defines the number of records per page
+      description: This parameter affects paging. It defines the number of records per page, e.g., 20 records per page.
       schema:
         type: integer
         format: int64
@@ -871,6 +880,7 @@ components:
   schemas:
     Accounts:
       type: object
+      description: The array of Account objects.
       properties:
         data:
           type: array
@@ -881,17 +891,22 @@ components:
 
     Account:
       type: object
+      description: The Account object contains basic information about the mailbox including the number of unread messages, information on the mail service provider, etc. Note that the account connected to the Message Center isn't neccessarily the one the users authenticates with. I.e., the user can log in to Inperium with a personal email and connect his or her corporate email to the Message Center. 
       properties:
         id: 
           type: string
+          description: A unique ID of the account.
           format: uuid
         email:
           type: string
+          description: The email address registered with the Message Center.
         connectionDate:
           type: integer
+          description: The date the email was connected.
           format: int64
         status:
           type: string
+          description: The connection status. This is an enum property.
           enum:
             - CONNECTED
             - FAILED
@@ -899,16 +914,21 @@ components:
             - CANCELED
         provider:
           type: string
+          description: The mail service provider.
         unreadMessagesAmount:
           type: integer
+          description: The number of unread messages.
           format: int64
         sentMessagesAmount:
           type: integer
+          description: The total number of messages sent.
         draftMessagesAmount:
           type: integer
+          description: The total number of draft messages.
 
     Threads:
       type: object
+      description: The array of threads.
       properties:
         data:
           type: array
@@ -919,64 +939,76 @@ components:
 
     Thread:
       type: object
+      description: The Thread object contains information about the conversation such as the number of messages, the subject, and many more.
       properties:
         id:
           type: string
+          description: A unique ID of the thread.
           format: UUID
         subject:
-          description: Subject of the first message in the thread
+          description: The subject of the first message in the thread.
           type: string
         unread:
-          description: Indicates whether the thread contains unread messages (mutable)
+          description: This true/false parameter indicates whether the thread contains unread messages (mutable).
           type: boolean
         starred:
-          description: Indicates one or more messages are starred, aka flagged (mutable)
+          description: This true/false parameter indicates one or more messages are flagged (mutable).
           type: boolean
         lastMessageReceivedAt:
-          description: Date and time of the most recently received message.
+          description: The date and time of the most recently received message.
           type: integer
           format: int64
         lastMessageSentAt:
-          description: Date and time of the most recently sent message in the thread
+          description: The date and time of the most recently sent message in the thread.
           type: integer
           format: int64
         lastMessageFrom:
           $ref: '#/components/schemas/ThreadParticipant'
         bodyExcerpt:
-          description: A shortened plain-text preview of the most recent message in the thread
+          description: A shortened plain-text preview of the most recent message in the thread.
           type: string
         folderIds:
           type: array
+          description: The list of the folders.
           items:
             type: string
             format: uuid
         hasAttachments:
-          description: Indicates if the thread has files attached to it.
+          description: This true/false parameter indicates if the thread has files attached to it.
           type: boolean
         messagesCount:
+          description: The total number of messages in the thread.
           type: integer
 
     ThreadRequest:
       type: object
+      description: The request model for creating or updating a thread.
       properties:
         unread:
           type: boolean
+          description: The total number of unread messages.
         starred:
           type: boolean
+          description: This true/false parameter indicates if one or more messages in the thread are flagged.
         folderId:
           type: string
+          description: The ID of the folder the thread belongs to.
           format: uuid
 
     ThreadParticipant:
       type: object
+      description: The ThreadParticipant lists contacts included in the thread, with email address for each participant.
       properties:
         name:
           type: string
+          description: The participant's name.
         email:
           type: string
+          description: The participant's email address.
 
     Messages:
       type: object
+      description: The array of the Message objects.
       properties:
         data:
           type: array
@@ -987,6 +1019,7 @@ components:
 
     Message:
       type: object
+      description: Besides the mail contents, the Message object includes service information such as the contact details, the date the message was received, and whether if it's flagged.
       properties:
         id:
           type: string

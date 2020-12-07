@@ -1333,7 +1333,7 @@ paths:
     get:
       tags:
         - Services
-      summary: Calculates the subscription price for the given parameters
+      summary: Calculates the estimated cost of a subscription, based on the given parameters.
       operationId: calculateSubscription
       parameters:
         - name: planId
@@ -1359,7 +1359,7 @@ paths:
             format: int64
       responses:
         200:
-          description: Returns the calculated subscription.
+          description: Returns the calculated estimated cost of the subscription.
           content:
             application/json:
               schema:
@@ -2537,7 +2537,7 @@ components:
 
     Currency:
       type: string
-      description: The currency units.
+      description: The currency unit.
 
     PromotionCode:
       type: string

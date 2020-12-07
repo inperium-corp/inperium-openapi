@@ -2597,15 +2597,32 @@ components:
     CalculatedSubscription:
       type: object
       required:
-        - price
+        - amountPerUser
+        - totalAmount
+        - currency
+        - interval
         - licensedQuantity
       properties:
-        price:
-          $ref: '#/components/schemas/Price'
+        amountPerUser:
+          type: number
+          format: double
+          description: The price per user per interval of the calculated subscription without discount.
+        totalAmount:
+          type: number
+          format: double
+          description: The overall price per interval of the calculated subscription without discount.
         discountAmount:
           type: number
           format: double
           description: The discount applied to the subscription.
+        totalDiscountedAmount:
+          type: number
+          format: double
+          description: The overall discounted price per interval of the calculated subscription.
+        currency:
+          $ref: '#/components/schemas/Currency'
+        interval:
+          $ref: '#/components/schemas/PriceInterval'
         licensedQuantity:
           type: integer
           format: int64

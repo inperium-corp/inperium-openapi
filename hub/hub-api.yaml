@@ -1349,6 +1349,7 @@ paths:
             $ref: '#/components/schemas/PriceInterval'
         - name: promotionCode
           in: query
+          description: A promotion code to be applied to calculations.
           schema:
             $ref: '#/components/schemas/PromotionCode'
         - name: licensedQuantity
@@ -2598,7 +2599,6 @@ components:
       required:
         - price
         - licensedQuantity
-        - currency
       properties:
         price:
           $ref: '#/components/schemas/Price'

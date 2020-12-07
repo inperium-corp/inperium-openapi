@@ -1334,7 +1334,7 @@ paths:
       tags:
         - Services
       summary: Calculates the estimated cost of a subscription, based on the given parameters.
-      operationId: calculateSubscription
+      operationId: estimateSubscriptionCost
       parameters:
         - name: planId
           in: query

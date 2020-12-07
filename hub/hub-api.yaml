@@ -32,7 +32,7 @@ tags:
       Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
   - name:  Health checks
     description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.  
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Limits
     description: |
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
@@ -47,13 +47,13 @@ tags:
       Configure user roles to delegate access to Inperium features. For example, you can create administrator and manager roles.
   - name: Subscriptions
     description: |
-      Tenants have an option to choose the subscription type and billing period.      
+      Tenants have an option to choose the subscription type and billing period.
   - name: Tenants
     description: |
       Tenant is the central concept of Inperium. On a high level, the tenant is a company that has signed up for Inperium. With Hub API, you can configure the main tenant settings such as subscription plans, Inperium products, and users.
   - name: Users
     description: |
-      Users are individuals included in a tenant subscription. Depending on the role, users have access to different Inperium products and features. 
+      Users are individuals included in a tenant subscription. Depending on the role, users have access to different Inperium products and features.
 
 
 paths:
@@ -176,7 +176,7 @@ paths:
       description: Use this endpoint to verify the one-off code sent to a user.
       operationId: verifyTwoFactorAuthToken
       requestBody:
-        description: In the request body, pass the TwoFactorAuthVerificationRequest object. 
+        description: In the request body, pass the TwoFactorAuthVerificationRequest object.
         content:
           application/json:
             schema:
@@ -242,7 +242,7 @@ paths:
       description: Use this endpoint to create a new API key.
       operationId: createApiKey
       requestBody:
-        description: In the request body, pass the ApiKeyRequest object. 
+        description: In the request body, pass the ApiKeyRequest object.
         content:
           application/json:
             schema:
@@ -272,7 +272,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Returns the requested API key. 
+          description: Returns the requested API key.
           content:
             application/json:
               schema:
@@ -333,7 +333,7 @@ paths:
       tags:
         - API Keys
       summary: Regenerate a key
-      description: Use this endpoint to regenerate an existing API key if it was compromised. The key secret will be regenerated. 
+      description: Use this endpoint to regenerate an existing API key if it was compromised. The key secret will be regenerated.
       operationId: regenerateApiKey
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -391,100 +391,27 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /tenants/create:
-    post:
+    patch:
+      summary: Partially update a tenant
+      description: Use this endpoint to partially update a specific tenant.
+      operationId: updatePartialTenant
       tags:
         - Tenants
-      summary: Create a tenant
-      description: Use this endpoint to create a new tenant. 
-      operationId: createTenant
-      requestBody:
-        description: In the request body, pass the CreateTenantRequest object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CreateTenantRequest"
-      responses:
-        201:
-          description: A new account has been created.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/confirm/{confirmationToken}:
-    get:
-      tags:
-        - Tenants
-      summary: Confirm owner
-      description: Use this endpoint to confirm the account of the user who signed up for Inperium and created the tenant. Unless the tenant's owner account is verified, you cannot move any further with Inperium configuration.
-      operationId: confirmTenant
       parameters:
-        - name: confirmationToken
-          in: path
-          description: The confirmation token.
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the TenantPartialRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantPartialRequest"
       responses:
         200:
-          description: Returns a token. It means that the account has been successfully verified.
+          description: Returns an updated Tenant object.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/confirm:
-    get:
-      tags:
-        - Tenants
-      summary: Resend confirmation
-      description: Use this endpoint to resend the confirmation email.
-      operationId: resendTenantConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: Provide an email address of the tenant's owner. The owner is the user who initially signed up for Inperium.
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: Returns an empty response that is used for OK non-returning operations.
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /tenants/onboard:
-    put:
-      tags:
-        - Tenants
-      summary: Onboard a tenant
-      description: Use this endpoint to add information about the tenant such as the name, company name, and employee count to finish the onboarding.
-      operationId: onboardTenant
-      requestBody:
-        description: In the request body, pass the OnboardTenantRequest object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/OnboardTenantRequest"
-      responses:
-        200:
-          description: The tenant has completed onboarding.
+                $ref: "#/components/schemas/Tenant"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -582,7 +509,7 @@ paths:
       operationId: updateTenantPaymentMethod
       requestBody:
         description: In the request body, pass the PaymentMethodRequest object.
-        content:          
+        content:
           "*/*":
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
@@ -652,77 +579,27 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /users/invite:
+  /users/verify:
     post:
       tags:
         - Users
-      summary: Invite a user
-      description: Use this endpoint to add a new user to Inperium. Once you create a new user and provide basic user information, he or she will receive an invitation by email.
-      operationId: inviteUser
-      requestBody:
-        description: In the request body, pass the UserInviteRequest object. 
-        content:          
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserInviteRequest"
-      responses:
-        201:
-          description: Returns a user record. It means the user has been invited to join Inperium.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/invite/confirm:
-    post:
-      tags:
-        - Users
-      summary: Confirm an invitation
-      description: Use this endpoint to accept the invitation. Pass user credentials to confirm invitation and finilize the process.
-      operationId: confirmUserInvite
+      summary: Verify a new user
+      description: Use this endpoint to verify a new user and activate the account.
+      operationId: verifyUser
       requestBody:
         required: true
-        description: In the request body, pass the UserConfirmInviteRequest object. 
-        content:          
+        description: In the request body, pass the UserVerificationRequest object.
+        content:
           "*/*":
             schema:
-              $ref: "#/components/schemas/UserConfirmInviteRequest"
+              $ref: "#/components/schemas/UserVerificationRequest"
       responses:
         200:
-          description: Returns authentication tokens. The user account is confirmed and the password has successfully been reset.
+          description: Returns authentication tokens. The user account is verified.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    get:
-      tags:
-        - Users
-      summary: Resend confirmation
-      description: Use this endpoint to resend a confirmation email.
-      operationId: resendUserConfirmation
-      parameters:
-        - name: email
-          in: query
-          description: The email address associated with the user.
-          required: true
-          schema:
-            type: string
-      responses:
-        204:
-          description: Returns an empty response that is used for OK non-returning operations.
-          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -762,7 +639,7 @@ paths:
       description: Use this endpoint to reset a password. To update a password, you'll have to provide `passwordResetToken` that was sent by email.
       operationId: resetPassword
       requestBody:
-        description: In the request body, pass the UserResetPasswordRequest object. 
+        description: In the request body, pass the UserResetPasswordRequest object.
         required: true
         content:
           "*/*":
@@ -804,12 +681,12 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     put:
       summary: Update a user
-      description: Use this endpoint to update the currently logged in user. 
+      description: Use this endpoint to update the currently logged in user.
       operationId: updatePrincipalUser
       tags:
         - Users
       requestBody:
-        description: In the request body, pass the UserRequest object. 
+        description: In the request body, pass the UserRequest object.
         content:
           "*/*":
             schema:
@@ -853,6 +730,31 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
 
   /users:
+    post:
+      tags:
+        - Users
+      summary: Create a user
+      description: Use this endpoint to add a new user to Inperium. Provide basic information about the new user.
+      operationId: createUser
+      requestBody:
+        description: In the request body, pass the UserCreationRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserCreationRequest"
+      responses:
+        201:
+          description: Returns the newly created user account.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
     get:
       summary: Retrieve users
       description: Use this endpoint to get a list of users. Leverage query parameters to search for a specific user or users. This endpoint supports paging and sorting.
@@ -863,18 +765,18 @@ paths:
         - name: fullName
           in: query
           description: >
-            Allows searching both in "last name" or "first name".
+            The user name. This parameter allows searching both in "last name" or "first name".
             Supports eq, neq, in, nin, like, notlike.
           schema:
             type: string
         - name: id
           in: query
-          description: Unique ID of the user.
+          description: The unique ID of the user.
           schema:
             type: string
         - name: email
           in: query
-          description: Email address associated with the user.
+          description: The email address associated with the user.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -882,7 +784,7 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Returns an array of user records. 
+          description: Returns an array of user records.
           content:
             application/json:
               schema:
@@ -905,7 +807,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Returns the user record. 
+          description: Returns the user record.
           content:
             application/json:
               schema:
@@ -918,7 +820,7 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     put:
       summary: Update a user
-      description: Use this endpoint to update a specific user. Note that all user properties (fields) will be overwritten. 
+      description: Use this endpoint to update a specific user. Note that all user properties (fields) will be overwritten.
       operationId: updateUser
       tags:
         - Users
@@ -946,7 +848,7 @@ paths:
     patch:
       summary: Partially update a user
       description: Use this endpoint to change some properties in the user record, e.g., the last name or email.
-      operationId: updateUserPartially
+      operationId: updatePartialUser
       tags:
         - Users
       parameters:
@@ -1035,7 +937,7 @@ paths:
   /products/{anchor}:
     get:
       summary: Get a specific product
-      description: Use this endpoint to retrieve information about a specific product. 
+      description: Use this endpoint to retrieve information about a specific product.
       operationId: getProduct
       tags:
         - Products
@@ -1064,7 +966,7 @@ paths:
     get:
       summary: Get subscription plans
       description: Use this endpoint to see the plans available for a certain product. You'll also see the plan that is active now.
-      operationId: getProductPlanAvailabilities
+      operationId: getAvailableProductPlans
       tags:
         - Products
       parameters:
@@ -1082,7 +984,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PlanAvailability"
+                  $ref: '#/components/schemas/PlanFullInfo'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1297,6 +1199,19 @@ paths:
       operationId: getSubscriptions
       tags:
         - Subscriptions
+      parameters:
+        - name: state
+          in: query
+          description: The state of the subscription to be found.
+          schema:
+            type: string
+          example: in::ACTIVE,TRIALING
+        - name: product
+          in: query
+          description: The product the subscription is associated with.
+          schema:
+            type: string
+          example: eq::SELL
       responses:
         200:
           description: Returns the list of subscriptions.
@@ -1383,7 +1298,7 @@ paths:
             minimum: 1
       responses:
         200:
-          description: Returns full information about a subscription. 
+          description: Returns full information about a subscription.
           content:
             application/json:
               schema:
@@ -1414,7 +1329,7 @@ paths:
         200:
           description: The webhook was executed and verified by Stripe.
         default:
-          $ref: '#/components/responses/DefaultResponse'  
+          $ref: '#/components/responses/DefaultResponse'
 
 components:
   responses:
@@ -1427,7 +1342,7 @@ components:
 
   securitySchemes:
     BearerAuth:
-      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note due to security concerns it frequently expires. 
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note due to security concerns it frequently expires.
       type: http
       scheme: bearer
 
@@ -1480,7 +1395,7 @@ components:
 
     AuthTokensRequest:
       type: object
-      description: The AuthTokensRequest is submitted to Inperium Hub when you want to get a new AuthTokens object. 
+      description: The AuthTokensRequest is submitted to Inperium Hub when you want to get a new AuthTokens object.
       required:
         - strategy
       properties:
@@ -1616,6 +1531,8 @@ components:
     ResponseError:
       type: object
       description: The error that is returned as a response to a request.
+      discriminator:
+        propertyName: schema
       required:
         - status
         - message
@@ -1656,7 +1573,7 @@ components:
           type: array
           items:
             type: string
-        features: 
+        features:
           description: The list of features enabled for the user.
           type: array
           items:
@@ -1676,6 +1593,67 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LimitUsage"
+
+    UserCreationRequest:
+      description: A request model that combines all user creation requests.
+      type: object
+      example: {}
+      discriminator:
+        propertyName: type
+        mapping:
+          invitation: "#/components/schemas/UserInvitationRequest"
+          INVITATION: "#/components/schemas/UserInvitationRequest"
+          account_creation: "#/components/schemas/UserAccountCreationRequest"
+          ACCOUNT_CREATION: "#/components/schemas/UserAccountCreationRequest"
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: The email addess of the user.
+
+    UserInvitationRequest:
+      type: object
+      description: A request model to create a new user by inviting them to an existing account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - firstName
+            - lastName
+            - tenantId
+          properties:
+            firstName:
+              type: string
+              description: The given name of the user.
+            lastName:
+              type: string
+              description: The family name of the user.
+            isAdmin:
+              type: boolean
+              description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+            roles:
+              type: array
+              description: The roles assigned to the user.
+              items:
+                type: string
+
+    UserAccountCreationRequest:
+      type: object
+      description: A request model to create a new user for a new Inperium account.
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - password
+            - confirmPassword
+          properties:
+            password:
+              type: string
+              description: The user password.
+            confirmPassword:
+              type: string
+              description: The user password.
 
     User:
       type: object
@@ -1714,7 +1692,7 @@ components:
           description: The user's current title or role in the company, e.g., 'senior manager'.
           type: string
         avatarUrl:
-          description: The user's profile image. 
+          description: The user's profile image.
           type: string
         roles:
           type: array
@@ -1733,7 +1711,7 @@ components:
       properties:
         email:
           type: string
-          description: The email address associated with the user account. 
+          description: The email address associated with the user account.
         hasVerifiedEmail:
           type: boolean
           description: The true/false parameter that marks if the email address has been verified or is still pending verification.
@@ -1765,10 +1743,10 @@ components:
             type: string
         avatarUrl:
           type: string
-          description: The user's profile image. 
+          description: The user's profile image.
 
     UserPartialRequest:
-      description: The UserRequest object is sent to Inperum Hub service when you need to partially update the user record. It will change only the parameters that were submitted. 
+      description: The UserRequest object is sent to Inperum Hub service when you need to partially update the user record. It will change only the parameters that were submitted.
       type: object
       properties:
         email:
@@ -1783,6 +1761,8 @@ components:
         lastName:
           type: string
           description: The family name of the user.
+        jobTitle:
+          type: string
         roles:
           type: array
           description: The list of roles.
@@ -1794,50 +1774,19 @@ components:
           items:
             $ref: "#/components/schemas/Id"
 
-    UserInviteRequest:
+    UserVerificationRequest:
       type: object
-      description: The UserInviteRequest object is submitted to Hub when you add a new user to Inperium. It includes basic information about the user that he or she can update later.
+      description: A request model that facilitates user verification.
       required:
-        - firstName
-        - lastName
         - email
+        - oneTimePassword
       properties:
-        firstName:
-          type: string
-          description: The given name of the user.
-        lastName:
-          type: string
-          description: The family name of the user.
         email:
           type: string
-          description: The email address associated with the user account. 
-        isAdmin:
-          type: boolean
-          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
-        roles:
-          type: array
-          description: The list of roles.
-          items:
-            type: string
-
-    UserConfirmInviteRequest:
-      type: object
-      description: The UserConfirmInviteRequest object validates and verifies user creation.
-      required:
-        - passwordResetToken
-        - password
-        - confirmPassword
-      properties:
-        passwordResetToken:
+          description: The email address associated with the user account.
+        oneTimePassword:
           type: string
-          description: The token that allows password resetting.
-          format: uuid
-        password:
-          type: string
-          description: The user's password. Further on, this password will be utilized for user authentication.
-        confirmPassword:
-          type: string
-          description: The user's password. It should be the same as 'password'.
+          description: The one-off verification code sent to the user.
 
     UserForgotPasswordRequest:
       type: object
@@ -1847,7 +1796,7 @@ components:
       properties:
         email:
           type: string
-          description: The email address associated with the user account. 
+          description: The email address associated with the user account.
 
     Users:
       type: object
@@ -1868,16 +1817,16 @@ components:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
-          description: The name of the company. 
+          description: The name of the company.
         companySize:
           type: string
           description: The number of employees.
         industry:
           type: string
           description: The business area the company belongs to.
-        finishedOnboarding:
+        completedProfile:
           type: boolean
-          description: The true/false parameter indicating if the tenant completed the onboarding procedure. 
+          description: The true/false parameter indicating if the tenant completed the onboarding procedure.
         addressLine1:
           type: string
           description: The street, building, office, or suite.
@@ -1931,9 +1880,42 @@ components:
           format: int64
           description: The most recent date the tenant was modified.
 
+    TenantPartialRequest:
+      type: object
+      description: A request model to partially update a tenant.
+      properties:
+        companyName:
+          type: string
+          description: The name of the company.
+        companySize:
+          type: string
+          description: The number of employees.
+          enum:
+            - 1
+            - 2
+            - 11
+            - 51
+            - 201
+            - 501
+            - 1001
+            - 5001
+            - 10001
+        industry:
+          type: string
+          description: The business area the company belongs to.
+          enum:
+            - SOFTWARE
+            - REAL_ESTATE
+            - FINANCIAL_SERVICES
+            - RETAIL
+            - MEDIA
+            - HEALTHCARE
+            - GOVERNMENT
+            - OTHER
+
     TenantAddressRequest:
       type: object
-      description: The incoming object containing information about the tenant's address.
+      description: A request model containing information about the tenant's address.
       properties:
         addressLine1:
           type: string
@@ -1956,7 +1938,7 @@ components:
 
     TenantCompanyInfoRequest:
       type: object
-      description: the incoming object describing tcompany details.
+      description: the incoming object describing the company details.
       properties:
         companyName:
           type: string
@@ -1993,7 +1975,7 @@ components:
           $ref: "#/components/schemas/Limit"
         currentValue:
           type: integer
-          description: The counter, it displays how close you are to reaching the threshold. 
+          description: The counter, it displays how close you are to reaching the threshold.
 
     LimitUsages:
       type: object
@@ -2092,7 +2074,16 @@ components:
 
     BillingContactRequest:
       type: object
-      description: The incoming object containing the updated tenant's contact details. 
+      description: The incoming object containing the updated tenant's contact details.
+      required:
+        - companyName
+        - firstName
+        - lastName
+        - email
+        - addressLine1
+        - city
+        - zip
+        - country
       properties:
         companyName:
           type: string
@@ -2118,9 +2109,6 @@ components:
         city:
           type: string
           description: The city where the business is registered or where its office is located.
-        domainName:
-          type: string
-          description: The company website.
         state:
           type: string
           description: The state where the business is registered or where its office is located.
@@ -2136,7 +2124,7 @@ components:
 
     PaymentMethod:
       type: object
-      description: The object contains the tenant's payment information. 
+      description: The object contains the tenant's payment information.
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -2160,7 +2148,7 @@ components:
 
     PaymentMethodRequest:
       type: object
-      description: The incoming object that updates the preferred tenant's method of payment. 
+      description: The incoming object that updates the preferred tenant's method of payment.
       properties:
         paymentMethodId:
           type: string
@@ -2200,7 +2188,7 @@ components:
       properties:
         stripePublishableKey:
           type: string
-          description: The key facilitating Stripe authentication.  
+          description: The key facilitating Stripe authentication.
         googleAnalyticsTrackingId:
           type: string
           description: The Google Analytics code embedded in the tracked websites.
@@ -2224,7 +2212,7 @@ components:
           description: The owner's password.
         confirmPassword:
           type: string
-          description: The owner's password (must be the same as 'password'). 
+          description: The owner's password (must be the same as 'password').
 
     UserPasswordRequest:
       type: object
@@ -2248,69 +2236,23 @@ components:
       type: object
       description: The object containing details for password reset.
       required:
-        - passwordResetToken
+        - email
+        - oneTimePassword
         - confirmPassword
         - newPassword
       properties:
-        passwordResetToken:
+        email:
           type: string
-          description: An identifier that verifies that the user has requested a password reset.
-          format: uuid
+          description: The email address associated with the user.
+        oneTimePassword:
+          type: string
+          description: The one-off code sent to the user.
         confirmPassword:
           type: string
           description: The new password (must be the same as 'newPassword').
         newPassword:
           type: string
           description: The new password.
-
-    OnboardTenantRequest:
-      type: object
-      description: This object helps assemble a new tenant. it contains various information about the tenant owner and company.
-      required:
-        - firstName
-        - lastName
-        - jobTitle
-        - companyName
-        - companySize
-        - industry
-      properties:
-        firstName:
-          type: string
-          description: The given name of the tenant owner.
-        lastName:
-          type: string
-          description: The family name of the tenant owner.
-        companyName:
-          type: string
-          description: The company name.
-        companySize:
-          type: string
-          description: The number of employees. This is the enum parameter. Pick the closest value from the list that equals or smaller than your total number of employees. For example, if you have 12 employees, then pick 11. Inperium Hub will identify your slot as '11-50 employees'.
-          enum:
-            - 1
-            - 2
-            - 11
-            - 51
-            - 201
-            - 501
-            - 1001
-            - 5001
-            - 10001
-        industry:
-          type: string
-          description: The business area. This is the enum parameter. Pick the value from the list.
-          enum:
-            - SOFTWARE
-            - REAL_ESTATE
-            - FINANCIAL_SERVICES
-            - RETAIL
-            - MEDIA
-            - HEALTHCARE
-            - GOVERNMENT
-            - OTHER
-        jobTitle:
-          type: string
-          description: The title or role in the company, e.g., 'senior manager'.
 
     Product:
       type: object
@@ -2324,13 +2266,13 @@ components:
           description: The name of the product.
         shortDescription:
           type: string
-          description: The product description. This parameter hints at product functionality and features. 
+          description: The product description. This parameter hints at product functionality and features.
         description:
           type: string
-          description: The product description. This parameter hints at product functionality and features. 
+          description: The product description. This parameter hints at product functionality and features.
         longDescription:
           type: string
-          description: The product description. This parameter hints at product functionality and features. 
+          description: The product description. This parameter hints at product functionality and features.
         unitLabel:
           type: string
           description: The units taken into account when calculating the price. In most cases, the 'unitLabel' is 'Users' and the price depends on how many users you've got.
@@ -2363,7 +2305,7 @@ components:
 
     Feature:
       type: object
-      description: The object mapping a feature name to a corresponding Inperium product. 
+      description: The object mapping a feature name to a corresponding Inperium product.
       properties:
         anchor:
           type: string
@@ -2375,15 +2317,17 @@ components:
     Plan:
       type: object
       description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
+      discriminator:
+        propertyName: schema
       properties:
         id:
           $ref: "#/components/schemas/Id"
         anchor:
           type: string
-          description: The internal plan name. 
+          description: The internal plan name.
         name:
           type: string
-          description: The plan name. 
+          description: The plan name.
         description:
           type: string
           description: The plan description.
@@ -2393,16 +2337,6 @@ components:
           format: int64
         product:
           $ref: "#/components/schemas/Product"
-        prices:
-          type: array
-          description: The list of prices.
-          items:
-            $ref: "#/components/schemas/Price"
-        limits:
-          type: array
-          description: The list of limits set for the plan.
-          items:
-            $ref: "#/components/schemas/Limit"
         beta:
           $ref: "#/components/schemas/Beta"
 
@@ -2606,29 +2540,45 @@ components:
         - CANCELED
       description: The state of the subscription. This is the enum parameter.
 
-    PlanAvailability:
+    PlanFullInfo:
       type: object
-      description: The PlanAvailability object contains information about available plans.
+      description: The PlanFullInfo object contains complete information about a plan enabled for a specific tenant.
+      allOf:
+        - $ref: '#/components/schemas/Plan'
+        - properties:
+            prices:
+              type: array
+              items:
+                $ref: "#/components/schemas/Price"
+            features:
+              type: object
+              additionalProperties:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocalizedFeature'
+            affordances:
+              type: array
+              items:
+                $ref: '#/components/schemas/PlanAffordance'
+
+    PlanAffordance:
+      type: string
+      description: The PlanAffordance object defines what licensing options available for this plan. For example, user can start a trial of this plan to upgrade to this plan.
+      enum:
+        - TRIAL
+        - PURCHASE
+        - UPGRADE
+        - DOWNGRADE
+
+    LocalizedFeature:
+      type: object
+      description: The limit or the feature with its translation.
+      required:
+        - translation
       properties:
-        plan:
-          $ref: "#/components/schemas/Plan"
-        subscription:
-          $ref: "#/components/schemas/Subscription"
-        isPlanCurrentlyOwned:
-          type: boolean
-          description: The true/false parameter indicating if this plan is currently active.
-        isPlanCurrentlyTrialing:
-          type: boolean
-          description: The true/false parameter indicating if this plan is currently in trial.
-        isPlanTrialAllowed:
-          type: boolean
-          description: The true/false parameter indicating if you can start a trial of this plan. For example, you can start a trial of a more advanced plan.
-        isSalesContactRequired:
-          type: boolean
-          description: The true/false parameter indicating if you need to contact the Sales team to sign up for this plan.
-        ownsHigherPlan:
-          type: boolean
-          description: The true/false parameter indicating if there is a more advanced plan.
-        preferredCurrency:
+        translation:
           type: string
-          description: The default currency.
+          description: The text in a foreign langauge.
+      allOf:
+        - $ref: '#/components/schemas/Feature'
+        - $ref: '#/components/schemas/Limit'

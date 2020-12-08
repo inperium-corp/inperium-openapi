@@ -75,9 +75,6 @@ tags:
   - name: GlobalSearch
     description: |
       Global search gives ability to locate entities by their names. It searches across deals, companies, contacts at the same time.
-  - name: Health checks
-    description: |
-      Methods to verify and troubleshoot product health status.
   - name: Import
     description: |
       Inperium Sell enables users to import data from another CRMs. For example, contact data, information about deals, and product pricelists.
@@ -152,24 +149,6 @@ tags:
       Configure integration with Xero.
 
 paths:
-  /health:
-    get:
-      tags:
-        - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
-      operationId: checkHealth
-      responses:
-        200:
-          description: An empty response that is used for OK non-returning operations
-          content: {}
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /activities:
     get:
       tags:
@@ -2054,17 +2033,17 @@ paths:
       summary: Import entities
       description: Use this endpoint to upload files containing entities into Inperium. For example, you can upload your client data exported from other CRMs and that was previously stored in spreadsheets.
       operationId: importFile
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                mappings:
-                  type: string
-                file:
-                  type: string
-                  format: binary
+      parameters:
+        - name: mappings
+          description: This parameter defines mapping between incoming data and Inperium Sell properties.
+          in: query
+          schema:
+            type: string
+        - name: fileUrl
+          description: The link to the import file.
+          in: query
+          schema:
+            type: string
       responses:
         201:
           description: The entities have been imported

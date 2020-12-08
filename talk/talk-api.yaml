@@ -3157,7 +3157,7 @@ components:
         total:
           type: integer
           format: int64
-      
+
     CallsByCountriesWidget:
       type: object
       required:

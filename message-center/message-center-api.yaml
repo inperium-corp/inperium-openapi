@@ -41,7 +41,7 @@ tags:
       Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.         
   - name: Webhook
     description: |
-      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
+      Inperium leverages webhooks for interaction with third-party service providers such as Nylas. 
   - name: WebhookSync
     description: |
        To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.  
@@ -1023,88 +1023,116 @@ components:
       properties:
         id:
           type: string
+          description: A unique ID of the message.
           format: uuid
         threadId:
           type: string
+          description: A unique ID of the thread the message belongs to.
         subject:
           type: string
+          description: The subject of the message.
         from:
+          description: The sender of the message.
           $ref: '#/components/schemas/ThreadParticipant'
         to:
           type: array
+          description: The contacts the message was addressed to.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         cc:
           type: array
+          description: The contacts who received the message as a copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         bcc:
           type: array
+          description: The contacts who received the message as a blind copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         replyTo:
           type: array
+          description: The contacts who will get a reply to the message.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         receivedAt:
           type: integer
+          description: The date and time the message was delivered.
           format: int64
         unread:
           type: boolean
+          description: The true/false parameter indicating if the message was read.
         starred:
           type: boolean
+          description: The true/false parameter indicating if the message is flagged.
         body:
           type: string
+          description: The contents of the message.
         attachments:
           type: array
+          description: The files attached to the message.
           items:
             $ref: '#/components/schemas/Attachment'
         folderId:
           type: string
+          description: A unique ID of the folder the message belongs to.
           format: UUID
 
     MessageUpdateRequest:
       type: object
+      description: The request model that is used for modifying an existing message, for example when a message is moved to another folder.
       properties:
         unread:
           type: boolean
+          description: The true/false parameter indicating if the message was read.
         starred:
           type: boolean
+          description: The true/false parameter indicating if the message is flagged.
         folderId:
           type: string
+          description: A unique ID of the folder the message belongs to.
           format: uuid
 
     MessageSendRequest:
       type: object
+      description: The MessageSendRequest object contains information about the message you are about to send such as its subject, contents, and contacts.
       properties:
         replyToMessageId:
           type: string
+          description: An ID of the message.
           format: uuid
         subject:
           type: string
+          description: The subject of the message.
         body:
           type: string
+          description: The contents of the message.
         fromUserAccountId:
           type: string
+          description: A unique ID of the user sending the message.
           format: UUID
         to:
           type: array
+          description: The list of contacts added as respondents.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         replyTo:
           type: array
+          description: The list of contacts that are in the message thread.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         cc:
           type: array
+          description: The list of contacts who will receive the message as a copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         bcc:
           type: array
+          description: The list of contacts who will receive the message as a blind copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         attachmentIds:
           type: array
+          description: The list of attached files.
           items:
             type: string
             format: uuid
@@ -1114,6 +1142,7 @@ components:
 
     Folders:
       type: object
+      description: The list of mailbox folders.
       properties:
         data:
           type: array
@@ -1124,39 +1153,51 @@ components:
 
     Folder:
       type: object
+      description: The Folder object describes the mailbox folder containing messages. It can be predefined folder such as Inbox or a custom folder created by the Inperium user.
       properties:
         id:
           type: string
+          description: A unique ID of the folder.
           format: UUID
         userAccountId:
           type: string
+          description: A unique ID of the account.
           format: UUID
         name:
           type: string
+          description: The folder name.
         displayName:
           type: string
+          description: The folder name.
         unreadMessagesAmount:
           type: integer
+          description: The total number of unread messages.
           format: int64
         subfolders:
           type: array
+          description: The list of nested folders.
           items:
             $ref: '#/components/schemas/Folder'
 
     FolderRequest:
       type: object
+      description: The request model used to modify the folder properties.
       properties:
         displayName:
           type: string
+          description: The folder name.
         parentFolderId:
           type: string
+          description: A unique ID of the parent folder. Change it if you want to move a subfolder to another folder.
           format: UUID
         userAccountId:
           type: string
+          description: A unique ID of the account.
           format: UUID
 
     Drafts:
       type: object
+      description: The list of draft messages.
       properties:
         data:
           type: array
@@ -1166,45 +1207,57 @@ components:
           $ref: "#/components/schemas/PageAndSort"
 
     Draft:
+      description: The message that has been composed but hasn't been sent yet. 
       allOf:
         - $ref: "#/components/schemas/Message"
         - type: object
           properties:
             replyToMessageId:
+              description: An ID of a previous message if the draft is composed as reply.
               type: string
 
     DraftRequest:
       type: object
+      description: The request model used to draft a message or update it. 
       properties:
         subject:
           type: string
+          description: The subject of the message.
         to:
           type: array
+          description: The contacts the message will be sent to.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         cc:
           type: array
+          description: The contacts who will receive the message as a copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         bcc:
           type: array
+          description: The contacts who received the message as a blind copy.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         body:
           type: string
+          description: The contents of the message.
         replyTo:
           type: array
+          description: The contacts who will get a reply to the message.
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         from:
+          description: The sender of the message.
           $ref: '#/components/schemas/ThreadParticipant'
         attachmentIds:
           type: array
+          description: The files attached to the message.
           items:
             type: string
 
     Attachments:
       type: object
+      description: The list of attached files.
       properties:
         data:
           type: array
@@ -1215,84 +1268,100 @@ components:
 
     Attachment:
       type: object
+      description: The object containg metadata about the attached file.
       properties:
         id:
           type: string
+          description: A unique of the attachment.
           format: uuid
         filename:
           type: string
+          description: The name of the file.
         size:
           type: integer
+          description: The size of the file.
         contentType:
           type: string
+          description: The type of the file.
         messageIds:
           type: array
+          description: An ID of the message the attachment belongs to.
           items:
             type: string
 
     PageAndSort:
       type: object
-      description: Paging and sorting information
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
 
     ResponseError:
       type: object
+      description: The error that is returned as a response to a request.
       required:
         - status
         - message
       properties:
         status:
           type: string
-          description: Http status code
+          description: The HTTP status code.
         code:
           type: string
           format: uuid
-          description: Optional code of the exception
+          description: The optional code of the exception.
         message:
           type: string
-          description: Error message
+          description: The error message text.
         errors:
           type: object
-          description: Map of field -> list of errors
+          description: Mapping of fields and errors.
 
     Attributes:
-      description: Dto for nylas sync process
+      description: The Attributes object is a DTO used for Nylas synchronization.
       type: object
       properties:
         thread_id:
           type: string
+          description: An ID of the thread the message belongs to.
         received_date:
           type: integer
+          description: The date and time.
 
     ObjectData:
-      description: Dto for nylas sync process
+      description: The ObjectData object is a DTO used for Nylas synchronization.
       type: object
       properties:
         namespace_id:
           type: string
+          description: An ID of the namespace.
         account_id:
           type: string
+          description: An ID of the email account.
         object:
           type: string
+          description: The object.
         id:
           type: string
+          description: An ID of the object.
         attributes:
           $ref: '#/components/schemas/Attributes'
 
     Delta:
-      description: Dto for nylas sync process
+      description: The Delta object is a DTO used for Nylas synchronization.
       type: object
       properties:
         date:
           type: integer
+          description: The date and time.
         object:
           type: string
+          description: The object.
         type:
           type: string
+          description: The type of Delta.
         object_data:
           $ref: '#/components/schemas/ObjectData'
 
     Deltas:
-      description: Dto for nylas sync process
+      description: The list of Delta DTOs.
       type: object
       properties:
         deltas:

@@ -418,6 +418,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+    delete:
+      tags:
+        - Tenants
+      summary: Delete a tenant
+      description: Use this endpoint to delete a tenant including all its data.
+      operationId: deleteTenant
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: The tenant has been successfully deleted.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
 
   /tenants/companyInfo:
     put:

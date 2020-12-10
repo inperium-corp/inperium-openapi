@@ -2756,23 +2756,26 @@ components:
           enum:
             - LINE
             - MULTI_BAR
-        yAxis:
-          $ref: '#/components/schemas/ReportDataYAxis' 
-        xAxises:
+        xAxis:
+          $ref: '#/components/schemas/ReportDataXAxis' 
+        yAxises:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataXAxis' 
-        xAxisesDifferences:
+            $ref: '#/components/schemas/ReportDataYAxis' 
+        yAxisesDifferences:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataXAxis'             
+            $ref: '#/components/schemas/ReportDataYAxis'             
 
     ReportDataXAxis:
       type: object
       required:
         - label
         - data
+        - unit
       properties:
+        unit: 
+          type: string
         label: 
           type: string
         data:
@@ -2785,7 +2788,10 @@ components:
       required:
         - label
         - data
+        - unit
       properties:
+        unit: 
+          type: string
         label: 
           type: string
         data:

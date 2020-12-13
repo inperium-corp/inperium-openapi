@@ -38,7 +38,7 @@ paths:
       responses:
         200:
           description: Returns an empty response that is used for OK non-returning operations.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -85,19 +85,7 @@ paths:
       description: Use this endpoint to retrieve a file by its ID.
       operationId: getFile
       parameters:
-        - name: id
-          in: path
-          description: The unique ID of the file you want to like to retrieve.
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: token
-          in: query
-          description: The JWT token or API key.
-          required: true
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
           description: Returns the file.
@@ -120,12 +108,6 @@ paths:
       operationId: getFileContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
-        - name: token
-          in: query
-          description: The JWT token or API key.
-          required: true
-          schema:
-            type: string
       responses:
         200:
           description: The file contents have been retrieved.
@@ -168,7 +150,8 @@ components:
           type: string
         contentSize:
           description: The file size.
-          type: long
+          type: integer
+          format: int64
         description:
           description: The file description provides more information about the file. For example, why it has been uploaded, its author.
           type: string
@@ -218,7 +201,7 @@ components:
   responses:
     EmptyResponse:
       description: Returns an empty response that is used for OK non-returning operations.
-      content: {}
+      content: { }
     ErrorResponse:
       description: Bad request, security violation, or internal server error.
       content:

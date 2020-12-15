@@ -4427,6 +4427,10 @@ components:
       description: Contact model submitted to Inperium API
       type: object
       additionalProperties: true
+    ProductRequest:
+      description: Product model submitted to Inperium API
+      type: object
+      additionalProperties: true
     ContactPaymentMethod:
       type: object
       properties:
@@ -5286,39 +5290,14 @@ components:
           $ref: "#/components/schemas/Id"
         tenantId:
           $ref: "#/components/schemas/Id"
-        name:
-          type: string
-        description:
-          type: string
-        code:
-          maxLength: 100
-          minLength: 1
-          type: string
-        price:
-          type: number
-        cost:
-          type: number
+        activities:
+          type: array
+          items:
+            $ref: "#/components/schemas/Activity"
+        properties:
+          type: object
+          additionalProperties: true
       description: Product model returned by Inperium API
-    ProductRequest:
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        tenantId:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-        description:
-          type: string
-        code:
-          maxLength: 100
-          minLength: 1
-          type: string
-        price:
-          type: number
-        cost:
-          type: number
-      description: Product model submitted to Inperium API
     Products:
       type: object
       properties:

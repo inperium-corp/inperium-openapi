@@ -427,8 +427,10 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
-        200:
+        204:
           description: The tenant has been successfully deleted.
+        404:
+          description: The tenant is not found.
         default:
           description: Bad request, security violation, or internal server error.
           content:

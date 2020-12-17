@@ -5290,10 +5290,6 @@ components:
           $ref: "#/components/schemas/Id"
         tenantId:
           $ref: "#/components/schemas/Id"
-        activities:
-          type: array
-          items:
-            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true

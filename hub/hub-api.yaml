@@ -385,6 +385,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
+        404:
+          description: The tenant is not found.
         default:
           description: Bad request, security violation, or internal server error.
           content:

@@ -20,16 +20,16 @@ tags:
       Clients can connect multiple mail accounts to the Message Center. The number of accounts available per user depends on the subscription plan. For more information about the plans and limits, see the Hub API reference.
   - name: Attachments
     description: |
-      Users can send or receive files as attachments. 
+      Users can send or receive files as attachments.
   - name: Drafts
     description: |
-      Drafts are messages that have been  but haven't been sent. These messages are kept in a separate folder and can be discarded or sent upon request. 
+      Drafts are messages that have been  but haven't been sent. These messages are kept in a separate folder and can be discarded or sent upon request.
   - name: Folders
     description: |
-      The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.          
+      The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
   - name: Health checks
     description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues. 
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Messages
     description: |
       Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
@@ -38,13 +38,13 @@ tags:
       The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to.
   - name: Threads
     description: |
-      Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.         
+      Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.
   - name: Webhook
     description: |
-      Inperium leverages webhooks for interaction with third-party service providers such as Nylas. 
+      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
   - name: WebhookSync
     description: |
-       To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.  
+       To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.
 
 paths:
   /health:
@@ -64,13 +64,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-                
+
   /webhooks/auth:
     get:
       tags:
         - Webhook
       summary: Connect a mailbox
-      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas. 
+      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas.
       operationId: getNylasAuthUrl
       responses:
         200:
@@ -84,19 +84,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'    
+                $ref: '#/components/schemas/ResponseError'
 
   /webhooks/register:
     get:
       tags:
         - Webhook
       summary: Register a mailbox
-      description: Use this endpoint to get the confirmation token from Nylas. 
+      description: Use this endpoint to get the confirmation token from Nylas.
       operationId: registerToken
       parameters:
         - name: code
           in: query
-          description: After you follow the auth URL and submit credentials, Nylas issues a verification code. 
+          description: After you follow the auth URL and submit credentials, Nylas issues a verification code.
           required: true
           schema:
             type: string
@@ -120,7 +120,7 @@ paths:
       tags:
         - Accounts
       summary: Retrieve accounts
-      description: Use this endpoint to get a list of conntect accounts. This endpoint supports paging and sorting. 
+      description: Use this endpoint to get a list of conntect accounts. This endpoint supports paging and sorting.
       operationId: getAccounts
       parameters:
         - name: email
@@ -279,7 +279,7 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: Returns the Thread object. 
+          description: Returns the Thread object.
           content:
             application/json:
               schema:
@@ -354,7 +354,7 @@ paths:
       tags:
         - Messages sending
       requestBody:
-        description: In the request body, pass the MessageSendRequest object. 
+        description: In the request body, pass the MessageSendRequest object.
         content:
           application/json:
             schema:
@@ -377,7 +377,7 @@ paths:
       tags:
         - Messages
       summary: Retrieve a message
-      description: Use this endpoint to get a specific message by its ID. 
+      description: Use this endpoint to get a specific message by its ID.
       operationId: getMessage
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -426,7 +426,7 @@ paths:
       tags:
         - Folders
       summary: Retrieve folders
-      description: Use this endpoint to retrieve a list of mailbox folders. This endpoint supports paging and sorting. 
+      description: Use this endpoint to retrieve a list of mailbox folders. This endpoint supports paging and sorting.
       operationId: getFolders
       parameters:
         - $ref: "#/components/parameters/UserAccountId"
@@ -476,7 +476,7 @@ paths:
       tags:
         - Folders
       summary: Retrieve a folder
-      description: Use this endpoint to get folder details by its ID. 
+      description: Use this endpoint to get folder details by its ID.
       operationId: getFolder
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -566,7 +566,7 @@ paths:
       tags:
         - Drafts
       summary: Create a draft
-      description: Use this endpoint to add a message draft. 
+      description: Use this endpoint to add a message draft.
       operationId: createDraft
       requestBody:
         description: In the request body, pass the DraftRequest object.
@@ -717,7 +717,7 @@ paths:
       tags:
         - Attachments
       summary: Delete an attachment
-      description: Use this endpoint to remove an existing attachment. 
+      description: Use this endpoint to remove an existing attachment.
       operationId: deleteAttachment
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -775,7 +775,7 @@ paths:
       tags:
         - WebhookSync
       summary: Sync with Nylas (incoming)
-      description: Use this endpoint to synchronize the Message Center service with Nylas. Pull the incoming messages, threads, and other changes. 
+      description: Use this endpoint to synchronize the Message Center service with Nylas. Pull the incoming messages, threads, and other changes.
       operationId: synchronizationRequest
       parameters:
         - name: challenge
@@ -891,9 +891,9 @@ components:
 
     Account:
       type: object
-      description: The Account object contains basic information about the mailbox including the number of unread messages, information on the mail service provider, etc. Note that the account connected to the Message Center isn't neccessarily the one the users authenticates with. I.e., the user can log in to Inperium with a personal email and connect his or her corporate email to the Message Center. 
+      description: The Account object contains basic information about the mailbox including the number of unread messages, information on the mail service provider, etc. Note that the account connected to the Message Center isn't neccessarily the one the users authenticates with. I.e., the user can log in to Inperium with a personal email and connect his or her corporate email to the Message Center.
       properties:
-        id: 
+        id:
           type: string
           description: A unique ID of the account.
           format: uuid
@@ -1207,7 +1207,7 @@ components:
           $ref: "#/components/schemas/PageAndSort"
 
     Draft:
-      description: The message that has been composed but hasn't been sent yet. 
+      description: The message that has been composed but hasn't been sent yet.
       allOf:
         - $ref: "#/components/schemas/Message"
         - type: object
@@ -1218,7 +1218,7 @@ components:
 
     DraftRequest:
       type: object
-      description: The request model used to draft a message or update it. 
+      description: The request model used to draft a message or update it.
       properties:
         subject:
           type: string

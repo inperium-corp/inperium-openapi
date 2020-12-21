@@ -867,14 +867,14 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid          
+            format: uuid
       requestBody:
         description: In the request body, pass the details that need to be updated
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/CompanyRequest"
-        required: false    
+        required: false
       responses:
         200:
           description: The company has been updated
@@ -887,8 +887,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"    
-      
+                $ref: "#/components/schemas/ResponseError"
+
   /companyRelationships:
     get:
       tags:
@@ -1199,14 +1199,14 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid          
+            format: uuid
       requestBody:
         description: In the request body, pass the details that need to be updated
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/ContactRequest"
-        required: false    
+        required: false
       responses:
         200:
           description: The contact has been updated
@@ -1219,7 +1219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"      
+                $ref: "#/components/schemas/ResponseError"
   /contacts/{id}/communication-methods:
     get:
       tags:
@@ -1518,14 +1518,14 @@ paths:
           required: true
           schema:
             type: string
-            format: uuid          
+            format: uuid
       requestBody:
         description: In the request body, pass the details that need to be updated
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/DealRequest"
-        required: false    
+        required: false
       responses:
         200:
           description: The deal has been updated
@@ -1538,7 +1538,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"                    
+                $ref: "#/components/schemas/ResponseError"
   /deals/{id}/items:
     get:
       tags:
@@ -4661,21 +4661,21 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/PropertyOption"
-            validation: 
+            validation:
               type: object
               properties:
                 required:
                   type: boolean
-                max: 
+                max:
                   type: integer
                   format: int64
                 min:
                   type: integer
                   format: int64
-                maxLength: 
+                maxLength:
                   type: integer
                   format: int64
-                minLength: 
+                minLength:
                   type: integer
                   format: int64
                 pattern:
@@ -5325,21 +5325,21 @@ components:
         xAxis:
           type: object
           properties:
-            label: 
+            label:
               type: string
             data:
               type: array
               items:
-                type: object      
+                type: object
         yAxis:
           type: object
           properties:
-            label: 
+            label:
               type: string
             data:
               type: array
               items:
-                type: object                          
+                type: object
 
     PublicQuote:
       type: object

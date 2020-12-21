@@ -929,7 +929,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError' 
+                $ref: '#/components/schemas/ResponseError'
 
   /reports/{id}/data:
     get:
@@ -2730,15 +2730,15 @@ components:
           items:
             $ref: '#/components/schemas/Report'
         paging:
-          $ref: '#/components/schemas/PageAndSort'  
-    
+          $ref: '#/components/schemas/PageAndSort'
+
     Report:
       type: object
       required:
         - id
         - name
       properties:
-        id: 
+        id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
@@ -2757,15 +2757,15 @@ components:
             - LINE
             - MULTI_BAR
         xAxis:
-          $ref: '#/components/schemas/ReportDataXAxis' 
+          $ref: '#/components/schemas/ReportDataXAxis'
         yAxises:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataYAxis' 
+            $ref: '#/components/schemas/ReportDataYAxis'
         yAxisesDifferences:
           type: array
           items:
-            $ref: '#/components/schemas/ReportDataYAxis'             
+            $ref: '#/components/schemas/ReportDataYAxis'
 
     ReportDataXAxis:
       type: object
@@ -2774,14 +2774,14 @@ components:
         - data
         - unit
       properties:
-        unit: 
+        unit:
           type: string
-        label: 
+        label:
           type: string
         data:
           type: array
           items:
-            type: object   
+            type: object
 
     ReportDataYAxis:
       type: object
@@ -2790,14 +2790,14 @@ components:
         - data
         - unit
       properties:
-        unit: 
+        unit:
           type: string
-        label: 
+        label:
           type: string
         data:
           type: array
           items:
-            type: object               
+            type: object
 
     DayOfWeek:
       type: string
@@ -2897,20 +2897,20 @@ components:
         totalCallsTime:
           $ref: '#/components/schemas/TotalCallsTimeWidget'
         averageCallTime:
-          $ref: '#/components/schemas/AverageCallTimeWidget'  
+          $ref: '#/components/schemas/AverageCallTimeWidget'
         liveCalls:
-          $ref: '#/components/schemas/LiveCallsWidget'  
+          $ref: '#/components/schemas/LiveCallsWidget'
         callsDuration:
-          $ref: '#/components/schemas/CallsDurationWidget'  
+          $ref: '#/components/schemas/CallsDurationWidget'
         callsVolume:
-          $ref: '#/components/schemas/CallsVolumeWidget'  
+          $ref: '#/components/schemas/CallsVolumeWidget'
         userStatisticsCalls:
-          $ref: '#/components/schemas/UserStatisticsCallsWidget'  
+          $ref: '#/components/schemas/UserStatisticsCallsWidget'
         callsByCountries:
-          $ref: '#/components/schemas/CallsByCountriesWidget'  
+          $ref: '#/components/schemas/CallsByCountriesWidget'
         agentStatus:
-          $ref: '#/components/schemas/AgentStatusWidget'  
-          
+          $ref: '#/components/schemas/AgentStatusWidget'
+
     TotalCallsWidget:
       type: object
       required:
@@ -2919,15 +2919,15 @@ components:
         - outbound
         - outboundDifference
       properties:
-        inbound: 
+        inbound:
           type: integer
           format: int64
         inboundDifference:
           type: integer
-          format: int64        
+          format: int64
         outbound:
           type: integer
-          format: int64      
+          format: int64
         outboundDifference:
           type: integer
           format: int64
@@ -2938,12 +2938,12 @@ components:
         - missed
         - missedDifference
       properties:
-        missed: 
+        missed:
           type: integer
           format: int64
         missedDifference:
           type: integer
-          format: int64        
+          format: int64
 
     TotalCallsTimeWidget:
       type: object
@@ -2951,12 +2951,12 @@ components:
         - totalTime
         - totalTimeDifference
       properties:
-        totalTime: 
+        totalTime:
           type: integer
           format: int64
         totalTimeDifference:
           type: integer
-          format: int64  
+          format: int64
 
     AverageCallTimeWidget:
       type: object
@@ -2964,7 +2964,7 @@ components:
         - time
         - timeDifference
       properties:
-        time: 
+        time:
           type: integer
           format: int64
         timeDifference:
@@ -2977,7 +2977,7 @@ components:
         - inProgress
         - inQueue
       properties:
-        inProgress: 
+        inProgress:
           type: integer
           format: int64
         inQueue:
@@ -2994,7 +2994,7 @@ components:
           items:
             $ref: '#/components/schemas/CallsDurationWidgetDurations'
 
-    CallsDurationWidgetDurations:            
+    CallsDurationWidgetDurations:
       type: object
       required:
         - hour
@@ -3003,7 +3003,7 @@ components:
         - todayInbound
         - todayOutbound
       properties:
-        hour: 
+        hour:
           type: integer
         averageInbound:
           type: integer
@@ -3017,7 +3017,7 @@ components:
         todayOutbound:
           type: integer
           format: int64
-          
+
     CallsVolumeWidget:
       type: object
       required:
@@ -3026,7 +3026,7 @@ components:
         volumes:
           type: array
           items:
-            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'  
+            $ref: '#/components/schemas/CallsVolumeWidgetVolumes'
 
     CallsVolumeWidgetVolumes:
       type: object
@@ -3052,13 +3052,13 @@ components:
           format: int64
         missedOutbound:
           type: integer
-          format: int64                
+          format: int64
         voiceMailsInbound:
           type: integer
           format: int64
         voiceMailsOutbound:
           type: integer
-          format: int64          
+          format: int64
 
     UserStatisticsCallsWidget:
       type: object
@@ -3068,7 +3068,7 @@ components:
         statistics:
           type: array
           items:
-            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'  
+            $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'
 
     UserStatisticsCallsWidgetStatistics:
       type: object
@@ -3086,7 +3086,7 @@ components:
           type: string
         lastName:
           type: string
-        avatarUrl: 
+        avatarUrl:
           type: string
         inbound:
           type: integer
@@ -3106,7 +3106,7 @@ components:
         total:
           type: integer
           format: int64
-      
+
     CallsByCountriesWidget:
       type: object
       required:
@@ -3115,7 +3115,7 @@ components:
         calls:
           type: array
           items:
-            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'  
+            $ref: '#/components/schemas/CallsByCountriesWidgetCalls'
 
     CallsByCountriesWidgetCalls:
       type: object
@@ -3127,13 +3127,13 @@ components:
       properties:
         countryCode:
           type: string
-        inbound: 
+        inbound:
           type: integer
           format: int64
         outbound:
           type: integer
           format: int64
-        total: 
+        total:
           type: integer
           format: int64
 

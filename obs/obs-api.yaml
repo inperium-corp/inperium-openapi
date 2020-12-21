@@ -25,7 +25,7 @@ tags:
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
 
-         
+
 
 paths:
   /health:
@@ -33,7 +33,7 @@ paths:
       tags:
         - Health checks
       summary: Check health
-      description: Use this endpoint to verify that the microservice runs as usual. 
+      description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
       responses:
         200:
@@ -100,7 +100,7 @@ paths:
             type: string
       responses:
         200:
-          description: Returns the file. 
+          description: Returns the file.
           content:
             application/json:
               schema:
@@ -143,7 +143,7 @@ paths:
 components:
   securitySchemes:
     BearerAuth:
-      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, note that it frequently expires due to security concerns. 
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, note that it frequently expires due to security concerns.
       type: http
       scheme: bearer
     ApiKeyAuth:
@@ -167,7 +167,7 @@ components:
           minLength: 1
           type: string
         contentSize:
-          description: The file size. 
+          description: The file size.
           type: long
         description:
           description: The file description provides more information about the file. For example, why it has been uploaded, its author.
@@ -180,7 +180,7 @@ components:
           description: The date when the file was modified.
           type: integer
           format: int64
-      description: Inperium OBS service processes various DataFile objects such as pdf files and images. 
+      description: Inperium OBS service processes various DataFile objects such as pdf files and images.
     ErrorModel:
       required:
         - code

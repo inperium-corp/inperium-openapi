@@ -2869,34 +2869,16 @@ paths:
       description: Use this endpoint to get a complete list of products offered by the tenant. This operation supports paging and sorting. You can also narrow down results to the products of a specific price, etc.
       operationId: getProducts
       parameters:
-        - name: id
-          in: query
-          description: Unique product ID
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: Full product name
-          schema:
-            type: string
-        - name: code
-          in: query
-          description: Internal product code or shortened name
-          schema:
-            type: string
-        - name: price
-          in: query
-          description: Product retail price (per unit)
-          schema:
-            type: string
-        - name: cost
-          in: query
-          description: Product cost (per unit)
-          schema:
-            type: string
+        - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
+        - in: query
+          name: sort
+          schema:
+            type: string
+            default: "+createdAt"
+          description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+        - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
           description: The products have been retrieved

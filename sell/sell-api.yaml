@@ -5362,6 +5362,8 @@ components:
             $ref: "#/components/schemas/PublicQuoteAdditionalFee"
         tenant:
           $ref: "#/components/schemas/PublicQuoteTenant"
+        quoteContactAcceptAllowed:
+          type: boolean
         status:
           type: string
           enum:

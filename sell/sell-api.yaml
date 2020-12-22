@@ -5362,7 +5362,7 @@ components:
             $ref: "#/components/schemas/PublicQuoteAdditionalFee"
         tenant:
           $ref: "#/components/schemas/PublicQuoteTenant"
-        quoteContactAcceptAllowed:
+        contactAcceptAllowed:
           type: boolean
         status:
           type: string

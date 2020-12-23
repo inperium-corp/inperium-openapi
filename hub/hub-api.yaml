@@ -2024,6 +2024,7 @@ components:
           description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
         thresholdValue:
           type: integer
+          format: int64
           description: The maximum value allowed by the Limit.
 
     LimitUsage:
@@ -2034,6 +2035,7 @@ components:
           $ref: "#/components/schemas/Limit"
         currentValue:
           type: integer
+          format: int64
           description: The counter, it displays how close you are to reaching the threshold.
 
     LimitUsages:
@@ -2056,6 +2058,7 @@ components:
           description: The limit name.
         newValue:
           type: integer
+          format: int64
           description: The updated value.
       required:
         - limit

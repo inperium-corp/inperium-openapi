@@ -385,6 +385,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
+        404:
+          description: The tenant is not found.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -412,6 +414,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Tenant"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    delete:
+      tags:
+        - Tenants
+      summary: Delete a tenant
+      description: Use this endpoint to delete a tenant including all its data.
+      operationId: deleteTenant
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The tenant has been successfully deleted.
+        404:
+          description: The tenant is not found.
         default:
           description: Bad request, security violation, or internal server error.
           content:

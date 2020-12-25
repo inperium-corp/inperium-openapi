@@ -1736,6 +1736,9 @@ components:
         isAdmin:
           description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
+        isTenantOwner:
+          description: The true/false parameter that marks if the user is an owner of its tenant.
+          type: boolean
         useTwoFa:
           description: The true/false parameter that indicates if 2FA is enabled for the user.
           type: boolean

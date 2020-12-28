@@ -5936,10 +5936,10 @@ components:
           $ref: "#/components/schemas/Id"
         userId:
           $ref: "#/components/schemas/Id"
-        creationDate:
+        createdAt:
           type: integer
           format: int64
-        modifiedDate:
+        updatedAt:
           type: integer
           format: int64
       description: Email template model

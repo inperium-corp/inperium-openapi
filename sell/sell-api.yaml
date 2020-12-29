@@ -5897,6 +5897,12 @@ components:
           $ref: "#/components/schemas/Id"
         userId:
           $ref: "#/components/schemas/Id"
+        createdAt:
+          type: integer
+          format: int64
+        updatedAt:
+          type: integer
+          format: int64
       description: Email template model
     Templates:
       type: object

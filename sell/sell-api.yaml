@@ -3,7 +3,7 @@ openapi: 3.0.1
 info:
   title: Inperium Sell API
   description: |
-    RESTful API providing access to objects and features of Inperium Sell CRM.
+    This RESTful API provides access to the Inperium Sell service including the ability to add companies and contacts and create deals.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -17,13 +17,13 @@ security:
 tags:
   - name: Activities
     description: |
-      Inperium Sell enables users to keep notes, plan meetings, log calls and create to-do's. These activities are typically linked to deals, contacts, or companies.
+      Inperium Sell enables users to keep notes, plan tasks, and log calls and meetings. These activities are typically linked to deals, contacts, or companies.
   - name: Attachments
     description: |
       In Inperium Sell, users have the ability to attach documents (pdf, csv, docx, etc.) to deals and companies.
   - name: Auth
     description: |
-      Authentication and authorization methods used to access Inperium Sell CRM.
+      Authentication and authorization methods used to access Inperium Sell.
   - name: Calendars
     description: |
       In Inperium Sell, users have the ability to review calendars & events.
@@ -32,10 +32,10 @@ tags:
       Inperium Sell enables users to create marketing campaigns.
   - name: CommunicationMethods
     description: |
-      In Inperium, you can assign a phone number or email address to a company.
+      In Inperium, you can assign a phone number or email address to a company. A communication method is a channel you can leverage to connect with customers or partners.
   - name: Companies
     description: |
-      Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with and track deal progress there.
+      Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with, and track deal progress there.
   - name: Company Data
     description: |
       Company data can be enriched with the publicly available information  from the internet, for example, the industry, employee counts, links to social media.
@@ -44,16 +44,16 @@ tags:
       Inperium users can associate companies with each other and create parent-child relationships.
   - name: ContactCommunicationMethods
     description: |
-      In Inperium, you can assign a phone number or email address to a contact.
+      In Inperium, you can assign a phone number or email address to a contact. A communication method is a channel you can leverage to connect with customers or partners.
   - name: Contacts
     description: |
       Contact is one of the major entities in Inperium Sell. Contacts are individuals or company's representatives Inperium Sell users work with.
   - name: Contact Data
     description: |
-      Contact data can be enriched with the publicly available information about from the internet, for example, links to social media.
+      Contact data can be enriched with the publicly available information about from the internet, for example, links to social media or a CV.
   - name: Deals
     description: |
-      Deal is one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes.
+      Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
   - name: Deprecated
     description: |
       Deprecated features which will be terminated in next releases.
@@ -62,7 +62,7 @@ tags:
       Dictionaries represent lists of objects.
   - name: Documents
     description: |
-      Inperium Sell stores files in Amazon bucket. In most cases, documents are attached to product entities but some documents are stored independently (e.g., avatar images).
+      Inperium Sell stores files in AWS. In most cases, documents are attached to entities such as companies or deals, but some documents are stored independently (e.g., avatar images).
   - name: DocumentTypes
     description: |
       Inperium Sell enables users to upload documents such as pdfs, png, etc. The DocumentTypes list all supported document extensions.
@@ -74,13 +74,13 @@ tags:
       In Inperium Sell, users can create custom forms to collect data.
   - name: GlobalSearch
     description: |
-      Global search gives ability to locate entities by their names. It searches across deals, companies, contacts at the same time.
+      Global search gives the ability to locate entities by name. It searches across deals, companies, contacts at the same time.
   - name: Import
     description: |
-      Inperium Sell enables users to import data from another CRMs. For example, contact data, information about deals, and product pricelists.
+      Inperium Sell enables users to import data from other CRMs. For example, contact data, information about deals, and product pricelists.
   - name: ImportLog
     description: |
-      If import fails for some reason or data was mapped to wrong column, refer to the Import log for troubleshootinng ideas.
+      If import fails for some reason or data was mapped to a wrong column, refer to the Import log for troubleshooting ideas.
   - name: Integrations
     description: |
       You can leverage third-party applications such as Stripe and Xero and integrate them with Inperium Sell.
@@ -89,19 +89,19 @@ tags:
       Inperium Sell enables users to create professional-looking invoices and process them within CRM.
   - name: InvoicePage
     description: |
-      Inperium Sell allows sharing invoices with customers through public URLs.
+      Inperium Sell allows sharing invoices with customers through public URLs. It means you can send an invoice link to your clients, they will follow this link, and review the invoice right in the browser.
   - name: Items
     description: |
       Products and fees are added to deals and quotes and listed as items.
   - name: PaymentMethods
     description: |
-      Inperium Sell support integration with Stripe and allows payment processing through this system.
+      Inperium Sell support integration with Stripe and allows to process payments through this system.
   - name: Payments
     description: |
-      In Inperium Sell, payments are separated from invoices since a single invoice can be splitted into several payments that should be logged individually.
+      In Inperium Sell, payments are separated from invoices. An invoice can be paid in full or splitted into several payments that should be logged individually.
   - name: Pipelines
     description: |
-      Pipelines describe the sales process, or being more specific, milestones the deal go through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
+      Pipelines describe the sales process, or being more specific, milestones the deal goes through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
   - name: PipelineStatistics
     description: |
       Analyze your sales progress with pipeline statistics.
@@ -119,31 +119,31 @@ tags:
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
   - name: PublicQuote
     description: |
-      Inperium Sell allows sharing quotes with customers through public URLs.
+      Inperium Sell allows sharing quotes with customers through public URLs. It means you can send your clients a quote link, they will follow the link and review the quote right in the browser.
   - name: Reports
     description: |
-      Inperium Sell gives you insight into sales activities and create charts showing how many companies or contacts were created, hw many deals were closed, etc. Use the reorts to track team productivity and improve performance.
+      Inperium Sell brings you insights into sales activities and creates charts showing how many companies or contacts were created, how many deals were closed, etc. Use the reports to track team productivity and improve performance.
   - name: Stages
     description: |
-      The sales pipelines consist of stages. The stages are milestones, for example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
+      The sales pipelines consist of stages. The stages are milestones the deal goes through before it gets closed. For example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
   - name: StripeAuthorizations
     description: |
-      Configure integration with Stripe.
+      To configure integration with Stripe, you've got to authenticate your app with Stripe.
   - name: StripeTerminals
     description: |
       Configure Stripe terminals to receive payments.
   - name: Template
     description: |
-      Templates are ready-to-use samples, for example introductory emails or follow-ups.
+      Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up sales process and make it more structured.
   - name: TenantIntegrations
     description: |
-      You can enable third-party integrations for your tenant to use Inperium to its fullest.
+      You can enable third-party integrations for your tenant and use Inperium to its fullest.
   - name: TenantSettings
     description: |
-      Billing subscriptions and plans, etc., are tenant-wide settings. In the Inperium UI, tenant owners and administrators can configure these settings through Inperium Account.
+      In Inperium Sell, administrators can set up tenant-wide properties and preferences such as default currency, quote prefix, revenue goal, etc.
   - name: Views
     description: |
-      Views control what data is returned to the user, including fitering, sorting, columns on a display.
+      Views control what data is returned to the user, including fitering, sorting, and columns on a display.
   - name: XeroAuthorizations
     description: |
       Configure integration with Xero.
@@ -159,32 +159,32 @@ paths:
       parameters:
         - name: authorId
           in: query
-          description: ID of the user who added the activity
+          description: The ID of the user who added the activity.
           schema:
             type: string
         - name: type
           in: query
-          description: ID that corresponds to activity type you search for
+          description: The type of activity. Each activity type (task, call, etc.) has an ID.
           schema:
             type: string
         - name: associatedContactId
           in: query
-          description: ID of the contact the activity is linked to
+          description: The ID of the contact the activity is linked to.
           schema:
             type: string
         - name: associatedCompanyId
           in: query
-          description: ID of the company the activity is linked to
+          description: The ID of the company the activity is linked to.
           schema:
             type: string
         - name: associatedDealId
           in: query
-          description: ID of the deal the activity is linked to
+          description: The ID of the deal the activity is linked to.
           schema:
             type: string
         - name: createdAt
           in: query
-          description: The date when the activity was added
+          description: The date when the activity was added.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -192,13 +192,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: OK
+          description: Returns the activities list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Activities"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -207,10 +207,10 @@ paths:
       tags:
         - Activities
       summary: Create an activity
-      description: Use this endpoint to create a new activity.
+      description: Use this endpoint to create a new activity, for example a new To-Do task.
       operationId: createActivity
       requestBody:
-        description: In the request body, pass the activity data.
+        description: In the request body, pass the ActivityRequest object.
         content:
           "application/json":
             schema:
@@ -218,13 +218,13 @@ paths:
         required: false
       responses:
         201:
-          description: A new activity has been created
+          description: A new activity has been created. Returns an activity.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Activity"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -240,6 +240,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
+        description: In the request body, pass the ActivityRequest object.
         content:
           "*/*":
             schema:
@@ -248,13 +249,13 @@ paths:
         required: false
       responses:
         200:
-          description: The activity has been updated
+          description: The activity has been updated. Returns an activity.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Activity"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -264,16 +265,16 @@ paths:
       tags:
         - Activities
       summary: Delete an activity
-      description: Use this endpoint to remove existing activity.
+      description: Use this endpoint to remove an existing activity.
       operationId: deleteActivity
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: The actvity has been removed. Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -283,17 +284,17 @@ paths:
       tags:
         - Attachments
       summary: List attachments
-      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting. Use query parameters to narrow down results.
+      description: Use this endpoint to get a list of attached files. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getAttachments
       parameters:
         - $ref: "#/components/parameters/QueryStringResourceId"
         - name: company
-          description: Attachments associated with this company ID
+          description: The ID of company. Use this parameter to get attachments associated with this company ID.
           in: query
           schema:
             type: string
         - name: contact
-          description: Attachments associated with this contact ID
+          description: The ID of the contact. Use this parameter to get attachments associated with this contact ID.
           in: query
           schema:
             type: string
@@ -302,13 +303,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: The list of attachments has been retrieved
+          description: Returns the list of attachments.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Attachments"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -317,10 +318,10 @@ paths:
       tags:
         - Attachments
       summary: Create an attachment
-      description: Use this endpoint to add new attachments to Inperium Sell.
+      description: Use this endpoint to add a new attachment to Inperium Sell.
       operationId: createAttachment
       requestBody:
-        description: Pass information about the attachment in the request body.
+        description: In the request body, pass the AttachmentRequest object.
         content:
           "*/*":
             schema:
@@ -328,13 +329,13 @@ paths:
         required: false
       responses:
         201:
-          description: A new attachment has been created
+          description: A new attachment has been created. Returns an attachment.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Attachment"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -344,20 +345,20 @@ paths:
     get:
       tags:
         - Attachments
-      summary: Retrieve attachment details
+      summary: Retrieve an attachment
       description: Use this endpoint to locate a specific attachment and retrieve its details.
       operationId: getAttachment
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Attachment details have beeen retrieved
+          description: Returns an attachment.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Attachment"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -371,7 +372,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In request body, pass the attachment data.
+        description: In request body, pass the updated AttachmentRequest object.
         content:
           "*/*":
             schema:
@@ -379,13 +380,13 @@ paths:
         required: false
       responses:
         200:
-          description: The attachment has been updated
+          description: The attachment has been updated. Returns an attachment.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Attachment"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -401,10 +402,10 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: The attachment has been removed. Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -419,12 +420,12 @@ paths:
       parameters:
         - name: id
           in: query
-          description: Enter the campaign ID
+          description: The ID of the campaign.
           schema:
             type: string
         - name: name
           in: query
-          description: Enter the campanign name
+          description: The campaign name.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -432,13 +433,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: The campaigns have been retrieved
+          description: Returns campaigns.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Campaigns"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -447,10 +448,10 @@ paths:
       tags:
         - Campaigns
       summary: Create a campaign
-      description: Use this endpoint to add new campaigns to Inperium.
+      description: Use this endpoint to add a new campaign to Inperium Sell.
       operationId: createCampaign
       requestBody:
-        description: In the request body, pass the campaign details.
+        description: In the request body, pass the CampaignRequest object.
         content:
           "*/*":
             schema:
@@ -458,13 +459,13 @@ paths:
         required: false
       responses:
         201:
-          description: The new campaign has been created
+          description: The new campaign has been created. Returns a campaign.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Campaign"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -474,20 +475,20 @@ paths:
     get:
       tags:
         - Campaigns
-      summary: Retrieve campaign details
+      summary: Retrieve a campaign
       description: Use this endpoint to search for a specific endpoint and retrieve its details.
       operationId: getCampaign
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The campaign deatils have been retrieved
+          description: The campaign details have been retrieved. Returns a campaign.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CampaignCustom"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -496,12 +497,12 @@ paths:
       tags:
         - Campaigns
       summary: Update a campaign
-      description: Use this endpoint to modify the existing campaign.
+      description: Use this endpoint to modify an existing campaign.
       operationId: updateCampaign
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the campaign details.
+        description: In the request body, pass the Campaign object.
         content:
           "*/*":
             schema:
@@ -509,13 +510,13 @@ paths:
         required: false
       responses:
         200:
-          description: The campaign has been updated
+          description: The campaign has been updated. Returns a campaign.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Campaign"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -525,16 +526,16 @@ paths:
       tags:
         - Campaigns
       summary: Delete a campaign
-      description: Use this endpoint to remove the campaign.
+      description: Use this endpoint to remove an existing campaign.
       operationId: deleteCampaign
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: The campaign has been removed. Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -543,8 +544,8 @@ paths:
     get:
       tags:
         - Contacts
-      summary: List contacts for a specific campaign
-      description: Use this endpoint to get a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
+      summary: List contacts
+      description: Use this endpoint to retrieve a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
       operationId: getCampaignContacts
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -553,13 +554,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: The contacts have been retrieved
+          description: The contacts have been retrieved. Returns contacts.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contacts"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -840,7 +841,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -953,7 +954,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -1172,7 +1173,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -1491,7 +1492,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -1809,7 +1810,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -1964,7 +1965,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2155,7 +2156,7 @@ paths:
       operationId: deauthorizeStripe
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2201,7 +2202,7 @@ paths:
             type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
   /integrations/xero/deauthorize:
     get:
@@ -2212,7 +2213,7 @@ paths:
       operationId: deauthorizeXero
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2411,7 +2412,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2437,7 +2438,7 @@ paths:
         required: false
       responses:
         202:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2462,7 +2463,7 @@ paths:
             type: string
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2764,7 +2765,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -2981,7 +2982,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3183,7 +3184,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3514,7 +3515,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3550,7 +3551,7 @@ paths:
         required: true
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3689,7 +3690,7 @@ paths:
         required: false
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3759,7 +3760,7 @@ paths:
         - $ref: "#/components/parameters/ResourceStringId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error
@@ -3883,7 +3884,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error

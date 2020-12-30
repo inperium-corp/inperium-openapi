@@ -570,17 +570,17 @@ paths:
       tags:
         - CommunicationMethods
       summary: Add a communication method
-      description: Use this endpoint to connect a new communication method for an entity (contact, company, etc.).
+      description: Use this endpoint to set up a new communication method for an entity (contact, company, etc.). For example, a contact has an email address and now you can add an extra communication channel — the phone number.
       operationId: createCommunicationMethod
       requestBody:
-        description: In the request body, pass communication method details.
+        description: In the request body, pass the CommunicationMethod object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/CommunicationMethod"
       responses:
         201:
-          description: The new communication method has been created
+          description: The new communication method has been added. Returns the communication method.
           content:
             application/json:
               schema:
@@ -596,13 +596,13 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Information has been retrieved
+          description: Information has been retrieved. Returns the communication method.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CommunicationMethod"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -611,12 +611,12 @@ paths:
       tags:
         - CommunicationMethods
       summary: Update a communication method
-      description: Use this endpoint to modify a communication method of a specific entity.
+      description: Use this endpoint to modify a communication method.
       operationId: updateCommunicationMethod
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the communication method model.
+        description: In the request body, pass the CommunicationMethod object.
         content:
           "*/*":
             schema:
@@ -624,13 +624,13 @@ paths:
         required: false
       responses:
         200:
-          description: The detailed information about the communication method has been updated
+          description: The communication method has been updated. Returns the communication method.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CommunicationMethod"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -650,13 +650,13 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The companies have been retrieved
+          description: The companies have been retrieved. Returns the list of companies.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Companies"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -668,7 +668,7 @@ paths:
       description: Use this endpoint to add a new company.
       operationId: createCompany
       requestBody:
-        description: In the request body, pass company data.
+        description: In the request body, pass CompanyRequest object.
         content:
           "*/*":
             schema:
@@ -676,13 +676,13 @@ paths:
         required: false
       responses:
         201:
-          description: The new company has been created
+          description: The new company has been created. Returns the company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -692,18 +692,18 @@ paths:
       tags:
         - Companies
       summary: Update companies in bulk
-      description: Use this endpoint to modify multiple companies at once. For example, you can update the 'industry' field to the same value or assign several companies to a single Inperium user.
+      description: Use this endpoint to modify multiple companies at once. For example, you can set the 'industry' field to the same value or assign several companies to a certain Inperium user.
       operationId: updateCompanies
       parameters:
         - name: ids
-          description: Specify companies by entering their IDs
+          description: The ID of the company.
           in: query
           schema:
             type: array
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In request body, pass the company properties to update.
+        description: In request body, pass the CompanyRequest object.
         content:
           "*/*":
             schema:
@@ -711,7 +711,7 @@ paths:
         required: false
       responses:
         201:
-          description: Companies have been updated
+          description: The companies have been updated. Returns the list of companies.
           content:
             application/json:
               schema:
@@ -719,7 +719,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -735,18 +735,18 @@ paths:
       parameters:
         - name: domainName
           in: query
-          description: Provide company domain name
+          description: The company website address.
           schema:
             type: string
       responses:
         200:
-          description: The company data has been found
+          description: The company data has been found. Returns a company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -755,20 +755,20 @@ paths:
     get:
       tags:
         - Companies
-      summary: Retrieve company details
-      description: Use this endpoint to get detailed information about a company.
+      summary: Retrieve a company
+      description: Use this endpoint to retrieve company details.
       operationId: getCompany
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Company information has been retrieved
+          description: Returns a company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -777,12 +777,12 @@ paths:
       tags:
         - Companies
       summary: Update a company
-      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely replaces company data.
+      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely overwrites the company data.
       operationId: updateCompany
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the reguest body, pass company data
+        description: In the reguest body, pass the CompanyRequest object.
         content:
           "*/*":
             schema:
@@ -790,13 +790,13 @@ paths:
         required: false
       responses:
         200:
-          description: The company has been updated
+          description: The company has been updated. Returns a company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -811,7 +811,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the details that need to be updated
+        description: In the request body, pass the CompanyRequest object with the details that need to be updated.
         content:
           "*/*":
             schema:
@@ -819,13 +819,13 @@ paths:
         required: false
       responses:
         200:
-          description: The company has been updated
+          description: The company has been updated. Returns a company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -844,7 +844,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -854,23 +854,25 @@ paths:
       tags:
         - Companies
       summary: Merge company properties
-      description: Use this endpoint to merge companies with removing one of them.
+      description: Use this endpoint to merge companies with removing any of them. The properties will be copied from the former company and written to latter company.
       operationId: mergeCompanies
       parameters:
         - name: sourceId
           in: query
+          description: The ID of the origin company.
           required: true
           schema:
             type: string
             format: uuid
         - name: targetId
           in: query
+          description: The ID of the target company.
           required: true
           schema:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the details that need to be updated
+        description: In the request body, pass the CompanyRequest object.
         content:
           "*/*":
             schema:
@@ -878,13 +880,13 @@ paths:
         required: false
       responses:
         200:
-          description: The company has been updated
+          description: The company has been updated. Returns a company.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Company"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -895,23 +897,23 @@ paths:
       tags:
         - Company Relationships
       summary: List relationships
-      description: Use this endpoint to get a list of relationships associated with the company.
+      description: Use this endpoint to get a list of connections associated with the company.
       operationId: getAllCompanyRelationships
       parameters:
         - name: company
           in: query
-          description: Enter company ID
+          description: The ID of the company.
           schema:
             type: string
       responses:
         200:
-          description: The company relations have been retrieved
+          description: The company links have been retrieved. Returns the company relationships.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyRelationships"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -919,11 +921,11 @@ paths:
     post:
       tags:
         - Company Relationships
-      summary: Add a company relationship
+      summary: Add a relationship
       description: Use this endpoint to create new relationships for the company.
       operationId: createCompanyRelationship
       requestBody:
-        description: In the request body, pass the information about the relation
+        description: In the request body, pass the CompanyRelationshipRequest object.
         content:
           "*/*":
             schema:
@@ -931,13 +933,13 @@ paths:
         required: false
       responses:
         201:
-          description: A new relationship has been added for the company
+          description: A new relationship has been added for the company. Returns a company relationship.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CompanyRelationship"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -947,7 +949,7 @@ paths:
     delete:
       tags:
         - Company Relationships
-      summary: Delete a company relationship
+      summary: Delete a relationship
       description: Use this endpoint to remove a relationship for the company and delete links between companies.
       operationId: deleteCompanyRelationships
       parameters:
@@ -957,7 +959,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -967,11 +969,11 @@ paths:
       tags:
         - Contacts
       summary: List contacts
-      description: Use this endpoint to get all contacts. This operation supports paging, sorting, and filtering by fields such as contact name.
+      description: Use this endpoint to get a list of available contacts. This operation supports paging, sorting, and filtering by fields such as contact name.
       operationId: getContacts
       parameters:
         - name: fullName
-          description: The name of the contact you are searching for
+          description: The name of the contact.
           in: query
           schema:
             type: string
@@ -982,13 +984,13 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: Contacts have been retrieved
+          description: Contacts have been retrieved. Returns a list of contacts.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contacts"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -997,10 +999,10 @@ paths:
       tags:
         - Contacts
       summary: Create a contact
-      description: Use this endpoint to add new contacts to Inperium.
+      description: Use this endpoint to add new contacts to Inperium Sell.
       operationId: createContact
       requestBody:
-        description: In the request body, pass contact details.
+        description: In the request body, pass the ContactRequest object.
         content:
           "*/*":
             schema:
@@ -1008,13 +1010,13 @@ paths:
         required: false
       responses:
         201:
-          description: A new contact has been created
+          description: A new contact has been created. Returns a contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1028,14 +1030,14 @@ paths:
       operationId: updateContacts
       parameters:
         - name: ids
-          description: IDs of the contacts that you want to update
+          description: IDs of the contacts that you want to update.
           in: query
           schema:
             type: array
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In request body, pass properties and values.
+        description: In request body, pass the ContactRequest objects will the values you want to set.
         content:
           "*/*":
             schema:
@@ -1043,7 +1045,7 @@ paths:
         required: false
       responses:
         201:
-          description: Contacts have been updated
+          description: The contacts have been updated. Returns the list of contacts.
           content:
             application/json:
               schema:
@@ -1051,7 +1053,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1062,23 +1064,23 @@ paths:
       tags:
         - Contact Data
       summary: Enrich contact data
-      description: Use this endpoint to load information about the company that is publicly available online. Inperium pulls information about the contact based on contact's email address.
+      description: Use this endpoint to load information about the contact that is publicly available online. Inperium pulls information about the contact based on contact's email address.
       operationId: getContactDataByEmail
       parameters:
         - name: email
           in: query
-          description: Enter contact's email address
+          description: The contact's email address.
           schema:
             type: string
       responses:
         200:
-          description: The contact details has been retrieved
+          description: The contact details has been enriched. Returns a contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1087,20 +1089,20 @@ paths:
     get:
       tags:
         - Contacts
-      summary: Retrieve contact details
+      summary: Retrieve a contact
       description: Use this endpoint to retrieve details for a specific contact.
       operationId: getContact
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The contact data has been retrieved
+          description: The contact data has been retrieved. Returns a contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1109,12 +1111,12 @@ paths:
       tags:
         - Contacts
       summary: Update a contact
-      description: Use this endpoint to update contact details. Unlike `PATCH /contacts/{id}`, this operation overwrites contact details completely.
+      description: Use this endpoint to update a contact. Unlike `PATCH`, this operation overwrites contact details completely.
       operationId: updateContact
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, provide new contact data.
+        description: In the request body, the ContactRequest object.
         content:
           "*/*":
             schema:
@@ -1122,13 +1124,13 @@ paths:
         required: false
       responses:
         200:
-          description: The contact details have been updated
+          description: The contact details have been updated. Returns a contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1138,12 +1140,12 @@ paths:
       tags:
         - Contacts
       summary: Partially update a contact
-      description: Use this endpoint to update specific fields in contact details. Unlike `PUT /contacts/{id}`, this operation overwrites properties partially.
+      description: Use this endpoint to update specific fields in contact details. Unlike `PUT`, this operation overwrites properties partially.
       operationId: updateContactPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the properties to update
+        description: In the request body, pass the ContactRequest object.
         content:
           "*/*":
             schema:
@@ -1151,13 +1153,13 @@ paths:
         required: false
       responses:
         200:
-          description: The contact details have been updated
+          description: The contact details have been updated. Returns a contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1167,7 +1169,7 @@ paths:
       tags:
         - Contacts
       summary: Delete a contact
-      description: Use this endpoint to remove a contact from Inperium.
+      description: Use this endpoint to remove a contact from Inperium Sell.
       operationId: deleteContact
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -1176,7 +1178,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

@@ -64,6 +64,10 @@ paths:
                 description:
                   type: string
                   description: An optional description of this file.
+                authenticationFree:
+                  type: boolean
+                  default: false
+                  description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
       responses:
         201:
           description: A new file has been created.
@@ -190,6 +194,9 @@ components:
         description:
           description: The file description provides more information about the file. For example, why it has been uploaded, its author.
           type: string
+        authenticationFree:
+          description: The boolean that indicates if the file can be visible for non-authorized users or not.
+          type: boolean
         createdAt:
           description: The date when the file was added to Inperium.
           type: integer

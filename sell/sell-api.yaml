@@ -854,7 +854,7 @@ paths:
       tags:
         - Companies
       summary: Merge company properties
-      description: Use this endpoint to merge companies with removing any of them. The properties will be copied from the former company and written to latter company.
+      description: Use this endpoint to merge companies. The properties will be copied from the former company and written to the latter company. The source company will be deleted.
       operationId: mergeCompanies
       parameters:
         - name: sourceId
@@ -880,7 +880,7 @@ paths:
         required: false
       responses:
         200:
-          description: The company has been updated. Returns a company.
+          description: The origin company has been removed. The target company has been updated. Returns a company.
           content:
             application/json:
               schema:
@@ -922,7 +922,7 @@ paths:
       tags:
         - Company Relationships
       summary: Add a relationship
-      description: Use this endpoint to create new relationships for the company.
+      description: Use this endpoint to create a new link for the company.
       operationId: createCompanyRelationship
       requestBody:
         description: In the request body, pass the CompanyRelationshipRequest object.
@@ -933,7 +933,7 @@ paths:
         required: false
       responses:
         201:
-          description: A new relationship has been added for the company. Returns a company relationship.
+          description: A new link has been added for the company. Returns a company relationship.
           content:
             application/json:
               schema:
@@ -1026,7 +1026,7 @@ paths:
       tags:
         - Contacts
       summary: Update contacts in bulk
-      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperum user or associate several contacts with the same company.
+      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperium user or associate several contacts with the same company.
       operationId: updateContacts
       parameters:
         - name: ids
@@ -1188,23 +1188,25 @@ paths:
       tags:
         - Contacts
       summary: Merge contact properties
-      description: Use this endpoint to merge contacts with removing one of them.
+      description: Use this endpoint to merge contacts. The properties of the origin contact will be moved to the target contact (e.g., name, address) and the origin contact will be deleted.
       operationId: mergeContacts
       parameters:
         - name: sourceId
+          description: The ID of the source contact.
           in: query
           required: true
           schema:
             type: string
             format: uuid
         - name: targetId
+          description: The ID of the target contact.
           in: query
           required: true
           schema:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the details that need to be updated
+        description: In the request body, pass the ContactRequest object with the properties that need to be merged.
         content:
           "*/*":
             schema:
@@ -1212,13 +1214,13 @@ paths:
         required: false
       responses:
         200:
-          description: The contact has been updated
+          description: The target contact has been updated. The origin contact has been removed. Returns the target contact.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1227,14 +1229,14 @@ paths:
     get:
       tags:
         - ContactCommunicationMethods
-      summary: Retrieve contact's email or phone number
+      summary: Retrieve a communication method
       description: Use this endpoint to retrieve a phone number or email address associated with this contact.
       operationId: getContactCommunicationMethods
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The contact data has been retrieved
+          description: The contact data has been retrieved. Returns a communication method.
           content:
             application/json:
               schema:
@@ -1242,7 +1244,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/CommunicationMethod"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1250,13 +1252,13 @@ paths:
     post:
       tags:
         - ContactCommunicationMethods
-      summary: Create an email or phone number
-      description: Use this endpoint to add a new email or phone number for the contact.
+      summary: Add a communication method
+      description: Use this endpoint to add a new communication channel for the contact, i.e. an email or phone number.
       operationId: createContactCommunicationMethod
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass information about the contact's communication method.
+        description: In the request body, pass the CommunicationMethod object.
         content:
           "*/*":
             schema:
@@ -1264,7 +1266,7 @@ paths:
         required: false
       responses:
         200:
-          description: The contact data has been retrieved
+          description: The contact data has been updated. Returns a communication method.
           content:
             application/json:
               schema:
@@ -1285,26 +1287,27 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
         - name: communicationMethodId
+          description: The ID of the communication method.
           in: path
           required: true
           schema:
             type: string
             format: uuid
       requestBody:
-        description: In request body, pass the new communication method.
+        description: In request body, pass the CommunicationMethod object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/CommunicationMethod"
       responses:
         200:
-          description: The contact data has been updated
+          description: The contact data has been updated. Returns a communication method.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CommunicationMethod"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1313,8 +1316,8 @@ paths:
     get:
       tags:
         - Deals
-      summary: List deals
-      description: Use this endpoint to get all deals. This operation supports paging and sorting.
+      summary: Retrieve deals
+      description: Use this endpoint to list all deals. This operation supports paging and sorting.
       operationId: getDeals
       parameters:
         - $ref: "#/components/parameters/QueryStringResourceId"
@@ -1325,17 +1328,17 @@ paths:
           schema:
             type: string
             default: "+createdAt"
-          description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+          description: This parameter affects sorting. It specifies the property name to sort the records by, e.g., price or date.
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The deals have been retrieved
+          description: The deals have been retrieved. Returns deals.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deals"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1347,7 +1350,7 @@ paths:
       description: Use this endpoint to create a new deal.
       operationId: createDeal
       requestBody:
-        description: In the request body, pass the deal details.
+        description: In the request body, pass the DealRequest object.
         content:
           "*/*":
             schema:
@@ -1355,13 +1358,13 @@ paths:
         required: false
       responses:
         201:
-          description: A new deal has been created
+          description: A new deal has been created. Returns a deal.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1371,18 +1374,18 @@ paths:
       tags:
         - Deals
       summary: Update deals in bulk
-      description: Use this endpoint to update several deals. For example, you can pick multiple deals and assign them to the same Inperium user.
+      description: Use this endpoint to simultaneously update properties of several deals. For example, you can pick multiple deals and assign them to the same Inperium user.
       operationId: updateDeals
       parameters:
         - name: ids
-          description: Deals you want to update
+          description: The IDs of the deals.
           in: query
           schema:
             type: array
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In request body, pass the properties to update.
+        description: In request body, pass the DealRequest object with properties you want to update.
         content:
           "*/*":
             schema:
@@ -1390,7 +1393,7 @@ paths:
         required: false
       responses:
         201:
-          description: Deals have been updated
+          description: The deals have been updated. Returns the deals.
           content:
             application/json:
               schema:
@@ -1398,7 +1401,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1408,20 +1411,20 @@ paths:
     get:
       tags:
         - Deals
-      summary: Retrieve deal details
+      summary: Retrieve a deal
       description: Use this endpoint to locate a specific deal and retrieve its details.
       operationId: getDeal
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The deal details have been retrieved
+          description: The deal has been retrieved. Returns a deal.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1430,12 +1433,12 @@ paths:
       tags:
         - Deals
       summary: Update a deal
-      description: Use this endpoint to modify deal details. Unlike `PATCH /deals/{id}`, this operation completely overwrites a deal.
+      description: Use this endpoint to modify deal details. Unlike `PATCH`, this operation completely overwrites a deal.
       operationId: updateDeal
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass deal details.
+        description: In the request body, pass the DealRequest object.
         content:
           "*/*":
             schema:
@@ -1443,13 +1446,13 @@ paths:
         required: false
       responses:
         200:
-          description: The deal has been updated
+          description: The deal has been updated. Returns a deal.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1459,12 +1462,12 @@ paths:
       tags:
         - Deals
       summary: Partially update a deal
-      description: Use this endpoint to modify some deal properties. Unlike `PUT /deals/{id}`, this operation doesn't overwrite the deal completely.
+      description: Use this endpoint to modify some of the deal properties. Unlike `PUT`, this operation doesn't overwrite the deal completely.
       operationId: updateDealPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the deal fields you want to update
+        description: In the request body, pass the DealRequest object with the properties you want to update.
         content:
           "*/*":
             schema:
@@ -1472,13 +1475,13 @@ paths:
         required: false
       responses:
         200:
-          description: The deal has been updated
+          description: The deal has been updated. Returns a deal.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1488,7 +1491,7 @@ paths:
       tags:
         - Deals
       summary: Delete a deal
-      description: Use this endpoint to remove a deal. Note that removing a deal that is no longer active is not the best decision from the business perspective. Stale deals should be assigned a final stage like 'Deal lost' instead of being deleted.
+      description: Use this endpoint to remove a deal. Note that removing a deal that is no longer active is not the best decision from the business perspective. Stale deals should be assigned to a final stage like 'Deal lost' instead of being deleted.
       operationId: deleteDeal
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -1497,7 +1500,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1506,24 +1509,26 @@ paths:
     post:
       tags:
         - Deals
-      summary: Merge deal properties
-      description: Use this endpoint to merge deals with removing one of them.
+      summary: Merge deals
+      description: Use this endpoint to merge deals. The contents of the origin deal with be moved to the target deal. As a result, the first deal will be removed.
       operationId: mergeDeals
       parameters:
         - name: sourceId
+          description: The ID of the origin deal.
           in: query
           required: true
           schema:
             type: string
             format: uuid
         - name: targetId
+          description: The ID of the target deal.
           in: query
           required: true
           schema:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the details that need to be updated
+        description: In the request body, pass the DealRequest object with the properties to be merged.
         content:
           "*/*":
             schema:
@@ -1531,13 +1536,13 @@ paths:
         required: false
       responses:
         200:
-          description: The deal has been updated
+          description: The target deal has been updated. The origin deal has been removed. Returns the deal.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Deal"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

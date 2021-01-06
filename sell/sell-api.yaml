@@ -54,6 +54,9 @@ tags:
   - name: Deals
     description: |
       Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
+  - name: DealItems
+    description: |
+      As you create a deal, you add products and additional fees and taxes. These items are required to calculate the deal value.
   - name: Deprecated
     description: |
       Deprecated features which will be terminated in next releases.
@@ -113,7 +116,7 @@ tags:
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.
   - name: Properties
     description: |
-      Inperium Sell comes with preset properties as well as enables users to create custom definitions and configurations.
+      Inperium Sell comes with preset properties (or fields) as well as enables users to create custom definitions. Custom properties are helpful if you need to accomodate your specific business workflow and keep additional data in Inperium Sell. For example, shipment information for deal tracking. In this case, you can add a custom property for deals: both API and regular users will get access to it fro the deals page.
   - name: Quotes
     description: |
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
@@ -1552,19 +1555,19 @@ paths:
       tags:
         - DealItems
       summary: List deal items
-      description: Use this endpoint to get information about the products included in the deal and any applicable fees.
+      description: Use this endpoint to get information about the products included in the deal as well as any applicable fees.
       operationId: getDealItems
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: Deal items have been retrieved.
+          description: Deal items have been retrieved. Returns items.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ItemsAndAdditionalFees"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1573,12 +1576,12 @@ paths:
       tags:
         - DealItems
       summary: Add items
-      description: Use this endpoint to add products or fees to the deal.
+      description: Use this endpoint to add items to the deal. It can be a product or fee.
       operationId: createDealItems
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the items you want to add.
+        description: In the request body, pass the ItemsAndAdditionalFees object.
         content:
           "*/*":
             schema:
@@ -1586,13 +1589,13 @@ paths:
         required: false
       responses:
         201:
-          description: Items have been added to the deal
+          description: Items have been added. Returns items.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ItemsAndAdditionalFees"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1602,11 +1605,12 @@ paths:
     get:
       tags:
         - Dictionaries
-      summary: Retrieve a dictionary group
+      summary: Retrieve a dictionary
       description: Use this endpoint to retrieve a dictionary group by its ID.
       operationId: getDictionaryGroup
       parameters:
         - name: groupId
+          description: The ID of the dictionary group.
           in: path
           required: true
           schema:
@@ -1614,13 +1618,13 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The dictionary group has been retrieved
+          description: The dictionary group has been retrieved. Returns dictionary items.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/DictionaryItems"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1633,19 +1637,20 @@ paths:
       description: Use this endpoint to export companies, deals, etc. This operation supports paging, sorting, and filtering.
       operationId: runExport
       requestBody:
+        description: In the request body, pass the ExportRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ExportRequest"
       responses:
         200:
-          description: The export started
+          description: The export started. Returns the export file name.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Export"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1669,7 +1674,7 @@ paths:
                 type: string
                 format: binary
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1692,13 +1697,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Items have been retrieved
+          description: The items have been retrieved. Returns items.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Items"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1716,33 +1721,33 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
         - name: dataType
           in: query
-          description: The type of the property value
+          description: The type of the property value.
           schema:
             type: string
         - name: owner
           in: query
-          description: The creator of the property
+          description: The user who created the property.
           schema:
             type: string
         - name: label
           in: query
-          description: Property name
+          description: The display name of the property.
           schema:
             type: string
         - name: objectType
           in: query
-          description: Property object type, e.g. companies, contacts, or deals
+          description: The entity the property refers to, e.g. companies, contacts, or deals.
           schema:
             type: string
       responses:
         200:
-          description: Properties have been retrieved
+          description: The list of properties has been retrieved. Returns PropertyConfigs.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/PropertyConfigs"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1751,23 +1756,23 @@ paths:
       tags:
         - Properties
       summary: Create a property
-      description: Use this endpoint to create custom properties for Inperium objects.
+      description: Use this endpoint to create a custom property.
       operationId: createProperty
       requestBody:
-        description: In the request body, pass the property definition
+        description: In the request body, pass the PropertyRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
         201:
-          description: Property has been created
+          description: A new property has been created. Returns a PropertyConfig.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/PropertyConfig"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1778,31 +1783,31 @@ paths:
       tags:
         - Properties
       summary: Update a property
-      description: Use this endpoint to modify a property. For example, to change a label or a data type.
+      description: Use this endpoint to modify a custom property. For example, to change a label or a data type. The property will be overwritten.
       operationId: updateProperty
       parameters:
         - name: id
           in: path
-          description: Property ID
+          description: The ID of the property.
           required: true
           schema:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the property details
+        description: In the request body, pass the PropertyRequest object.
         content:
           "*/*":
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
         200:
-          description: Property has been updated
+          description: The property has been updated. Returns a PropertyConfig.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/PropertyConfig"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1811,7 +1816,7 @@ paths:
       tags:
         - Properties
       summary: Delete a property
-      description: Use this endpoint to remove a propety.
+      description: Use this endpoint to remove a custom property.
       operationId: deleteProperty
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -1820,7 +1825,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1830,19 +1835,19 @@ paths:
     get:
       tags:
         - Properties
-      summary: List properties of a specific type
-      description: Retrieve property definitions of a specific type such as monetary or boolean.
+      summary: List properties by object
+      description: Retrieve properties belonging to a specific entity. For example, company properties or deal properties.
       operationId: getPropertiesByType
       parameters:
         - name: objectType
           in: path
-          description: Property object type, e.g., companies, contacts, or deals
+          description: The object, e.g., companies, contacts, or deals.
           required: true
           schema:
             type: string
       responses:
         200:
-          description: Properties have been retrieved
+          description: The properties have been retrieved. Returns the list of PropertyConfigs.
           content:
             application/json:
               schema:
@@ -1850,7 +1855,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/PropertyConfig"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

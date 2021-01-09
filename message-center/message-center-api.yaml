@@ -1035,6 +1035,12 @@ components:
             - FAILED
             - INITIAL_SYNC
             - CANCELED
+        organizationUnit:
+          type: string
+          description: The structure of organization unit(e.g. folders or labels).
+          enum:
+            - FOLDER
+            - LABEL
         provider:
           type: string
           description: The mail service provider.

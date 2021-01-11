@@ -64,7 +64,7 @@ paths:
                 description:
                   type: string
                   description: An optional description of this file.
-                public:
+                publiclyAccessible:
                   type: boolean
                   default: false
                   description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.

@@ -138,16 +138,16 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /files/uploadFromStarter:
     post:
-      tags:
-        - Files
       deprecated: true
       summary: Re-add the file uploaded by obs starter lib via the microservice
       operationId: reAddFile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileMigration'
+      parameters:
+        - name: fileId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         201:
           description: A new file has been created.
@@ -173,21 +173,6 @@ components:
       in: header
       name: X-API-KEY
   schemas:
-    FileMigration:
-      type: object
-      properties:
-        fileId:
-          type: string
-        tenantId:
-          type: string
-          format: uuid
-        userId:
-          type: string
-          format: uuid
-        fileName:
-          type: string
-        fileDescription:
-          type: string
     DataFile:
       type: object
       properties:
@@ -209,7 +194,7 @@ components:
         description:
           description: The file description provides more information about the file. For example, why it has been uploaded, its author.
           type: string
-        public:
+        publiclyAccessible:
           description: The boolean that indicates if the file can be visible for non-authorized users or not.
           type: boolean
         createdAt:

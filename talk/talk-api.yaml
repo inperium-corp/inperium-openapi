@@ -1080,6 +1080,8 @@ paths:
             enum:
               - IOS
               - ANDROID
+              - WEB
+            default: WEB
       responses:
         200:
           description: A new Twilio voice token has been created

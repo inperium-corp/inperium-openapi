@@ -1072,6 +1072,14 @@ paths:
         - Calls
       summary: Get a Twillio token for Voice API SDK
       operationId: getVoiceToken
+      parameters:
+        - name: platform
+          in: query
+          schema:
+            type: string
+            enum:
+              - IOS
+              - ANDROID
       responses:
         200:
           description: A new Twilio voice token has been created

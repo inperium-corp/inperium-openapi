@@ -2201,7 +2201,7 @@ paths:
       tags:
         - Invoices
       summary: List payment plans
-      description: Use this endpoint to get the list of payment plans for the invoices. For each invoice, you can set up a payment plan, for example, to split the invoice into several payments. This operation supports sorting and paging.
+      description: Use this endpoint to get the list of payment plans for the invoices. For each invoice, you can set up a payment plan, for example, to split the invoice into several payments. This endpoint supports sorting and paging.
       operationId: getInvoicesPaymentPlans
       parameters:
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -2209,13 +2209,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: The invoices payment plans have been retrieved
+          description: The payment plans have been retrieved. Returns InvoicePaymentPlans.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/InvoicePaymentPlans"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2224,20 +2224,20 @@ paths:
     get:
       tags:
         - Invoices
-      summary: Retrieve invoice details
+      summary: Retrieve an invoice
       description: Use this endpoint to locate an invoice by its ID and get invoice details.
       operationId: getInvoice
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice has been found
+          description: The invoice has been retrieved. Returns an invoice.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Invoice"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2246,12 +2246,12 @@ paths:
       tags:
         - Invoices
       summary: Update an invoice
-      description: Use this endpoint to modify the invoice.
+      description: Use this endpoint to modify the invoice. The contents of the invoice will be overwritten.
       operationId: updateInvoice
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the updated invoice
+        description: In the request body, pass the updated InvoiceRequest object.
         content:
           "*/*":
             schema:
@@ -2259,13 +2259,13 @@ paths:
         required: false
       responses:
         200:
-          description: The invoice has been updated
+          description: The invoice has been updated. Returns an invoice.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Invoice"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2284,7 +2284,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2293,13 +2293,13 @@ paths:
     post:
       tags:
         - Invoices
-      summary: Send the invoice to client
-      description: Use this endpoint to send an invoice by email to the contact.
+      summary: Send an invoice
+      description: Use this endpoint to send an invoice by email to the client.
       operationId: emailInvoice
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, specify email-related details.
+        description: In the request body, pass the InvoiceEmail object.
         content:
           "*/*":
             schema:
@@ -2310,7 +2310,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2320,12 +2320,13 @@ paths:
     get:
       tags:
         - Invoices
-      summary: Syncronize invoices
-      description: Use this endpoint to get the most recent information about invoices and sync them.
+      summary: Sync invoices
+      description: Use this endpoint to get the most recent information about invoices and synchronize them.
       operationId: syncInvoice
       parameters:
         - $ref: "#/components/parameters/ResourceId"
         - name: integrationAnchor
+          description: The ID of the integration (e.g., Xero) that facilitates invoice processing and synchronization.
           in: path
           required: true
           schema:
@@ -2335,7 +2336,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2345,11 +2346,11 @@ paths:
       tags:
         - PaymentMethods
       summary: Retrieve a Stripe publishable key
-      description: Use this endpoint to get a Stripe publishable key for the current tenant
+      description: Use this endpoint to get a Stripe publishable key for the current tenant.
       operationId: getStripePublishableKey
       responses:
         200:
-          description: The publishable key has been retrieved
+          description: The publishable key has been retrieved. Returns a string.
           content:
             application/json:
               schema:
@@ -2359,37 +2360,37 @@ paths:
       tags:
         - Payments
       summary: List payments
-      description: Use this endpoint to get a payment log and see what invoices have been paid. This operation supports paging and sorting. Search for specific payments or narrow down the result to similar payments (e.g., by credit card)
+      description: Use this endpoint to get a payment log and see what invoices have been paid. This operation supports paging and sorting. Search for a specific payment or narrow down results to similar payments (e.g., made by credit card).
       operationId: getPayments
       parameters:
         - name: id
           in: query
-          description: Payment ID
+          description: The payment ID.
           schema:
             type: string
         - name: contactId
           in: query
-          description: The contact associated with the payment
+          description: The contact associated with the payment.
           schema:
             type: string
         - name: date
           in: query
-          description: The date the payment was made (mm/dd/yyyy)
+          description: The date the payment was made (mm/dd/yyyy).
           schema:
             type: string
         - name: method
           in: query
-          description: Payment method (cash, credit card, etc.)
+          description: Payment method (cash, credit card, etc.).
           schema:
             type: string
         - name: amount
           in: query
-          description: The amount that was paid
+          description: The amount that was paid.
           schema:
             type: string
         - name: status
           in: query
-          description: The payment status
+          description: The payment status.
           schema:
             type: string
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -2397,13 +2398,13 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Payments have been retrieved
+          description: Payments have been retrieved. Returns payments.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payments"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2415,7 +2416,7 @@ paths:
       description: Use this endpoint to add a new payment to Inperium.
       operationId: createPayment
       requestBody:
-        description: In request body, pass information about the payment you are creating
+        description: In request body, pass the PaymentRequest object.
         content:
           "*/*":
             schema:
@@ -2423,13 +2424,13 @@ paths:
         required: false
       responses:
         200:
-          description: A new payment has been created
+          description: A new payment has been created. Returns a payment.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payment"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2440,22 +2441,23 @@ paths:
       tags:
         - Payments
       summary: Capture a payment intent
-      description: Use this endpoint to check if there is a Stripe payment intent.
+      description: Use this endpoint to get information about a payment intent from Stripe. Payment intents help process complex transaction and improve logging.
       operationId: capturePaymentIntent
       parameters:
         - name: paymentIntentId
+          description: The Stripe identificatior for payment intents.
           in: query
           schema:
             type: string
       responses:
         200:
-          description: Successfully captured a payment intent
+          description: The payment intent has been retrieved. Returns a payment intent.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CapturedPaymentIntent"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2468,7 +2470,7 @@ paths:
       description: Use this endpoint to create a Stripe payment intent. See Stripe API reference for background information.
       operationId: createPaymentIntent
       requestBody:
-        description: In the request body, pass the payment intent details.
+        description: In the request body, pass the CreatePaymentIntent object.
         content:
           "*/*":
             schema:
@@ -2476,13 +2478,13 @@ paths:
         required: false
       responses:
         200:
-          description: A new payment intent has been created
+          description: A new payment intent has been created. Returns a payment intent.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/PaymentIntent"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2498,7 +2500,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the payment details.
+        description: In the request body, pass the PaymentRequest object.
         content:
           "*/*":
             schema:
@@ -2506,13 +2508,13 @@ paths:
         required: false
       responses:
         200:
-          description: The payment has been updated
+          description: The payment has been updated. Returns a payment.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Payment"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

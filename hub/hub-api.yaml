@@ -1736,6 +1736,9 @@ components:
         isAdmin:
           description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
           type: boolean
+        isOwner:
+          description: The true/false parameter that marks if the user is an owner of its tenant.
+          type: boolean
         useTwoFa:
           description: The true/false parameter that indicates if 2FA is enabled for the user.
           type: boolean
@@ -2024,6 +2027,7 @@ components:
           description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
         thresholdValue:
           type: integer
+          format: int64
           description: The maximum value allowed by the Limit.
 
     LimitUsage:
@@ -2034,6 +2038,7 @@ components:
           $ref: "#/components/schemas/Limit"
         currentValue:
           type: integer
+          format: int64
           description: The counter, it displays how close you are to reaching the threshold.
 
     LimitUsages:
@@ -2056,6 +2061,7 @@ components:
           description: The limit name.
         newValue:
           type: integer
+          format: int64
           description: The updated value.
       required:
         - limit

@@ -27,6 +27,9 @@ tags:
   - name: Folders
     description: |
       The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
+  - name: Labels
+    description: |
+      The Message Center mimics the labels structure of the original mail service of the client. For example, the Inbox and Outbox labels.
   - name: Health checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
@@ -214,6 +217,11 @@ paths:
       parameters:
         - name: folderId
           description: The ID of the folder where the thread belongs to.
+          in: query
+          schema:
+            type: string
+        - name: labelId
+          description: The ID of the label where the thread belongs to.
           in: query
           schema:
             type: string
@@ -502,7 +510,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: TBD
+        description: In the request body, pass the FolderRequest object.
         content:
           application/json:
             schema:
@@ -531,6 +539,122 @@ paths:
       responses:
         204:
           description: The folder has been removed.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /labels:
+    get:
+      tags:
+        - Labels
+      summary: Retrieve labels
+      description: Use this endpoint to retrieve a list of mailbox labels. This endpoint supports paging and sorting.
+      operationId: getLabels
+      parameters:
+        - $ref: "#/components/parameters/UserAccountId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list of labels.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Labels'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Labels
+      summary: Create a label
+      description: Use this endpoint to add a new mailbox label.
+      operationId: createLabel
+      requestBody:
+        description: In the request body, pass the LabelRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelRequest'
+      responses:
+        200:
+          description: Returns a newly created label.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /labels/{id}:
+    get:
+      tags:
+        - Labels
+      summary: Retrieve a label
+      description: Use this endpoint to get label details by its ID.
+      operationId: getLabel
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: Returns the label.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: Update a label
+      description: Use this endpoint to modify an existing label such as a label name. Note that the label properties will be overwritten.
+      operationId: updateLabel
+      tags:
+        - Labels
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the LabelRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LabelRequest'
+      responses:
+        200:
+          description: In the request body, pass the LabelRequest object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Labels
+      summary: Delete a label
+      description: Use this endpoint to remove an existing label.
+      operationId: deleteLabel
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The label has been removed.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -819,7 +943,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-
 components:
   securitySchemes:
     BearerAuth:
@@ -973,6 +1096,12 @@ components:
           items:
             type: string
             format: uuid
+        labelIds:
+          type: array
+          description: The list of the labels.
+          items:
+            type: string
+            format: uuid
         hasAttachments:
           description: This true/false parameter indicates if the thread has files attached to it.
           type: boolean
@@ -1032,7 +1161,6 @@ components:
           type: string
           description: The subject of the message.
         from:
-          description: The sender of the message.
           $ref: '#/components/schemas/ThreadParticipant'
         to:
           type: array
@@ -1076,6 +1204,12 @@ components:
           type: string
           description: A unique ID of the folder the message belongs to.
           format: UUID
+        labelIds:
+          type: array
+          description: The list of the labels.
+          items:
+            type: string
+            format: uuid
 
     MessageUpdateRequest:
       type: object
@@ -1195,6 +1329,52 @@ components:
           description: A unique ID of the account.
           format: UUID
 
+    Labels:
+      type: object
+      description: The list of mailbox labels.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Label'
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    Label:
+      type: object
+      description: The Label object describes the mailbox label of messages. It can be a predefined label such as Inbox or a custom label created by the Inperium user.
+      properties:
+        id:
+          type: string
+          description: A unique ID of the label.
+          format: UUID
+        userAccountId:
+          type: string
+          description: A unique ID of the account.
+          format: UUID
+        name:
+          type: string
+          description: The label name.
+        displayName:
+          type: string
+          description: The label name.
+        unreadMessagesAmount:
+          type: integer
+          description: The total number of unread messages.
+          format: int64
+
+    LabelRequest:
+      type: object
+      description: The request model used to modify the label properties.
+      properties:
+        displayName:
+          type: string
+          description: The label name.
+        userAccountId:
+          type: string
+          description: A unique ID of the account.
+          format: UUID
+
     Drafts:
       type: object
       description: The list of draft messages.
@@ -1247,7 +1427,6 @@ components:
           items:
             $ref: '#/components/schemas/ThreadParticipant'
         from:
-          description: The sender of the message.
           $ref: '#/components/schemas/ThreadParticipant'
         attachmentIds:
           type: array

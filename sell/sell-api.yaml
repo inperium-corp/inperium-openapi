@@ -4314,15 +4314,17 @@ components:
           $ref: "#/components/schemas/Id"
         companyIds:
           type: array
+          description: The list of associated companies.
           items:
             $ref: "#/components/schemas/Id"
         contactIds:
           type: array
+          description: The list of associated contacts.
           items:
             $ref: "#/components/schemas/Id"
         document:
           $ref: "#/components/schemas/Document"
-      description: Document model returned by Inperium API
+      description: The Attachment object returned by Inoerium API contains information about the uploaded document and related contacts and companies.
     AttachmentRequest:
       type: object
       properties:
@@ -4330,15 +4332,18 @@ components:
           $ref: "#/components/schemas/Id"
         companyIds:
           type: array
+          description: The list of associated companies.
           items:
             $ref: "#/components/schemas/Id"
         contactIds:
           type: array
+          description: The list of associated contacts.
           items:
             $ref: "#/components/schemas/Id"
         documentUrl:
           type: string
-      description: Document model submitted to Inperium API
+          description: The upload URL.
+      description: The incoming AttchmentRequest object model describes an attachment.
     Attachments:
       type: object
       properties:
@@ -4348,7 +4353,7 @@ components:
             $ref: "#/components/schemas/Attachment"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-      description: An aggregation of attachments
+      description: The array of Attachment objects with paging and sorting information.
     Campaign:
       type: object
       properties:
@@ -4356,7 +4361,7 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
-      description: Campaign model returned by Inperium API
+      description: The Campaign object returned by Inperium API describes
     CampaignRequest:
       type: object
       properties:
@@ -4865,6 +4870,7 @@ components:
     Id:
       type: string
       format: uuid
+      description: A unique object identifier.
     Import:
       type: object
       properties:

@@ -1708,6 +1708,12 @@ components:
             - password
             - confirmPassword
           properties:
+            region:
+              type: string
+              description: The target region of this user's Inperium account
+              enum:
+                - AMERICA
+                - EUROPE
             password:
               type: string
               description: The user password.
@@ -1767,6 +1773,8 @@ components:
           description: The list of subscriptions enabled for the user.
           items:
             $ref: '#/components/schemas/Subscription'
+        region:
+          type: string
 
     UserRequest:
       description: The UserRequest object is sent to Inperum Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.
@@ -1933,6 +1941,8 @@ components:
           description: The list of features available to the tenant.
           items:
             type: string
+        region:
+          type: string
         createdAt:
           type: integer
           format: int64

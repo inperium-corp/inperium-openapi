@@ -2259,6 +2259,11 @@ paths:
           description: A contact ID to associated with the invoice
           schema:
             type: string
+        - name: contactName
+          in: query
+          description: A contact name to associated with the invoice
+          schema:
+            type: string
         - name: dealId
           in: query
           description: A deal ID to associated with the invoice

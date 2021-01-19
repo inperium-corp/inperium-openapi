@@ -79,6 +79,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /audioFiles/{id}:
+    get:
+      tags:
+        - Audio Files
+      summary: Retrieve audio file details by its ID
+      operationId: getAudioFile
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The audio file details have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AudioFile'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Audio Files
@@ -1786,7 +1806,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Widgets'
+                $ref: '#/components/schemas/Widgets'
         default:
           description: Bad request, security violation, or internal server error
           content:

@@ -68,6 +68,10 @@ paths:
                   type: boolean
                   default: false
                   description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
+                userId:
+                  type: string
+                  format: uuid
+                  description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
       responses:
         201:
           description: A new file has been created.

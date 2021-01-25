@@ -4066,7 +4066,7 @@ components:
             - subject
             - activityDate
     MeetingActivityRequest:
-      description: An incoming object that describes an activity. `MEETING` will be used as the discriminator value."
+      description: An incoming object that describes an activity. `MEETING` will be used as the discriminator value.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object
@@ -4085,7 +4085,7 @@ components:
             - subject
             - activityDate
     TaskActivityRequest:
-      description: An incoming object that describes an activity. `TASK` will be used as the discriminator value."
+      description: An incoming object that describes an activity. `TASK` will be used as the discriminator value.
       allOf:
         - $ref: "#/components/schemas/ActivityRequest"
         - type: object
@@ -4220,7 +4220,7 @@ components:
             - subject
             - activityDate
     MeetingActivity:
-      description: The meeting type of activity. `MEETING` will be used as the discriminator value."
+      description: The meeting type of activity. `MEETING` will be used as the discriminator value.
       allOf:
         - $ref: "#/components/schemas/Activity"
         - type: object
@@ -4361,7 +4361,8 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
-      description: The Campaign object returned by Inperium API describes
+          description: The campaign title.
+      description: The Campaign object returned by Inperium API describes the marketing activity.
     CampaignRequest:
       type: object
       properties:
@@ -4369,9 +4370,10 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The campaign title.
         userId:
           $ref: "#/components/schemas/Id"
-      description: Campaign model submitted to Inperium API
+      description: The incoming Campaign object model submitted to Inperium API.
     CampaignCustom:
       type: object
       properties:
@@ -4379,11 +4381,14 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The campaign title.
         enrolled:
           type: integer
-      description: Custom campaign model with enrolled field
+          description: The number of clients enrolled after the campaign.
+      description: The custom Campaign object contains additional 'enrolled' parameter.
     Campaigns:
       type: object
+      description: The array of Campaign objects with paging and sorting
       properties:
         data:
           type: array

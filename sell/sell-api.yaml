@@ -2297,7 +2297,7 @@ paths:
       tags:
         - Invoices
       summary: Send an invoice
-      description: Use this endpoint to send an invoice by email to the client.
+      description: Use this endpoint to send an invoice to the client by email.
       operationId: emailInvoice
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -2448,7 +2448,7 @@ paths:
       operationId: capturePaymentIntent
       parameters:
         - name: paymentIntentId
-          description: The Stripe identificatior for payment intents.
+          description: The Stripe identificator for payment intents.
           in: query
           schema:
             type: string
@@ -4384,11 +4384,11 @@ components:
           description: The campaign title.
         enrolled:
           type: integer
-          description: The number of clients enrolled after the campaign.
-      description: The custom Campaign object contains additional 'enrolled' parameter.
+          description: The number of clients enrolled after a campaign.
+      description: The custom Campaign object contains an additional 'enrolled' parameter.
     Campaigns:
       type: object
-      description: The array of Campaign objects with paging and sorting
+      description: The array of Campaign objects with paging data.
       properties:
         data:
           type: array
@@ -4401,52 +4401,59 @@ components:
       properties:
         id:
           type: string
-      description: Captured payment intent model
+      description: The object containing a Stripe payment intent.
     CommunicationMethod:
       type: object
-      description: Communication method model
+      description: The communication method object that defines a source of communication configured for a company.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         value:
           type: string
+          description: The email address or phone number.
         type:
           type: string
+          description: The source of communication, email or phone.
         specificType:
           type: string
+          description: The optional parameter that defines if the communication channel is personal or corporate.
         isPrimary:
           type: boolean
     Company:
       type: object
-      description: Company model returned by Inperium API
+      description: The Company object returned by Inperium API includes the ID, activities, and the properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         activities:
           type: array
+          description: The list of activities.
           items:
             $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
+          description: The JSON containing company properties and their values, such as a company name or employee count.
     CompanyRequest:
-      description: Company model submitted to Inperium API
+      description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
     CompanyRelationshipRequest:
       type: object
-      description: Company relationship model submitted to Inperium API
+      description: The incoming company relationship object enables you to link companies and define relations between companies.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         companyId:
           type: string
+          description: The ID of the origin company.
           format: uuid
         parentCompanyId:
           type: string
+          description: The ID of the parent company.
           format: uuid
     CompanyRelationship:
-      description: Company relashionship model returned by Inperium API
+      description: The company relashionship object defines company hierarchy.
       type: object
       properties:
         id:
@@ -4462,7 +4469,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CompanyRelationship"
-      description: An aggregation of company's relationships
+      description: The list of company's relationships.
     Companies:
       type: object
       properties:
@@ -4472,29 +4479,28 @@ components:
             $ref: "#/components/schemas/Company"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-      description: An aggregation of companies
+      description: The list of companies with paging data.
     Contact:
-      description: Contact model returned by Inperium API
+      description: The contact object returned by Inperium API includes the ID, activities, and the properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       properties:
         id:
           $ref: "#/components/schemas/Id"
         activities:
           type: array
+          description: The list of activities.
           items:
             $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
+          description: The JSON containing contact properties and their values, such as a name or employee title.
     ContactRequest:
-      description: Contact model submitted to Inperium API
-      type: object
-      additionalProperties: true
-    ProductRequest:
-      description: Product model submitted to Inperium API
+      description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
     ContactPaymentMethod:
+      description: The contact's preferred method of payment with its details.
       type: object
       properties:
         id:
@@ -4503,8 +4509,10 @@ components:
           $ref: "#/components/schemas/Id"
         fingerprint:
           type: string
+          description: Verification information.
     Contacts:
       type: object
+      description: The list of contacts with paging data.
       properties:
         data:
           type: array
@@ -4519,40 +4527,34 @@ components:
           $ref: "#/components/schemas/PaymentRequest"
         useTerminal:
           type: boolean
-      description: Model of creating a payment intent
+          description: The true/false parameter that defines the terminal usage.
+      description: The incoming object that instructs Stripe to create a payment intent.
     Deal:
       type: object
-      description: Deal model returned to Inperium API
+      description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and he properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         properties:
           type: object
           additionalProperties: true
+          description: The JSON containing product properties and their values, such as a deal name or value.
         activities:
           type: array
+          description: The list of activities.
           items:
             $ref: "#/components/schemas/Activity"
         createdAt:
           type: integer
           format: int64
+          description: The date the deal was created.
     DealRequest:
       type: object
       additionalProperties: true
-      description: Deal model submitted to Inperium API
-    ItemsAndAdditionalFees:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/Item"
-        additionalFees:
-          type: array
-          items:
-            $ref: "#/components/schemas/AdditionalFee"
+      description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
     Deals:
       type: object
+      description: The list of deals with paging data.
       properties:
         data:
           type: array
@@ -4560,23 +4562,6 @@ components:
             $ref: "#/components/schemas/Deal"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-
-    PipelineStatistics:
-      type: object
-      properties:
-        stages:
-          type: array
-          items:
-            type: object
-            properties:
-              stageId:
-                $ref: "#/components/schemas/Id"
-              dealsTotalValue:
-                type: number
-              dealsCount:
-                type: integer
-                format: int64
-
     DictionaryItem:
       type: object
       properties:
@@ -4585,15 +4570,19 @@ components:
         anchor:
           minLength: 1
           type: string
+          description: The ID of the item.
         caption:
           minLength: 1
           type: string
+          description: The display name.
         description:
           type: string
+          description: The item description or any additional information.
         extendedAttributes:
           type: object
           properties: {}
-      description: A dictionary item which cannot be modified
+          description: Additional properties.
+      description: An entry in a preset dictionary (e.g., currency). Dictionary items cannot be modified.
     DictionaryItems:
       type: object
       properties:
@@ -4601,18 +4590,22 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/DictionaryItem"
-      description: An aggregation of dictionary items
+      description: The list of dictionary items.
     DocumentType:
       type: object
+      description: The type of the uploaded file.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         defaultCaption:
           type: string
+          description: The display name.
         mimeType:
           type: string
+          description: The media (MIME) type.
         fileExtension:
           type: string
+          description: The document extension such as pdf.
     Document:
       type: object
       properties:
@@ -4625,19 +4618,25 @@ components:
         filename:
           minLength: 1
           type: string
+          description: The file name.
         contentSize:
           type: integer
+          description: The file size.
         contentPreview:
           type: string
+          description: A short preview.
         description:
           type: string
+          description: Information about the file.
         createdAt:
           type: integer
           format: int64
+          description: The date the file was uploaded.
         updatedAt:
           type: integer
           format: int64
-      description: A document stored in CRM
+          description: The date the file was modified.
+      description: A document stored in Inperium Sell.
     ErrorModel:
       required:
         - code
@@ -4646,26 +4645,28 @@ components:
       properties:
         code:
           type: string
-          description: Error Code
+          description: The error code.
         message:
           type: string
-          description: Error Message
+          description: The error message.
         type:
           type: string
-          description: Error Message
+          description: The error level (error, warn, or info).
           enum:
             - ERROR
             - WARN
             - INFO
         details:
           type: string
-          description: Comma separated list of fields, which caused the error condition
-      description: An individual error
+          description: Comma-separated list of fields, which caused the error condition.
+      description: An error returned by Inperium API.
     ExportRequest:
       type: object
+      description: The object defines parameters for export.
       properties:
         entityType:
           type: string
+          description: The entity to be exported.
           enum:
             - COMPANIES
             - DEALS
@@ -4673,6 +4674,7 @@ components:
             - CONTACTS
         fileFormat:
           type: string
+          description: The export file format.
           enum:
             - CSV
             - PDF
@@ -4680,119 +4682,42 @@ components:
             - XLSX
         properties:
           type: array
+          description: The export properties.
           items:
             type: string
         filters:
           type: array
+          description: The list of applied filters.
           items:
             type: object
+            description: The filter details.
             properties:
               field:
                 type: string
+                description: The field included in filtering.
               filter:
                 type: string
+                description: The filter value.
         pageNumber:
           type: integer
           format: int64
+          description: The page to be exported.
         pageSize:
           type: integer
           format: int64
+          description: The number of records per page.
         sort:
           type: string
+          description: The sorting.
     Export:
       type: object
+      description: The export outcome.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         filename:
           type: string
-    PropertyConfig:
-      anyOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            usedIn:
-              type: integer
-              format: int64
-            ownerId:
-              type: string
-              format: uuid
-            configuration:
-              type: object
-              additionalProperties: true
-            propertyOptions:
-              type: array
-              items:
-                $ref: "#/components/schemas/PropertyOption"
-            validation:
-              type: object
-              properties:
-                required:
-                  type: boolean
-                max:
-                  type: integer
-                  format: int64
-                min:
-                  type: integer
-                  format: int64
-                maxLength:
-                  type: integer
-                  format: int64
-                minLength:
-                  type: integer
-                  format: int64
-                pattern:
-                  type: string
-
-    PropertyConfigs:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/PropertyConfig"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
-    PropertyDefinition:
-      required:
-        - label
-        - name
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        objectType:
-          type: string
-        name:
-          type: string
-        label:
-          type: string
-        description:
-          type: string
-        dataType:
-          type: string
-        currency:
-          type: string
-        custom:
-          type: boolean
-    PropertyOption:
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        label:
-          type: string
-        value:
-          type: string
-    PropertyRequest:
-      allOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            propertyOptions:
-              type: array
-              items:
-                $ref: "#/components/schemas/PropertyOption"
+          description: The name of the file containing exported data.
     Form:
       type: object
       properties:
@@ -4800,19 +4725,25 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The form title.
         inlineMessage:
           type: string
+          description: The displayed message.
         submitText:
           type: string
+          description: The input text.
         redirectUrl:
           type: string
+          description: The URL the form redirects to.
         style:
           type: string
+          description: The form style.
         fields:
           type: array
+          description: The list of form fields.
           items:
             $ref: "#/components/schemas/FormField"
-      description: Form model
+      description: The object describing a custom form.
     FormField:
       type: object
       properties:
@@ -4822,25 +4753,34 @@ components:
           $ref: "#/components/schemas/Id"
         labelHidden:
           type: boolean
+          description: The true/false parameter that defines if the label should be hidden.
         placeholder:
           type: string
+          description: An example text.
         defaultValue:
           type: string
+          description: A default value for this field.
         label:
           type: string
+          description: The display name.
         sortOrder:
           type: integer
+          description: The sorting details.
         required:
           type: boolean
+          description: The true/false parameter that defines if the field is mandatory.
         hidden:
           type: boolean
+          description: The true/false parameter that defines if the field should be hidden from view.
         definition:
           $ref: "#/components/schemas/PropertyDefinition"
         description:
           type: string
-      description: Form field model
+          description: Additional information about the form field.
+      description: The object describing a form field.
     Forms:
       type: object
+      description: The list of forms with paging data.
       properties:
         data:
           type: array
@@ -4850,23 +4790,30 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     GlobalSearchResult:
       type: object
-      description: Data returned by Inperium API
+      description: Data returned by Inperium API.
       properties:
         type:
           type: string
+          description: The type of entity.
         avatar:
           type: string
+          description: The picture.
         title:
           type: string
+          description: The entity name.
         description:
           type: string
+          description: The additional description.
         itemId:
           type: string
           format: uuid
+          description: The item.
         additionalProperties:
           type: string
+          description: Additional details.
     GlobalSearchResults:
       type: object
+      description: The list of results returned by Global Search.
       properties:
         data:
           type: array
@@ -4878,16 +4825,20 @@ components:
       description: A unique object identifier.
     Import:
       type: object
+      description: Information about the import results.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         filename:
           type: string
+          description: The imported file name.
         importDate:
           type: integer
           format: int64
+          description: The import date.
         result:
           type: object
+          description: The import outcome.
           additionalProperties: true
     Imports:
       type: object
@@ -4898,7 +4849,7 @@ components:
             $ref: "#/components/schemas/Import"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-      description: An aggregation of import log entries
+      description: The list of import events.
     Integration:
       type: object
       properties:
@@ -4906,13 +4857,17 @@ components:
           $ref: "#/components/schemas/Id"
         anchor:
           type: string
+          description: The integration anchor.
         name:
           type: string
+          description: The title.
         description:
           type: string
+          description: The integration details.
         type:
           type: string
-      description: Intergration model
+          description: The type of the integration.
+      description: The integration configuration.
     Integrations:
       type: object
       properties:
@@ -4922,10 +4877,10 @@ components:
             $ref: "#/components/schemas/Integration"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-      description: An aggregation of integrations
+      description: The list of integrations with paging data.
     InvoiceRequest:
       type: object
-      description: The model to create or update an invoice.
+      description: The incoming object that facilitates invoice creation or modification.
       required:
         - addressLine1
         - city
@@ -4939,18 +4894,25 @@ components:
       properties:
         addressLine1:
           type: string
+          description: The recipient's address.
         addressLine2:
           type: string
+          description: The recipient's address.
         city:
           type: string
+          description: The city or town.
         zip:
           type: string
+          description: The postal code.
         state:
           type: string
+          description: The recipient's state (if applicable).
         country:
           type: string
+          description: The recipient's country.
         additionalFees:
           type: array
+          description: The list of applicable fees.
           items:
             $ref: "#/components/schemas/AdditionalFee"
         contactId:
@@ -4958,40 +4920,53 @@ components:
         date:
           type: integer
           format: int64
+          description: The date the invoice was issued.
         dealId:
           $ref: "#/components/schemas/Id"
         dueDate:
           type: integer
           format: int64
+          description: The date by which the invoice must be paid.
         items:
           type: array
+          description: The products included in the invoice.
           items:
             $ref: "#/components/schemas/Item"
         number:
           type: string
+          description: The invoice number.
         paymentPlans:
           type: array
+          description: The list of payment plans enabled for the invoice.
           items:
             $ref: "#/components/schemas/InvoicePaymentPlan"
     Invoice:
       type: object
+      description: The object returned by Inperium includes information about an invoice awaiting payment.
       properties:
         addressLine1:
           type: string
+          description: The recipient's address.
         addressLine2:
           type: string
+          description: The recipient's address.
         city:
           type: string
+          description: The city or town.
         zip:
           type: string
+          description: The postal code.
         state:
           type: string
+          description: The recipient's state (if applicable).
         country:
           type: string
+          description: The recipient's country.
         id:
           $ref: "#/components/schemas/Id"
         additionalFees:
           type: array
+          description: The list of applicable fees.
           items:
             $ref: "#/components/schemas/AdditionalFee"
         contact:
@@ -4999,53 +4974,69 @@ components:
         date:
           type: integer
           format: int64
+          description: The date the invoice was issued.
         deal:
           $ref: "#/components/schemas/Deal"
         dueDate:
           type: integer
           format: int64
+          description: The date by which the invoice must be paid.
         items:
           type: array
+          description: The products included in the invoice.
           items:
             $ref: "#/components/schemas/Item"
         amountPaid:
           type: number
+          description: The sum that has been paid so far. Managers can split invoices in several payments.
         total:
           type: number
+          description: The total sum.
         amountDue:
           type: number
+          description: The remaining amount to be paid.
         number:
           type: string
+          description: The invoice number.
         paymentPlans:
           type: array
+          description: The list of payment plans enabled for the invoice.
           items:
             $ref: "#/components/schemas/InvoicePaymentPlan"
         payments:
           type: array
+          description: The list of processed payments.
           items:
             $ref: "#/components/schemas/Payment"
         status:
           type: string
+          description: The invoice status such as open, paid, or overdue.
           enum:
             - PAID
             - OVERDUE
             - OPEN
         syncedToIntegration:
           type: boolean
+          description: The true/false parameter that marks if the invoice is in sync with an integration.
     InvoiceEmail:
       type: object
       properties:
         to:
           type: string
+          description: The client's email address.
         from:
           type: string
+          description: The sender email address.
         replyTo:
           type: string
+          description: In case the invoice email is sent as a reply to a previous message.
         subject:
           type: string
+          description: The subject of the email.
         message:
           type: string
-      description: Invoice email model
+          description: The message accompanying the invoice.
+      description: The invoice email object facilitates sending an invoice to a customer.
     InvoicePaymentPlan:
       type: object
       properties:
@@ -5113,6 +5104,20 @@ components:
           $ref: "#/components/schemas/Id"
         invoiceId:
           $ref: "#/components/schemas/Id"
+    ItemsAndAdditionalFees:
+      type: object
+      description: The products included in the deal as well as various taxes and fees.
+      properties:
+        items:
+          type: array
+          description: The list of items.
+          items:
+            $ref: "#/components/schemas/Item"
+        additionalFees:
+          type: array
+          description: The list of applicable fees.
+          items:
+            $ref: "#/components/schemas/AdditionalFee"
     Items:
       type: object
       properties:
@@ -5313,6 +5318,26 @@ components:
             $ref: "#/components/schemas/Pipeline"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+    PipelineStatistics:
+      type: object
+      description: The data on pipeline usage.
+      properties:
+        stages:
+          type: array
+          description: The list of stages.
+          items:
+            type: object
+            description: The stage data.
+            properties:
+              stageId:
+                $ref: "#/components/schemas/Id"
+              dealsTotalValue:
+                type: number
+                description: The overall value calculated for all deals.
+              dealsCount:
+                type: integer
+                description: The total number of deals.
+                format: int64
     PredefinedMetadataGroup:
       type: object
       properties:
@@ -5358,6 +5383,10 @@ components:
           type: object
           additionalProperties: true
       description: Product model returned by Inperium API
+    ProductRequest:
+      description: The incoming object that describes product properties. To retrieve property definitions, send a GET request to '/properties'.
+      type: object
+      additionalProperties: true
     Products:
       type: object
       properties:
@@ -5367,6 +5396,92 @@ components:
             $ref: "#/components/schemas/Product"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+    PropertyConfig:
+      anyOf:
+        - $ref: "#/components/schemas/PropertyDefinition"
+        - type: object
+          properties:
+            usedIn:
+              type: integer
+              format: int64
+            ownerId:
+              type: string
+              format: uuid
+            configuration:
+              type: object
+              additionalProperties: true
+            propertyOptions:
+              type: array
+              items:
+                $ref: "#/components/schemas/PropertyOption"
+            validation:
+              type: object
+              properties:
+                required:
+                  type: boolean
+                max:
+                  type: integer
+                  format: int64
+                min:
+                  type: integer
+                  format: int64
+                maxLength:
+                  type: integer
+                  format: int64
+                minLength:
+                  type: integer
+                  format: int64
+                pattern:
+                  type: string
+    PropertyConfigs:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/PropertyConfig"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+    PropertyDefinition:
+      required:
+        - label
+        - name
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        objectType:
+          type: string
+        name:
+          type: string
+        label:
+          type: string
+        description:
+          type: string
+        dataType:
+          type: string
+        currency:
+          type: string
+        custom:
+          type: boolean
+    PropertyOption:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        label:
+          type: string
+        value:
+          type: string
+    PropertyRequest:
+      allOf:
+        - $ref: "#/components/schemas/PropertyDefinition"
+        - type: object
+          properties:
+            propertyOptions:
+              type: array
+              items:
+                $ref: "#/components/schemas/PropertyOption"
     Report:
       type: object
       properties:

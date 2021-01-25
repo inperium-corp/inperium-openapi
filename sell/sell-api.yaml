@@ -4942,7 +4942,7 @@ components:
             $ref: "#/components/schemas/InvoicePaymentPlan"
     Invoice:
       type: object
-      description: The object returned by Inperium includes information about an invoice awaiting payment.
+      description: The object returned by Inperium API includes information about an invoice awaiting payment.
       properties:
         addressLine1:
           type: string
@@ -5044,22 +5044,29 @@ components:
           $ref: "#/components/schemas/Id"
         amount:
           type: number
+          description: The amount to be paid.
         invoiceId:
           $ref: "#/components/schemas/Id"
         invoiceNumber:
           type: string
+          description: The invoice number.
         paymentDate:
           type: integer
           format: int64
+          description: The payment due date.
         paymentMethod:
           type: string
+          description: The payment method.
         contactFirstName:
           type: string
+          description: The name of the contact person.
         contactLastName:
           type: string
-      description: Payment plan model
+          description: The surname of the contact person.
+      description: The payment paln for a invoice. For each invoice, a manager can suggest a payment schedule and split the total amount into several payments.
     InvoicePaymentPlans:
       type: object
+      description: The list of invoice payment plans with paging data.
       properties:
         data:
           type: array
@@ -5069,6 +5076,7 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Invoices:
       type: object
+      description: The list of invoices.
       properties:
         data:
           type: array
@@ -5078,24 +5086,27 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Item:
       type: object
-      description: Item model. Products and services are added to deals as items.
+      description: The products and services are added to invoices as items.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         price:
           type: number
+          description: The price per item.
         discountMoney:
-          description: Fixed amount of money to be deducted from the subtotal, e.g., $5.
+          description: The fixed amount of money to be deducted from the subtotal, e.g., $5.
           type: number
         discountPercent:
-          description: Percentage of subtotal, e.g., 5%.
+          description: The percentage-based discount, e.g., 5%.
           type: number
           maximum: 100
         quantity:
           type: integer
           format: int64
+          description: The number of included products.
         value:
           type: number
+          description: The total calculated as the price multiplied by quantity.
         product:
           $ref: "#/components/schemas/Product"
         dealId:
@@ -5120,6 +5131,7 @@ components:
             $ref: "#/components/schemas/AdditionalFee"
     Items:
       type: object
+      description: The list of items with paging data.
       properties:
         data:
           type: array
@@ -5132,12 +5144,11 @@ components:
       properties:
         redirectUrl:
           type: string
-      description: Model containing a redirect URL to OAuth2 provider
-
+          description: The URL for redirection.
+      description: The object containing a redirect URL to the OAuth2 provider.
     PageAndSort:
       type: object
-      description: Paging and sorting information
-
+      description: Paging and sorting information.
     Payment:
       type: object
       properties:
@@ -5145,26 +5156,34 @@ components:
           $ref: "#/components/schemas/Id"
         stripeId:
           type: string
+          description: The Stripe ID.
         invoice:
           $ref: "#/components/schemas/Invoice"
         currency:
           type: string
+          description: The currency of the payment.
         description:
           type: string
+          description: The payment notes or description.
         amount:
           type: number
+          description: The amount paid.
         date:
           type: integer
           format: int64
+          description: The date the payment was processed.
         stripePaymentMethod:
           $ref: "#/components/schemas/StripePaymentMethod"
         paymentMethod:
           type: string
+          description: The payment method.
         declinedReason:
           type: string
+          description: In case the payment was desclined, provide a reason.
         status:
           type: string
-      description: Payment model returned by Inperium API
+          description: The status of the payment.
+      description: The payment object contains information about incoming payment.
     PaymentRequest:
       type: object
       properties:
@@ -5174,24 +5193,32 @@ components:
           $ref: "#/components/schemas/Id"
         currency:
           type: string
+          description: The currency of the payment.
         amount:
           type: number
+          description: The amount paid.
         paymentMethod:
           type: string
+          description: The payment method.
         stripePaymentMethod:
           $ref: "#/components/schemas/StripePaymentMethod"
         description:
           type: string
+          description: The payment notes or description.
         date:
           type: integer
           format: int64
+          description: The date the payment was processed.
         status:
           type: string
+          description: The status of the payment.
         declinedReason:
           type: string
+          description: In case the payment was desclined, provide a reason.
         stripeId:
           type: string
-      description: Payment model submitted to Inperium API
+          description: The Stripe ID.
+      description: The incoming objects that describes a new payment.
     PaymentIntent:
       type: object
       properties:

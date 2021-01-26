@@ -5225,84 +5225,116 @@ components:
         amount:
           type: integer
           format: int64
+          description: The amount to be charged.
         transfer_group:
           type: string
+          description: This parameter identifies if the payment is a part of a group.
         amount_received:
           type: integer
           format: int64
+          description: The amount collected.
         application_fee_amount:
           type: integer
           format: int64
+          description: The total amount of additional fees and taxes.
         canceled_at:
           type: integer
           format: int64
+          description: The timestamp in case the payment was canceled.
         cancellation_reason:
           type: string
+          description: The reason for cancelling the payment intent.
         capture_method:
           type: string
+          description: The way the funds will be captured from the client's account.
         client_secret:
           type: string
+          description: This secret is used to process a payment.
         confirmation_method:
           type: string
+          description: This parameter defines if additional confirmation is required.
         created:
           type: integer
           format: int64
+          description: The timestamp when the payment intent was created.
         currency:
           type: string
+          description: The currency of the payment.
         customer:
           type: object
+          description: The ID of the customer.
           properties: {}
         description:
           type: string
+          description: Comments or any additional information about the payment intent.
         id:
           type: string
+          description: A unique identifier of the object.
         invoice:
           type: object
+          description: The ID of the invoice.
           properties: {}
         amount_capturable:
           type: integer
           format: int64
+          description: The amount that can be captured.
         object:
           type: string
+          description: The type of object.
         on_behalf_of:
           type: object
+          description: The funds recipient.
           properties: {}
         payment_method:
           type: object
+          description: The ID of the payment method.
           properties: {}
         payment_method_options:
           type: string
+          description: Details specific to the payment method.
         payment_method_types:
           type: array
+          description: The list of allowed payment method types.
           items:
             type: string
         receipt_email:
           type: string
+          description: The email address for sending a receipt.
         review:
           type: object
+          description: The ID of the review.
           properties: {}
         setup_future_usage:
           type: string
+          description: This parameter indicates if the payment method selected in this payment intent will be reused in the future.
         shipping:
           type: object
+          description: Shipping details.
           properties: {}
         source:
           type: object
+          description: The source.
           properties: {}
         statement_descriptor:
           type: string
+          description: A description for the customer's statements.
         statement_descriptor_suffix:
           type: string
+          description: A description for the customer's statements.
         status:
           type: string
+          description: The status of the payment.
         transfer_data:
           type: object
+          description: This data is used to create a transfer once the payment is finalized.
           properties: {}
         livemode:
           type: boolean
-      description: Payment intent model
+          description: The true/false parameter that defines if the payment intent exists in the live mode (true) or test mode (false).
+      description: The PaymentIntent object contains information about the Stripe payment intent. For more details, refer to Stripe documentation.
     Payments:
       type: object
+      description: The list of payments with paging data.
       properties:
         data:
           type: array
@@ -5312,32 +5344,37 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Pipeline:
       type: object
-      description: Pipeline model returned by Inperium API
+      description: The object returned by Inperium API contains pipeline details including its name and the list of stages.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The pipeline name.
         stages:
           type: array
+          description: The list of pipeline stages.
           items:
             $ref: "#/components/schemas/Stage"
     PipelineRequest:
       type: object
-      description: Pipeline model submitted to Inperium API
+      description: The incoming object that defines a pipeline.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The pipeline name.
         stages:
           type: array
+          description: The list of pipeline stages.
           items:
             $ref: "#/components/schemas/StageRequest"
       required:
         - name
     Pipelines:
       type: object
+      description: The list of pipelines with paging data.
       properties:
         data:
           type: array

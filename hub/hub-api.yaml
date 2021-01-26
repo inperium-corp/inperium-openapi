@@ -2507,6 +2507,10 @@ components:
           $ref: "#/components/schemas/SubscriptionState"
         price:
           $ref: "#/components/schemas/Price"
+        prices:
+          type: array
+          items:
+            $ref: "#/components/schemas/Price"
         currentPeriodStart:
           type: integer
           format: int64

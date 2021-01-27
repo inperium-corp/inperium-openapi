@@ -110,7 +110,7 @@ tags:
       Analyze your sales progress with pipeline statistics.
   - name: Predefined Metadata
     description: |
-      Predefined metadata groups are dictionaries containing data such as currency names.
+      Predefined metadata groups are dictionaries containing data such as days of weeks, standard statuses, or activity types.
   - name: Products
     description: |
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.
@@ -5409,9 +5409,10 @@ components:
           maxLength: 32
           minLength: 1
           type: string
+          description: An internal name of the group, e.g., activitiesType.
         options:
           $ref: "#/components/schemas/PredefinedMetadataOptionList"
-      description: Model containing predefined metadata group
+      description: The object containing the predefined metadata group.
     PredefinedMetadataOption:
       type: object
       properties:
@@ -5420,20 +5421,25 @@ components:
           minLength: 1
           type: string
           deprecated: true
+          description: The internal name or ID.
         caption:
           minLength: 1
           type: string
           deprecated: true
+          description: The caption.
         label:
           type: string
+          description: The display name.
         description:
           type: string
+          description: Comments or additional notes.
         value:
           type: string
-      description: Model containing a single predefined metadata option
+          description: The value of the option. In most cases, the value is the same as the label.
+      description: The dictionary entry.
     PredefinedMetadataOptionList:
       type: array
-      description: Model containing a list of predefined metadata options
+      description: The list of entries in the predefined metadata group.
       items:
         $ref: "#/components/schemas/PredefinedMetadataOption"
     Product:
@@ -5446,13 +5452,15 @@ components:
         properties:
           type: object
           additionalProperties: true
-      description: Product model returned by Inperium API
+          description: The list of product properties.
+      description: The Product object returned by Inperium API contains information about a product or a service offered by the tenant.
     ProductRequest:
       description: The incoming object that describes product properties. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
     Products:
       type: object
+      description: The list of products with paging data.
       properties:
         data:
           type: array
@@ -5461,6 +5469,7 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
     PropertyConfig:
+      description: A complete description of the field (or property) used in Inperium Sell.
       anyOf:
         - $ref: "#/components/schemas/PropertyDefinition"
         - type: object
@@ -5468,37 +5477,49 @@ components:
             usedIn:
               type: integer
               format: int64
+              description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
             ownerId:
               type: string
               format: uuid
+              description: The ID of the user who added this property. 'Null' for buildin properties.
             configuration:
               type: object
               additionalProperties: true
+              description: Additional configuration of the property.
             propertyOptions:
               type: array
+              description: The list of options.
               items:
                 $ref: "#/components/schemas/PropertyOption"
             validation:
               type: object
+              description: The validation parameters for the property such as a maximum input length or a support pattern.
               properties:
                 required:
                   type: boolean
+                  description: The true/false parameter that marks if this property must be filled.
                 max:
                   type: integer
                   format: int64
+                  description: The maximum supported value.
                 min:
                   type: integer
                   format: int64
+                  description: The minimum supported value.
                 maxLength:
                   type: integer
                   format: int64
+                  description: The maximum length of the input text.
                 minLength:
                   type: integer
                   format: int64
+                  description: The minimum length of the input text.
                 pattern:
                   type: string
+                  description: The pattern to validate the input against.
     PropertyConfigs:
       type: object
+      description: The list of property configurations with paging data.
       properties:
         data:
           type: array
@@ -5511,124 +5532,113 @@ components:
         - label
         - name
       type: object
+      description: The definition of the property.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         objectType:
           type: string
+          description: The property can belong to either a company, a contact, a deal, or a product.
         name:
           type: string
+          description: The internal name.
         label:
           type: string
+          description: The display name.
         description:
           type: string
+          description: Comments or additional details.
         dataType:
           type: string
+          description: The property data type such as string, boolean or monetary.
         currency:
           type: string
+          description: For monetary properties, the default currency of the property.
         custom:
           type: boolean
+          description: The true/false parameter that marks if the property is builtin (false) or created by user (true).
     PropertyOption:
       type: object
+      description: When you create a property with the 'select' data, you have to define the possible values. For example, for the 'Shipping' property with the 'Select' data type, the options will be 'Ground' and 'Air'.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         label:
           type: string
+          description: The display name.
         value:
           type: string
+          description: The value.
     PropertyRequest:
+      description: The incoming object that provides a complete definition of a custom property.
       allOf:
         - $ref: "#/components/schemas/PropertyDefinition"
         - type: object
           properties:
             propertyOptions:
               type: array
+              description: The list of property options.
               items:
                 $ref: "#/components/schemas/PropertyOption"
-    Report:
-      type: object
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-    Reports:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/Report"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
-    ReportData:
-      type: object
-      properties:
-        xAxis:
-          type: object
-          properties:
-            label:
-              type: string
-            data:
-              type: array
-              items:
-                type: object
-        yAxis:
-          type: object
-          properties:
-            label:
-              type: string
-            data:
-              type: array
-              items:
-                type: object
-
     PublicQuote:
       type: object
+      description: The quote that is sent to a customer for approval. The PublicQuote object will have less parameters than the Quote object that is used internally.
       properties:
         name:
-          type: string
+          type:
+          description: The quote name.
         expirationDate:
           type: integer
           format: int64
+          description: The date when this quote expires. The quote can no longer be accepted after this date.
         comment:
           type: string
+          description: Any additional quote details.
         purchaseTerm:
           type: string
+          description: The purchasing terms.
         value:
           type: number
+          description: The quote total.
         createdDate:
           type: integer
           format: int64
+          description: The creation timestamp.
         paymentPlans:
           type: array
+          description: The list of payment plans configured for this quote.
           items:
             $ref: "#/components/schemas/PublicQuotePaymentPlan"
         quoteUser:
           $ref: "#/components/schemas/PublicQuoteUser"
         quoteContacts:
           type: array
+          description: The list of contacts.
           items:
             $ref: "#/components/schemas/PublicQuoteContact"
         quoteCompany:
           $ref: "#/components/schemas/PublicQuoteCompany"
         items:
           type: array
+          description: The list of quote items.
           items:
             $ref: "#/components/schemas/PublicQuoteItem"
         additionalFees:
           type: array
+          description: The list of additional fees.
           items:
             $ref: "#/components/schemas/PublicQuoteAdditionalFee"
         tenant:
           $ref: "#/components/schemas/PublicQuoteTenant"
         contactAcceptAllowed:
           type: boolean
+          description: The true/false parameter that defines if the client can accept the quote.
         signature:
           type: string
+          description: The signature text.
         status:
           type: string
+          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', or 'accepted'.
           enum:
             - DRAFT
             - CREATED
@@ -5636,18 +5646,23 @@ components:
           example: DRAFT
     PublicQuoteAdditionalFee:
       type: object
+      description: The additional fee as it appears in the quote sent to a customer.
       properties:
         amountMoney:
           type: number
+          description: The fee amount.
         amountPercent:
           type: number
+          description: The percentage amount.
         name:
           type: string
+          description: The fee name or description.
         type:
           type: string
+          description: The fee type.
     PublicQuoteItem:
       type: object
-      description: Item model.
+      description: The quote item as it appears in the quote sent to a customer.
       properties:
         price:
           type: number
@@ -5659,91 +5674,128 @@ components:
           type: number
           maximum: 100
         quantity:
+          description: The number of articles.
           type: integer
           format: int64
         value:
           type: number
+          description: The total per item.
         product:
           $ref: "#/components/schemas/Product"
-
     PublicQuotePaymentPlan:
       type: object
+      description: The payment plan as it appears in the quote sent to a customer.
       properties:
         amount:
           type: number
+          description: The pending amount.
         paymentDate:
           type: integer
           format: int64
+          description: The payment due date.
         paymentMethod:
           type: string
+          description: The payment method to be used.
     PublicQuoteUser:
       type: object
+      description: The Inperium user's name as it appears in the quote sent to a customer.
       properties:
         firstName:
           type: string
+          description: The given name.
         lastName:
           type: string
+          description: The family name.
         email:
           type: string
+          description: The email address.
         phoneNumber:
           type: string
+          description: The phone number, personal or corporate.
     PublicQuoteContact:
       type: object
+      description: The customer's name as it appears in the quote sent to a customer.
       properties:
         firstName:
           type: string
+          description: The given name.
         lastName:
           type: string
+          description: The family name.
         email:
           type: string
+          description: The email address.
         phoneNumber:
           type: string
+          description: The contact's phone number.
     PublicQuoteCompany:
       type: object
+      description: The customer's name as it appears in the quote sent to a customer.
       properties:
         companyName:
           type: string
+          description: The company name.
         domainName:
           type: string
+          description: The website.
         addressLine1:
           type: string
+          description: The address.
         addressLine2:
           type: string
+          description: The address.
         city:
           type: string
+          description: The city or town.
         zip:
           type: string
+          description: The postal code.
         state:
           type: string
+          description: The state, if applicable.
         country:
           type: string
+          description: The country name.
     PublicQuoteTenant:
       type: object
+      description: The tenant company details as they appear in the quote sent to a customer.
       properties:
         companyLogo:
           type: string
+          description: The company logo.
         logoAltText:
           type: string
+          description: The logo text.
         defaultCurrency:
           type: string
+          description: The default currency.
         companyName:
           type: string
+          description: The name of the tenant company.
         name:
           type: string
+          description: The internal name.
         domainName:
           type: string
+          description: The website.
         addressLine1:
           type: string
+          description: The address.
         addressLine2:
           type: string
+          description: The address.
         city:
           type: string
+          description: The city or town.
         zip:
           type: string
+          description: The postal code.
         state:
           type: string
+          description: The state, if applicable.
         country:
           type: string
+          description: The country name.
     Quote:
       type: object
       properties:
@@ -5751,55 +5803,70 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The quote name.
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
           type: integer
           format: int64
+          description: The date after which the quote can no longer be accepted.
         acceptedAt:
           type: integer
           format: int64
+          description: The timestamp when the quote got accepted. You can't make any changes after accepting the quote.
         comment:
           type: string
+          description: Any additional details.
         purchaseTerm:
           type: string
+          description: The purchasing terms.
         displayColor:
           type: string
+          description: The color of the quote.
         companyId:
           $ref: "#/components/schemas/Id"
         avatarUrl:
           type: string
+          description: The link to the avatar image.
         language:
           type: string
+          description: The preferred language of the quote.
         value:
           type: number
+          description: The quote value.
         uid:
           type: string
           format: uuid
+          description: The ID of the quote.
         userId:
           $ref: "#/components/schemas/Id"
         paymentPlans:
           type: array
+          description: The list of the payment plans associated with the quote.
           items:
             $ref: "#/components/schemas/QuotePaymentPlan"
         quoteUser:
           $ref: "#/components/schemas/QuoteUser"
         quoteContacts:
           type: array
+          description: The list of contacts.
           items:
             $ref: "#/components/schemas/QuoteContact"
         quoteCompany:
           $ref: "#/components/schemas/QuoteCompany"
         items:
           type: array
+          description: The list of items (products or services) included in the quote.
           items:
             $ref: "#/components/schemas/Item"
         additionalFees:
           type: array
+          description: The list of applicable fees and taxes.
           items:
             $ref: "#/components/schemas/AdditionalFee"
         status:
           type: string
+          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', or 'accepted'.
           enum:
             - DRAFT
             - CREATED
@@ -5807,10 +5874,11 @@ components:
           example: DRAFT
         mostRelevant:
           type: boolean
+          description: The true/false paramater that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
           example: false
         signatureUrl:
           type: string
-      description: Quote model returned by Inperium API
+      description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
       properties:
@@ -5965,6 +6033,43 @@ components:
             $ref: "#/components/schemas/Quote"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+    Report:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+    Reports:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Report"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+    ReportData:
+      type: object
+      properties:
+        xAxis:
+          type: object
+          properties:
+            label:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
+        yAxis:
+          type: object
+          properties:
+            label:
+              type: string
+            data:
+              type: array
+              items:
+                type: object
     ResponseError:
       type: object
       properties:

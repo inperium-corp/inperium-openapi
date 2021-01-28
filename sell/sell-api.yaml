@@ -5803,7 +5803,7 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
-          description: The quote name.
+          description: The quote title.
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
@@ -5878,6 +5878,7 @@ components:
           example: false
         signatureUrl:
           type: string
+          description: The signature.
       description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
@@ -5886,44 +5887,55 @@ components:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The quote title.
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
           type: integer
           format: int64
+          description: The date after which the quote can no longer be accepted.
         acceptedAt:
           type: integer
           format: int64
+          description: The timestamp when the quote got accepted. You can't make any changes after accepting the quote.
         comment:
           type: string
+          description: Any additional details.
         purchaseTerm:
           type: string
+          description: The purchasing terms.
         companyId:
           $ref: "#/components/schemas/Id"
         value:
           type: number
+          description: The total value of the quote.
         paymentPlans:
           type: array
+          description: The list of the payment plans associated with the quote.
           items:
             $ref: "#/components/schemas/QuotePaymentPlan"
         quoteUser:
           $ref: "#/components/schemas/QuoteUser"
         quoteContacts:
           type: array
+          description: The list of contacts.
           items:
             $ref: "#/components/schemas/QuoteContact"
         quoteCompany:
           $ref: "#/components/schemas/QuoteCompany"
         additionalFees:
           type: array
+          description: The list of applicable fees and taxes.
           items:
             $ref: "#/components/schemas/AdditionalFee"
         items:
           type: array
+          description: The list of items (products or services) included in the quote.
           items:
             $ref: "#/components/schemas/Item"
         status:
           type: string
+          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', 'sent', or 'accepted'.
           enum:
             - DRAFT
             - CREATED
@@ -5933,14 +5945,16 @@ components:
         mostRelevant:
           type: boolean
           example: false
+          description: The true/false paramater that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
         signatureId:
           type: string
           format: uuid
+          description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
       required:
         - status
-      description: Quote model submitted to Inperium API
+      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
     QuoteCompany:
       type: object
       properties:
@@ -5950,21 +5964,29 @@ components:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
+          description: The company name.
         domainName:
           type: string
+          description: The website.
         addressLine1:
           type: string
+          description: The address.
         addressLine2:
           type: string
+          description: The address.
         city:
           type: string
+          description: The city or town.
         zip:
           type: string
+          description: The postal code.
         state:
           type: string
+          description: The state, if applicable.
         country:
           type: string
-      description: Model containing a company associated with the quote
+          description: THe country name.
+      description: The object contains information about the company as it will appear in the quote. Unlike the 'company' object, it has less parameters.
     QuoteContact:
       type: object
       properties:
@@ -5974,13 +5996,17 @@ components:
           $ref: "#/components/schemas/Id"
         firstName:
           type: string
+          description: The contact's given name.
         lastName:
           type: string
+          description: THe contact's family name.
         email:
           type: string
+          description: The email address.
         phoneNumber:
           type: string
-      description: Model containing a contact associated with the quote
+          description: The personal or corporate phone number.
+      description: The object contains information about the contact as it will appear in the quote. Unlike the 'contact' object, it has less parameters.
     QuotePaymentPlan:
       type: object
       properties:
@@ -5988,26 +6014,33 @@ components:
           $ref: "#/components/schemas/Id"
         amount:
           type: number
+          description: The pending amount.
         quoteId:
           $ref: "#/components/schemas/Id"
         paymentDate:
           type: integer
           format: int64
+          description: The payment due date.
         paymentMethod:
           type: string
-      description: Payment plan model
+          description: The suggested payment method.
+      description: The object contains information about the payment plan offered in the quote.
     QuoteToInvoice:
       type: object
+      description: This object facilitates converting an accepted quote to an invoice.
       properties:
         contactId:
           $ref: "#/components/schemas/Id"
         dueDate:
           type: integer
           format: int64
+          description: The date when the payment must be done.
         addressLine1:
           type: string
+          description: The address.
         addressLine2:
           type: string
+          description: The address.
     QuoteUser:
       type: object
       properties:
@@ -6015,17 +6048,22 @@ components:
           $ref: "#/components/schemas/Id"
         firstName:
           type: string
+          description: The user's given name.
         lastName:
           type: string
+          description: The user's family name.
         email:
           type: string
+          description: The email address.
         phoneNumber:
           type: string
+          description: The phone number.
         originUserId:
           $ref: "#/components/schemas/Id"
-      description: Model containing the user data history
+      description: The object contains information about the user who created a quote.
     Quotes:
       type: object
+      description: The list of quotes with paging data.
       properties:
         data:
           type: array
@@ -6035,13 +6073,16 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Report:
       type: object
+      description: The object contain the report description without actual report data.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The report title.
     Reports:
       type: object
+      description: The list of reports with paging data.
       properties:
         data:
           type: array
@@ -6051,65 +6092,81 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     ReportData:
       type: object
+      description: Unlike the Report object that provides just a description, this object contains actual data. It provides values for the X-axis and Y-axis that can be further presented as a chart.
       properties:
         xAxis:
           type: object
+          description: The value for the X-axis.
           properties:
             label:
               type: string
+              description: The display name.
             data:
               type: array
+              description: The list of values.
               items:
                 type: object
         yAxis:
           type: object
+          description: The value for the Y-axis.
           properties:
             label:
               type: string
+              description: The display name.
             data:
               type: array
+              description: The list of values.
               items:
                 type: object
     ResponseError:
       type: object
+      description: The error returned by Inperium API.
       properties:
         errors:
           type: array
+          description: The list of errors.
           items:
             $ref: "#/components/schemas/ErrorModel"
     Stage:
       type: object
-      description: Stage model returned by Inperium API
+      description: The Stage object contains information about the stage itself and a link to its parent pipeline.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The display name.
         probability:
           type: number
+          description: The expected win probability, e.g., 30 or 60.
         sortOrder:
           type: integer
+          description: The position in the pipeline.
         pipelineId:
           $ref: "#/components/schemas/Id"
     StageRequest:
       type: object
-      description: Stage model submitted to Inperium API
+      description: The incoming object submitted to Inperium API when you add a new stage or modify an existing stage.
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
+          description: The display name.
         probability:
           type: number
           minimum: 0
+          description: The expected win probability, e.g., 30 or 60.
         sortOrder:
           type: integer
+          description: The position in the pipeline.
         pipelineId:
           $ref: "#/components/schemas/Id"
       required:
         - name
     Stages:
       type: object
+      description: The list of stages.
       properties:
         data:
           type: array
@@ -6120,77 +6177,102 @@ components:
       properties:
         publishableKey:
           type: string
+          description: The key that identifies your account with Stripe.
         accountId:
           type: string
-      description: Model of Stripe credentials
+          description: The unique account ID with Stripe.
+      description: The Stripe authentication details.
     StripePaymentMethod:
       type: object
       properties:
         id:
           type: string
+          description: The ID of the payment.
         object:
           type: string
+          description: The object type.
         billing_details:
           type: object
+          description: Billing information specific to the payment method.
           properties: {}
         card:
           $ref: "#/components/schemas/StripePaymentMethodCard"
         card_present:
           type: object
+          description: Details related to 'card_preset' payment method, if applicable.
           properties: {}
         created:
           type: integer
           format: int64
+          description: The timestamp when the payment was created.
         customer:
           type: string
+          description: The ID of the customer.
         livemode:
           type: boolean
+          description: The true/false parameter that defines if the payment intent exists in the live mode (true) or test mode (false).
         metadata:
           type: object
+          description: Additional information about the object.
           properties: {}
         type:
           type: string
-      description: Model of Stripe payment method
+          description: The payment type.
+      description: The object facilitates payment processing with Stripe.
     StripePaymentMethodCard:
       type: object
       properties:
         id:
           type: string
+          description: The ID of the card.
         wallet:
           type: object
+          description: Wallet details, if applicable.
           properties: {}
         checks:
           type: object
+          description: Verififcation of the card address and CVC.
           properties: {}
         country:
           type: string
+          description: The country code.
         exp_month:
           type: integer
           format: int64
+          description: The expiration month in two-digit format.
         exp_year:
           type: integer
           format: int64
+          description: The expiration year in four-digit format.
         brand:
           type: string
+          description: The card system such as 'visa', 'amex', or 'mastercard'.
         funding:
           type: string
+          description: The parameters defines where the funds are coming from, i.e., 'credit', 'debit', 'prepaid', or 'unknown'.
         generated_from:
           type: string
+          description: PaymentMethod details.
         last4:
           type: string
+          description: The last four digits of the card.
         three_d_secure_usage:
           type: object
+          description: The 3D authentication details.
           properties: {}
         fingerprint:
           type: string
-      description: Model of card payment through Stripe
+          description: The unique card identifier.
+      description: This object facilitates payment processing with Stripe. For more information, refer to Stripe API reference.
     StripeReader:
       type: object
       properties:
         id:
           type: string
+          description: The ID of the object.
         object:
           type: string
+          description: The object type.
         deviceSwVersion:
           type: string
         deviceType:
@@ -6207,7 +6289,7 @@ components:
           type: string
         registrationCode:
           type: string
-      description: Stripe reader model returned by Inperium API
+      description: The Stripe reader object describes a device that is used for accepting payments. For more details, refer to Stripe API Reference.
     StripeReaderRequest:
       type: object
       properties:

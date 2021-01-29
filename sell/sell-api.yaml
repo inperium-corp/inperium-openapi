@@ -101,7 +101,7 @@ tags:
       Inperium Sell support integration with Stripe and allows to process payments through this system.
   - name: Payments
     description: |
-      In Inperium Sell, payments are separated from invoices. An invoice can be paid in full or splitted into several payments that should be logged individually.
+      In Inperium Sell, payments are separated from invoices. An invoice can be paid in full or split into several payments that should be logged individually.
   - name: Pipelines
     description: |
       Pipelines describe the sales process, or being more specific, milestones the deal goes through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
@@ -116,7 +116,7 @@ tags:
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.
   - name: Properties
     description: |
-      Inperium Sell comes with preset properties (or fields) as well as enables users to create custom definitions. Custom properties are helpful if you need to accomodate your specific business workflow and keep additional data in Inperium Sell. For example, shipment information for deal tracking. In this case, you can add a custom property for deals: both API and regular users will get access to it fro the deals page.
+      Inperium Sell comes with preset properties (or fields) as well as enables users to create custom definitions. Custom properties are helpful if you need to accommodate your specific business workflow and keep additional data in Inperium Sell. For example, shipment information for deal tracking. In this case, you can add a custom property for deals: both API and regular users will get access to it fro the deals page.
   - name: Quotes
     description: |
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
@@ -146,7 +146,7 @@ tags:
       In Inperium Sell, administrators can set up tenant-wide properties and preferences such as default currency, quote prefix, revenue goal, etc.
   - name: Views
     description: |
-      Views control what data is returned to the user, including fitering, sorting, and columns on a display.
+      Views control what data is returned to the user, including filtering, sorting, and columns on a display.
   - name: Widgets
     description: |
       In Inperium Sell, a widget is a dashboard element providing certain data, for example, the leader board or the number of deals on each pipeline.
@@ -160,7 +160,7 @@ paths:
       tags:
         - Activities
       summary: List activities
-      description: Use this endpoint to get a complete list of activities. This endpoint supports paging and sorting. To narrow down results and locate specfic activities, use query parameters.
+      description: Use this endpoint to get a complete list of activities. This endpoint supports paging and sorting. To narrow down results and locate specific activities, use query parameters.
       operationId: getActivities
       parameters:
         - name: authorId
@@ -277,7 +277,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The actvity has been removed. Returns an empty response.
+          description: The activity has been removed. Returns an empty response.
           content: {}
         default:
           description: Bad request, security violation, or internal server error.
@@ -788,7 +788,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the reguest body, pass the CompanyRequest object.
+        description: In the request body, pass the CompanyRequest object.
         content:
           "*/*":
             schema:
@@ -2079,7 +2079,7 @@ paths:
       tags:
         - XeroAuthorizations
       summary: Deauthorize Xero
-      description: Use this endpoint to disable the tenant's intergration with Xero and revoke access.
+      description: Use this endpoint to disable the tenant's integration with Xero and revoke access.
       operationId: deauthorizeXero
       responses:
         204:
@@ -2096,7 +2096,7 @@ paths:
       tags:
         - Integrations
       summary: Retrieve integration
-      description: Use this endpooint to locate a specific integration and retrieve its details.
+      description: Use this endpoint to locate a specific integration and retrieve its details.
       operationId: getIntegration
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -2448,7 +2448,7 @@ paths:
       operationId: capturePaymentIntent
       parameters:
         - name: paymentIntentId
-          description: The Stripe identificator for payment intents.
+          description: The Stripe identifier for payment intents.
           in: query
           schema:
             type: string
@@ -2555,7 +2555,7 @@ paths:
     post:
       tags:
         - Pipelines
-      summary: Create a pipiline
+      summary: Create a pipeline
       description: Use this endpoint to add a new pipeline.
       operationId: createPipeline
       requestBody:
@@ -2675,7 +2675,7 @@ paths:
     get:
       tags:
         - Predefined Metadata
-      summary: List metedata groups
+      summary: List metadata groups
       description: Use this endpoint to get a list of dictionaries.
       operationId: getAllPredefinedMetadataGroups
       responses:
@@ -2697,14 +2697,14 @@ paths:
     get:
       tags:
         - Predefined Metadata
-      summary: Retrieve a metedata group
+      summary: Retrieve a metadata group
       description: Use this endpoint to search for a specific predefined metadata group and retrieve its details.
       operationId: getPredefinedMetadataGroup
       parameters:
         - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
-          description: The predefined metedata group has been retrieved. Returns a predefined metedata group.
+          description: The predefined metadata group has been retrieved. Returns a predefined metadata group.
           content:
             application/json:
               schema:
@@ -3393,7 +3393,7 @@ paths:
       tags:
         - Stages
       summary: Update a stage
-      description: Use this endpoint to modify and overvwrite an existing stage.
+      description: Use this endpoint to modify and overwrite an existing stage.
       operationId: updateStage
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -3590,7 +3590,7 @@ paths:
       tags:
         - TenantSettings
       summary: Update tenant settings
-      description: Use this endpoint to modify and overvwrite tenant settings including billing, company name, default time zone.
+      description: Use this endpoint to modify and overwrite tenant settings including billing, company name, default time zone.
       operationId: updateTenantSettings
       requestBody:
         description: In the request body, pass the TenantSettings object.
@@ -3878,7 +3878,7 @@ paths:
       tags:
         - Views
       summary: Update a view
-      description: Use this endpoint to modfiy and overwrite an existing view.
+      description: Use this endpoint to modify and overwrite an existing view.
       operationId: updateView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -4040,7 +4040,7 @@ components:
             activityDate:
               type: integer
               format: int64
-              description: The date when the email was sent or recieved.
+              description: The date when the email was sent or received.
           required:
             - body
             - subject
@@ -4121,7 +4121,7 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
     Activity:
-      description: The object model that describes an entry in the activity timeline such as a note, email, or call.
+      description: The object describes an entry in the activity timeline such as a note, email, or call.
       example: {}
       type: object
       discriminator:
@@ -4194,7 +4194,7 @@ components:
             activityDate:
               type: integer
               format: int64
-              description: The date when the email was sent or recieved.
+              description: The date when the email was sent or received.
           required:
             - body
             - subject
@@ -4296,7 +4296,7 @@ components:
           $ref: "#/components/schemas/Id"
         amountPercent:
           type: number
-          description: The fee amount calculated in percents, e.g., 1% card processing fee.
+          description: The fee amount calculated in %, e.g., 1% card processing fee.
           maximum: 100
         amountMoney:
           type: number
@@ -4324,7 +4324,7 @@ components:
             $ref: "#/components/schemas/Id"
         document:
           $ref: "#/components/schemas/Document"
-      description: The Attachment object returned by Inoerium API contains information about the uploaded document and related contacts and companies.
+      description: The Attachment object returned by Inerium API contains information about the uploaded document and related contacts and companies.
     AttachmentRequest:
       type: object
       properties:
@@ -4343,7 +4343,7 @@ components:
         documentUrl:
           type: string
           description: The upload URL.
-      description: The incoming AttchmentRequest object model describes an attachment.
+      description: The incoming AttchmentRequest object describes an attachment.
     Attachments:
       type: object
       properties:
@@ -4373,7 +4373,7 @@ components:
           description: The campaign title.
         userId:
           $ref: "#/components/schemas/Id"
-      description: The incoming Campaign object model submitted to Inperium API.
+      description: The incoming Campaign object submitted to Inperium API.
     CampaignCustom:
       type: object
       properties:
@@ -4453,7 +4453,7 @@ components:
           description: The ID of the parent company.
           format: uuid
     CompanyRelationship:
-      description: The company relashionship object defines company hierarchy.
+      description: The company relationship object defines company hierarchy.
       type: object
       properties:
         id:
@@ -5179,7 +5179,7 @@ components:
           description: The payment method.
         declinedReason:
           type: string
-          description: In case the payment was desclined, provide a reason.
+          description: In case the payment was declined, provide a reason.
         status:
           type: string
           description: The status of the payment.
@@ -5214,7 +5214,7 @@ components:
           description: The status of the payment.
         declinedReason:
           type: string
-          description: In case the payment was desclined, provide a reason.
+          description: In case the payment was declined, provide a reason.
         stripeId:
           type: string
           description: The Stripe ID.
@@ -5874,7 +5874,7 @@ components:
           example: DRAFT
         mostRelevant:
           type: boolean
-          description: The true/false paramater that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
+          description: The true/false parameter that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
           example: false
         signatureUrl:
           type: string
@@ -5945,7 +5945,7 @@ components:
         mostRelevant:
           type: boolean
           example: false
-          description: The true/false paramater that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
+          description: The true/false parameter that defines if this quote is considered to be the most likely to be accepted. The quote with a highest chances of being accepted should be set to 'true'. Nonetheless, the customer can accept any quote.
         signatureId:
           type: string
           format: uuid
@@ -5985,7 +5985,7 @@ components:
           description: The state, if applicable.
         country:
           type: string
-          description: THe country name.
+          description: The country name.
       description: The object contains information about the company as it will appear in the quote. Unlike the 'company' object, it has less parameters.
     QuoteContact:
       type: object
@@ -5999,7 +5999,7 @@ components:
           description: The contact's given name.
         lastName:
           type: string
-          description: THe contact's family name.
+          description: The contact's family name.
         email:
           type: string
           description: The email address.
@@ -6231,7 +6231,7 @@ components:
           properties: {}
         checks:
           type: object
-          description: Verififcation of the card address and CVC.
+          description: Verification of the card address and CVC.
           properties: {}
         country:
           type: string
@@ -6698,7 +6698,7 @@ components:
           description: The difference with a previous period.
     WidgetDealsLeaderboard:
       type: object
-      description: THe widget shows Inperium users who created most deals.
+      description: The widget shows Inperium users who created most deals.
       properties:
         leaders:
           type: array
@@ -6707,7 +6707,7 @@ components:
             $ref: "#/components/schemas/UserStatisticsDeals"
     WidgetActivitiesLeaderboard:
       type: object
-      description: THe widget shows the most active Inperium users based on the number of emails they sent, calls made, etc.
+      description: The widget shows the most active Inperium users based on the number of emails they sent, calls made, etc.
       properties:
         leaders:
           type: array

@@ -5585,7 +5585,7 @@ components:
       description: The quote that is sent to a customer for approval. The PublicQuote object will have less parameters than the Quote object that is used internally.
       properties:
         name:
-          type:
+          type: string
           description: The quote name.
         expirationDate:
           type: integer

@@ -649,6 +649,7 @@ paths:
       description: Use this endpoint to get a list of companies. This endpoint supports paging and sorting. Use query parameters to narrow down results.
       operationId: getCompanies
       parameters:
+        - $ref: "#/components/parameters/QueryFilter"
         - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
@@ -983,6 +984,7 @@ paths:
           in: query
           schema:
             type: string
+        - $ref: "#/components/parameters/QueryFilter"
         - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
@@ -1326,6 +1328,7 @@ paths:
       description: Use this endpoint to list all deals. This operation supports paging and sorting.
       operationId: getDeals
       parameters:
+        - $ref: "#/components/parameters/QueryFilter"
         - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"
@@ -6471,12 +6474,10 @@ components:
           type: object
           description: The view current status.
           additionalProperties: true
-        filters:
-          type: array
-          description: The list of applied filters.
-          items:
-            type: object
-            additionalProperties: true
+        filter:
+          description: The applied filter.
+          type: object
+          additionalProperties: true
         columns:
           type: array
           description: The list of columns.
@@ -6510,12 +6511,10 @@ components:
           type: object
           description: The view current status.
           additionalProperties: true
-        filters:
-          type: array
-          description: The list of applied filters.
-          items:
-            type: object
-            additionalProperties: true
+        filter:
+          description: The applied filter.
+          type: object
+          additionalProperties: true
         columns:
           type: array
           description: The list of columns.
@@ -6784,6 +6783,12 @@ components:
       name: sort
       in: query
       description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: string
+    QueryFilter:
+      name: filter
+      description: This parameter controls filtering. Enter your query here, Inperium will look for matching records. For example, enter 'AND(eq(firstName,Bob),eq(lastName,Lee))' to filter out records with Bob Lee.
+      in: query
       schema:
         type: string
     EntityProperties:

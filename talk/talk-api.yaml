@@ -2677,6 +2677,7 @@ components:
     ContactPhoneNumber:
       type: object
       required:
+        - id
         - phoneNumber
       properties:
         id:

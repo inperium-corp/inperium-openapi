@@ -4688,19 +4688,9 @@ components:
           description: The export properties.
           items:
             type: string
-        filters:
-          type: array
-          description: The list of applied filters.
-          items:
-            type: object
-            description: The filter details.
-            properties:
-              field:
-                type: string
-                description: The field included in filtering.
-              filter:
-                type: string
-                description: The filter value.
+        filter:
+          type: string
+          description: This parameter controls filtering. Enter your query here, Inperium will look for matching records. For example, enter 'AND(eq(firstName,Bob),eq(lastName,Lee))' to filter out records with Bob Lee.
         pageNumber:
           type: integer
           format: int64

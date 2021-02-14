@@ -71,7 +71,7 @@ paths:
                 userId:
                   type: string
                   format: uuid
-                  description: An optional ID of the user, uploaded this file. Default is taken from the principal. Only for internal usage.
+                  description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
       responses:
         201:
           description: A new file has been created.
@@ -145,7 +145,8 @@ paths:
       tags:
         - Files
       deprecated: true
-      summary: Re-add the file uploaded by obs starter lib via the microservice
+      summary: Re-upload by OBS starter
+      description: This is a deprecated endpoint. Use this endpoint to re-add the file uploaded by OBS starter lib via the microservice.
       operationId: reAddFile
       requestBody:
         content:
@@ -182,16 +183,21 @@ components:
       properties:
         fileId:
           type: string
+          description: The ID of the file.
         tenantId:
           type: string
+          description: The ID of the tenant.
           format: uuid
         userId:
           type: string
+          description: The ID of the user.
           format: uuid
         fileName:
           type: string
+          description: The file name.
         fileDescription:
           type: string
+          description: Any information about the file.
     DataFile:
       type: object
       properties:
@@ -278,6 +284,3 @@ components:
       schema:
         type: string
         format: uuid
-
-
-

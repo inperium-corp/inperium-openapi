@@ -1650,11 +1650,8 @@ paths:
               $ref: "#/components/schemas/ExportRequest"
       responses:
         200:
-          description: The export started. Returns the export file name.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Export"
+          description: The stage has been deleted
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:

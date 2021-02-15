@@ -1650,7 +1650,7 @@ paths:
               $ref: "#/components/schemas/ExportRequest"
       responses:
         200:
-          description: The stage has been deleted
+          description: The export started.
           content: {}
         default:
           description: Bad request, security violation, or internal server error.

@@ -30,9 +30,6 @@ tags:
   - name: Campaigns
     description: |
       Inperium Sell enables users to create marketing campaigns.
-  - name: CommunicationMethods
-    description: |
-      In Inperium, you can assign a phone number or email address to a company. A communication method is a channel you can leverage to connect with customers or partners.
   - name: Companies
     description: |
       Company is one of major entities in Inperium Sell. Users add companies, literally the businesses they work with, and track deal progress there.
@@ -42,9 +39,6 @@ tags:
   - name: Company Relationships
     description: |
       Inperium users can associate companies with each other and create parent-child relationships.
-  - name: ContactCommunicationMethods
-    description: |
-      In Inperium, you can assign a phone number or email address to a contact. A communication method is a channel you can leverage to connect with customers or partners.
   - name: Contacts
     description: |
       Contact is one of the major entities in Inperium Sell. Contacts are individuals or company's representatives Inperium Sell users work with.
@@ -565,76 +559,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contacts"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /communication-methods:
-    post:
-      tags:
-        - CommunicationMethods
-      summary: Add a communication method
-      description: Use this endpoint to set up a new communication method for an entity (contact, company, etc.). For example, a contact has an email address and now you can add an extra communication channel — the phone number.
-      operationId: createCommunicationMethod
-      requestBody:
-        description: In the request body, pass the CommunicationMethod object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CommunicationMethod"
-      responses:
-        201:
-          description: The new communication method has been added. Returns the communication method.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommunicationMethod"
-  /communication-methods/{id}:
-    get:
-      tags:
-        - CommunicationMethods
-      summary: Retrieve a communication method
-      description: Use this endpoint to locate a specific communication method and retrieve its details.
-      operationId: getCommunicationMethod
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      responses:
-        200:
-          description: Information has been retrieved. Returns the communication method.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommunicationMethod"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    put:
-      tags:
-        - CommunicationMethods
-      summary: Update a communication method
-      description: Use this endpoint to modify a communication method.
-      operationId: updateCommunicationMethod
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      requestBody:
-        description: In the request body, pass the CommunicationMethod object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CommunicationMethod"
-        required: false
-      responses:
-        200:
-          description: The communication method has been updated. Returns the communication method.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1227,93 +1151,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Contact"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /contacts/{id}/communication-methods:
-    get:
-      tags:
-        - ContactCommunicationMethods
-      summary: Retrieve a communication method
-      description: Use this endpoint to retrieve a phone number or email address associated with this contact.
-      operationId: getContactCommunicationMethods
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      responses:
-        200:
-          description: The contact data has been retrieved. Returns a communication method.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/CommunicationMethod"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    post:
-      tags:
-        - ContactCommunicationMethods
-      summary: Add a communication method
-      description: Use this endpoint to add a new communication channel for the contact, i.e. an email or phone number.
-      operationId: createContactCommunicationMethod
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      requestBody:
-        description: In the request body, pass the CommunicationMethod object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CommunicationMethod"
-        required: false
-      responses:
-        200:
-          description: The contact data has been updated. Returns a communication method.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommunicationMethod"
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /contacts/{id}/communication-methods/{communicationMethodId}:
-    put:
-      tags:
-        - ContactCommunicationMethods
-      summary: Update a communication method
-      description: Use this endpoint to update contact's phone number or email address.
-      operationId: updateContactCommunicationMethod
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-        - name: communicationMethodId
-          description: The ID of the communication method.
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        description: In the request body, pass the CommunicationMethod object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/CommunicationMethod"
-      responses:
-        200:
-          description: The contact data has been updated. Returns a communication method.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommunicationMethod"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -4416,9 +4253,6 @@ components:
           description: The email address or phone number.
         type:
           type: string
-          description: The source of communication, email or phone.
-        specificType:
-          type: string
           description: The optional parameter that defines if the communication channel is personal or corporate.
         isPrimary:
           type: boolean
@@ -4663,6 +4497,9 @@ components:
           type: string
           description: Comma-separated list of fields, which caused the error condition.
       description: An error returned by Inperium API.
+    Email:
+      anyOf:
+        - $ref: "#/components/schemas/CommunicationMethod"
     ExportRequest:
       type: object
       description: The object defines parameters for export.
@@ -5395,6 +5232,9 @@ components:
                 type: integer
                 description: The total number of deals.
                 format: int64
+    Phone:
+      anyOf:
+        - $ref: "#/components/schemas/CommunicationMethod"
     PredefinedMetadataGroup:
       type: object
       properties:

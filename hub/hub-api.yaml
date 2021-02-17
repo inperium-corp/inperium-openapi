@@ -2240,6 +2240,28 @@ components:
           description: The year the card expires.
           format: int64
 
+    Balance:
+      type: object
+      description: The object contains the tenant's balance information.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        minimumAmount:
+          type: string
+          format: double
+          description: The minimum amount that needs to be on the tenants balance at all times. If the current amount drops below this amount, it will automatically recharge the balance by the amount specified in the recharge amount property.
+        rechargeAmount:
+          type: string
+          format: double
+          description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
+        currency:
+          type: string
+          description: The currency the balance is in.
+        currentAmount:
+          type: string
+          format: double
+          description: The current amount of money that is on the tenants balance. This can be used for any volume-based charges such as Inperium Talk calling or SMS credits.
+
     Permission:
       type: object
       description: The Permission object ties permission to a feature.

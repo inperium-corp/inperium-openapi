@@ -2282,8 +2282,6 @@ components:
       type: object
       description: The object contains the tenant's balance information.
       properties:
-        id:
-          $ref: "#/components/schemas/Id"
         minimumAmount:
           type: string
           format: double

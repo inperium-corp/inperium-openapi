@@ -2291,8 +2291,7 @@ components:
           format: double
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
         currency:
-          type: string
-          description: The currency the balance is in.
+          $ref: '#/components/schemas/Currency'
         currentAmount:
           type: string
           format: double

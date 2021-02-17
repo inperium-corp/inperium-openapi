@@ -471,6 +471,33 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+    patch:
+      summary: Charge the balance of the tenant
+      description: Use this endpoint to charge the balance of a tenant for a volume-based product.
+      operationId: chargeBalance
+      tags:
+        - Balances
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the BalanceChargeRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BalanceChargeRequest"
+      responses:
+        200:
+          description: Returns the updated balance record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
 
   /tenants/companyInfo:
     put:
@@ -2290,6 +2317,18 @@ components:
           type: number
           format: double
           description: The current amount of money that is on the tenants balance. This can be used for any volume-based charges such as Inperium Talk calling or SMS credits.
+
+    BalanceChargeRequest:
+      type: object
+      description: The object contains the request model to charge the balance of a tenant.
+      properties:
+        product:
+          type: string
+          description: The anchor of the product which should be charged.
+        quantity:
+          type: integer
+          format: int64
+          description: The quantity of the product that should be charged. For example, pass in 5 for 5 minutes of Inperium Talk calling credits.
 
     Permission:
       type: object

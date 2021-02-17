@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Inperium Hub API
   description: |
-    This RESTful API provides access to the Inperium Hub service that manages tenant and account settings, subscriptions, user rights and permissions, etc.
+    Inperium Hub API provides access to the service that manages tenant and account settings, subscriptions, user rights and permissions.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -38,13 +38,16 @@ tags:
       Volume- and usage-based restrictions applied to tenant subscriptions and plans.
   - name: Permissions
     description: |
-      Inperium enables customers to delegate access to features within Inperum products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'COMPANY_MANAGEMENT' feature. The 'MANAGE_TENANT_SETTINGS' is unique permission that isn't tied to any feature.
+      Inperium enables customers to delegate access to features within Inperium products. Each permission describes an atomic action, for example, the ability to import contacts. The permissions are grouped in roles that are later assigned to users. The permissions are typically associated with features, for example the ability to retrieve companies is a part of the 'COMPANY_MANAGEMENT' feature. The 'MANAGE_TENANT_SETTINGS' is unique permission that isn't tied to any feature.
   - name: Products
     description: |
       Inperium provides several solutions that seamlessly integrate with each other and your business ecosystem. The list of products keeps evolving and currently includes Inperium Talk and Sell. The subscription to Inperium products are managed through the Hub API.
   - name: Roles
     description: |
       Configure user roles to delegate access to Inperium features. For example, you can create administrator and manager roles.
+  - name: Services
+    description: |
+      Get insights into how you use Inperium apps. The cost forecasts helps you budget for upcoming payments and use Inperium to its fullest.
   - name: Subscriptions
     description: |
       Tenants have an option to choose the subscription type and billing period.
@@ -1341,7 +1344,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: In the request body, pass the the payload of the webhook.
+        description: In the request body, pass the payload of the webhook.
         content:
           application/json:
             schema:
@@ -1356,34 +1359,35 @@ paths:
     get:
       tags:
         - Services
-      summary: Calculates the estimated cost of a subscription, based on the given parameters.
+      summary: Forecast subscription cost
+      description: Use this endpoint to calculate the estimated cost of a subscription, based on the given parameters.
       operationId: estimateSubscriptionCost
       parameters:
         - name: planId
           in: query
           required: true
-          description: An id of the plan to be calculated.
+          description: The ID of the plan.
           schema:
             $ref: '#/components/schemas/Id'
         - name: interval
           in: query
-          description: A price interval to be calculated.
+          description: The billing interval.
           schema:
             $ref: '#/components/schemas/PriceInterval'
         - name: promotionCode
           in: query
-          description: A promotion code to be applied to calculations.
+          description: A promotion code that can be used to reduce the final cost.
           schema:
             $ref: '#/components/schemas/PromotionCode'
         - name: licensedQuantity
           in: query
-          description: A number of licenses to be calculated.
+          description: The number of licenses to take into consideration while calculating the estimated cost.
           schema:
             type: integer
             format: int64
       responses:
         200:
-          description: Returns the calculated estimated cost of the subscription.
+          description: Returns the estimated cost of the subscription.
           content:
             application/json:
               schema:
@@ -1557,7 +1561,7 @@ components:
 
     TwoFactorAuthVerificationRequest:
       type: object
-      description: Inperium Hub recieves the TwoFactorAuthVerificationRequest object and verifies a user.
+      description: Inperium Hub receives the TwoFactorAuthVerificationRequest object and verifies a user.
       properties:
         email:
           type: string
@@ -1670,7 +1674,7 @@ components:
       properties:
         email:
           type: string
-          description: The email addess of the user.
+          description: The email address of the user.
 
     UserInvitationRequest:
       type: object
@@ -1769,7 +1773,7 @@ components:
             $ref: '#/components/schemas/Subscription'
 
     UserRequest:
-      description: The UserRequest object is sent to Inperum Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.
+      description: The UserRequest object is sent to Inperium Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.
       type: object
       properties:
         email:
@@ -1809,7 +1813,7 @@ components:
           description: The user's profile image.
 
     UserPartialRequest:
-      description: The UserRequest object is sent to Inperum Hub service when you need to partially update the user record. It will change only the parameters that were submitted.
+      description: The UserRequest object is sent to Inperium Hub service when you need to partially update the user record. It will change only the parameters that were submitted.
       type: object
       properties:
         email:
@@ -2217,7 +2221,7 @@ components:
       properties:
         paymentMethodId:
           type: string
-          description: An indentifier of the payment method.
+          description: An identifier of the payment method.
         name:
           type: string
           description: The payer's full name.
@@ -2634,7 +2638,7 @@ components:
       properties:
         translation:
           type: string
-          description: The text in a foreign langauge.
+          description: The text in a foreign language.
       allOf:
         - $ref: '#/components/schemas/Feature'
         - $ref: '#/components/schemas/Limit'

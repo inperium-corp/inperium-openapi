@@ -5232,7 +5232,7 @@ components:
                 type: integer
                 description: The total number of deals.
                 format: int64
-    Phone:
+    PhoneNumber:
       anyOf:
         - $ref: "#/components/schemas/CommunicationMethod"
     PredefinedMetadataGroup:

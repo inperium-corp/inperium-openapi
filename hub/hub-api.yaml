@@ -2300,8 +2300,6 @@ components:
       type: object
       description: The object contains the tenant's balance information.
       properties:
-        id:
-          $ref: "#/components/schemas/Id"
         minimumAmount:
           type: number
           format: double
@@ -2311,7 +2309,7 @@ components:
           format: double
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
         currency:
-          type: number
+          type: string
           description: The currency the balance is in.
         currentAmount:
           type: number

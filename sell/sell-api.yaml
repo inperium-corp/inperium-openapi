@@ -660,7 +660,7 @@ paths:
       tags:
         - Companies
       summary: Delete companies
-      description: Use this endpoint to remove multiple company.
+      description: Use this endpoint to remove multiple companies.
       operationId: deleteCompanies
       requestBody:
         description: In the request body, pass the ids of companies to delete.
@@ -1017,6 +1017,32 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: contact
+    delete:
+      tags:
+        - Contacts
+      summary: Delete contacts
+      description: Use this endpoint to remove multiple contacts.
+      operationId: deleteContacts
+      requestBody:
+        description: In the request body, pass the ids of contacts to delete.
+        content:
+          "*/*":
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /contacts/enrich:
     get:
       tags:
@@ -1279,6 +1305,32 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: deals
+    delete:
+      tags:
+        - Deals
+      summary: Delete deals
+      description: Use this endpoint to remove multiple deals.
+      operationId: deleteDeals
+      requestBody:
+        description: In the request body, pass the ids of deals to delete.
+        content:
+          "*/*":
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /deals/{id}:
     get:
       tags:

@@ -656,6 +656,32 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: companies
+    delete:
+      tags:
+        - Companies
+      summary: Delete companies
+      description: Use this endpoint to remove multiple company.
+      operationId: deleteCompanies
+      requestBody:
+        description: In the request body, pass the ids of companies to delete.
+        content:
+          "*/*":
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+        required: true
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /companies/enrich:
     get:
       tags:

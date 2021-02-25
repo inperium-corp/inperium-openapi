@@ -463,8 +463,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Balance"
-        404:
-          description: The tenants balance is not found.
         default:
           description: Bad request, security violation, or internal server error.
           content:

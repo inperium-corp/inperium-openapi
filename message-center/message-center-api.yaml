@@ -208,12 +208,12 @@ paths:
     get:
       tags:
         - Threads
-      summary: Retrieve theads
+      summary: Retrieve threads
       description: Use this endpoint to get message threads. This endpoint supports paging and sorting.
       operationId: getThreads
       parameters:
         - name: folderId
-          description: The ID of the folder where the thread belongs to. Use if userAccountId not empty only.
+          description: The ID of the folder where the thread belongs to. Use only if userAccountId isn't empty.
           in: query
           schema:
             type: string

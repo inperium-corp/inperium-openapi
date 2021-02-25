@@ -2555,6 +2555,7 @@ components:
         - id
         - caller
         - participants
+        - createdAt
     ParticipantChangeRequestBody:
       type: object
       properties:

@@ -1,9 +1,10 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Hub API
+  title: Hub API
   description: |
-    Inperium Hub API provides access to the service that manages tenant and account settings, subscriptions, user rights and permissions.
+    The Inperium Hub API provides access to the service that manages tenant and account settings, subscriptions, user rights and permissions.
+    The Hub service (account.inperium.com) is an essential part of Inperium ecosystem. All tenants regardless of apps included in their subscriptions have access to the Hub at all times.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -15,15 +16,15 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: API Keys
+    description: |
+      API keys are used instead of bearer tokens to authenticate applications connecting to Inperium via API.
   - name: App Settings
     description: |
       Enable integration with other apps such as Stripe.
   - name: Auth
     description: |
       Inperium enables you to authenticate with the Bearer token or an API key.
-  - name: API Keys
-    description: |
-      API keys are used instead of bearer tokens to authenticate applications connecting to Inperium via API.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
@@ -60,150 +61,6 @@ tags:
 
 
 paths:
-  /auth/signature:
-    get:
-      tags:
-        - Auth
-      summary: Verify signature
-      description: Use this endpoint to get a public key and check Hub auth signature. Other Inperium services and third-party apps or plugins leverage this signature to verify the authenticity of the token.
-      operationId: getAuthSignature
-      responses:
-        200:
-          description: Returns the auth signature.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthSignature"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /auth/tokens:
-    post:
-      tags:
-        - Auth
-      summary: Create a token
-      description: Use this endpoint to request a new token. This endpoint returns an access token and refresh token.
-      operationId: getAuthTokens
-      requestBody:
-        description: In the request body, pass information the AuthTokensRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AuthTokensRequest"
-      responses:
-        200:
-          description: Returns the newly generated auth token.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        401:
-          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthError"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /auth/logout:
-    post:
-      tags:
-        - Auth
-      summary: Log out
-      description: Use this endpoint to log out the principal and invalidate the principal's access and refresh tokens.
-      operationId: logout
-      responses:
-        200:
-          description: The user logged out.
-          content: { }
-        401:
-          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthError"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /auth/twoFactor/send:
-    post:
-      tags:
-        - Auth
-      summary: Create a 2FA token
-      description: Use this endpoint to create a new two-factor authentication token.
-      operationId: sendTwoFactorAuthToken
-      requestBody:
-        description: In the request body, pass the TwoFactorAuthTokenRequest object. It is used to verify the two-factor authentication token.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TwoFactorAuthTokenRequest"
-      responses:
-        200:
-          description: Returns the 2FA token.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/TwoFactorAuthTokenResponse"
-        401:
-          description: Unauthorized. The attempt to request a 2FA token failed.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthError"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /auth/twoFactor/verify:
-    post:
-      tags:
-        - Auth
-      summary: Verify a 2FA token
-      description: Use this endpoint to verify the one-off code sent to a user.
-      operationId: verifyTwoFactorAuthToken
-      requestBody:
-        description: In the request body, pass the TwoFactorAuthVerificationRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/TwoFactorAuthVerificationRequest"
-      responses:
-        200:
-          description: Returns newly generated tokens.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        401:
-          description: Unauthorized. The 2FA token is invalid.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthError"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /apiKeys:
     get:
       tags:
@@ -353,7 +210,219 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /publicAppSettings:
+    get:
+      summary: Get app settings
+      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
+      operationId: getPublicAppSettings
+      tags:
+        - App Settings
+      responses:
+        200:
+          description: Returns the list of public apps and their settings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppSettings"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /auth/signature:
+    get:
+      tags:
+        - Auth
+      summary: Verify signature
+      description: Use this endpoint to get a public key and check Hub auth signature. Other Inperium services and third-party apps or plugins leverage this signature to verify the authenticity of the token.
+      operationId: getAuthSignature
+      responses:
+        200:
+          description: Returns the auth signature.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthSignature"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
 
+  /auth/tokens:
+    post:
+      tags:
+        - Auth
+      summary: Create a token
+      description: Use this endpoint to request a new token. This endpoint returns an access token and refresh token.
+      operationId: getAuthTokens
+      requestBody:
+        description: In the request body, pass information the AuthTokensRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthTokensRequest"
+      responses:
+        200:
+          description: Returns the newly generated auth token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+        401:
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /auth/logout:
+    post:
+      tags:
+        - Auth
+      summary: Log out
+      description: Use this endpoint to log out the principal and invalidate the principal's access and refresh tokens.
+      operationId: logout
+      responses:
+        200:
+          description: The user logged out.
+          content: { }
+        401:
+          description: Unauthorized. The credentials are wrong or two-factor authentication is required.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /auth/twoFactor/send:
+    post:
+      tags:
+        - Auth
+      summary: Create a 2FA token
+      description: Use this endpoint to create a new two-factor authentication token.
+      operationId: sendTwoFactorAuthToken
+      requestBody:
+        description: In the request body, pass the TwoFactorAuthTokenRequest object. It is used to verify the two-factor authentication token.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TwoFactorAuthTokenRequest"
+      responses:
+        200:
+          description: Returns the 2FA token.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TwoFactorAuthTokenResponse"
+        401:
+          description: Unauthorized. The attempt to request a 2FA token failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /auth/twoFactor/verify:
+    post:
+      tags:
+        - Auth
+      summary: Verify a 2FA token
+      description: Use this endpoint to verify the one-off code sent to a user.
+      operationId: verifyTwoFactorAuthToken
+      requestBody:
+        description: In the request body, pass the TwoFactorAuthVerificationRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TwoFactorAuthVerificationRequest"
+      responses:
+        200:
+          description: Returns newly generated tokens.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+        401:
+          description: Unauthorized. The 2FA token is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /features:
+    get:
+      summary: Retrieve features
+      description: Use this endpoint to retrieve a list of available features.
+      operationId: getFeatureList
+      tags:
+        - Features
+      responses:
+        200:
+          description: Returns an array of features.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Feature"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /features/{anchor}:
+    get:
+      summary: Retrieve a feature
+      description: Use this endpoint to retrieve details for a specific feature.
+      operationId: getFeature
+      tags:
+        - Features
+      parameters:
+        - name: anchor
+          in: path
+          description: A unique anchor of feature.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /health:
     get:
       tags:
@@ -371,6 +440,465 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /limitUsages:
+    get:
+      tags:
+        - Limits
+      summary: Retrieve limits
+      description: Use this endpoint to get a list of existing limit usages. This endpoint supports paging and sorting.
+      operationId: getLimitUsages
+      parameters:
+        - name: anchor
+          in: query
+          description: The anchor of a referenced limit.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list of limit usages.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LimitUsages"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /internal/limitUsages:
+    post:
+      tags:
+        - Limits
+      summary: Update a limit usage
+      description: THIS IS INTERNAL ENDPOINT. Inperium services send requests to this endpoint to update the occupied limits in Inperium Hub. For example, when you add a template in Inperium Sell, the service sends a request to '/internal/limitUsages' to update the quota.
+      operationId: updateLimitUsage
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/LimitUsageUpdateRequest"
+      responses:
+        204:
+          description: The limit usage has been updated.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /permissions:
+    get:
+      summary: Retrieve permissions
+      description: Use this endpoint to retrieve a list of available permissions.
+      operationId: getPermissionList
+      tags:
+        - Permissions
+      responses:
+        200:
+          description: Returns a list of permissions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Permission"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /products:
+    get:
+      summary: Retrieve products
+      description: Use this endpoint to get a list of products available to your tenant, with names, available subscription plans, etc.
+      operationId: getProducts
+      tags:
+        - Products
+      responses:
+        200:
+          description: Returns an array of products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /products/{anchor}:
+    get:
+      summary: Get a specific product
+      description: Use this endpoint to retrieve information about a specific product.
+      operationId: getProduct
+      tags:
+        - Products
+      parameters:
+        - name: anchor
+          in: path
+          description: A unique anchor of a product, e.g. Sell or Talk.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns a product.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /products/{anchor}/plans:
+    get:
+      summary: Get subscription plans
+      description: Use this endpoint to see the plans available for a certain product. You'll also see the plan that is active now.
+      operationId: getAvailableProductPlans
+      tags:
+        - Products
+      parameters:
+        - name: anchor
+          in: path
+          description: A unique anchor of a product, e.g., Sell or Talk.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns available plans.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanFullInfo'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /roles:
+    get:
+      tags:
+        - Roles
+      summary: Retrieve roles
+      description: Use this endpoint to get a list of available roles, with permissions assigned to each role. This endpoint supports paging and sorting.
+      operationId: getRoles
+      parameters:
+        - name: id
+          in: query
+          description: Unique ID of the role.
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: The role title.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list of roles.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Roles"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    post:
+      tags:
+        - Roles
+      summary: Create a role
+      description: Use this endpoint to add a new role to Inperium.
+      operationId: createRole
+      requestBody:
+        description: In the request body, pass the RoleRequest object that describes a new role.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        201:
+          description: Returns the newly created role.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /roles/{id}:
+    get:
+      tags:
+        - Roles
+      summary: Retrieve a role
+      description: Use this endpoint to retrieve a specific role and see associated permissions.
+      operationId: getRole
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns a requested role.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      tags:
+        - Roles
+      summary: Update a role
+      description: Use this endpoint to update an existing role. Note that the role properties will be overwritten.
+      operationId: updateRole
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the updated RoleRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        200:
+          description: Returns an updated role.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    delete:
+      tags:
+        - Roles
+      summary: Delete a role
+      description: Use this endpoint to remove an existing role.
+      operationId: deleteRole
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The role has been successfully deleted.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /services/estimateSubscriptionCost:
+    get:
+      tags:
+        - Services
+      summary: Forecast subscription cost
+      description: Use this endpoint to calculate the estimated cost of a subscription, based on the given parameters.
+      operationId: estimateSubscriptionCost
+      parameters:
+        - name: planId
+          in: query
+          required: true
+          description: The ID of the plan.
+          schema:
+            $ref: '#/components/schemas/Id'
+        - name: interval
+          in: query
+          description: The billing interval.
+          schema:
+            $ref: '#/components/schemas/PriceInterval'
+        - name: promotionCode
+          in: query
+          description: A promotion code that can be used to reduce the final cost.
+          schema:
+            $ref: '#/components/schemas/PromotionCode'
+        - name: licensedQuantity
+          in: query
+          description: The number of licenses to take into consideration while calculating the estimated cost.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Returns the estimated cost of the subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionCostEstimate'
+        default:
+          $ref: '#/components/responses/DefaultResponse'
+  /subscriptions:
+    get:
+      summary: Retrieve subscriptions
+      description: Use this endpoint to get a complete list of subscriptions for the current tenant.
+      operationId: getSubscriptions
+      tags:
+        - Subscriptions
+      parameters:
+        - name: state
+          in: query
+          description: The state of the subscription to be found.
+          schema:
+            type: string
+          example: in::ACTIVE,TRIALING
+        - name: product
+          in: query
+          description: The product the subscription is associated with.
+          schema:
+            type: string
+          example: eq::SELL
+      responses:
+        200:
+          description: Returns the list of subscriptions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Subscription"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    post:
+      tags:
+        - Subscriptions
+      summary: Start a new subscription
+      description: Use this endpoint to start a new trial subscription or to purchase one.
+      operationId: createSubscription
+      requestBody:
+        description: In the request body, provide information about the plan you want to start. Pass the SubscriptionRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionRequest"
+      responses:
+        200:
+          description: Returns a new subscription. The subscription has successfully started.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /subscriptions/{id}:
+    patch:
+      summary: Update a subscription
+      description: Use this endpoint to change a plan, for example, to upgrade subscription to a bigger plan.
+      operationId: updateSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the information about your current subscription and the new plan you want to subscribe to.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscriptionUpdateRequest"
+      responses:
+        200:
+          description: Returns an updated subscription. The subscription has been updated.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    get:
+      summary: Retrieve a subscription
+      description: Use this endpoint to get additional information about the subscription.
+      operationId: getSubscription
+      tags:
+        - Subscriptions
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: newLicenseQuantity
+          in: query
+          description: The new license count to calculate the price. Minimum is 1.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        200:
+          description: Returns full information about a subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionFullInfo'
+        default:
+          $ref: '#/components/responses/DefaultResponse'
+
+  /subscriptions/webhooks/stripe:
+    post:
+      summary: Handle Stripe webhooks
+      description: Use this endpoint to handle Stripe webhooks for payment processing.
+      operationId: handleStripeWebhook
+      tags:
+        - Subscriptions
+      parameters:
+        - in: header
+          name: Stripe-Signature
+          description: To verify events, Stripe signs the webhooks. This information is provided in the 'Stripe-Signature' header.
+          schema:
+            type: string
+      requestBody:
+        description: In the request body, pass the payload of the webhook.
+        content:
+          application/json:
+            schema:
+              type: string
+      responses:
+        200:
+          description: The webhook was executed and verified by Stripe.
+        default:
+          $ref: '#/components/responses/DefaultResponse'
 
   /tenants/{id}:
     get:
@@ -550,209 +1078,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /limitUsages:
-    get:
-      tags:
-        - Limits
-      summary: Retrieve limits
-      description: Use this endpoint to get a list of existing limit usages. This endpoint supports paging and sorting.
-      operationId: getLimitUsages
-      parameters:
-        - name: anchor
-          in: query
-          description: The anchor of a referenced limit.
-          schema:
-            type: string
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: Returns the list of limit usages.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/LimitUsages"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /internal/limitUsages:
-    post:
-      tags:
-        - Limits
-      summary: Update a limit usage
-      description: THIS IS INTERNAL ENDPOINT. Inperium services send requests to this endpoint to update the occupied limits in Inperium Hub. For example, when you add a template in Inperium Sell, the service sends a request to '/internal/limitUsages' to update the quota.
-      operationId: updateLimitUsage
-      requestBody:
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/LimitUsageUpdateRequest"
-      responses:
-        204:
-          description: The limit usage has been updated.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/verify:
-    post:
-      tags:
-        - Users
-      summary: Verify a new user
-      description: Use this endpoint to verify a new user and activate the account.
-      operationId: verifyUser
-      requestBody:
-        required: true
-        description: In the request body, pass the UserVerificationRequest object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserVerificationRequest"
-      responses:
-        200:
-          description: Returns authentication tokens. The user account is verified.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/forgotPassword:
-    post:
-      tags:
-        - Users
-      summary: Recover a password
-      description: Use this endpoint to send a "forgot password" request.
-      operationId: forgotPassword
-      requestBody:
-        description: In the request body, pass the UserForgotPasswordRequest object.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/UserForgotPasswordRequest"
-      responses:
-        200:
-          description: The request has been sent.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/resetPassword:
-    put:
-      tags:
-        - Users
-      summary: Reset a password
-      description: Use this endpoint to reset a password. To update a password, you'll have to provide `passwordResetToken` that was sent by email.
-      operationId: resetPassword
-      requestBody:
-        description: In the request body, pass the UserResetPasswordRequest object.
-        required: true
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserResetPasswordRequest"
-      responses:
-        200:
-          description: Returns tokens. The password has successfully been reset.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AuthTokens"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/me:
-    get:
-      tags:
-        - Users
-      summary: Check a current user
-      description: Use this endpoint to retrieve details about the currently authenticated user.
-      operationId: getPrincipalUser
-      responses:
-        200:
-          description: Returns user data.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserPrincipal"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    put:
-      summary: Update a user
-      description: Use this endpoint to update the currently logged in user.
-      operationId: updatePrincipalUser
-      tags:
-        - Users
-      requestBody:
-        description: In the request body, pass the UserRequest object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserRequest"
-      responses:
-        200:
-          description: Returns the updated user record.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /users/password:
-    put:
-      tags:
-        - Users
-      summary: Reset a password
-      description: Use this endpoint to reset the principal's password.
-      operationId: updatePrincipalPassword
-      requestBody:
-        description: In the request body, pass the UserPasswordRequest object.
-        required: true
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/UserPasswordRequest"
-      responses:
-        200:
-          description: The password has been reset.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
   /users:
     post:
       tags:
@@ -913,235 +1238,51 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /publicAppSettings:
-    get:
-      summary: Get app settings
-      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
-      operationId: getPublicAppSettings
-      tags:
-        - App Settings
-      responses:
-        200:
-          description: Returns the list of public apps and their settings.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AppSettings"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /products:
-    get:
-      summary: Retrieve products
-      description: Use this endpoint to get a list of products available to your tenant, with names, available subscription plans, etc.
-      operationId: getProducts
-      tags:
-        - Products
-      responses:
-        200:
-          description: Returns an array of products.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Product"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /products/{anchor}:
-    get:
-      summary: Get a specific product
-      description: Use this endpoint to retrieve information about a specific product.
-      operationId: getProduct
-      tags:
-        - Products
-      parameters:
-        - name: anchor
-          in: path
-          description: A unique anchor of a product, e.g. Sell or Talk.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Returns a product.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /products/{anchor}/plans:
-    get:
-      summary: Get subscription plans
-      description: Use this endpoint to see the plans available for a certain product. You'll also see the plan that is active now.
-      operationId: getAvailableProductPlans
-      tags:
-        - Products
-      parameters:
-        - name: anchor
-          in: path
-          description: A unique anchor of a product, e.g., Sell or Talk.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Returns available plans.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PlanFullInfo'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /features:
-    get:
-      summary: Retrieve features
-      description: Use this endpoint to retrieve a list of available features.
-      operationId: getFeatureList
-      tags:
-        - Features
-      responses:
-        200:
-          description: Returns an array of features.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Feature"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /features/{anchor}:
-    get:
-      summary: Retrieve a feature
-      description: Use this endpoint to retrieve details for a specific feature.
-      operationId: getFeature
-      tags:
-        - Features
-      parameters:
-        - name: anchor
-          in: path
-          description: A unique anchor of feature.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Returns the feature record.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Feature"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-
-  /permissions:
-    get:
-      summary: Retrieve permissions
-      description: Use this endpoint to retrieve a list of available permissions.
-      operationId: getPermissionList
-      tags:
-        - Permissions
-      responses:
-        200:
-          description: Returns a list of permissions.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Permission"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /roles:
-    get:
-      tags:
-        - Roles
-      summary: Retrieve roles
-      description: Use this endpoint to get a list of available roles, with permissions assigned to each role. This endpoint supports paging and sorting.
-      operationId: getRoles
-      parameters:
-        - name: id
-          in: query
-          description: Unique ID of the role.
-          schema:
-            type: string
-        - name: name
-          in: query
-          description: The role title.
-          schema:
-            type: string
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: Returns the list of roles.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Roles"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
+  /users/verify:
     post:
       tags:
-        - Roles
-      summary: Create a role
-      description: Use this endpoint to add a new role to Inperium.
-      operationId: createRole
+        - Users
+      summary: Verify a new user
+      description: Use this endpoint to verify a new user and activate the account.
+      operationId: verifyUser
       requestBody:
-        description: In the request body, pass the RoleRequest object that describes a new role.
+        required: true
+        description: In the request body, pass the UserVerificationRequest object.
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/UserVerificationRequest"
+      responses:
+        200:
+          description: Returns authentication tokens. The user account is verified.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthTokens"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /users/forgotPassword:
+    post:
+      tags:
+        - Users
+      summary: Recover a password
+      description: Use this endpoint to send a "forgot password" request.
+      operationId: forgotPassword
+      requestBody:
+        description: In the request body, pass the UserForgotPasswordRequest object.
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RoleRequest"
+              $ref: "#/components/schemas/UserForgotPasswordRequest"
       responses:
-        201:
-          description: Returns the newly created role.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
+        200:
+          description: The request has been sent.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1149,66 +1290,73 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /roles/{id}:
-    get:
+  /users/resetPassword:
+    put:
       tags:
-        - Roles
-      summary: Retrieve a role
-      description: Use this endpoint to retrieve a specific role and see associated permissions.
-      operationId: getRole
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
+        - Users
+      summary: Reset a password
+      description: Use this endpoint to reset a password. To update a password, you'll have to provide `passwordResetToken` that was sent by email.
+      operationId: resetPassword
+      requestBody:
+        description: In the request body, pass the UserResetPasswordRequest object.
+        required: true
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/UserResetPasswordRequest"
       responses:
         200:
-          description: Returns a requested role.
+          description: Returns tokens. The password has successfully been reset.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Role"
+                $ref: "#/components/schemas/AuthTokens"
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Check a current user
+      description: Use this endpoint to retrieve details about the currently authenticated user.
+      operationId: getPrincipalUser
+      responses:
+        200:
+          description: Returns user data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPrincipal"
+        default:
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
+      summary: Update a user
+      description: Use this endpoint to update the currently logged in user.
+      operationId: updatePrincipalUser
       tags:
-        - Roles
-      summary: Update a role
-      description: Use this endpoint to update an existing role. Note that the role properties will be overwritten.
-      operationId: updateRole
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
+        - Users
       requestBody:
-        description: In the request body, pass the updated RoleRequest object.
+        description: In the request body, pass the UserRequest object.
         content:
-          application/json:
+          "*/*":
             schema:
-              $ref: "#/components/schemas/RoleRequest"
+              $ref: "#/components/schemas/UserRequest"
       responses:
         200:
-          description: Returns an updated role.
+          description: Returns the updated user record.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Role"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    delete:
-      tags:
-        - Roles
-      summary: Delete a role
-      description: Use this endpoint to remove an existing role.
-      operationId: deleteRole
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      responses:
-        204:
-          description: The role has been successfully deleted.
+                $ref: "#/components/schemas/User"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1216,185 +1364,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
-  /subscriptions:
-    get:
-      summary: Retrieve subscriptions
-      description: Use this endpoint to get a complete list of subscriptions for the current tenant.
-      operationId: getSubscriptions
+  /users/password:
+    put:
       tags:
-        - Subscriptions
-      parameters:
-        - name: state
-          in: query
-          description: The state of the subscription to be found.
-          schema:
-            type: string
-          example: in::ACTIVE,TRIALING
-        - name: product
-          in: query
-          description: The product the subscription is associated with.
-          schema:
-            type: string
-          example: eq::SELL
-      responses:
-        200:
-          description: Returns the list of subscriptions.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Subscription"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    post:
-      tags:
-        - Subscriptions
-      summary: Start a new subscription
-      description: Use this endpoint to start a new trial subscription or to purchase one.
-      operationId: createSubscription
+        - Users
+      summary: Reset a password
+      description: Use this endpoint to reset the principal's password.
+      operationId: updatePrincipalPassword
       requestBody:
-        description: In the request body, provide information about the plan you want to start. Pass the SubscriptionRequest object.
+        description: In the request body, pass the UserPasswordRequest object.
+        required: true
         content:
-          application/json:
+          "*/*":
             schema:
-              $ref: "#/components/schemas/SubscriptionRequest"
+              $ref: "#/components/schemas/UserPasswordRequest"
       responses:
         200:
-          description: Returns a new subscription. The subscription has successfully started.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Subscription"
+          description: The password has been reset.
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
-  /subscriptions/{id}:
-    patch:
-      summary: Update a subscription
-      description: Use this endpoint to change a plan, for example, to upgrade subscription to a bigger plan.
-      operationId: updateSubscription
-      tags:
-        - Subscriptions
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      requestBody:
-        description: In the request body, pass the information about your current subscription and the new plan you want to subscribe to.
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SubscriptionUpdateRequest"
-      responses:
-        200:
-          description: Returns an updated subscription. The subscription has been updated.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Subscription"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-    get:
-      summary: Retrieve a subscription
-      description: Use this endpoint to get additional information about the subscription.
-      operationId: getSubscription
-      tags:
-        - Subscriptions
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - name: newLicenseQuantity
-          in: query
-          description: The new license count to calculate the price. Minimum is 1.
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-      responses:
-        200:
-          description: Returns full information about a subscription.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionFullInfo'
-        default:
-          $ref: '#/components/responses/DefaultResponse'
-
-  /subscriptions/webhooks/stripe:
-    post:
-      summary: Handle Stripe webhooks
-      description: Use this endpoint to handle Stripe webhooks for payment processing.
-      operationId: handleStripeWebhook
-      tags:
-        - Subscriptions
-      parameters:
-        - in: header
-          name: Stripe-Signature
-          description: To verify events, Stripe signs the webhooks. This information is provided in the 'Stripe-Signature' header.
-          schema:
-            type: string
-      requestBody:
-        description: In the request body, pass the payload of the webhook.
-        content:
-          application/json:
-            schema:
-              type: string
-      responses:
-        200:
-          description: The webhook was executed and verified by Stripe.
-        default:
-          $ref: '#/components/responses/DefaultResponse'
-
-  /services/estimateSubscriptionCost:
-    get:
-      tags:
-        - Services
-      summary: Forecast subscription cost
-      description: Use this endpoint to calculate the estimated cost of a subscription, based on the given parameters.
-      operationId: estimateSubscriptionCost
-      parameters:
-        - name: planId
-          in: query
-          required: true
-          description: The ID of the plan.
-          schema:
-            $ref: '#/components/schemas/Id'
-        - name: interval
-          in: query
-          description: The billing interval.
-          schema:
-            $ref: '#/components/schemas/PriceInterval'
-        - name: promotionCode
-          in: query
-          description: A promotion code that can be used to reduce the final cost.
-          schema:
-            $ref: '#/components/schemas/PromotionCode'
-        - name: licensedQuantity
-          in: query
-          description: The number of licenses to take into consideration while calculating the estimated cost.
-          schema:
-            type: integer
-            format: int64
-      responses:
-        200:
-          description: Returns the estimated cost of the subscription.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SubscriptionCostEstimate'
-        default:
-          $ref: '#/components/responses/DefaultResponse'
-
 components:
   responses:
     DefaultResponse:
@@ -1720,6 +1712,7 @@ components:
               description: The user password.
             region:
               type: string
+              description: The user's location. This is the enum parameter that defines if the user is located in the 'US' or 'EU'.
               default: US
               enum:
                 - US

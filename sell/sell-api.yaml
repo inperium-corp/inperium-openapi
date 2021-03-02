@@ -1,9 +1,10 @@
 openapi: 3.0.1
 
 info:
-  title: Inperium Sell API
+  title: Sell API
   description: |
-    This RESTful API provides access to the Inperium Sell service including the ability to add companies and contacts and create deals.
+    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscription and the user creating an API key must have access to Inperium Sell.
+    Inperium Sell API seamlessly integrates with other API such as the OBS API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
   version: 1.0.0-SNAPSHOT
 
 servers:

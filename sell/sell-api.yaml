@@ -4362,6 +4362,13 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing product properties and their values, such as a deal name or value.
+          example:
+            companyId: $OBJECT-UUID
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
         activities:
           type: array
           description: The list of activities.
@@ -4375,6 +4382,12 @@ components:
       type: object
       additionalProperties: true
       description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
+      example:
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
     Deals:
       type: object
       description: The list of deals with paging data.

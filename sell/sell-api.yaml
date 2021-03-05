@@ -4215,10 +4215,30 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing company properties and their values, such as a company name or employee count.
+          example:
+            companyName: Arts Inc.
+            industry: RETAIL
+            employeeCount: 200
+            country: US
+            type: LEAD
+            city: Newtown
+            state: CA
+            description: Musical instruments shop
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
     CompanyRequest:
       description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        companyName: Arts Inc.
+        industry: RETAIL
+        employeeCount: 200
+        country: US
+        type: LEAD
+        city: Newtown
+        state: CA
+        description: Musical instruments shop
     CompanyRelationshipRequest:
       type: object
       description: The incoming company relationship object enables you to link companies and define relations between companies.
@@ -4276,10 +4296,28 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing contact properties and their values, such as a name or employee title.
+          example:
+            emails:
+              - id: $OBJECT-UUID
+                value: emma.clock@email.com
+                type: PERSONAL
+                isPrimary: true
+            lastName: Clock
+            firstName: Emma
+            companyId: $OBJECT-UUID
+            userId: $OBJECT-UUID
     ContactRequest:
       description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        emails:
+          - id: $OBJECT-UUID
+            value: emma.clock@email.com
+            type: PERSONAL
+            isPrimary: true
+        lastName: Clock
+        firstName: Emma
     ContactPaymentMethod:
       description: The contact's preferred method of payment with its details.
       type: object
@@ -4320,6 +4358,13 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing product properties and their values, such as a deal name or value.
+          example:
+            companyId: $OBJECT-UUID
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
         activities:
           type: array
           description: The list of activities.
@@ -4333,6 +4378,12 @@ components:
       type: object
       additionalProperties: true
       description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
+      example:
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
     Deals:
       type: object
       description: The list of deals with paging data.
@@ -4597,6 +4648,8 @@ components:
       type: string
       format: uuid
       description: A unique object identifier.
+      example: $OBJECT-UUID
+
     Import:
       type: object
       description: Information about the import results.
@@ -4923,6 +4976,15 @@ components:
     PageAndSort:
       type: object
       description: Paging and sorting information.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
     Payment:
       type: object
       properties:
@@ -5230,11 +5292,23 @@ components:
           type: object
           additionalProperties: true
           description: The list of product properties.
+          example:
+            code: ir_hp
+            cost: 2380
+            price: 2500
+            name: Harp
+            description: Small irish harp
       description: The Product object returned by Inperium API contains information about a product or a service offered by the tenant.
     ProductRequest:
       description: The incoming object that describes product properties. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        code: ir_hp
+        cost: 2380
+        price: 2500
+        name: Harp
+        description: Small irish harp
     Products:
       type: object
       description: The list of products with paging data.

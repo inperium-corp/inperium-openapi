@@ -1,9 +1,9 @@
 openapi: 3.0.1
 
 info:
-  title: Inperium OBS API
+  title: OBS API
   description: |
-    This RESTful API provides access to the Inperium OBS service that helps manage documents and files. You can leverage this API to store and retrieve documents.
+    The Inperium OBS API provides access to the Inperium OBS service that helps manage documents and files stored by Inperium apps such as attachments in Inperium Sell and audio recordings in Inperium Talk. You can leverage this API to store and retrieve documents.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -28,23 +28,6 @@ tags:
 
 
 paths:
-  /health:
-    get:
-      tags:
-        - Health checks
-      summary: Check health
-      description: Use this endpoint to verify that the microservice runs as usual.
-      operationId: checkHealth
-      responses:
-        200:
-          description: Returns an empty response that is used for OK non-returning operations.
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /files:
     post:
       tags:
@@ -160,6 +143,23 @@ paths:
             application/json:
               schema:
                 type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
+      operationId: checkHealth
+      responses:
+        200:
+          description: Returns an empty response that is used for OK non-returning operations.
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:

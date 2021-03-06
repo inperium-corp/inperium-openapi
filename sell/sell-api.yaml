@@ -1,9 +1,10 @@
 openapi: 3.0.1
 
 info:
-  title: Inperium Sell API
+  title: Sell API
   description: |
-    This RESTful API provides access to the Inperium Sell service including the ability to add companies and contacts and create deals.
+    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscription and the user creating an API key must have access to Inperium Sell.
+    Inperium Sell API seamlessly integrates with other API such as the OBS API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -493,35 +494,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-    put:
-      tags:
-        - Campaigns
-      summary: Update a campaign
-      description: Use this endpoint to modify an existing campaign.
-      operationId: updateCampaign
-      parameters:
-        - $ref: "#/components/parameters/ResourceId"
-      requestBody:
-        description: In the request body, pass the Campaign object.
-        content:
-          "*/*":
-            schema:
-              $ref: "#/components/schemas/Campaign"
-        required: false
-      responses:
-        200:
-          description: The campaign has been updated. Returns a campaign.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Campaign"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-      x-codegen-request-body-name: campaign
     delete:
       tags:
         - Campaigns
@@ -848,7 +820,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-
   /companyRelationships:
     get:
       tags:
@@ -1522,34 +1493,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
       x-codegen-request-body-name: dealItems
-  /dictionaryGroups/{groupId}:
-    get:
-      tags:
-        - Dictionaries
-      summary: Retrieve a dictionary
-      description: Use this endpoint to retrieve a dictionary group by its ID.
-      operationId: getDictionaryGroup
-      parameters:
-        - name: groupId
-          description: The ID of the dictionary group.
-          in: path
-          required: true
-          schema:
-            type: string
-        - $ref: "#/components/parameters/EntityProperties"
-      responses:
-        200:
-          description: The dictionary group has been retrieved. Returns dictionary items.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/DictionaryItems"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
   /exports:
     post:
       tags:
@@ -1564,12 +1507,8 @@ paths:
             schema:
               $ref: "#/components/schemas/ExportRequest"
       responses:
-        200:
-          description: The export started. Returns the export file name.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Export"
+        204:
+          description: Export started. You will receive an email with the download link once the export completes.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2262,20 +2201,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /paymentMethods/stripe:
-    get:
-      tags:
-        - PaymentMethods
-      summary: Retrieve a Stripe publishable key
-      description: Use this endpoint to get a Stripe publishable key for the current tenant.
-      operationId: getStripePublishableKey
-      responses:
-        200:
-          description: The publishable key has been retrieved. Returns a string.
-          content:
-            application/json:
-              schema:
-                type: string
   /payments:
     get:
       tags:
@@ -3467,42 +3392,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /temporary/send-system-mail:
-    post:
-      tags:
-        - Temporary
-      summary: Send email
-      description: This endpoint is for testing purposes. (will be removed)
-      operationId: sendSystemMail
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              required:
-                - content
-                - receiver
-                - sender
-                - subject
-              properties:
-                sender:
-                  type: string
-                receiver:
-                  type: string
-                subject:
-                  type: string
-                content:
-                  type: string
-        required: true
-      responses:
-        204:
-          description: Returns an empty response.
-          content: {}
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
   /tenant/settings:
     put:
       tags:
@@ -3714,29 +3603,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /views:
-    get:
-      tags:
-        - Views
-      summary: List views
-      description: Use this endpoint to get a list of views, including company views, contact views, etc. This operation supports paging and sorting.
-      operationId: getAllViews
-      parameters:
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: The views have been retrieved. Returns views.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Views"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
     post:
       tags:
         - Views
@@ -4349,10 +4215,30 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing company properties and their values, such as a company name or employee count.
+          example:
+            companyName: Arts Inc.
+            industry: RETAIL
+            employeeCount: 200
+            country: US
+            type: LEAD
+            city: Newtown
+            state: CA
+            description: Musical instruments shop
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
     CompanyRequest:
       description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        companyName: Arts Inc.
+        industry: RETAIL
+        employeeCount: 200
+        country: US
+        type: LEAD
+        city: Newtown
+        state: CA
+        description: Musical instruments shop
     CompanyRelationshipRequest:
       type: object
       description: The incoming company relationship object enables you to link companies and define relations between companies.
@@ -4410,10 +4296,28 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing contact properties and their values, such as a name or employee title.
+          example:
+            emails:
+              - id: $OBJECT-UUID
+                value: emma.clock@email.com
+                type: PERSONAL
+                isPrimary: true
+            lastName: Clock
+            firstName: Emma
+            companyId: $OBJECT-UUID
+            userId: $OBJECT-UUID
     ContactRequest:
       description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        emails:
+          - id: $OBJECT-UUID
+            value: emma.clock@email.com
+            type: PERSONAL
+            isPrimary: true
+        lastName: Clock
+        firstName: Emma
     ContactPaymentMethod:
       description: The contact's preferred method of payment with its details.
       type: object
@@ -4454,6 +4358,13 @@ components:
           type: object
           additionalProperties: true
           description: The JSON containing product properties and their values, such as a deal name or value.
+          example:
+            companyId: $OBJECT-UUID
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
         activities:
           type: array
           description: The list of activities.
@@ -4467,6 +4378,12 @@ components:
       type: object
       additionalProperties: true
       description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
+      example:
+            name: Small band pack
+            userId: $OBJECT-UUID
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            stageId: $OBJECT-UUID
+            pipelineId: $OBJECT-UUID
     Deals:
       type: object
       description: The list of deals with paging data.
@@ -4731,6 +4648,8 @@ components:
       type: string
       format: uuid
       description: A unique object identifier.
+      example: $OBJECT-UUID
+
     Import:
       type: object
       description: Information about the import results.
@@ -5057,6 +4976,15 @@ components:
     PageAndSort:
       type: object
       description: Paging and sorting information.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
     Payment:
       type: object
       properties:
@@ -5364,11 +5292,23 @@ components:
           type: object
           additionalProperties: true
           description: The list of product properties.
+          example:
+            code: ir_hp
+            cost: 2380
+            price: 2500
+            name: Harp
+            description: Small irish harp
       description: The Product object returned by Inperium API contains information about a product or a service offered by the tenant.
     ProductRequest:
       description: The incoming object that describes product properties. To retrieve property definitions, send a GET request to '/properties'.
       type: object
       additionalProperties: true
+      example:
+        code: ir_hp
+        cost: 2380
+        price: 2500
+        name: Harp
+        description: Small irish harp
     Products:
       type: object
       description: The list of products with paging data.

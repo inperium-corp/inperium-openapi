@@ -154,7 +154,6 @@ components:
         - type: object
           required:
             - email
-            - firstName
             - downloadedContentName
           properties:
             email:

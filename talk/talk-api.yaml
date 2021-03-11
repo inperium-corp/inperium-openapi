@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Inperium Server Talk API
   description: |
-    The initial version of Inperium Server Hub API.
+    The initial version of Inperium Talk API.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -3154,4 +3154,3 @@ components:
         onCall:
           type: integer
           format: int64
-

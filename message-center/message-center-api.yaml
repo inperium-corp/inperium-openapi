@@ -1,9 +1,9 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Message Center Server API
+  title: Message Center API
   description: |
-    This RESTful API provides access to the Inperium Message Center service.
+    The Message Center API allows integrating Inperium Sell with client's mailbox provider and facilitates sending and receiving emails.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -47,74 +47,6 @@ tags:
        To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.
 
 paths:
-  /health:
-    get:
-      tags:
-        - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
-      operationId: checkHealth
-      responses:
-        200:
-          description: Returns an empty response that is used for OK non-returning operations.
-          content: {}
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /webhooks/auth:
-    get:
-      tags:
-        - Webhook
-      summary: Connect a mailbox
-      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas.
-      operationId: getNylasAuthUrl
-      responses:
-        200:
-          description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
-          content:
-            application/json:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /webhooks/register:
-    get:
-      tags:
-        - Webhook
-      summary: Register a mailbox
-      description: Use this endpoint to get the confirmation token from Nylas.
-      operationId: registerToken
-      parameters:
-        - name: code
-          in: query
-          description: After you follow the auth URL and submit credentials, Nylas issues a verification code.
-          required: true
-          schema:
-            type: string
-        - name: state
-          in: query
-          description: The ID of the user.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Returns a confirmation token.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /accounts:
     get:
       tags:
@@ -203,145 +135,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /threads:
+  /attachments:
     get:
       tags:
-        - Threads
-      summary: Retrieve threads
-      description: Use this endpoint to get message threads. This endpoint supports paging and sorting.
-      operationId: getThreads
+        - Attachments
+      summary: Retrieve attachments
+      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting.
+      operationId: getAttachments
       parameters:
-        - name: folderId
-          description: The ID of the folder where the thread belongs to. Use only if userAccountId isn't empty.
-          in: query
-          schema:
-            type: string
-        - name: toMe
-          description: This parameter marks if the thread is addressed to a user.
-          in: query
-          schema:
-            type: string
-        - name: flagged
-          description: This parameter marks if the thread has a flag on it.
-          in: query
-          schema:
-            type: string
-        - name: unread
-          description: This parameter marks of the thread contains unread messages.
-          in: query
-          schema:
-            type: string
-        - name: mentions
-          description: This parameter marks if the user is mentioned somewhere down the thread.
-          in: query
-          schema:
-            type: string
-        - name: attachments
-          description: This parameter allows searching and filtering by attached files.
-          in: query
-          schema:
-            type: string
-        - name: body
-          description: This parameter allows searching in the message body.
-          in: query
-          schema:
-            type: string
-        - name: userAccountId
-          description: A unique ID assigned to a user account.
-          in: query
-          schema:
-            type: string
-            format: uuid
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
+          - $ref: "#/components/parameters/UserAccountId"
+          - $ref: "#/components/parameters/QueryPageNumber"
+          - $ref: "#/components/parameters/QueryPageSize"
+          - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Returns the list of threads.
+          description: Returns attachments.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Threads'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /threads/{id}:
-    get:
-      tags:
-        - Threads
-      summary: Retrieve a thread
-      description: Use this endpoint to get a specific thread by its ID.
-      operationId: getThread
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: Returns the Thread object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Thread'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    put:
-      tags:
-        - Threads
-      summary: Update a thread
-      description: Use this endpoint to update an existing thread. The thread contents will be overwritten.
-      operationId: updateThread
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        description: In the request body, pass the ThreadRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ThreadRequest'
-      responses:
-        204:
-          description: Returns an updated thread.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Thread'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /messages:
-    get:
-      tags:
-        - Messages
-      summary: Retrieve messages
-      description: Use this endpoint to retrieve a list of messages. This endpoint supports paging and sorting.
-      operationId: getMessages
-      parameters:
-        - name: threadId
-          description: An ID of the thread where the message belongs to.
-          in: query
-          schema:
-            type: string
-        - $ref: "#/components/parameters/UserAccountId"
-        - $ref: "#/components/parameters/QueryPageNumber"
-        - $ref: "#/components/parameters/QueryPageSize"
-        - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: Returns the list the messages.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Messages'
+                $ref: '#/components/schemas/Attachments'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -349,73 +161,191 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     post:
-      summary: Create a message
-      description: Use this endpoint to compose a new message.
-      operationId: sendMessage
       tags:
-        - Messages sending
+        - Attachments
+      summary: Create an attachment
+      description: Use this endpoint to add a new attachment.
+      operationId: uploadAttachmentContent
+      parameters:
+          - $ref: "#/components/parameters/UserAccountUUID"
       requestBody:
-        description: In the request body, pass the MessageSendRequest object.
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/MessageSendRequest'
+              properties:
+                content:
+                  type: string
+                  description: An attachment to be uploaded. For example, a pdf or docx file.
+                  format: binary
       responses:
         200:
-          description: Returns a newly created message.
+          description: Returns a newly created attachment.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/Attachment'
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /messages/{id}:
+  /attachments/{id}:
     get:
       tags:
-        - Messages
-      summary: Retrieve a message
-      description: Use this endpoint to get a specific message by its ID.
-      operationId: getMessage
+        - Attachments
+      summary: Retrieve an attachment
+      description: Use this endpoint to get a specific attachment by its ID.
+      operationId: getAttachment
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns the attachment.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/Attachment'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Attachments
+      summary: Delete an attachment
+      description: Use this endpoint to remove an existing attachment.
+      operationId: deleteAttachment
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The attachment has been removed.
         default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-    put:
-      summary: Update a message
-      description: Use this endpoint to update an existing message. Note that the message contents will be overwritten.
-      operationId: updateMessage
+  /attachments/{id}/content:
+    get:
       tags:
-        - Messages
+        - Attachments
+      summary: Retrieve attachment contents
+      description: Use this endpoint to download the contents of the  attachment.
+      operationId: getAttachmentContent
       parameters:
         - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        description: In the request body, pass the MessageUpdateRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MessageUpdateRequest'
+        - $ref: "#/components/parameters/UserAccountUUID"
       responses:
         200:
-          description: Returns an updated message.
+          description: The file contents have been retrieved.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                type: string
+                format: binary
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /drafts:
+    get:
+      tags:
+        - Drafts
+      summary: Retrieve drafts
+      description: Use this endpoint to get a list of draft messages. This endpoint supports sorting and paging.
+      operationId: getDrafts
+      parameters:
+          - $ref: "#/components/parameters/UserAccountId"
+          - $ref: "#/components/parameters/QueryPageNumber"
+          - $ref: "#/components/parameters/QueryPageSize"
+          - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list of drafts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drafts'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Drafts
+      summary: Create a draft
+      description: Use this endpoint to add a message draft.
+      operationId: createDraft
+      requestBody:
+        description: In the request body, pass the DraftRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftRequest'
+      responses:
+        200:
+          description: Returns the newly created draft.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /drafts/{id}:
+    get:
+      tags:
+        - Drafts
+      summary: Retrieve a draft
+      description: Use this endpoint to get a specific draft message by its ID.
+      operationId: getDraft
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: Returns a draft.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: Update a draft
+      description: Use this endpoint to update an existing draft. Note that the draft contents will be overwritten.
+      operationId: updateDraft
+      tags:
+        - Drafts
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the DraftRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftRequest'
+      responses:
+        200:
+          description: Returns an updated draft.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Draft'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -540,25 +470,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /drafts:
+  /health:
     get:
       tags:
-        - Drafts
-      summary: Retrieve drafts
-      description: Use this endpoint to get a list of draft messages. This endpoint supports sorting and paging.
-      operationId: getDrafts
-      parameters:
-          - $ref: "#/components/parameters/UserAccountId"
-          - $ref: "#/components/parameters/QueryPageNumber"
-          - $ref: "#/components/parameters/QueryPageSize"
-          - $ref: "#/components/parameters/QuerySort"
+        - Health checks
+      summary: Check the health of the microservice
+      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
+      operationId: checkHealth
       responses:
         200:
-          description: Returns the list of drafts.
+          description: Returns an empty response that is used for OK non-returning operations.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Drafts'
+                $ref: '#/components/schemas/ResponseError'
+
+  /messages:
+    get:
+      tags:
+        - Messages
+      summary: Retrieve messages
+      description: Use this endpoint to retrieve a list of messages. This endpoint supports paging and sorting.
+      operationId: getMessages
+      parameters:
+        - name: threadId
+          description: An ID of the thread where the message belongs to.
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/UserAccountId"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list the messages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -566,46 +519,161 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     post:
+      summary: Create a message
+      description: Use this endpoint to compose a new message.
+      operationId: sendMessage
       tags:
-        - Drafts
-      summary: Create a draft
-      description: Use this endpoint to add a message draft.
-      operationId: createDraft
+        - Messages sending
       requestBody:
-        description: In the request body, pass the DraftRequest object.
+        description: In the request body, pass the MessageSendRequest object.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DraftRequest'
+              $ref: '#/components/schemas/MessageSendRequest'
       responses:
         200:
-          description: Returns the newly created draft.
+          description: Returns a newly created message.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Draft'
+                $ref: '#/components/schemas/Message'
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /drafts/{id}:
+  /messages/{id}:
     get:
       tags:
-        - Drafts
-      summary: Retrieve a draft
-      description: Use this endpoint to get a specific draft message by its ID.
-      operationId: getDraft
+        - Messages
+      summary: Retrieve a message
+      description: Use this endpoint to get a specific message by its ID.
+      operationId: getMessage
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: Returns a draft.
+          description: TBD
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Draft'
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      summary: Update a message
+      description: Use this endpoint to update an existing message. Note that the message contents will be overwritten.
+      operationId: updateMessage
+      tags:
+        - Messages
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the MessageUpdateRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageUpdateRequest'
+      responses:
+        200:
+          description: Returns an updated message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /threads:
+    get:
+      tags:
+        - Threads
+      summary: Retrieve threads
+      description: Use this endpoint to get message threads. This endpoint supports paging and sorting.
+      operationId: getThreads
+      parameters:
+        - name: folderId
+          description: The ID of the folder where the thread belongs to. Use only if userAccountId isn't empty.
+          in: query
+          schema:
+            type: string
+        - name: toMe
+          description: This parameter marks if the thread is addressed to a user.
+          in: query
+          schema:
+            type: string
+        - name: flagged
+          description: This parameter marks if the thread has a flag on it.
+          in: query
+          schema:
+            type: string
+        - name: unread
+          description: This parameter marks of the thread contains unread messages.
+          in: query
+          schema:
+            type: string
+        - name: mentions
+          description: This parameter marks if the user is mentioned somewhere down the thread.
+          in: query
+          schema:
+            type: string
+        - name: attachments
+          description: This parameter allows searching and filtering by attached files.
+          in: query
+          schema:
+            type: string
+        - name: body
+          description: This parameter allows searching in the message body.
+          in: query
+          schema:
+            type: string
+        - name: userAccountId
+          description: A unique ID assigned to a user account.
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the list of threads.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Threads'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /threads/{id}:
+    get:
+      tags:
+        - Threads
+      summary: Retrieve a thread
+      description: Use this endpoint to get a specific thread by its ID.
+      operationId: getThread
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: Returns the Thread object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -613,144 +681,76 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
-      summary: Update a draft
-      description: Use this endpoint to update an existing draft. Note that the draft contents will be overwritten.
-      operationId: updateDraft
       tags:
-        - Drafts
+        - Threads
+      summary: Update a thread
+      description: Use this endpoint to update an existing thread. The thread contents will be overwritten.
+      operationId: updateThread
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: In the request body, pass the DraftRequest object.
+        description: In the request body, pass the ThreadRequest object.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DraftRequest'
-      responses:
-        200:
-          description: Returns an updated draft.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Draft'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /attachments:
-    get:
-      tags:
-        - Attachments
-      summary: Retrieve attachments
-      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting.
-      operationId: getAttachments
-      parameters:
-          - $ref: "#/components/parameters/UserAccountId"
-          - $ref: "#/components/parameters/QueryPageNumber"
-          - $ref: "#/components/parameters/QueryPageSize"
-          - $ref: "#/components/parameters/QuerySort"
-      responses:
-        200:
-          description: Returns attachments.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    post:
-      tags:
-        - Attachments
-      summary: Create an attachment
-      description: Use this endpoint to add a new attachment.
-      operationId: uploadAttachmentContent
-      parameters:
-          - $ref: "#/components/parameters/UserAccountUUID"
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                content:
-                  type: string
-                  description: An attachment to be uploaded. For example, a pdf or docx file.
-                  format: binary
-      responses:
-        200:
-          description: Returns a newly created attachment.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachment'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /attachments/{id}:
-    get:
-      tags:
-        - Attachments
-      summary: Retrieve an attachment
-      description: Use this endpoint to get a specific attachment by its ID.
-      operationId: getAttachment
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: Returns the attachment.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachment'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    delete:
-      tags:
-        - Attachments
-      summary: Delete an attachment
-      description: Use this endpoint to remove an existing attachment.
-      operationId: deleteAttachment
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
+              $ref: '#/components/schemas/ThreadRequest'
       responses:
         204:
-          description: The attachment has been removed.
+          description: Returns an updated thread.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /attachments/{id}/content:
+  /webhooks/auth:
     get:
       tags:
-        - Attachments
-      summary: Retrieve attachment contents
-      description: Use this endpoint to download the contents of the  attachment.
-      operationId: getAttachmentContent
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: "#/components/parameters/UserAccountUUID"
+        - Webhook
+      summary: Connect a mailbox
+      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas.
+      operationId: getNylasAuthUrl
       responses:
         200:
-          description: The file contents have been retrieved.
+          description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
           content:
             application/json:
               schema:
                 type: string
-                format: binary
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /webhooks/register:
+    get:
+      tags:
+        - Webhook
+      summary: Register a mailbox
+      description: Use this endpoint to get the confirmation token from Nylas.
+      operationId: registerToken
+      parameters:
+        - name: code
+          in: query
+          description: After you follow the auth URL and submit credentials, Nylas issues a verification code.
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns a confirmation token.
         default:
           description: Bad request, security violation, or internal server error.
           content:

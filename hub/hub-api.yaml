@@ -426,6 +426,103 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /features/{anchor}/usages:
+    post:
+      summary: Register a new usage of a feature.
+      description: |
+        Use this endpoint to inform the Hub about a new consumption of a feature.
+        As a result, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: createFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      summary: Update an amount of usage of a feature.
+      description: |
+        Use this endpoint to update the amount of consumption of a feature.
+        As a result, if the given value overtops the previous one, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: updateFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanFeature"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /health:
     get:
       tags:
@@ -2465,6 +2562,38 @@ components:
         product:
           type: string
           description: The Inperium app.
+
+    FeatureUsageRequest:
+      type: object
+      description: | 
+        The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
+        For example, you make internaltional call (in Inperium Talk) and the feature usage must be updated.
+      properties:
+        quantity:
+          type: integer
+          format: int64
+          minimum: 0
+          description: | 
+            The quantity of consumed feature. It can be either the total amount of feature usage or its increment. 
+            It depends on the end-point that is in use.
+
+    PlanFeature:
+      type: object
+      description: The PlanFeature object describes the feature in the plan you have including consumed quantity, its limitation, etc. 
+      properties:
+        plan:
+          $ref: "#/components/schemas/Plan"
+        feature:
+          $ref: "#/components/schemas/Feature"
+        priceModel:
+          type: string
+        isInfinite:
+          type: boolean
+          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
+        thresholdValue:
+          type: integer
+          format: int64
+          description: The maximum value allowed by the Limit.
 
     Plan:
       type: object

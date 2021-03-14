@@ -1183,7 +1183,7 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
+          "*/*":
             schema:
               $ref: "#/components/schemas/FeatureUsageRequest"
       responses:
@@ -1231,7 +1231,7 @@ paths:
           type: string
       requestBody:
         content:
-          application/json:
+          "*/*":
             schema:
               $ref: "#/components/schemas/FeatureUsageRequest"
       responses:

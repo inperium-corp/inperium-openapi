@@ -49,7 +49,7 @@ tags:
   - name: Deals
     description: |
       Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
-  - name: DealItems
+  - name: Deal Items
     description: |
       As you create a deal, you add products and additional fees and taxes. These items are required to calculate the deal value.
   - name: Deprecated
@@ -61,22 +61,22 @@ tags:
   - name: Documents
     description: |
       Inperium Sell stores files in AWS. In most cases, documents are attached to entities such as companies or deals, but some documents are stored independently (e.g., avatar images).
-  - name: DocumentTypes
+  - name: Document Types
     description: |
-      Inperium Sell enables users to upload documents such as pdfs, png, etc. The DocumentTypes list all supported document extensions.
+      Inperium Sell enables users to upload documents such as pdfs, png, etc. The Document Types list all supported document extensions.
   - name: Exports
     description: |
       Inperium Sell enables users to export data from the CRM. For example, to reuse it in another app or to store as a backup.
   - name: Forms
     description: |
       In Inperium Sell, users can create custom forms to collect data.
-  - name: GlobalSearch
+  - name: Global Search
     description: |
       Global search gives the ability to locate entities by name. It searches across deals, companies, contacts at the same time.
   - name: Import
     description: |
       Inperium Sell enables users to import data from other CRMs. For example, contact data, information about deals, and product pricelists.
-  - name: ImportLog
+  - name: Import Log
     description: |
       If import fails for some reason or data was mapped to a wrong column, refer to the Import log for troubleshooting ideas.
   - name: Integrations
@@ -85,13 +85,13 @@ tags:
   - name: Invoices
     description: |
       Inperium Sell enables users to create professional-looking invoices and process them within CRM.
-  - name: InvoicePage
+  - name: Invoice Page
     description: |
       Inperium Sell allows sharing invoices with customers through public URLs. It means you can send an invoice link to your clients, they will follow this link, and review the invoice right in the browser.
   - name: Items
     description: |
       Products and fees are added to deals and quotes and listed as items.
-  - name: PaymentMethods
+  - name: Payment Methods
     description: |
       Inperium Sell support integration with Stripe and allows to process payments through this system.
   - name: Payments
@@ -100,7 +100,7 @@ tags:
   - name: Pipelines
     description: |
       Pipelines describe the sales process, or being more specific, milestones the deal goes through from start to end. For example, Lead in, Demo, Contact sent, Deal won.
-  - name: PipelineStatistics
+  - name: Pipeline Statistics
     description: |
       Analyze your sales progress with pipeline statistics.
   - name: Predefined Metadata
@@ -115,7 +115,7 @@ tags:
   - name: Quotes
     description: |
       Quotes are sales offers. While negotiating the contract terms, you can propose quotes that typically include products, discounts, and payment plans.
-  - name: PublicQuote
+  - name: Public Quote
     description: |
       Inperium Sell allows sharing quotes with customers through public URLs. It means you can send your clients a quote link, they will follow the link and review the quote right in the browser.
   - name: Reports
@@ -124,19 +124,19 @@ tags:
   - name: Stages
     description: |
       The sales pipelines consist of stages. The stages are milestones the deal goes through before it gets closed. For example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
-  - name: StripeAuthorizations
+  - name: Stripe Authorizations
     description: |
       To configure integration with Stripe, you've got to authenticate your app with Stripe.
-  - name: StripeTerminals
+  - name: Stripe Terminals
     description: |
       Configure Stripe terminals to receive payments.
   - name: Template
     description: |
       Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up sales process and make it more structured.
-  - name: TenantIntegrations
+  - name: Tenant Integrations
     description: |
       You can enable third-party integrations for your tenant and use Inperium to its fullest.
-  - name: TenantSettings
+  - name: Tenant Settings
     description: |
       In Inperium Sell, administrators can set up tenant-wide properties and preferences such as default currency, quote prefix, revenue goal, etc.
   - name: Views
@@ -145,7 +145,7 @@ tags:
   - name: Widgets
     description: |
       In Inperium Sell, a widget is a dashboard element providing certain data, for example, the leader board or the number of deals on each pipeline.
-  - name: XeroAuthorizations
+  - name: Xero Authorizations
     description: |
       Configure integration with Xero.
 
@@ -1445,7 +1445,7 @@ paths:
   /deals/{id}/items:
     get:
       tags:
-        - DealItems
+        - Deal Items
       summary: List deal items
       description: Use this endpoint to get information about the products included in the deal as well as any applicable fees.
       operationId: getDealItems
@@ -1466,7 +1466,7 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     post:
       tags:
-        - DealItems
+        - Deal Items
       summary: Add items
       description: Use this endpoint to add items to the deal. It can be a product or fee.
       operationId: createDealItems
@@ -1696,7 +1696,7 @@ paths:
   /globalSearch:
     get:
       tags:
-        - GlobalSearch
+        - Global Search
       summary: Retrieve data
       description: Use this endpoint to search across companies, contacts, and deals. For example, locate all entities that contain "bowl" such as Bowler Inc., Marcus Bowlson.
       operationId: globalSearch
@@ -1709,7 +1709,7 @@ paths:
             type: string
       responses:
         200:
-          description: The search results have been retrieved. Returns GlobalSearchResults.
+          description: The search results have been retrieved. Returns global search results.
           content:
             application/json:
               schema:
@@ -1818,7 +1818,7 @@ paths:
   /integrations/stripe/authorize:
     get:
       tags:
-        - StripeAuthorizations
+        - Stripe Authorizations
       summary: Authorize Stripe
       description: Use this endpoint to enable payment processing with Stripe and authorize the Stripe account.
       operationId: authorizeStripe
@@ -1838,7 +1838,7 @@ paths:
   /integrations/stripe/authorize/callback:
     get:
       tags:
-        - StripeAuthorizations
+        - Stripe Authorizations
       summary: Get the Stripe callback
       description: Get the Stripe OAuth2 authorization callback.
       operationId: callbackStripe
@@ -1861,7 +1861,7 @@ paths:
   /integrations/stripe/credentials:
     get:
       tags:
-        - StripeAuthorizations
+        - Stripe Authorizations
       summary: Get the Stripe credentials
       description: Use this endpoint to retrieve Stripe credentials for the current tenant.
       operationId: getStripeCredentials
@@ -1875,7 +1875,7 @@ paths:
   /integrations/stripe/deauthorize:
     get:
       tags:
-        - StripeAuthorizations
+        - Stripe Authorizations
       summary: Deauthorize Stripe
       description: Use this endpoint to disable integration with Stripe and revoke access.
       operationId: deauthorizeStripe
@@ -1892,7 +1892,7 @@ paths:
   /integrations/xero/authorize:
     get:
       tags:
-        - XeroAuthorizations
+        - Xero Authorizations
       summary: Authorize Xero
       description: Use this endpoint to enable integration with Xero and authorize the Xero account.
       operationId: authorizeXero
@@ -1912,7 +1912,7 @@ paths:
   /integrations/xero/authorize/callback:
     get:
       tags:
-        - XeroAuthorizations
+        - Xero Authorizations
       summary: Get the Xero callback
       description: Use this endpoint to receive the Xero OAuth2 authorization callback.
       operationId: callbackXero
@@ -1934,7 +1934,7 @@ paths:
   /integrations/xero/deauthorize:
     get:
       tags:
-        - XeroAuthorizations
+        - Xero Authorizations
       summary: Deauthorize Xero
       description: Use this endpoint to disable the tenant's integration with Xero and revoke access.
       operationId: deauthorizeXero
@@ -2494,7 +2494,7 @@ paths:
   /pipelines/{id}/statistics:
     get:
       tags:
-        - PipelineStatistics
+        - Pipeline Statistics
       summary: Retrieve deal statistics
       description: Use this endpoint to find out how many deals you have in a specific pipeline. The deals will be grouped by stage and you'll see the total for each stage.
       operationId: getPipelineStatistics
@@ -2503,7 +2503,7 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The pipeline statistics has been retrieved. Returns PipelineStatistics.
+          description: Returns pipeline statistics.
           content:
             application/json:
               schema:
@@ -2861,7 +2861,7 @@ paths:
   /public/invoices/{id}:
     get:
       tags:
-        - InvoicePage
+        - Invoice Page
       summary: Retrieve an invoice
       description: Use this endpoint to generate the invoice page. You can share the invoice page with a customer who would pay the invoice.
       operationId: getInvoiceByUid
@@ -2877,7 +2877,7 @@ paths:
   /public/invoices/{id}/download:
     get:
       tags:
-        - InvoicePage
+        - Invoice Page
       summary: Download the invoice
       description: Use this endpoint to retrieve invoice details and save the invoice page as pdf.
       operationId: getInvoicePagePdf
@@ -2894,7 +2894,7 @@ paths:
   /public/quotes/{id}:
     get:
       tags:
-        - PublicQuote
+        - Public Quote
       summary: Retrieve a quote
       description: Use endpoint to generate a quote page for an anonymous user.
       operationId: getPublicQuote
@@ -2910,7 +2910,7 @@ paths:
   /public/quotes/{id}/accept:
     get:
       tags:
-        - PublicQuote
+        - Public Quote
       summary: Accept a quote
       description: Use this endpoint to mark the quote as accepted. Accepting a quote means that the customer agreed with the terms and is ready to proceed with the payment.
       operationId: acceptQuote
@@ -3395,7 +3395,7 @@ paths:
   /tenant/settings:
     put:
       tags:
-        - TenantSettings
+        - Tenant Settings
       summary: Update tenant settings
       description: Use this endpoint to modify and overwrite tenant settings including billing, company name, default time zone.
       operationId: updateTenantSettings
@@ -3408,7 +3408,7 @@ paths:
         required: false
       responses:
         200:
-          description: The tenant settings have been updated. Returns TenantSettings.
+          description: The tenant settings have been updated. Returns Tenant Settings.
           content:
             application/json:
               schema:
@@ -3422,13 +3422,13 @@ paths:
       x-codegen-request-body-name: tenantSettings
     get:
       tags:
-        - TenantSettings
+        - Tenant Settings
       summary: Retrieve tenant settings
       description: Use this endpoint to get information about a current tenant.
       operationId: getTenantSettings
       responses:
         200:
-          description: The tenant settings have been retrieved. Returns TenantSettings.
+          description: The tenant settings have been retrieved. Returns Tenant Settings.
           content:
             application/json:
               schema:
@@ -3442,7 +3442,7 @@ paths:
   /tenant/integrations:
     get:
       tags:
-        - TenantIntegrations
+        - Tenant Integrations
       summary: List integrations
       description: Use this endpoint to get a list of integrations enabled for a current tenant. This operation supports paging and sorting.
       operationId: getTenantIntegrations
@@ -3452,7 +3452,7 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Integrations have been retrieved. Returns TenantIntegrations.
+          description: Integrations have been retrieved. Returns Tenant Integrations.
           content:
             application/json:
               schema:
@@ -3466,7 +3466,7 @@ paths:
   /terminals/connectionToken:
     post:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: Create a terminal token
       description: Use this endpoint to issue a new terminal token.
       operationId: createTerminalToken
@@ -3486,7 +3486,7 @@ paths:
   /terminals/readers:
     get:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: List Stripe terminal readers
       description: Use this endpoint to retrieve a list of existing Stripe terminal readers.
       operationId: getReaders
@@ -3498,7 +3498,7 @@ paths:
             type: string
       responses:
         200:
-          description: The readers have been retrieved. Returns StripeReaders.
+          description: The readers have been retrieved. Returns Stripe Readers.
           content:
             application/json:
               schema:
@@ -3511,7 +3511,7 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     post:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: Create a new reader
       description: Use this endpoint to add a new terminal reader.
       operationId: createReader
@@ -3536,7 +3536,7 @@ paths:
   /terminals/readers/{id}:
     get:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: Retrieve reader details
       description: Use this endpoint to locate a Stripe terminal reader by its ID and get its details.
       operationId: getReader
@@ -3544,7 +3544,7 @@ paths:
         - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
-          description: The reader details have been retrieved. Returns StripeReader.
+          description: The reader details have been retrieved. Returns Stripe Reader.
           content:
             application/json:
               schema:
@@ -3557,7 +3557,7 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     put:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: Update a reader
       description: Use this endpoint to modify and overwrite an existing Stripe terminal reader.
       operationId: updateReader
@@ -3572,7 +3572,7 @@ paths:
         required: false
       responses:
         200:
-          description: The reader has been updated. Returns StripeReader.
+          description: The reader has been updated. Returns Stripe Reader.
           content:
             application/json:
               schema:
@@ -3586,7 +3586,7 @@ paths:
       x-codegen-request-body-name: reader
     delete:
       tags:
-        - StripeTerminals
+        - Stripe Terminals
       summary: Delete a reader
       description: Use this endpoint to remove a Stripe terminal reader.
       operationId: deleteReader

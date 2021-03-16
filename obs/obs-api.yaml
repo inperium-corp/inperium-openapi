@@ -18,7 +18,7 @@ tags:
   - name: Files
     description: |
       The Inperium OBS service stores files. In most cases, files are attached to product entities but some files are stored independently (e.g., avatar images).
-  - name: FileTypes
+  - name: File Types
     description: |
       The Inperium OBS service enables users to upload files such as pdf, png, etc. The FileTypes list all supported file extensions.
   - name: Health checks

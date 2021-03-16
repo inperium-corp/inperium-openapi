@@ -42,7 +42,7 @@ tags:
   - name: Webhook
     description: |
       Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
-  - name: WebhookSync
+  - name: Webhook Sync
     description: |
        To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.
 
@@ -760,7 +760,7 @@ paths:
   /webhook/sync/register:
     get:
       tags:
-        - WebhookSync
+        - Webhook Sync
       summary: Register a webhook
       description: Use this endpoint to register a webhook in Nylas.
       operationId: registerWebhook
@@ -776,7 +776,7 @@ paths:
   /webhook/sync:
     get:
       tags:
-        - WebhookSync
+        - Webhook Sync
       summary: Sync with Nylas (incoming)
       description: Use this endpoint to synchronize the Message Center service with Nylas. Pull the incoming messages, threads, and other changes.
       operationId: synchronizationRequest
@@ -802,7 +802,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - WebhookSync
+        - Webhook Sync
       summary: Sync with Nylas (outcoming)
       description: Use this endpoint to synchronize the Message Center service with Nylas. Feed outcoming messages and other changes to the mail provider.
       operationId: processNotification

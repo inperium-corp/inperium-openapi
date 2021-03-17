@@ -774,13 +774,11 @@ paths:
           description: The state of the subscription to be found.
           schema:
             type: string
-          example: in::ACTIVE,TRIALING
         - name: product
           in: query
           description: The product the subscription is associated with.
           schema:
             type: string
-          example: eq::SELL
       responses:
         200:
           description: Returns the list of subscriptions.
@@ -1611,10 +1609,20 @@ components:
       type: string
       format: uuid
       description: A unique identifier of a record or resource.
+      example: $OBJECT-UUID
 
     PageAndSort:
       type: object
       description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
 
     UserPrincipal:
       type: object

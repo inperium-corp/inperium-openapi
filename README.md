@@ -1,6 +1,6 @@
 # Inperium OpenAPI Specification
 
-This repository contains OpenAPI 3.0 specifications for Inperium API. 
+This repository contains OpenAPI 3.0 specifications for Inperium API.
 
 The API is used internally for service-to-service communication. Clients can also leverage API to create custom integrations with Inperium apps and services.
 
@@ -34,4 +34,74 @@ Two auth method are available:
 
 ## Documentation
 
-Soon we'll have detailed API documentation. At the moment, feel free to explore OpenAPI specifications on your own. 
+The 'In-development' API documentation is hosted at [developers.inperium.dev](https://developers.inperium.dev)
+
+## API Guidelines — Help Make API Docs Awesome
+
+While some requirements may seem excess, please note that API documentation is generated automatically out of the OpenAPI specifications and you are highly encouraged to comply with these rules in order to make the docs better.
+
+When adding a new endpoint, follow these guidelines:
+
+* Please follow the alphabetical order when adding new entities (tags, endpoints, calls, components, etc.).
+* If you introduce a new tag, add it to the dedicated section on top and provide a description.
+
+```
+tags:
+  - name: API Keys
+    description: |
+      API keys are used instead of bearer tokens to authenticate applications connecting to Inperium via API.
+```
+
+* An endpoint should have a short summary (main title), a description, and a tag.
+
+    * The `summary` should be a short imperative sentence without an ending dot (e.g., Create a company).
+    * The `description` should start with "Use this endpoint to ...". Provide any details that seem necessary.
+    * Add a `tag`.
+
+```
+/features/{anchor}:
+    get:
+      summary: Retrieve a feature
+      description: Use this endpoint to retrieve details for a specific feature.
+      operationId: getFeature
+      tags:
+        - Features
+```
+* Each parameter (endpoint query parameters, request parameters or those in object models) should have a description.
+* Each object model should have a description.
+
+```
+CompanyRelationshipRequest:
+    type: object
+    description: The incoming company relationship object enables you to link companies and define relations between companies.
+    properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        companyId:
+          type: string
+          description: The ID of the origin company.
+          format: uuid
+        parentCompanyId:
+          type: string
+          description: The ID of the parent company.
+          format: uuid
+```
+* Feel free to add meaningful examples to the object models (tentative). They will be displayed in API documentation.
+
+```
+    CompanyRequest:
+      description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
+      type: object
+      additionalProperties: true
+      example:
+        companyName: Arts Inc.
+        industry: RETAIL
+        employeeCount: 200
+        country: US
+        type: LEAD
+        city: Newtown
+        state: CA
+        description: Musical instruments shop
+```
+* List response codes.
+* When in doubt about texts, contact Olly Kirillova.

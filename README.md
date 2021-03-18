@@ -32,9 +32,15 @@ Two auth method are available:
 * With Bearer access token (`Authorization: Bearer eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxn...`)
 * With API key (`X-API-KEY: 5d5b4ed1-8397-47ff-ad8d...`)
 
-## Checklist for adding new endpoints
+## Documentation
 
-While some requirements may seem excess, please note that API documentation is generated automatically out of openapi specifications and you are highly encouraged to comply with these rules in order to make the docs better.
+The 'In-development' API documentation is hosted at [developers.inperium.dev](https://developers.inperium.dev)
+
+## API Guidelines — Help Make API Docs Awesome
+
+While some requirements may seem excess, please note that API documentation is generated automatically out of the OpenAPI specifications and you are highly encouraged to comply with these rules in order to make the docs better.
+
+When adding a new endpoint, follow these guidelines:
 
 * Please follow the alphabetical order when adding new entities (tags, endpoints, calls, components, etc.).
 * If you introduce a new tag, add it to the dedicated section on top and provide a description.
@@ -48,9 +54,9 @@ tags:
 
 * An endpoint should have a short summary (main title), a description, and a tag.
 
-    * The summary should be a short imperative sentence without an ending dot (e.g., Create a company).
-    * The description should start with "Use this endpoint to ...". Provide any details that seem necessary.
-    * Add a tag.
+    * The `summary` should be a short imperative sentence without an ending dot (e.g., Create a company).
+    * The `description` should start with "Use this endpoint to ...". Provide any details that seem necessary.
+    * Add a `tag`.
 
 ```
 /features/{anchor}:
@@ -80,7 +86,7 @@ CompanyRelationshipRequest:
           description: The ID of the parent company.
           format: uuid
 ```
-* Feel free to add meaningful examples to the object models (tentative).
+* Feel free to add meaningful examples to the object models (tentative). They will be displayed in API documentation.
 
 ```
     CompanyRequest:
@@ -99,7 +105,3 @@ CompanyRelationshipRequest:
 ```
 * List response codes.
 * When in doubt about texts, contact Olly Kirillova.
-
-## Documentation
-
-'Development' API documentation is hosted at [developers.inperium.dev](https://developers.inperium.dev)

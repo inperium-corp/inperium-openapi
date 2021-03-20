@@ -2595,8 +2595,6 @@ components:
       required:
         - id
         - firstName
-        - lastName
-        - companyName
         - shared
         - phoneNumbers
         - emails
@@ -2638,8 +2636,6 @@ components:
       type: object
       required:
         - firstName
-        - lastName
-        - companyName
         - shared
         - phoneNumbers
         - emails

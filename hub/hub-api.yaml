@@ -474,6 +474,7 @@ paths:
   /internal/limitUsages:
     x-access: private
     post:
+      x-access: private
       tags:
         - Limits
       summary: Update a limit usage

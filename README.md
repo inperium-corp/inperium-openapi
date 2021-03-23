@@ -86,6 +86,19 @@ CompanyRelationshipRequest:
           description: The ID of the parent company.
           format: uuid
 ```
+* If an endpoint or its method or probably the entire specification shouldn't be exposed to clients, then apply the property `x-access: private`. Add `THIS IS INTERNAL ENDPOINT.` to description.
+
+```
+/internal/limitUsages:
+    x-access: private
+    post:
+      x-access: private
+      tags:
+        - Limits
+      summary: Update a limit usage
+      description: THIS IS INTERNAL ENDPOINT. Inperium services send requests to this endpoint to update the occupied limits in Inperium Hub.
+```
+
 * Feel free to add meaningful examples to the object models (tentative). They will be displayed in API documentation.
 
 ```
@@ -104,4 +117,5 @@ CompanyRelationshipRequest:
         description: Musical instruments shop
 ```
 * List response codes.
-* When in doubt about texts, contact Olly Kirillova.
+
+> When in doubt about texts, contact Olly Kirillova.

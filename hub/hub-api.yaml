@@ -472,7 +472,9 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
 
   /internal/limitUsages:
+    x-access: private
     post:
+      x-access: private
       tags:
         - Limits
       summary: Update a limit usage
@@ -480,7 +482,7 @@ paths:
       operationId: updateLimitUsage
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/LimitUsageUpdateRequest"
       responses:

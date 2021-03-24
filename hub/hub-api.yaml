@@ -1138,13 +1138,12 @@ paths:
 
   /tenants/features/{anchor}/usages:
     get:
-      summary: Retrieve information about usage of a feature.
+      summary: Retrieve the feature usage
       description: |
-        Use this endpoint to get information about usage of a feature.
+        Use this endpoint to get information about the usage of a feature.
       operationId: getFeatureUsage
       tags:
       - Tenants
-      - Features
       parameters:
       - name: anchor
         in: path
@@ -1166,14 +1165,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     post:
-      summary: Register a new usage of a feature.
+      summary: Register a feature usage
       description: |
         Use this endpoint to inform the Hub about a new consumption of a feature.
         As a result, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
       operationId: createFeatureUsage
       tags:
       - Tenants
-      - Features
       parameters:
       - name: anchor
         in: path
@@ -1183,7 +1181,7 @@ paths:
           type: string
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/FeatureUsageRequest"
       responses:
@@ -1214,14 +1212,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     put:
-      summary: Update an amount of usage of a feature.
+      summary: Update the usage count
       description: |
-        Use this endpoint to update the amount of consumption of a feature.
-        As a result, if the given value overtops the previous one, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
+        Use this endpoint to update the counter. If the feature consumption value overtops the previous one, 
+        the Hub will restrict the use of the feature or withdraw money from the tenant's balance.
       operationId: updateFeatureUsage
       tags:
       - Tenants
-      - Features
       parameters:
       - name: anchor
         in: path
@@ -1231,7 +1228,7 @@ paths:
           type: string
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/FeatureUsageRequest"
       responses:
@@ -2598,37 +2595,40 @@ components:
       type: object
       description: | 
         The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
-        For example, you make internaltional call (in Inperium Talk) and the feature usage must be updated.
+        For example, you make an international call.
       properties:
         quantity:
           type: integer
           format: int64
           minimum: 0
           description: | 
-            The quantity of consumed feature. It can be either the total amount of feature usage or its increment. 
-            It depends on the end-point that is in use.
+            The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
+            the quantity can be either the total feature usage count or its increment.
 
     FeatureUsage:
       type: object
-      description: The PlanFeature object describes the feature in the plan you have including consumed quantity, its limitation, etc. 
+      description: The FeatureUsage object describes the feature in the plan you have.
+      required:
+        - plan
+        - feature
       properties:
         plan:
           $ref: "#/components/schemas/Plan"
         feature:
           $ref: "#/components/schemas/Feature"
-        priceModel:
-          type: string
-        isInfinite:
-          type: boolean
-          description: The true/false parameter that identifies if the limit is active. Set this parameter to 'true' to provide unlimited access to a product feature (anchor). For example, support an infinite number of templates.
-        thresholdValue:
-          type: integer
-          format: int64
-          description: The maximum value allowed by the Limit.
+        priceModels:
+          type: array
+          description: |
+            Depending on the endpoint that is in use, the price models are either the available models in the plan or the used price model.
+          items:
+            type: string
+            enum:
+              - STANDARD
+              - METERED
         currentValue:
           type: integer
           format: int64
-          description: The counter, it displays how close you are to reaching the threshold.
+          description: The current value of the feature usage for the tenant.
 
     Plan:
       type: object

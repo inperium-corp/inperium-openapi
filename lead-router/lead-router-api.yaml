@@ -15,7 +15,7 @@ tags:
       Activities are events performed by leads. For example, a customer requests a beta access to a new product. These activities are internally recorded by the Lead Router service.
   - name:  Health checks
     description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.      
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
 
 paths:
 
@@ -107,7 +107,6 @@ components:
     ActivityRequest:
       description: The ActivityRequest object combines all types of lead activity requests that Inperium internally logs.
       type: object
-      example: {}
       discriminator:
         propertyName: type
         mapping:
@@ -199,7 +198,7 @@ components:
               description: The name of the tenant company.
             companySize:
               type: string
-              description: The number of employees. 
+              description: The number of employees.
               enum:
                 - 1
                 - 2

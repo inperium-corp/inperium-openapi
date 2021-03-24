@@ -1151,6 +1151,12 @@ paths:
         required: true
         schema:
           type: string
+      - name: userId
+        in: query
+        description: A unique identifier of the user.
+        required: false
+        schema:
+          $ref: "#/components/schemas/Id"
       responses:
         200:
           description: Returns the feature record.
@@ -2604,6 +2610,9 @@ components:
           description: | 
             The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
             the quantity can be either the total feature usage count or its increment.
+        userId:
+          $ref: "#/components/schemas/Id"
+          description: A unique identifier of the user who consumed the feature.
 
     FeatureUsage:
       type: object

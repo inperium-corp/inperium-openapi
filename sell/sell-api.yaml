@@ -4134,6 +4134,11 @@ components:
           description: The list of associated contacts.
           items:
             $ref: "#/components/schemas/Id"
+        dealIds:
+          type: array
+          description: The list of associated deals.
+          items:
+            $ref: "#/components/schemas/Id"
         documentUrl:
           type: string
           description: The upload URL.

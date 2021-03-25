@@ -27,32 +27,46 @@ tags:
   - name: Folders
     description: |
       The Message Center mimics the folder structure of the original mail service of the client. For example, the Inbox and Outbox folders.
-  - name: Health checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Messages
     description: |
       Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
   - name: Messages sending
     description: |
       The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to.
+  - name: Notifications
+    description: |
+       In order for the Message Center to stay in sync with the mail service provider, you've got to sync webhooks and properly register them. Synchronization is a one-way process, from Nylas to the Message Center.
   - name: Threads
     description: |
       Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.
-  - name: Webhook
-    description: |
-      Inperium leverages webhooks for interaction with third-party service providers such as Nylas.
-  - name: Webhook Sync
-    description: |
-       To ensure the Message Center stays in sync with the mail service provide, make sure to sync the webhooks and properly register them. Synchronization is a two-way process, you've got to sync both from the Message Center to Nylas and from Nylas to the Message Center.
 
 paths:
+  /accounts/authLink:
+    get:
+      tags:
+        - Accounts
+      summary: Connect a mailbox
+      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas.
+      operationId: getAccountRegistrationRedirectUrl
+      responses:
+        200:
+          description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /accounts:
     get:
       tags:
         - Accounts
-      summary: Retrieve accounts
-      description: Use this endpoint to get a list of conntect accounts. This endpoint supports paging and sorting.
+      summary: List accounts
+      description: Use this endpoint to get a list of connected accounts. This endpoint supports paging and sorting.
       operationId: getAccounts
       parameters:
         - name: email
@@ -76,7 +90,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
+    post:
+      tags:
+        - Accounts
+      summary: Register a mailbox
+      description: Use this endpoint to get the confirmation token from Nylas.
+      operationId: createAccount
+      parameters:
+        - name: code
+          in: query
+          description: After you follow the auth URL and submit credentials, Nylas issues a verification code.
+          required: true
+          schema:
+            type: string
+        - name: state
+          in: query
+          description: The ID of the user.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The account has been created.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /accounts/{id}:
     get:
       tags:
@@ -102,9 +143,9 @@ paths:
     delete:
       tags:
         - Accounts
-      summary: Delete an account
+      summary: Disconnect an account
       description: Use this endpoint to disconnect and remove a mailbox from Inperium.
-      operationId: deleteAccount
+      operationId: cancelAccount
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
@@ -116,31 +157,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /accounts/{id}/sync:
-    get:
-      tags:
-        - Accounts
-      summary: Sync a mailbox
-      description: Use this endpoint to synchronize data with a mailbox.
-      parameters:
-          - $ref: '#/components/parameters/ResourceId'
-      operationId: syncAccount
-      responses:
-        200:
-          description: The mailbox and the Message Center are now in sync.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /attachments:
     get:
       tags:
         - Attachments
-      summary: Retrieve attachments
-      description: Use this endpoint to get a list of attachments. This endpoint supports paging and sorting.
+      summary: List attachments
+      description: Use this endpoint to retrieve a list of attachments. This endpoint supports paging and sorting.
       operationId: getAttachments
       parameters:
           - $ref: "#/components/parameters/UserAccountId"
@@ -356,7 +378,7 @@ paths:
     get:
       tags:
         - Folders
-      summary: Retrieve folders
+      summary: List folders
       description: Use this endpoint to retrieve a list of mailbox folders. This endpoint supports paging and sorting.
       operationId: getFolders
       parameters:
@@ -470,24 +492,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /health:
-    get:
-      tags:
-        - Health checks
-      summary: Check the health of the microservice
-      description: Use this endpoint to verify that microservices are running as usual. You can rely on the information from this endpoint for troubleshooting.
-      operationId: checkHealth
-      responses:
-        200:
-          description: Returns an empty response that is used for OK non-returning operations.
-          content: {}
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /messages:
     get:
       tags:
@@ -554,13 +558,13 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: TBD
+          description: Returns a message. The message has been retrieved.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -592,12 +596,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /threads:
     get:
       tags:
         - Threads
-      summary: Retrieve threads
+      summary: List threads
       description: Use this endpoint to get message threads. This endpoint supports paging and sorting.
       operationId: getThreads
       parameters:
@@ -707,89 +710,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/auth:
-    get:
-      tags:
-        - Webhook
-      summary: Connect a mailbox
-      description: Use this endpoint to send a request to connect to the user's mailbox through Nylas.
-      operationId: getNylasAuthUrl
-      responses:
-        200:
-          description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
-          content:
-            application/json:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /webhooks/register:
-    get:
-      tags:
-        - Webhook
-      summary: Register a mailbox
-      description: Use this endpoint to get the confirmation token from Nylas.
-      operationId: registerToken
-      parameters:
-        - name: code
-          in: query
-          description: After you follow the auth URL and submit credentials, Nylas issues a verification code.
-          required: true
-          schema:
-            type: string
-        - name: state
-          in: query
-          description: The ID of the user.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Returns a confirmation token.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /webhook/sync/register:
-    get:
-      tags:
-        - Webhook Sync
-      summary: Register a webhook
-      description: Use this endpoint to register a webhook in Nylas.
-      operationId: registerWebhook
-      responses:
-        200:
-          description: The webhook has been registered.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /webhook/sync:
     get:
       tags:
-        - Webhook Sync
-      summary: Sync with Nylas (incoming)
-      description: Use this endpoint to synchronize the Message Center service with Nylas. Pull the incoming messages, threads, and other changes.
-      operationId: synchronizationRequest
+        - Notifications
+      summary: Verify with Nylas (incoming)
+      description: Use this endpoint to verify the Message Center service callback URI for Nylas.
+      operationId: verifyNotificationURI
       parameters:
         - name: challenge
-          description: The synchronization request.
+          description: The verify challenge parameter that must be returned as is.
           in: query
           required: true
           schema:
             type: string
       responses:
         200:
-          description: The synchronization was successful.
+          description: The URI has been verified successfully and the challenge parameter has returned as is.
           content:
             text/plain:
               schema:
@@ -802,16 +739,16 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     post:
       tags:
-        - Webhook Sync
-      summary: Sync with Nylas (outcoming)
-      description: Use this endpoint to synchronize the Message Center service with Nylas. Feed outcoming messages and other changes to the mail provider.
-      operationId: processNotification
+        - Notifications
+      summary: Sync with Nylas (incoming)
+      description: Use this endpoint to synchronize the Message Center service with Nylas. Feeds incoming notifications about new messages and other changes from the mail provider.
+      operationId: processNotifications
       requestBody:
-        description: In the request body, pass the Deltas object.
+        description: In the request body, pass the Notifications object.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Deltas'
+              $ref: '#/components/schemas/Notifications'
       responses:
         200:
           description: The synchronization was successful.
@@ -910,10 +847,13 @@ components:
           type: string
           description: The connection status. This is an enum property.
           enum:
-            - CONNECTED
-            - FAILED
-            - INITIAL_SYNC
-            - CANCELED
+            - SYNC_INITIAL
+            - SYNC_RUNNING
+            - SYNC_STOPPED
+            - SYNC_ERROR
+            - SYNC_INVALID_CREDENTIALS
+            - SYNC_FAILED
+            - CONNECTION_FAILED
         provider:
           type: string
           description: The mail service provider.
@@ -1318,8 +1258,8 @@ components:
           type: object
           description: Mapping of fields and errors.
 
-    Attributes:
-      description: The Attributes object is a DTO used for Nylas synchronization.
+    MessageAttributes:
+      description: The Attributes object is a DTO used for Nylas synchronization. Only applicable for message webhooks.
       type: object
       properties:
         thread_id:
@@ -1329,27 +1269,68 @@ components:
           type: integer
           description: The date and time.
 
-    ObjectData:
+    TrackingAttributes:
+      description: Applicable for message and thread tracking. Contains metadata.
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+          description: The number of times the message was opened. The count starts with 1. Each time the message is opened, the counter will increase by one.
+        timestamp:
+          type: integer
+          format: int64
+          description: Indicates the time of the most recent change such as links clicked, message was opened or thread was replied to.
+        link_data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageTrackingLinkUpdate'
+          description: An array of objects with information about any links in the message.
+        message_id:
+          type: string
+          description: An ID of the message.
+        from_self:
+          type: boolean
+          description: Indicates if the message is sent from the owner of the Nylas account.
+        thread_id:
+          type: string
+          description: The ID of the message thread.
+        reply_to_message_id:
+          type: string
+          description: The ID of the message the thread is replying to.
+
+    MessageTrackingLinkUpdate:
+      description: Applicable for message link tracking. Contains metadata.
+      type: object
+      properties:
+        url:
+          type: string
+          description: The URL.
+        count:
+          type: integer
+          format: int32
+          description: Number of times the link was clicked.
+
+    NotificationData:
       description: The ObjectData object is a DTO used for Nylas synchronization.
       type: object
       properties:
-        namespace_id:
-          type: string
-          description: An ID of the namespace.
         account_id:
           type: string
           description: An ID of the email account.
         object:
           type: string
-          description: The object.
+          description: The changed object type.
         id:
           type: string
           description: An ID of the object.
         attributes:
-          $ref: '#/components/schemas/Attributes'
+          $ref: '#/components/schemas/MessageAttributes'
+        metadata:
+          $ref: '#/components/schemas/TrackingAttributes'
 
-    Delta:
-      description: The Delta object is a DTO used for Nylas synchronization.
+    Notification:
+      description: This object is a DTO used for Nylas synchronization.
       type: object
       properties:
         date:
@@ -1360,15 +1341,15 @@ components:
           description: The object.
         type:
           type: string
-          description: The type of Delta.
+          description: The type of notification.
         object_data:
-          $ref: '#/components/schemas/ObjectData'
+          $ref: '#/components/schemas/NotificationData'
 
-    Deltas:
-      description: The list of Delta DTOs.
+    Notifications:
+      description: The list of notification DTOs.
       type: object
       properties:
         deltas:
           type: array
           items:
-            $ref: '#/components/schemas/Delta'
+            $ref: '#/components/schemas/Notification'

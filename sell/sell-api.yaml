@@ -970,7 +970,7 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the ContactRequest objects will the values you want to set.
+        description: In the request body, pass the ContactRequest objects with the values you want to set.
         content:
           "*/*":
             schema:

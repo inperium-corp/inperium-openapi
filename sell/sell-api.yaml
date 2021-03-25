@@ -4111,6 +4111,11 @@ components:
           description: The list of associated contacts.
           items:
             $ref: "#/components/schemas/Id"
+        dealIds:
+          type: array
+          description: The list of associated deals.
+          items:
+            $ref: "#/components/schemas/Id"
         document:
           $ref: "#/components/schemas/Document"
       description: The Attachment object returned by Inerium API contains information about the uploaded document and related contacts and companies.
@@ -4127,6 +4132,11 @@ components:
         contactIds:
           type: array
           description: The list of associated contacts.
+          items:
+            $ref: "#/components/schemas/Id"
+        dealIds:
+          type: array
+          description: The list of associated deals.
           items:
             $ref: "#/components/schemas/Id"
         documentUrl:

@@ -5763,11 +5763,11 @@ components:
         comment:
           type: string
           description: Any additional details.
-          maxLength: 1000
+          maxLength: 2000
         purchaseTerm:
           type: string
           description: The purchasing terms.
-          maxLength: 1000
+          maxLength: 5000
         companyId:
           $ref: "#/components/schemas/Id"
         value:

@@ -4090,9 +4090,11 @@ components:
         name:
           type: string
           description: The fee title.
+          maxLength: 64
         type:
           type: string
           description: The fee type.
+          maxLength: 32
     Attachment:
       type: object
       properties:
@@ -5745,12 +5747,16 @@ components:
       description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
+      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
+      required:
+        - status
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
           description: The quote title.
+          maxLength: 100
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
@@ -5764,9 +5770,11 @@ components:
         comment:
           type: string
           description: Any additional details.
+          maxLength: 2000
         purchaseTerm:
           type: string
           description: The purchasing terms.
+          maxLength: 5000
         companyId:
           $ref: "#/components/schemas/Id"
         value:
@@ -5815,9 +5823,6 @@ components:
           description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
-      required:
-        - status
-      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
     QuoteCompany:
       type: object
       properties:
@@ -5891,6 +5896,9 @@ components:
     QuoteToInvoice:
       type: object
       description: This object facilitates converting an accepted quote to an invoice.
+      required:
+        - contactId
+        - dueDate
       properties:
         contactId:
           $ref: "#/components/schemas/Id"

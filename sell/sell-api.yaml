@@ -246,7 +246,6 @@ paths:
           "*/*":
             schema:
               $ref: "#/components/schemas/ActivityRequest"
-            example: {}
         required: false
       responses:
         200:
@@ -971,7 +970,7 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the ContactRequest objects will the values you want to set.
+        description: In the request body, pass the ContactRequest objects with the values you want to set.
         content:
           "*/*":
             schema:
@@ -3765,8 +3764,7 @@ components:
       name: X-API-KEY
   schemas:
     ActivityRequest:
-      description: The ActivityRequest object is  submitted to Inperium API to add or modify activities.
-      example: {}
+      description: The ActivityRequest object is submitted to Inperium API to add or modify activities.
       type: object
       discriminator:
         propertyName: type
@@ -3911,7 +3909,6 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Activity:
       description: The object describes an entry in the activity timeline such as a note, email, or call.
-      example: {}
       type: object
       discriminator:
         propertyName: type

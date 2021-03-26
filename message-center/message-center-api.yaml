@@ -463,7 +463,7 @@ paths:
               $ref: '#/components/schemas/FolderRequest'
       responses:
         200:
-          description: In the request body, pass the FolderRequest object.
+          description: Returns the updated folder.
           content:
             application/json:
               schema:

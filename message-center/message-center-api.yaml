@@ -463,7 +463,7 @@ paths:
               $ref: '#/components/schemas/FolderRequest'
       responses:
         200:
-          description: In the request body, pass the FolderRequest object.
+          description: Returns the updated folder.
           content:
             application/json:
               schema:
@@ -1236,6 +1236,15 @@ components:
     PageAndSort:
       type: object
       description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
 
     ResponseError:
       type: object

@@ -246,7 +246,6 @@ paths:
           "*/*":
             schema:
               $ref: "#/components/schemas/ActivityRequest"
-            example: {}
         required: false
       responses:
         200:
@@ -558,7 +557,7 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The companies have been retrieved. Returns the list of companies.
+          description: The companies have been retrieved. Returns the list of companies. The `company` object contains flexible properties that can be customized.
           content:
             application/json:
               schema:
@@ -573,10 +572,10 @@ paths:
       tags:
         - Companies
       summary: Create a company
-      description: Use this endpoint to add a new company.
+      description: Use this endpoint to add a new company. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createCompany
       requestBody:
-        description: In the request body, pass CompanyRequest object.
+        description: The CompanyRequest object example.
         content:
           "*/*":
             schema:
@@ -600,7 +599,7 @@ paths:
       tags:
         - Companies
       summary: Update companies in bulk
-      description: Use this endpoint to modify multiple companies at once. For example, you can set the 'industry' field to the same value or assign several companies to a certain Inperium user.
+      description: Use this endpoint to modify multiple companies at once. For example, you can set the 'industry' field to the same value or assign several companies to a certain Inperium user. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompanies
       parameters:
         - name: ids
@@ -611,7 +610,7 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
           "*/*":
             schema:
@@ -711,12 +710,12 @@ paths:
       tags:
         - Companies
       summary: Update a company
-      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely overwrites the company data.
+      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely overwrites the company data. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompany
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
           "*/*":
             schema:
@@ -740,12 +739,12 @@ paths:
       tags:
         - Companies
       summary: Partially update a company
-      description: Use this endpoint to update specific fields in company details.
+      description: Use this endpoint to update specific fields in company details. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompanyPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the CompanyRequest object with the details that need to be updated.
+        description: The CompanyRequest object example with updated fields
         content:
           "*/*":
             schema:
@@ -788,7 +787,7 @@ paths:
       tags:
         - Companies
       summary: Merge company properties
-      description: Use this endpoint to merge companies. The properties will be copied from the former company and written to the latter company. The source company will be deleted.
+      description: Use this endpoint to merge companies. The properties will be copied from the former company and written to the latter company. The source company will be deleted. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeCompanies
       parameters:
         - name: sourceId
@@ -806,7 +805,7 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
           "*/*":
             schema:
@@ -933,10 +932,10 @@ paths:
       tags:
         - Contacts
       summary: Create a contact
-      description: Use this endpoint to add new contacts to Inperium Sell.
+      description: Use this endpoint to add new contacts to Inperium Sell. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createContact
       requestBody:
-        description: In the request body, pass the ContactRequest object.
+        description: The ContactRequest object example
         content:
           "*/*":
             schema:
@@ -960,7 +959,7 @@ paths:
       tags:
         - Contacts
       summary: Update contacts in bulk
-      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperium user or associate several contacts with the same company.
+      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperium user or associate several contacts with the same company. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContacts
       parameters:
         - name: ids
@@ -971,7 +970,7 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the ContactRequest objects will the values you want to set.
+        description: The ContactRequest object example with updated fields
         content:
           "*/*":
             schema:
@@ -1071,12 +1070,12 @@ paths:
       tags:
         - Contacts
       summary: Update a contact
-      description: Use this endpoint to update a contact. Unlike `PATCH`, this operation overwrites contact details completely.
+      description: Use this endpoint to update a contact. Unlike `PATCH`, this operation overwrites contact details completely. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContact
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, the ContactRequest object.
+        description: The ContactRequest object example
         content:
           "*/*":
             schema:
@@ -1100,12 +1099,12 @@ paths:
       tags:
         - Contacts
       summary: Partially update a contact
-      description: Use this endpoint to update specific fields in contact details. Unlike `PUT`, this operation overwrites properties partially.
+      description: Use this endpoint to update specific fields in contact details. Unlike `PUT`, this operation overwrites properties partially. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContactPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the ContactRequest object.
+        description: The ContactRequest object example
         content:
           "*/*":
             schema:
@@ -1148,7 +1147,7 @@ paths:
       tags:
         - Contacts
       summary: Merge contact properties
-      description: Use this endpoint to merge contacts. The properties of the origin contact will be moved to the target contact (e.g., name, address) and the origin contact will be deleted.
+      description: Use this endpoint to merge contacts. The properties of the origin contact will be moved to the target contact (e.g., name, address) and the origin contact will be deleted. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeContacts
       parameters:
         - name: sourceId
@@ -1166,7 +1165,7 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the ContactRequest object with the properties that need to be merged.
+        description: The ContactRequest object example with the properties that need to be merged
         content:
           "*/*":
             schema:
@@ -1221,10 +1220,10 @@ paths:
       tags:
         - Deals
       summary: Create a deal
-      description: Use this endpoint to create a new deal.
+      description: Use this endpoint to create a new deal. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createDeal
       requestBody:
-        description: In the request body, pass the DealRequest object.
+        description: The DealRequest object example
         content:
           "*/*":
             schema:
@@ -1248,7 +1247,7 @@ paths:
       tags:
         - Deals
       summary: Update deals in bulk
-      description: Use this endpoint to simultaneously update properties of several deals. For example, you can pick multiple deals and assign them to the same Inperium user.
+      description: Use this endpoint to simultaneously update properties of several deals. For example, you can pick multiple deals and assign them to the same Inperium user. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDeals
       parameters:
         - name: ids
@@ -1259,7 +1258,7 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the DealRequest object with properties you want to update.
+        description: The DealRequest object exaple with updated fields
         content:
           "*/*":
             schema:
@@ -1333,12 +1332,12 @@ paths:
       tags:
         - Deals
       summary: Update a deal
-      description: Use this endpoint to modify deal details. Unlike `PATCH`, this operation completely overwrites a deal.
+      description: Use this endpoint to modify deal details. Unlike `PATCH`, this operation completely overwrites a deal. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDeal
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the DealRequest object.
+        description: The DealRequest object example
         content:
           "*/*":
             schema:
@@ -1362,12 +1361,12 @@ paths:
       tags:
         - Deals
       summary: Partially update a deal
-      description: Use this endpoint to modify some of the deal properties. Unlike `PUT`, this operation doesn't overwrite the deal completely.
+      description: Use this endpoint to modify some of the deal properties. Unlike `PUT`, this operation doesn't overwrite the deal completely. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDealPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the DealRequest object with the properties you want to update.
+        description: The DealRequest object example with updated fields.
         content:
           "*/*":
             schema:
@@ -1410,7 +1409,7 @@ paths:
       tags:
         - Deals
       summary: Merge deals
-      description: Use this endpoint to merge deals. The contents of the origin deal with be moved to the target deal. As a result, the first deal will be removed.
+      description: Use this endpoint to merge deals. The contents of the origin deal with be moved to the target deal. As a result, the first deal will be removed. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeDeals
       parameters:
         - name: sourceId
@@ -1428,7 +1427,7 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the DealRequest object with the properties to be merged.
+        description: The DealRequest object example with the properties to be merged
         content:
           "*/*":
             schema:
@@ -2620,10 +2619,10 @@ paths:
       tags:
         - Products
       summary: Create a product
-      description: Use this endpoint to add new products to Inperium Sell.
+      description: Use this endpoint to add new products to Inperium Sell. This method operates with the `ProductRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createProduct
       requestBody:
-        description: In the request body, pass the ProductRequest object.
+        description: The ProductRequest object example
         content:
           "*/*":
             schema:
@@ -2669,12 +2668,12 @@ paths:
       tags:
         - Products
       summary: Update a product
-      description: Use this endpoint to modify a product. The operation overwrites the product record.
+      description: Use this endpoint to modify a product. The operation overwrites the product record. This method operates with the `ProductRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateProduct
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the ProductRequest object.
+        description: The ProductRequest object example
         content:
           "*/*":
             schema:
@@ -3765,8 +3764,7 @@ components:
       name: X-API-KEY
   schemas:
     ActivityRequest:
-      description: The ActivityRequest object is  submitted to Inperium API to add or modify activities.
-      example: {}
+      description: The ActivityRequest object is submitted to Inperium API to add or modify activities.
       type: object
       discriminator:
         propertyName: type
@@ -3911,7 +3909,6 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Activity:
       description: The object describes an entry in the activity timeline such as a note, email, or call.
-      example: {}
       type: object
       discriminator:
         propertyName: type
@@ -4093,9 +4090,11 @@ components:
         name:
           type: string
           description: The fee title.
+          maxLength: 64
         type:
           type: string
           description: The fee type.
+          maxLength: 32
     Attachment:
       type: object
       properties:
@@ -5748,12 +5747,16 @@ components:
       description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
+      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
+      required:
+        - status
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
           description: The quote title.
+          maxLength: 100
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
@@ -5767,9 +5770,11 @@ components:
         comment:
           type: string
           description: Any additional details.
+          maxLength: 2000
         purchaseTerm:
           type: string
           description: The purchasing terms.
+          maxLength: 5000
         companyId:
           $ref: "#/components/schemas/Id"
         value:
@@ -5818,9 +5823,6 @@ components:
           description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
-      required:
-        - status
-      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
     QuoteCompany:
       type: object
       properties:
@@ -5894,6 +5896,9 @@ components:
     QuoteToInvoice:
       type: object
       description: This object facilitates converting an accepted quote to an invoice.
+      required:
+        - contactId
+        - dueDate
       properties:
         contactId:
           $ref: "#/components/schemas/Id"

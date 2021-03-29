@@ -21,7 +21,7 @@ tags:
   - name: File Types
     description: |
       The Inperium Object Bucket Storage service enables users to upload files such as pdf, png, etc. The FileTypes list all supported file extensions.
-  - name: Health checks
+  - name: Health Checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
 
@@ -152,7 +152,7 @@ paths:
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Check health
       description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth

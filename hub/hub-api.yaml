@@ -2032,7 +2032,16 @@ components:
             type: string
         subscriptionIds:
           type: array
-          description: The list of subscriptions enabled for the user.
+          description: |
+            The list of subscriptions enabled for the user. If no subscription items are set,
+            then only the PRODUCT item will be assigned.
+          items:
+            $ref: "#/components/schemas/Id"
+        subscriptionItemIds:
+          type: array
+          description: |
+            The list of subscription items enabled for the user. The items should be set with their subscriptions.
+            Otherwise, the property is ignored.
           items:
             $ref: "#/components/schemas/Id"
 

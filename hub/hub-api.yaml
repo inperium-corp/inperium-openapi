@@ -31,7 +31,7 @@ tags:
   - name: Features
     description: |
       Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
-  - name: Health checks
+  - name: Health Checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Limits
@@ -426,7 +426,7 @@ paths:
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Check health
       description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
@@ -981,7 +981,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantCompanyInfoRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantCompanyInfoRequest"
       responses:
@@ -1008,7 +1008,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantAddressRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantAddressRequest"
       responses:
@@ -1035,7 +1035,7 @@ paths:
       requestBody:
         description: In the request body, pass the BillingContactRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/BillingContactRequest"
       responses:
@@ -1062,7 +1062,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentMethodRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
       responses:
@@ -1249,7 +1249,7 @@ paths:
         required: true
         description: In the request body, pass the UserVerificationRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserVerificationRequest"
       responses:
@@ -1301,7 +1301,7 @@ paths:
         description: In the request body, pass the UserResetPasswordRequest object.
         required: true
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserResetPasswordRequest"
       responses:
@@ -1347,7 +1347,7 @@ paths:
       requestBody:
         description: In the request body, pass the UserRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
@@ -1375,7 +1375,7 @@ paths:
         description: In the request body, pass the UserPasswordRequest object.
         required: true
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserPasswordRequest"
       responses:

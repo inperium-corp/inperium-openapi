@@ -3,8 +3,8 @@ openapi: 3.0.1
 info:
   title: Sell API
   description: |
-    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscription and the user creating an API key must have access to Inperium Sell.
-    Inperium Sell API seamlessly integrates with other API such as the OBS API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
+    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscriptionyou must have an active subscription to Inperium Sell and the user creating an API key must have access to the product.
+    Inperium Sell API seamlessly integrates with other API such as the Object Bucket Storage API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -243,7 +243,7 @@ paths:
       requestBody:
         description: In the request body, pass the ActivityRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ActivityRequest"
         required: false
@@ -328,7 +328,7 @@ paths:
       requestBody:
         description: In the request body, pass the AttachmentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/AttachmentRequest"
         required: false
@@ -379,7 +379,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated AttachmentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/AttachmentRequest"
         required: false
@@ -458,7 +458,7 @@ paths:
       requestBody:
         description: In the request body, pass the CampaignRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CampaignRequest"
         required: false
@@ -520,7 +520,7 @@ paths:
     get:
       tags:
         - Contacts
-      summary: List contacts
+      summary: List contacts for campaign
       description: Use this endpoint to retrieve a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
       operationId: getCampaignContacts
       parameters:
@@ -575,9 +575,9 @@ paths:
       description: Use this endpoint to add a new company. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createCompany
       requestBody:
-        description: The CompanyRequest object example.
+        description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -612,7 +612,7 @@ paths:
       requestBody:
         description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -641,7 +641,7 @@ paths:
       requestBody:
         description: In the request body, pass the ids of companies to delete.
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
               items:
@@ -717,7 +717,7 @@ paths:
       requestBody:
         description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -746,7 +746,7 @@ paths:
       requestBody:
         description: The CompanyRequest object example with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -807,7 +807,7 @@ paths:
       requestBody:
         description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -859,7 +859,7 @@ paths:
       requestBody:
         description: In the request body, pass the CompanyRelationshipRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRelationshipRequest"
         required: false
@@ -937,7 +937,7 @@ paths:
       requestBody:
         description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -972,7 +972,7 @@ paths:
       requestBody:
         description: The ContactRequest object example with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -999,11 +999,12 @@ paths:
       description: Use this endpoint to remove multiple contacts.
       operationId: deleteContacts
       requestBody:
-        description: In the request body, pass the ids of contacts to delete.
+        description: Contact IDs to delete
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
+              example: [$OBJECT-UUID1, $OBJECT-UUID2]
               items:
                 type: string
                 format: uuid
@@ -1077,7 +1078,7 @@ paths:
       requestBody:
         description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1106,7 +1107,7 @@ paths:
       requestBody:
         description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1167,7 +1168,7 @@ paths:
       requestBody:
         description: The ContactRequest object example with the properties that need to be merged
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1225,7 +1226,7 @@ paths:
       requestBody:
         description: The DealRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1260,7 +1261,7 @@ paths:
       requestBody:
         description: The DealRequest object exaple with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1289,7 +1290,7 @@ paths:
       requestBody:
         description: In the request body, pass the ids of deals to delete.
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
               items:
@@ -1339,7 +1340,7 @@ paths:
       requestBody:
         description: The DealRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1368,7 +1369,7 @@ paths:
       requestBody:
         description: The DealRequest object example with updated fields.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1429,7 +1430,7 @@ paths:
       requestBody:
         description: The DealRequest object example with the properties to be merged
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1479,7 +1480,7 @@ paths:
       requestBody:
         description: In the request body, pass the ItemsAndAdditionalFees object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ItemsAndAdditionalFees"
         required: false
@@ -1610,7 +1611,7 @@ paths:
       requestBody:
         description: In the request body, pass the Form object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Form"
         required: false
@@ -1661,7 +1662,7 @@ paths:
       requestBody:
         description: In the request body, pass the Form object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Form"
         required: false
@@ -2042,7 +2043,7 @@ paths:
       requestBody:
         description: In the request body, pass the InvoiceRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceRequest"
         required: false
@@ -2117,7 +2118,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated InvoiceRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceRequest"
         required: false
@@ -2165,7 +2166,7 @@ paths:
       requestBody:
         description: In the request body, pass the InvoiceEmail object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceEmail"
         required: false
@@ -2268,7 +2269,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentRequest"
         required: false
@@ -2322,7 +2323,7 @@ paths:
       requestBody:
         description: In the request body, pass the CreatePaymentIntent object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CreatePaymentIntent"
         required: false
@@ -2352,7 +2353,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentRequest"
         required: false
@@ -2408,7 +2409,7 @@ paths:
       requestBody:
         description: In the request body, pass the PipelineRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PipelineRequest"
         required: false
@@ -2459,7 +2460,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated PipelineRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PipelineRequest"
         required: false
@@ -2624,7 +2625,7 @@ paths:
       requestBody:
         description: The ProductRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ProductRequest"
         required: false
@@ -2675,7 +2676,7 @@ paths:
       requestBody:
         description: The ProductRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ProductRequest"
         required: false
@@ -2765,7 +2766,7 @@ paths:
       requestBody:
         description: In the request body, pass the PropertyRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
@@ -2799,7 +2800,7 @@ paths:
       requestBody:
         description: In the request body, pass the PropertyRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
@@ -2963,7 +2964,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: false
@@ -3014,7 +3015,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: true
@@ -3036,7 +3037,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: true
@@ -3077,7 +3078,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteToInvoice object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteToInvoice"
         required: true
@@ -3196,7 +3197,7 @@ paths:
       requestBody:
         description: In the request body, pass the StageRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StageRequest"
         required: false
@@ -3247,7 +3248,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated StageRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StageRequest"
         required: false
@@ -3315,7 +3316,7 @@ paths:
       requestBody:
         description: In the request body, pass the Template object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Template"
         required: false
@@ -3360,7 +3361,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated Template object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Template"
         required: false
@@ -3406,7 +3407,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantSettings object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantSettings"
         required: false
@@ -3522,7 +3523,7 @@ paths:
       requestBody:
         description: In the request body, pass the StripeReaderRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StripeReaderRequest"
         required: false
@@ -3570,7 +3571,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated StripeReaderRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StripeReaderRequest"
         required: false
@@ -3616,7 +3617,7 @@ paths:
       requestBody:
         description: In the request body, pass the ViewRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ViewRequest"
       responses:
@@ -3673,7 +3674,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated ViewRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ViewRequest"
       responses:

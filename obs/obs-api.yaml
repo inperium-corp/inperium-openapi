@@ -1,9 +1,9 @@
 openapi: 3.0.1
 
 info:
-  title: OBS API
+  title: Object Bucket Storage API
   description: |
-    The Inperium OBS API provides access to the Inperium OBS service that helps manage documents and files stored by Inperium apps such as attachments in Inperium Sell and audio recordings in Inperium Talk. You can leverage this API to store and retrieve documents.
+    The Inperium Object Bucket Storage (OBS) API provides access to the Inperium OBS service that helps manage documents and files stored by Inperium apps such as attachments in Inperium Sell and audio recordings in Inperium Talk. You can leverage this API to store and retrieve documents.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -17,11 +17,11 @@ security:
 tags:
   - name: Files
     description: |
-      The Inperium OBS service stores files. In most cases, files are attached to product entities but some files are stored independently (e.g., avatar images).
+      The Inperium Object Bucket Storage service stores files. In most cases, files are attached to product entities but some files are stored independently (e.g., avatar images).
   - name: File Types
     description: |
-      The Inperium OBS service enables users to upload files such as pdf, png, etc. The FileTypes list all supported file extensions.
-  - name: Health checks
+      The Inperium Object Bucket Storage service enables users to upload files such as pdf, png, etc. The FileTypes list all supported file extensions.
+  - name: Health Checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
 
@@ -152,7 +152,7 @@ paths:
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Check health
       description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth

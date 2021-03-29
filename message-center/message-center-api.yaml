@@ -30,7 +30,7 @@ tags:
   - name: Messages
     description: |
       Emails or any other communication messages sent or recieved by Inperium clients. Inperium supports all types of operations with messages any other mail client offers.
-  - name: Messages sending
+  - name: Messages Sending
     description: |
       The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to.
   - name: Notifications
@@ -527,7 +527,7 @@ paths:
       description: Use this endpoint to compose a new message.
       operationId: sendMessage
       tags:
-        - Messages sending
+        - Messages Sending
       requestBody:
         description: In the request body, pass the MessageSendRequest object.
         content:

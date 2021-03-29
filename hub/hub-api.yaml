@@ -2612,7 +2612,6 @@ components:
             the quantity can be either the total feature usage count or its increment.
         userId:
           $ref: "#/components/schemas/Id"
-          description: A unique identifier of the user who consumed the feature.
 
     FeatureUsage:
       type: object
@@ -2800,15 +2799,59 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of used licenses.
+          deprecated: true
+          description: |
+            The number of used licenses of the related product. The property is deprecated because it's being migrated
+            to a subscription item with type PRODUCT.
         quantity:
           type: integer
           format: int64
-          description: The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity', it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+          deprecated: true
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+            The property is deprecated because it's being migrated to a subscription item with type PRODUCT.
         discountAmount:
           type: number
           format: double
           description: The discount applied to the subscription.
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscriptionItem"
+
+    SubscriptionItem:
+      type: object
+      description: The object contains information about the tenant's active plan, product or add-on usage, etc.
+      discriminator:
+        propertyName: schema
+      required:
+        - id
+        - price
+        - licensedQuantity
+        - quantity
+        - type
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        price:
+          $ref: "#/components/schemas/Price"
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of used licenses.
+        quantity:
+          type: integer
+          format: int64
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+        type:
+          type: string
+          enum:
+            - PRODUCT
+            - ADDON
+          description: The type identifies whether the item relates to a product or one of its add-on.
 
     SubscriptionRequest:
       type: object

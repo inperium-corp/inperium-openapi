@@ -999,11 +999,12 @@ paths:
       description: Use this endpoint to remove multiple contacts.
       operationId: deleteContacts
       requestBody:
-        description: In the request body, pass the ids of contacts to delete.
+        description: Contact IDs to delete
         content:
           application/json:
             schema:
               type: array
+              example: [$OBJECT-UUID1, $OBJECT-UUID2]
               items:
                 type: string
                 format: uuid

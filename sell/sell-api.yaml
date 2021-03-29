@@ -575,7 +575,7 @@ paths:
       description: Use this endpoint to add a new company. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createCompany
       requestBody:
-        description: The CompanyRequest object example.
+        description: The CompanyRequest object example
         content:
           application/json:
             schema:

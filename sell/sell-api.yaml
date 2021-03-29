@@ -4219,11 +4219,6 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4300,11 +4295,6 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4378,11 +4368,6 @@ components:
             contactIds: [$OBJECT-UUID, $OBJECT-UUID]
             stageId: $OBJECT-UUID
             pipelineId: $OBJECT-UUID
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         createdAt:
           type: integer
           format: int64

@@ -886,16 +886,15 @@ paths:
         - in: header
           name: Stripe-Signature
           description: To verify events, Stripe signs the webhooks. This information is provided in the 'Stripe-Signature' header.
-          example: t=$TIMESTAMP,v1=$SIGNATURE
           schema:
             type: string
       requestBody:
-        description: The payload string.
+        description: The payload string
         content:
           application/json:
             schema:
               type: string
-              description: New description
+              example: $SIGNED-PAYLOAD
       responses:
         200:
           description: The webhook was executed and verified by Stripe.

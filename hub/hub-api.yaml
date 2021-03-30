@@ -895,6 +895,7 @@ paths:
             schema:
               type: string
               example: aaa
+              description: New description
       responses:
         200:
           description: The webhook was executed and verified by Stripe.

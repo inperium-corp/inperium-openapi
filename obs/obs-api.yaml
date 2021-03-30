@@ -62,6 +62,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: $FILE-UUID
         default:
           description: Bad request, security violation, or internal server error.
           content:

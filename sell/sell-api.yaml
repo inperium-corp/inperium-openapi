@@ -4060,8 +4060,11 @@ components:
               description: The action that occurred, e.g., a new company was created or a deal won. Select one of the predefined values.
               enum:
                 - COMPANY_CREATED
+                - COMPANY_IMPORTED
                 - CONTACT_CREATED
+                - CONTACT_IMPORTED
                 - DEAL_CREATED
+                - DEAL_IMPORTED
                 - ASSIGNED_USER_UPDATED
                 - DEAL_WON
                 - DEAL_LOST

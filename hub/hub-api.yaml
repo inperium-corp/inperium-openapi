@@ -891,7 +891,6 @@ paths:
       requestBody:
         description: The payload string.
         content:
-          description: New description
           application/json:
             schema:
               type: string

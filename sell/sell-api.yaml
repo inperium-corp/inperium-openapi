@@ -639,7 +639,7 @@ paths:
       description: Use this endpoint to remove multiple companies.
       operationId: deleteCompanies
       requestBody:
-        description: In the request body, pass the ids of companies to delete.
+        description: Company IDs to delete
         content:
           application/json:
             schema:
@@ -647,6 +647,7 @@ paths:
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -1004,7 +1005,7 @@ paths:
           application/json:
             schema:
               type: array
-              example: [$OBJECT-UUID1, $OBJECT-UUID2]
+              example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
               items:
                 type: string
                 format: uuid
@@ -1288,7 +1289,7 @@ paths:
       description: Use this endpoint to remove multiple deals.
       operationId: deleteDeals
       requestBody:
-        description: In the request body, pass the ids of deals to delete.
+        description: Deal IDs to delete
         content:
           application/json:
             schema:
@@ -1296,6 +1297,7 @@ paths:
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -2874,7 +2876,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice page has been generated. Returns a string.
+          description: The invoice page has been generated.
           content:
             text/html:
               schema:
@@ -2890,7 +2892,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice has been saved as pdf. Returns a string.
+          description: The invoice has been saved as pdf.
           content:
             application/pdf:
               schema:

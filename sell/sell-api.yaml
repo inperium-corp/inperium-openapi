@@ -5411,6 +5411,9 @@ components:
         name:
           type: string
           description: The internal name.
+        path:
+          type: string
+          description: The path to the data within the object.
         label:
           type: string
           description: The display name.

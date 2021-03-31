@@ -876,6 +876,7 @@ paths:
           $ref: '#/components/responses/DefaultResponse'
 
   /subscriptions/webhooks/stripe:
+    x-access: private
     post:
       summary: Handle Stripe webhooks
       description: Use this endpoint to handle Stripe webhooks for payment processing.

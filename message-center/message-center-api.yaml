@@ -711,6 +711,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /webhook/sync:
+    x-access: private
     get:
       tags:
         - Notifications

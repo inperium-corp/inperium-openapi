@@ -127,6 +127,7 @@ paths:
   /files/uploadFromStarter:
     x-access: private
     post:
+      x-access: private
       tags:
         - Files
       deprecated: true

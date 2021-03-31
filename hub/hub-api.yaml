@@ -878,6 +878,7 @@ paths:
   /subscriptions/webhooks/stripe:
     x-access: private
     post:
+      x-access: private
       summary: Handle Stripe webhooks
       description: Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook

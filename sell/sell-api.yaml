@@ -1845,6 +1845,7 @@ paths:
   /integrations/stripe/authorize/callback:
     x-access: private
     get:
+      x-access: private
       tags:
         - Stripe Authorizations
       summary: Get the Stripe callback
@@ -1920,6 +1921,7 @@ paths:
   /integrations/xero/authorize/callback:
     x-access: private
     get:
+      x-access: private
       tags:
         - Xero Authorizations
       summary: Get the Xero callback

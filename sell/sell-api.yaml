@@ -4234,6 +4234,14 @@ components:
             description: Musical instruments shop
             userId: $OBJECT-UUID
             contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the company was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the company was last modified.
     CompanyRequest:
       description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4309,6 +4317,14 @@ components:
             firstName: Emma
             companyId: $OBJECT-UUID
             userId: $OBJECT-UUID
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the contact was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the contact was last modified.
     ContactRequest:
       description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4371,7 +4387,11 @@ components:
         createdAt:
           type: integer
           format: int64
-          description: The date the deal was created.
+          description: The date the deal was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the deal was last modified.
     DealRequest:
       type: object
       additionalProperties: true

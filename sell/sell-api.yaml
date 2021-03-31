@@ -1843,6 +1843,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/authorize/callback:
+    x-access: private
     get:
       tags:
         - Stripe Authorizations
@@ -1917,6 +1918,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/xero/authorize/callback:
+    x-access: private
     get:
       tags:
         - Xero Authorizations

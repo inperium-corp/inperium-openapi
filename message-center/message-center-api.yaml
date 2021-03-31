@@ -52,9 +52,10 @@ paths:
         200:
           description: Returns the URL for authorization. To sign in, follow the link and provide credentials.
           content:
-            application/json:
+            text/plain:
               schema:
                 type: string
+                example: https://api.inperium.com/oauth/authorize
         default:
           description: Bad request, security violation, or internal server error.
           content:

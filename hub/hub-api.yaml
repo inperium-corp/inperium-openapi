@@ -876,7 +876,9 @@ paths:
           $ref: '#/components/responses/DefaultResponse'
 
   /subscriptions/webhooks/stripe:
+    x-access: private
     post:
+      x-access: private
       summary: Handle Stripe webhooks
       description: Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook
@@ -889,11 +891,12 @@ paths:
           schema:
             type: string
       requestBody:
-        description: In the request body, pass the payload of the webhook.
+        description: The payload string
         content:
           application/json:
             schema:
               type: string
+              example: $SIGNED-PAYLOAD
       responses:
         200:
           description: The webhook was executed and verified by Stripe.

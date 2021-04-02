@@ -639,7 +639,7 @@ paths:
       description: Use this endpoint to remove multiple companies.
       operationId: deleteCompanies
       requestBody:
-        description: In the request body, pass the ids of companies to delete.
+        description: Company IDs to delete
         content:
           application/json:
             schema:
@@ -647,6 +647,7 @@ paths:
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -1004,7 +1005,7 @@ paths:
           application/json:
             schema:
               type: array
-              example: [$OBJECT-UUID1, $OBJECT-UUID2]
+              example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
               items:
                 type: string
                 format: uuid
@@ -1288,7 +1289,7 @@ paths:
       description: Use this endpoint to remove multiple deals.
       operationId: deleteDeals
       requestBody:
-        description: In the request body, pass the ids of deals to delete.
+        description: Deal IDs to delete
         content:
           application/json:
             schema:
@@ -1296,6 +1297,7 @@ paths:
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -1841,7 +1843,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/authorize/callback:
+    x-access: private
     get:
+      x-access: private
       tags:
         - Stripe Authorizations
       summary: Get the Stripe callback
@@ -1915,7 +1919,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/xero/authorize/callback:
+    x-access: private
     get:
+      x-access: private
       tags:
         - Xero Authorizations
       summary: Get the Xero callback
@@ -2874,7 +2880,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice page has been generated. Returns a string.
+          description: The invoice page has been generated.
           content:
             text/html:
               schema:
@@ -2890,7 +2896,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice has been saved as pdf. Returns a string.
+          description: The invoice has been saved as pdf.
           content:
             application/pdf:
               schema:
@@ -4237,6 +4243,14 @@ components:
             description: Musical instruments shop
             userId: $OBJECT-UUID
             contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the company was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the company was last modified.
     CompanyRequest:
       description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4312,6 +4326,14 @@ components:
             firstName: Emma
             companyId: $OBJECT-UUID
             userId: $OBJECT-UUID
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the contact was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the contact was last modified.
     ContactRequest:
       description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4374,7 +4396,11 @@ components:
         createdAt:
           type: integer
           format: int64
-          description: The date the deal was created.
+          description: The date the deal was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the deal was last modified.
     DealRequest:
       type: object
       additionalProperties: true
@@ -5394,6 +5420,9 @@ components:
         name:
           type: string
           description: The internal name.
+        accessor:
+          type: string
+          description: The path to access the data within the object.
         label:
           type: string
           description: The display name.

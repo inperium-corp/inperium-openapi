@@ -62,6 +62,7 @@ paths:
             application/json:
               schema:
                 type: string
+                example: $FILE-UUID
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -124,7 +125,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /files/uploadFromStarter:
+    x-access: private
     post:
+      x-access: private
       tags:
         - Files
       deprecated: true

@@ -25,6 +25,9 @@ tags:
   - name: Auth
     description: |
       Inperium enables you to authenticate with the Bearer token or an API key.
+  - name: Balances
+    description: |
+     Balances are used to cover metered charges such as Inperium Talk calling or SMS credits. The balance is recharged automatically when it drops below a certain threshold.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
@@ -1001,10 +1004,60 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
+  /tenants/{id}/balance:
+    get:
+      tags:
+        - Balances
+      summary: Retrieve a tenants balance
+      description: Use this endpoint to get information about the balance of the tenant.
+      operationId: getBalance
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the Balance object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    patch:
+      summary: Update the balance settings of the tenant
+      description: Use this endpoint to update the balance settings of a tenant for metered charges.
+      operationId: updatePartialBalance
+      tags:
+        - Balances
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the BalancePartialRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BalancePartialRequest"
+      responses:
+        200:
+          description: Returns the updated balance record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /tenants/{id}/balance/charges:
     post:
       summary: Charge the balance of the tenant
-      description: Use this endpoint to charge the balance of a tenant for a volume-based product.
+      description: Use this endpoint to charge the balance of a tenant for a metered product.
       operationId: chargeBalance
       tags:
         - Balances
@@ -2312,19 +2365,19 @@ components:
       description: The object contains the tenant's balance information.
       properties:
         minimumAmount:
-          type: string
+          type: number
           format: double
           description: The minimum amount that needs to be on the tenants balance at all times. If the current amount drops below this amount, it will automatically recharge the balance by the amount specified in the recharge amount property.
         rechargeAmount:
-          type: string
+          type: number
           format: double
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
         currency:
           $ref: '#/components/schemas/Currency'
         currentAmount:
-          type: string
+          type: number
           format: double
-          description: The current amount of money that is on the tenants balance. This can be used for any volume-based charges such as Inperium Talk calling or SMS credits.
+          description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
 
     BalancePartialRequest:
       type: object
@@ -2342,6 +2395,9 @@ components:
     BalanceChargeRequest:
       type: object
       description: The object contains the request model to charge the balance of a tenant.
+      required:
+        - product
+        - quantity
       properties:
         product:
           type: string

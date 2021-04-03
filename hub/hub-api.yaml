@@ -2307,6 +2307,11 @@ components:
     Balance:
       type: object
       description: The object contains the tenant's balance information.
+      required:
+        - minimumAmount
+        - rechargeAmount
+        - currency
+        - currentAmount
       properties:
         minimumAmount:
           type: number

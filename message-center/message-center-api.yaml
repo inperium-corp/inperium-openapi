@@ -35,7 +35,7 @@ tags:
       The Message Center enables you to send messages right in Inperium. Under the hood, the message will be sent by the mail server the account belongs to.
   - name: Notifications
     description: |
-      In order for the Message Center to stay in sync with the mail service provider, you've got to sync webhooks and properly register them. Synchronization is a one-way process, from Nylas to the Message Center.
+      In order for the Message Center to stay in sync with the mail service provider, you have to sync webhooks and properly register them. Synchronization is a one-way process, from Nylas to the Message Center.
   - name: Threads
     description: |
       Emails are organized into threads or conversations. Threads allow users to view messages related to the same subject in the right order.

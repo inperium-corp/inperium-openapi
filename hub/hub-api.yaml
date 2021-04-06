@@ -981,7 +981,7 @@ paths:
     get:
       tags:
         - Balances
-      summary: Retrieve a tenants balance
+      summary: Retrieve balance
       description: Use this endpoint to get information about the balance of the tenant.
       operationId: getBalance
       parameters:
@@ -1000,8 +1000,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
     patch:
-      summary: Update the balance settings of the tenant
-      description: Use this endpoint to update the balance settings of a tenant for metered charges.
+      summary: Update balance settings
+      description: Use this endpoint to update the tenant's balance settings for metered charges.
       operationId: updatePartialBalance
       tags:
         - Balances

@@ -2688,6 +2688,9 @@ components:
           type: number
           description: The sum to be paid according to this plan.
           format: double
+        name:
+          type: string
+          description: The name of the price.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         intervalCount:

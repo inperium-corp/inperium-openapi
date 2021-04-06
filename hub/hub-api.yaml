@@ -214,10 +214,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /publicAppSettings:
+    x-access: private
     get:
       summary: Get app settings
       description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
       operationId: getPublicAppSettings
+      x-access: private
       tags:
         - App Settings
       responses:

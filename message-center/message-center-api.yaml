@@ -145,13 +145,13 @@ paths:
       tags:
         - Accounts
       summary: Disconnect an account
-      description: Use this endpoint to disconnect and remove a mailbox from Inperium.
+      description: Use this endpoint to stop synchronizing the mailbox with Inperium.
       operationId: cancelAccount
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The mailbox has been removed.
+          description: The mailbox sync has been stopped.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -845,7 +845,7 @@ components:
           description: The email address registered with the Message Center.
         connectionDate:
           type: integer
-          description: The date the email was connected.
+          description: The date the mailbox was connected.
           format: int64
         status:
           type: string

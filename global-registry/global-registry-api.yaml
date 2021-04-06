@@ -1,0 +1,491 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Global Registry API
+  description: |
+    This RESTful API manages and provides information on regional mappings
+    of root-level entities, i.e. tenans, users, e.t.c.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/globalRegistry
+  - url: https://api.inperium.com/v1/globalRegistry
+
+security:
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
+  - name: Region API Keys
+    description: |
+      Management and provision of regional mappings for API keys.
+  - name: Region Tenants
+    description: |
+      Management and provision of regional mappings for tenants.
+  - name: Region Users
+    description: |
+      Management and provision of regional mappings for users.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
+      operationId: checkHealth
+      responses:
+        200:
+          description: Returns empty response that is used for OK non-returning operations.
+          content: { }
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /regions/apiKeys:
+    get:
+      summary: Retrieves existing regional API key mappings by specified parameters
+      description: |
+        TBD.
+      operationId: getRegionApiKeys
+      tags:
+        - Region API Keys
+      parameters:
+        - name: id
+          in: query
+          description: The unique ID of a regional mapping
+          schema:
+            type: string
+        - name: apiKeyId
+          in: query
+          description: The ID of a corresponding API key
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the reguested regional API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionApiKeys"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create a new regional mapping for an API key
+      tags:
+        - Region API Keys
+      description: |
+        TBD.
+      operationId: createRegionApiKey
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/RegionApiKeyRequest"
+      responses:
+        200:
+          description: The new created regional API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /regions/apiKeys/{id}:
+    get:
+      summary: Retrieve an existing regional mapping for an API key by its ID
+      description: |
+        TBD.
+      operationId: getRegionApiKey
+      tags:
+        - Region API Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the reguested regional API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+
+  /regions/tenants:
+    get:
+      summary: Retrieves existing regional tenant mappings by specified parameters
+      description: |
+        TBD.
+      operationId: getRegionTenants
+      tags:
+        - Region Tenants
+      parameters:
+        - name: id
+          in: query
+          description: The unique ID of a regional mapping
+          schema:
+            type: string
+        - name: tenantId
+          in: query
+          description: The ID of a corresponding tenant
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the reguested regional tenant mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionTenants"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create a new regional mapping for a tenant
+      tags:
+        - Region Tenants
+      description: |
+        TBD.
+      operationId: createRegionTenant
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/RegionTenantRequest"
+      responses:
+        200:
+          description: The new created regional tenant mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionTenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /regions/tenants/{id}:
+    get:
+      summary: Retrieve an existing regional mapping for a tenant by its ID
+      description: |
+        TBD.
+      operationId: getRegionTenant
+      tags:
+        - Region Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the reguested regional tenant mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionTenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+
+  /regions/users:
+    get:
+      summary: Retrieves existing regional user mappings by specified parameters
+      description: |
+        TBD.
+      operationId: getRegionUsers
+      tags:
+        - Region Users
+      parameters:
+        - name: id
+          in: query
+          description: The unique ID of the regional mapping
+          schema:
+            type: string
+        - name: userId
+          in: query
+          description: The ID of the corresponding user
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: The email of the corresponding user
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the reguested regional user mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionUsers"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create a new regional mapping for a user
+      tags:
+        - Region Users
+      description: |
+        TBD.
+      operationId: createRegionUser
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/RegionUserRequest"
+      responses:
+        200:
+          description: The new created regional user mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionUser"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /regions/users/{id}:
+    get:
+      summary: Retrieve an existing regional mapping for a user by its ID
+      description: |
+        TBD.
+      operationId: getRegionUser
+      tags:
+        - Region Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the reguested regional user mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegionUser"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+components:
+  responses:
+    DefaultResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseError"
+
+  securitySchemes:
+    BearerAuth:
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note that due to security concerns it frequently expires.
+      type: http
+      scheme: bearer
+
+    ApiKeyAuth:
+      description: The API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  parameters:
+
+    ResourceId:
+      name: id
+      description: A unique ID of the object.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: This parameter affects paging. It defines the number of records per page, e.g., 20 records per page.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QuerySort:
+      name: sort
+      in: query
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: string
+
+  schemas:
+
+    Id:
+      type: string
+      format: uuid
+      description: A unique identifier of a record or resource.
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+
+    Region:
+      description: The unique code of a region.
+      type: string
+      enum:
+        - US
+        - EU
+
+    ResponseError:
+      type: object
+      description: The error that is returned as a response to a request.
+      discriminator:
+        propertyName: schema
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: The HTTP status code.
+        code:
+          type: string
+          format: uuid
+          description: The optional code of the exception.
+        message:
+          type: string
+          description: The error message text.
+        errors:
+          type: object
+          description: Mapping of fields and errors.
+
+    RegionApiKeyRequest:
+      description: |
+        TBD.
+      type: object
+      properties:
+        apiKeyId:
+          $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
+      required:
+        - apiKeyId
+        - region
+
+    RegionApiKey:
+      description: |
+        TBD.
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        apiKeyId:
+          $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
+
+    RegionApiKeys:
+      type: object
+      description: A search result of api key regional mappings.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RegionApiKey"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    RegionTenantRequest:
+      description: |
+        TBD.
+      type: object
+      properties:
+        tenantId:
+          $ref: "#/components/schemas/Id"
+        companyName:
+          type: string
+          description: The name of a corresponding company.
+        region:
+          $ref: "#/components/schemas/Region"
+      required:
+        - tenantId
+        - region
+
+    RegionTenant:
+      description: |
+        TBD.
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        tenantId:
+          $ref: "#/components/schemas/Id"
+        companyName:
+          type: string
+          description: The name of a corresponding company.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    RegionTenants:
+      type: object
+      description: A search result of tenant regional mappings.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RegionTenant"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    RegionUserRequest:
+      description: |
+        TBD.
+      type: object
+      required:
+        - userId
+        - region
+        - email
+      properties:
+        userId:
+          $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
+        email:
+          type: string
+          description: The email of the corresponding user.
+
+    RegionUser:
+      description: |
+        TBD.
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        userId:
+          $ref: "#/components/schemas/Id"
+        email:
+          type: string
+          description: The email of the corresponding user.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    RegionUsers:
+      type: object
+      description: A search result of user regional mappings.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/RegionUser"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"

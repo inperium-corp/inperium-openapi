@@ -1,16 +1,15 @@
 openapi: 3.0.3
-
+x-access: private
 info:
   title: Inperium Global Registry API
   description: |
     This RESTful API manages and provides information on regional mappings
     of root-level entities, i.e. tenans, users, e.t.c.
   version: 1.0.0-SNAPSHOT
-
 servers:
   - url: http://api.inperium.com/v1/globalRegistry
   - url: https://api.inperium.com/v1/globalRegistry
-
+    
 security:
   - BearerAuth: [ ]
   - ApiKeyAuth: [ ]

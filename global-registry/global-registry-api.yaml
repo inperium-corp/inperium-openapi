@@ -117,7 +117,43 @@ paths:
                 $ref: "#/components/schemas/ApiKey"
         default:
           $ref: "#/components/responses/DefaultResponse"
-
+    put:
+      summary: Update an existing regional mapping for an API key by its ID
+      description: |
+        TBD.
+      operationId: updateApiKey
+      tags:
+        - Api Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/ApiKeyRequest"
+      responses:
+        200:
+          description: Returns the updated regional API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete an existing regional mapping for an API key by its ID
+      description: |
+        TBD.
+      operationId: deleteApiKey
+      tags:
+        - Api Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The API key was successfully deleted.
+        default:
+          $ref: "#/components/responses/DefaultResponse"
 
   /regions/tenants:
     get:

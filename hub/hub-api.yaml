@@ -428,6 +428,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
   /health:
     get:
       tags:
@@ -1136,6 +1137,136 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /tenants/features/{anchor}/usages:
+    get:
+      summary: Retrieve the feature usage
+      description: |
+        Use this endpoint to get information about the usage of a feature.
+      operationId: getFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: A unique identifier of the user.
+        required: false
+        schema:
+          $ref: "#/components/schemas/Id"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    post:
+      summary: Register a feature usage
+      description: |
+        Use this endpoint to inform the Hub about a new consumption of a feature.
+        As a result, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: createFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      summary: Update the usage count
+      description: |
+        Use this endpoint to update the counter. If the feature consumption value overtops the previous one, 
+        the Hub will restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: updateFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /users:
     post:
       tags:
@@ -1903,7 +2034,16 @@ components:
             type: string
         subscriptionIds:
           type: array
-          description: The list of subscriptions enabled for the user.
+          description: |
+            The list of subscriptions enabled for the user. If no subscription items are set,
+            then only the PRODUCT item will be assigned.
+          items:
+            $ref: "#/components/schemas/Id"
+        subscriptionItemIds:
+          type: array
+          description: |
+            The list of subscription items enabled for the user. The items should be set with their subscriptions.
+            Otherwise, the property is ignored.
           items:
             $ref: "#/components/schemas/Id"
 
@@ -2468,6 +2608,47 @@ components:
           type: string
           description: The Inperium app.
 
+    FeatureUsageRequest:
+      type: object
+      description: |
+        The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
+        For example, you make an international call.
+      properties:
+        quantity:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
+            the quantity can be either the total feature usage count or its increment.
+        userId:
+          $ref: "#/components/schemas/Id"
+
+    FeatureUsage:
+      type: object
+      description: The FeatureUsage object describes the feature in the plan you have.
+      required:
+        - plan
+        - feature
+      properties:
+        plan:
+          $ref: "#/components/schemas/Plan"
+        feature:
+          $ref: "#/components/schemas/Feature"
+        priceModels:
+          type: array
+          description: |
+            Depending on the endpoint that is in use, the price models are either the available models in the plan or the used price model.
+          items:
+            type: string
+            enum:
+              - STANDARD
+              - METERED
+        currentValue:
+          type: integer
+          format: int64
+          description: The current value of the feature usage for the tenant.
+
     Plan:
       type: object
       description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
@@ -2509,6 +2690,9 @@ components:
           type: number
           description: The sum to be paid according to this plan.
           format: double
+        name:
+          type: string
+          description: The name of the price.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         intervalCount:
@@ -2629,15 +2813,59 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of used licenses.
+          deprecated: true
+          description: |
+            The number of used licenses of the related product. The property is deprecated because it's being migrated
+            to a subscription item with type PRODUCT.
         quantity:
           type: integer
           format: int64
-          description: The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity', it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+          deprecated: true
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+            The property is deprecated because it's being migrated to a subscription item with type PRODUCT.
         discountAmount:
           type: number
           format: double
           description: The discount applied to the subscription.
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscriptionItem"
+
+    SubscriptionItem:
+      type: object
+      description: The object contains information about the tenant's active plan, product or add-on usage, etc.
+      discriminator:
+        propertyName: schema
+      required:
+        - id
+        - price
+        - licensedQuantity
+        - quantity
+        - type
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        price:
+          $ref: "#/components/schemas/Price"
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of used licenses.
+        quantity:
+          type: integer
+          format: int64
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+        type:
+          type: string
+          enum:
+            - PRODUCT
+            - ADD_ON
+          description: The type identifies whether the item relates to a product or one of its add-on.
 
     SubscriptionRequest:
       type: object

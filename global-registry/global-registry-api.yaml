@@ -416,8 +416,8 @@ components:
       description: The unique code of the region.
       type: string
       enum:
-        - US
-        - EU
+        - US-1
+        - EU-1
 
     ResponseError:
       type: object
@@ -446,14 +446,14 @@ components:
       description: |
         TBD.
       type: object
+      required:
+        - apiKeyId
+        - region
       properties:
         apiKeyId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"
-      required:
-        - apiKeyId
-        - region
 
     ApiKey:
       description: |
@@ -482,6 +482,9 @@ components:
       description: |
         TBD.
       type: object
+      required:
+        - tenantId
+        - region
       properties:
         tenantId:
           $ref: "#/components/schemas/Id"
@@ -490,9 +493,6 @@ components:
           description: The name of the corresponding company.
         region:
           $ref: "#/components/schemas/Region"
-      required:
-        - tenantId
-        - region
 
     Tenant:
       description: |

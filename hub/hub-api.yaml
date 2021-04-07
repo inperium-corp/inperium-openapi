@@ -2862,7 +2862,7 @@ components:
           type: string
           enum:
             - PRODUCT
-            - ADDON
+            - ADD_ON
           description: The type identifies whether the item relates to a product or one of its add-on.
 
     SubscriptionRequest:

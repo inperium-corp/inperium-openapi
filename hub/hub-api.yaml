@@ -1143,7 +1143,7 @@ paths:
         Use this endpoint to get information about the usage of a feature.
       operationId: getFeatureUsage
       tags:
-      - Tenants
+      - Features
       parameters:
       - name: anchor
         in: path
@@ -1177,7 +1177,7 @@ paths:
         As a result, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
       operationId: createFeatureUsage
       tags:
-      - Tenants
+      - Features
       parameters:
       - name: anchor
         in: path
@@ -1224,7 +1224,7 @@ paths:
         the Hub will restrict the use of the feature or withdraw money from the tenant's balance.
       operationId: updateFeatureUsage
       tags:
-      - Tenants
+      - Features
       parameters:
       - name: anchor
         in: path
@@ -2608,7 +2608,7 @@ components:
 
     FeatureUsageRequest:
       type: object
-      description: | 
+      description: |
         The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
         For example, you make an international call.
       properties:
@@ -2616,7 +2616,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: | 
+          description: |
             The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
             the quantity can be either the total feature usage count or its increment.
         userId:

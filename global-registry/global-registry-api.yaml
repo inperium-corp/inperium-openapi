@@ -191,7 +191,43 @@ paths:
                 $ref: "#/components/schemas/Tenant"
         default:
           $ref: "#/components/responses/DefaultResponse"
-
+    put:
+      summary: Update an existing regional mapping for a tenant by its ID
+      description: |
+        TBD.
+      operationId: updateTenant
+      tags:
+        - Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/TenantRequest"
+      responses:
+        200:
+          description: Returns the updated regional tenant mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete an existing regional mapping for a tenant by its ID
+      description: |
+        TBD.
+      operationId: deleteTenant
+      tags:
+        - Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The tenant was successfully deleted.
+        default:
+          $ref: "#/components/responses/DefaultResponse"
 
   /regions/users:
     get:
@@ -268,6 +304,43 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    put:
+      summary: Update an existing regional mapping for a user by its ID
+      description: |
+        TBD.
+      operationId: updateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        content:
+          "*/*":
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        200:
+          description: Returns the updated regional user mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete an existing regional mapping for a user by its ID
+      description: |
+        TBD.
+      operationId: deleteUser
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: The user was successfully deleted.
         default:
           $ref: "#/components/responses/DefaultResponse"
 

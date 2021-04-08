@@ -1045,10 +1045,10 @@ paths:
           description: |
             Custom filter for some business cases.\
             **Note**:
-            * `MY_MISSED` can be restricted with `participantPhoneNumber` and `participantPhoneNumberId` parameters
-            * `TENANT_MISSED` can be restricted with `participantPhoneNumber` and `participantPhoneNumberId` parameters
-            * `MY_NO_ANSWER` can be restricted with `callerPhoneNumber` and `callerPhoneNumberId` parameters
-            * `TENANT_NO_ANSWER` can be restricted with `callerPhoneNumber` and `callerPhoneNumberId` parameters
+            * It is useful to restrict `MY_MISSED` and `TENANT_MISSED`
+              with `participantPhoneNumber` and `participantPhoneNumberId` parameters
+            * It is useful to restrict `MY_NO_ANSWER` and `TENANT_NO_ANSWER`
+              with `callerPhoneNumber` and `callerPhoneNumberId` parameters
           schema:
             type: string
             enum:

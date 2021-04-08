@@ -1035,6 +1035,11 @@ paths:
           description: Participant (any) phone number ID.
           schema:
             type: string
+        - name: recorded
+          in: query
+          description: Whether the call is recorded or not.
+          schema:
+            type: boolean
         - name: filter
           in: query
           description: |

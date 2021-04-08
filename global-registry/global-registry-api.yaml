@@ -484,12 +484,12 @@ components:
       type: object
       required:
         - apiKeyId
-        - tenantId
+        - userId
         - region
       properties:
         apiKeyId:
           $ref: "#/components/schemas/Id"
-        tenantId:
+        userId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"
@@ -503,7 +503,7 @@ components:
           $ref: "#/components/schemas/Id"
         apiKeyId:
           $ref: "#/components/schemas/Id"
-        tenantId:
+        userId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"

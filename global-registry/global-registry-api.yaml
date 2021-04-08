@@ -484,9 +484,12 @@ components:
       type: object
       required:
         - apiKeyId
+        - tenantId
         - region
       properties:
         apiKeyId:
+          $ref: "#/components/schemas/Id"
+        tenantId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"
@@ -499,6 +502,8 @@ components:
         id:
           $ref: "#/components/schemas/Id"
         apiKeyId:
+          $ref: "#/components/schemas/Id"
+        tenantId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"
@@ -524,11 +529,11 @@ components:
       properties:
         tenantId:
           $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
         companyName:
           type: string
           description: The name of the corresponding company.
-        region:
-          $ref: "#/components/schemas/Region"
 
     Tenant:
       description: |
@@ -562,16 +567,19 @@ components:
       type: object
       required:
         - userId
-        - region
+        - tenantId
         - email
+        - region
       properties:
         userId:
           $ref: "#/components/schemas/Id"
-        region:
-          $ref: "#/components/schemas/Region"
+        tenantId:
+          $ref: "#/components/schemas/Id"
         email:
           type: string
           description: The email of the corresponding user.
+        region:
+          $ref: "#/components/schemas/Region"
 
     User:
       description: |
@@ -581,6 +589,8 @@ components:
         id:
           $ref: "#/components/schemas/Id"
         userId:
+          $ref: "#/components/schemas/Id"
+        tenantId:
           $ref: "#/components/schemas/Id"
         email:
           type: string

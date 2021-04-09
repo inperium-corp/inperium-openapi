@@ -12,8 +12,8 @@ servers:
   - url: https://api.inperium.com/v1/sell
 
 security:
-  - BearerAuth: []
-  - ApiKeyAuth: []
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
 
 tags:
   - name: Activities
@@ -124,6 +124,9 @@ tags:
   - name: Stages
     description: |
       The sales pipelines consist of stages. The stages are milestones the deal goes through before it gets closed. For example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
+  - name: Snippets
+    description: |
+      Snippets are reusable text excerpts, for use-cases such as follow-up emails or quote purchase terms. Snippets help speed up the sales process and make it more structured.
   - name: Stripe Authorizations
     description: |
       To configure integration with Stripe, you've got to authenticate your app with Stripe.
@@ -132,7 +135,7 @@ tags:
       Configure Stripe terminals to receive payments.
   - name: Template
     description: |
-      Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up sales process and make it more structured.
+      Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up the sales process and make it more structured. They support variables to automatically insert the individual contacts data.
   - name: Tenant Integrations
     description: |
       You can enable third-party integrations for your tenant and use Inperium to its fullest.
@@ -272,7 +275,7 @@ paths:
       responses:
         204:
           description: The activity has been removed. Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -408,7 +411,7 @@ paths:
       responses:
         204:
           description: The attachment has been removed. Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -509,7 +512,7 @@ paths:
       responses:
         204:
           description: The campaign has been removed. Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -647,12 +650,12 @@ paths:
               items:
                 type: string
                 format: uuid
-                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
+                example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
         required: true
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -776,7 +779,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -890,7 +893,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1005,7 +1008,7 @@ paths:
           application/json:
             schema:
               type: array
-              example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
+              example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
               items:
                 type: string
                 format: uuid
@@ -1013,7 +1016,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1137,7 +1140,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1297,12 +1300,12 @@ paths:
               items:
                 type: string
                 format: uuid
-                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
+                example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
         required: true
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1400,7 +1403,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1693,7 +1696,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1776,7 +1779,7 @@ paths:
       responses:
         201:
           description: The entities have been imported.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1860,7 +1863,7 @@ paths:
       responses:
         200:
           description: Authorization has been successful.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1891,7 +1894,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1941,7 +1944,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
   /integrations/xero/deauthorize:
     get:
       tags:
@@ -1952,7 +1955,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2153,7 +2156,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2179,7 +2182,7 @@ paths:
       responses:
         202:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2205,7 +2208,7 @@ paths:
       responses:
         200:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2495,7 +2498,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2712,7 +2715,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2833,7 +2836,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2936,7 +2939,7 @@ paths:
       responses:
         200:
           description: The quote has been accepted.
-          content: {}
+          content: { }
   /quotes:
     get:
       tags:
@@ -3065,7 +3068,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3162,6 +3165,119 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReportData"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /snippets:
+    get:
+      tags:
+        - Snippets
+      summary: List snippets
+      description: Use this endpoint to get a complete list of available snippets. This operation supports paging, sorting, and filtering.
+      operationId: getSnippets
+      parameters:
+        - name: name
+          in: query
+          description: The snippet name.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: The snippets have been retrieved. Returns snippets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippets"
+    post:
+      tags:
+        - Snippets
+      summary: Create a snippet
+      description: Use this endpoint to add a new snippet.
+      operationId: createSnippet
+      requestBody:
+        description: In the request body, pass the snippet object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SnippetRequest"
+        required: false
+      responses:
+        200:
+          description: A new snippet has been created. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+      x-codegen-request-body-name: snippet
+  /snippets/{id}:
+    get:
+      tags:
+        - Snippets
+      summary: Retrieve a snippet
+      description: Use this endpoint to locate a specific snippet and retrieve its details.
+      operationId: getSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: The snippet has been retrieved. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      tags:
+        - Snippets
+      summary: Update a snippet
+      description: Use this endpoint to modify and overwrite an existing snippet.
+      operationId: updateSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the updated snippet object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SnippetRequest"
+        required: false
+      responses:
+        200:
+          description: The snippet has been updated. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+      x-codegen-request-body-name: snippet
+    delete:
+      tags:
+        - Snippets
+      summary: Delete a snippet
+      description: Use this endpoint to remove a snippet.
+      operationId: deleteSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response.
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3283,7 +3399,7 @@ paths:
       responses:
         200:
           description: The stage has been deleted. Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3320,7 +3436,7 @@ paths:
       description: Use this endpoint to add a new template.
       operationId: createTemplate
       requestBody:
-        description: In the request body, pass the Template object.
+        description: In the request body, pass the template object.
         content:
           application/json:
             schema:
@@ -3365,7 +3481,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the updated Template object.
+        description: In the request body, pass the updated template object.
         content:
           application/json:
             schema:
@@ -3396,7 +3512,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3536,7 +3652,7 @@ paths:
       responses:
         200:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3606,7 +3722,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3707,7 +3823,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: {}
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -4242,7 +4358,7 @@ components:
             state: CA
             description: Musical instruments shop
             userId: $OBJECT-UUID
-            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
         createdAt:
           type: integer
           format: int64
@@ -4390,7 +4506,7 @@ components:
             companyId: $OBJECT-UUID
             name: Small band pack
             userId: $OBJECT-UUID
-            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
             stageId: $OBJECT-UUID
             pipelineId: $OBJECT-UUID
         createdAt:
@@ -4408,7 +4524,7 @@ components:
       example:
         name: Small band pack
         userId: $OBJECT-UUID
-        contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+        contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
         stageId: $OBJECT-UUID
         pipelineId: $OBJECT-UUID
     Deals:
@@ -4439,7 +4555,7 @@ components:
           description: The item description or any additional information.
         extendedAttributes:
           type: object
-          properties: {}
+          properties: { }
           description: Additional properties.
       description: An entry in a preset dictionary (e.g., currency). Dictionary items cannot be modified.
     DictionaryItems:
@@ -5126,7 +5242,7 @@ components:
         customer:
           type: object
           description: The ID of the customer.
-          properties: {}
+          properties: { }
         description:
           type: string
           description: Comments or any additional information about the payment intent.
@@ -5136,7 +5252,7 @@ components:
         invoice:
           type: object
           description: The ID of the invoice.
-          properties: {}
+          properties: { }
         amount_capturable:
           type: integer
           format: int64
@@ -5147,11 +5263,11 @@ components:
         on_behalf_of:
           type: object
           description: The funds recipient.
-          properties: {}
+          properties: { }
         payment_method:
           type: object
           description: The ID of the payment method.
-          properties: {}
+          properties: { }
         payment_method_options:
           type: string
           description: Details specific to the payment method.
@@ -5166,18 +5282,18 @@ components:
         review:
           type: object
           description: The ID of the review.
-          properties: {}
+          properties: { }
         setup_future_usage:
           type: string
           description: This parameter indicates if the payment method selected in this payment intent will be reused in the future.
         shipping:
           type: object
           description: Shipping details.
-          properties: {}
+          properties: { }
         source:
           type: object
           description: The source.
-          properties: {}
+          properties: { }
         statement_descriptor:
           type: string
           description: A description for the customer's statements.
@@ -5190,7 +5306,7 @@ components:
         transfer_data:
           type: object
           description: This data is used to create a transfer once the payment is finalized.
-          properties: {}
+          properties: { }
         livemode:
           type: boolean
           description: The true/false parameter that defines if the payment intent exists in the live mode (true) or test mode (false).
@@ -6014,6 +6130,63 @@ components:
           description: The list of errors.
           items:
             $ref: "#/components/schemas/ErrorModel"
+    SnippetRequest:
+      type: object
+      description: This object is submitted to the Inperium API when you create a new snippet or update an existing snippet.
+      required:
+        - name
+        - text
+      properties:
+        name:
+          type: string
+          description: The name of the snippet.
+          maxLength: 100
+        text:
+          type: string
+          description: The text of the snippet.
+    Snippet:
+      type: object
+      description: The object describes a reusable text snippet that can be applied to many input fields throughout Inperium.
+      required:
+        - id
+        - name
+        - text
+        - userId
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The name of the snippet.
+          maxLength: 100
+        text:
+          type: string
+          description: The text of the snippet.
+        userId:
+          $ref: "#/components/schemas/Id"
+        createdAt:
+          type: integer
+          format: int64
+          description: The timestamp when the snippet was created.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The timestamp when the snippet was updated.
+    Snippets:
+      type: object
+      description: The list of snippets with paging data.
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Snippet"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
     Stage:
       type: object
       description: The Stage object contains information about the stage itself and a link to its parent pipeline.
@@ -6081,13 +6254,13 @@ components:
         billing_details:
           type: object
           description: Billing information specific to the payment method.
-          properties: {}
+          properties: { }
         card:
           $ref: "#/components/schemas/StripePaymentMethodCard"
         card_present:
           type: object
           description: Details related to 'card_preset' payment method, if applicable.
-          properties: {}
+          properties: { }
         created:
           type: integer
           format: int64
@@ -6101,7 +6274,7 @@ components:
         metadata:
           type: object
           description: Additional information about the object.
-          properties: {}
+          properties: { }
         type:
           type: string
           description: The payment type.
@@ -6115,11 +6288,11 @@ components:
         wallet:
           type: object
           description: Wallet details, if applicable.
-          properties: {}
+          properties: { }
         checks:
           type: object
           description: Verification of the card address and CVC.
-          properties: {}
+          properties: { }
         country:
           type: string
           description: The country code.
@@ -6146,7 +6319,7 @@ components:
         three_d_secure_usage:
           type: object
           description: The 3D authentication details.
-          properties: {}
+          properties: { }
         fingerprint:
           type: string
           description: The unique card identifier.

@@ -2845,6 +2845,7 @@ components:
         - licensedQuantity
         - quantity
         - type
+        - assignable
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -2866,6 +2867,9 @@ components:
             - PRODUCT
             - ADD_ON
           description: The type identifies whether the item relates to a product or one of its add-on.
+        assignable:
+          type: boolean
+          description: The true/false parameter defining if a user can be assigned to the item.
 
     SubscriptionRequest:
       type: object

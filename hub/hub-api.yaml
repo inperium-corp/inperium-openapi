@@ -2473,9 +2473,6 @@ components:
     BalancePartialRequest:
       type: object
       description: The object contains the request model to update the balance settings of a tenant.
-      required:
-        - minimumAmount
-        - rechargeAmount
       properties:
         minimumAmount:
           type: number

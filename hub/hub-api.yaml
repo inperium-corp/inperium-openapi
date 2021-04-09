@@ -2845,6 +2845,7 @@ components:
         - licensedQuantity
         - quantity
         - type
+        - assignable
       properties:
         id:
           $ref: "#/components/schemas/Id"

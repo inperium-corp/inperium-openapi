@@ -502,6 +502,7 @@ components:
       type: object
       description: A search result of api key regional mappings.
       required:
+        - data
         - paging
       properties:
         data:
@@ -550,6 +551,7 @@ components:
       type: object
       description: A search result of tenant regional mappings.
       required:
+        - data
         - paging
       properties:
         data:
@@ -606,6 +608,7 @@ components:
       type: object
       description: A search result of user regional mappings.
       required:
+        - data
         - paging
       properties:
         data:

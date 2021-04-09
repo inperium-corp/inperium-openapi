@@ -650,7 +650,7 @@ paths:
               items:
                 type: string
                 format: uuid
-                example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -1008,7 +1008,7 @@ paths:
           application/json:
             schema:
               type: array
-              example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
+              example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
               items:
                 type: string
                 format: uuid
@@ -1300,7 +1300,7 @@ paths:
               items:
                 type: string
                 format: uuid
-                example: [ "$OBJECT-UUID1", "$OBJECT-UUID2" ]
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -4358,7 +4358,7 @@ components:
             state: CA
             description: Musical instruments shop
             userId: $OBJECT-UUID
-            contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
         createdAt:
           type: integer
           format: int64
@@ -4506,7 +4506,7 @@ components:
             companyId: $OBJECT-UUID
             name: Small band pack
             userId: $OBJECT-UUID
-            contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
+            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
             stageId: $OBJECT-UUID
             pipelineId: $OBJECT-UUID
         createdAt:
@@ -4524,7 +4524,7 @@ components:
       example:
         name: Small band pack
         userId: $OBJECT-UUID
-        contactIds: [ $OBJECT-UUID, $OBJECT-UUID ]
+        contactIds: [$OBJECT-UUID, $OBJECT-UUID]
         stageId: $OBJECT-UUID
         pipelineId: $OBJECT-UUID
     Deals:

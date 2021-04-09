@@ -45,7 +45,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/apiKeys:
+  /apiKeys:
     get:
       summary: Retrieves existing regional API key mappings by specified parameters
       description: |
@@ -54,11 +54,6 @@ paths:
       tags:
         - API Keys
       parameters:
-        - name: id
-          in: query
-          description: The unique ID of the regional mapping
-          schema:
-            type: string
         - name: apiKeyId
           in: query
           description: The ID of the corresponding API key
@@ -85,11 +80,11 @@ paths:
       operationId: createApiKey
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
-        200:
+        201:
           description: The new created regional API key mapping.
           content:
             application/json:
@@ -98,7 +93,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/apiKeys/{id}:
+  /apiKeys/{id}:
     get:
       summary: Retrieve an existing regional mapping for an API key by its ID
       description: |
@@ -128,7 +123,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ApiKeyRequest"
       responses:
@@ -155,7 +150,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/tenants:
+  /tenants:
     get:
       summary: Retrieves existing regional tenant mappings by specified parameters
       description: |
@@ -164,11 +159,6 @@ paths:
       tags:
         - Tenants
       parameters:
-        - name: id
-          in: query
-          description: The unique ID of the regional mapping
-          schema:
-            type: string
         - name: tenantId
           in: query
           description: The ID of the corresponding tenant
@@ -195,11 +185,11 @@ paths:
       operationId: createTenant
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantRequest"
       responses:
-        200:
+        201:
           description: The new created regional tenant mapping.
           content:
             application/json:
@@ -208,7 +198,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/tenants/{id}:
+  /tenants/{id}:
     get:
       summary: Retrieve an existing regional mapping for a tenant by its ID
       description: |
@@ -238,7 +228,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantRequest"
       responses:
@@ -265,7 +255,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/users:
+  /users:
     get:
       summary: Retrieves existing regional user mappings by specified parameters
       description: |
@@ -274,11 +264,6 @@ paths:
       tags:
         - Users
       parameters:
-        - name: id
-          in: query
-          description: The unique ID of the regional mapping
-          schema:
-            type: string
         - name: userId
           in: query
           description: The ID of the corresponding user
@@ -310,11 +295,11 @@ paths:
       operationId: createUser
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
-        200:
+        201:
           description: The new created regional user mapping.
           content:
             application/json:
@@ -323,7 +308,7 @@ paths:
         default:
           $ref: "#/components/responses/DefaultResponse"
 
-  /regions/users/{id}:
+  /users/{id}:
     get:
       summary: Retrieve an existing regional mapping for a user by its ID
       description: |
@@ -353,7 +338,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
@@ -498,6 +483,11 @@ components:
       description: |
         TBD.
       type: object
+      required:
+        - id
+        - apiKeyId
+        - userId
+        - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -511,6 +501,8 @@ components:
     ApiKeys:
       type: object
       description: A search result of api key regional mappings.
+      required:
+        - paging
       properties:
         data:
           type: array
@@ -539,6 +531,10 @@ components:
       description: |
         TBD.
       type: object
+      required:
+        - id
+        - tenantId
+        - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -553,6 +549,8 @@ components:
     Tenants:
       type: object
       description: A search result of tenant regional mappings.
+      required:
+        - paging
       properties:
         data:
           type: array
@@ -585,6 +583,12 @@ components:
       description: |
         TBD.
       type: object
+      required:
+        - id
+        - userId
+        - tenantId
+        - email
+        - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -601,6 +605,8 @@ components:
     Users:
       type: object
       description: A search result of user regional mappings.
+      required:
+        - paging
       properties:
         data:
           type: array

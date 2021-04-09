@@ -2477,10 +2477,14 @@ components:
         minimumAmount:
           type: number
           format: double
+          minimum: 10
+          maximum: 100
           description: The minimum amount that needs to be on the tenants balance at all times. If the current amount drops below this amount, it will automatically recharge the balance by the amount specified in the recharge amount property.
         rechargeAmount:
           type: number
           format: double
+          minimum: 20
+          maximum: 200
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
 
     Permission:

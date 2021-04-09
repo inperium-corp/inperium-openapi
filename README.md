@@ -86,7 +86,7 @@ CompanyRelationshipRequest:
           description: The ID of the parent company.
           format: uuid
 ```
-* If an endpoint or its method or probably the entire specification shouldn't be exposed to clients, then apply the property `x-access: private`. Add `THIS IS INTERNAL ENDPOINT.` to description.
+* If an endpoint or its method or probably the entire specification shouldn't be exposed to clients, then apply the property `x-access: private`. Add `THIS IS INTERNAL ENDPOINT.` to the description. To display endpoints and method correctly in our API docs, please add the private flag after each HTTP method even if the entire endpoint should be concealed from view.
 
 ```
 /internal/limitUsages:

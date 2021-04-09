@@ -3,8 +3,8 @@ openapi: 3.0.1
 info:
   title: Sell API
   description: |
-    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscription and the user creating an API key must have access to Inperium Sell.
-    Inperium Sell API seamlessly integrates with other API such as the OBS API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
+    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscriptionyou must have an active subscription to Inperium Sell and the user creating an API key must have access to the product.
+    Inperium Sell API seamlessly integrates with other API such as the Object Bucket Storage API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -243,10 +243,9 @@ paths:
       requestBody:
         description: In the request body, pass the ActivityRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ActivityRequest"
-            example: {}
         required: false
       responses:
         200:
@@ -329,7 +328,7 @@ paths:
       requestBody:
         description: In the request body, pass the AttachmentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/AttachmentRequest"
         required: false
@@ -380,7 +379,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated AttachmentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/AttachmentRequest"
         required: false
@@ -459,7 +458,7 @@ paths:
       requestBody:
         description: In the request body, pass the CampaignRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CampaignRequest"
         required: false
@@ -521,7 +520,7 @@ paths:
     get:
       tags:
         - Contacts
-      summary: List contacts
+      summary: List contacts for campaign
       description: Use this endpoint to retrieve a list of contacts associated with a specific campaign. This endpoint supports paging and sorting.
       operationId: getCampaignContacts
       parameters:
@@ -558,7 +557,7 @@ paths:
         - $ref: "#/components/parameters/EntityProperties"
       responses:
         200:
-          description: The companies have been retrieved. Returns the list of companies.
+          description: The companies have been retrieved. Returns the list of companies. The `company` object contains flexible properties that can be customized.
           content:
             application/json:
               schema:
@@ -573,12 +572,12 @@ paths:
       tags:
         - Companies
       summary: Create a company
-      description: Use this endpoint to add a new company.
+      description: Use this endpoint to add a new company. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createCompany
       requestBody:
-        description: In the request body, pass CompanyRequest object.
+        description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -600,7 +599,7 @@ paths:
       tags:
         - Companies
       summary: Update companies in bulk
-      description: Use this endpoint to modify multiple companies at once. For example, you can set the 'industry' field to the same value or assign several companies to a certain Inperium user.
+      description: Use this endpoint to modify multiple companies at once. For example, you can set the 'industry' field to the same value or assign several companies to a certain Inperium user. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompanies
       parameters:
         - name: ids
@@ -611,9 +610,9 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -640,14 +639,15 @@ paths:
       description: Use this endpoint to remove multiple companies.
       operationId: deleteCompanies
       requestBody:
-        description: In the request body, pass the ids of companies to delete.
+        description: Company IDs to delete
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -711,14 +711,14 @@ paths:
       tags:
         - Companies
       summary: Update a company
-      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely overwrites the company data.
+      description: Use this endpoint to modify and overwrite company information. Unlike `PATCH`, this action completely overwrites the company data. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompany
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -740,14 +740,14 @@ paths:
       tags:
         - Companies
       summary: Partially update a company
-      description: Use this endpoint to update specific fields in company details.
+      description: Use this endpoint to update specific fields in company details. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateCompanyPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the CompanyRequest object with the details that need to be updated.
+        description: The CompanyRequest object example with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -788,7 +788,7 @@ paths:
       tags:
         - Companies
       summary: Merge company properties
-      description: Use this endpoint to merge companies. The properties will be copied from the former company and written to the latter company. The source company will be deleted.
+      description: Use this endpoint to merge companies. The properties will be copied from the former company and written to the latter company. The source company will be deleted. This method operates with the `CompanyRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeCompanies
       parameters:
         - name: sourceId
@@ -806,9 +806,9 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the CompanyRequest object.
+        description: The CompanyRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRequest"
         required: false
@@ -860,7 +860,7 @@ paths:
       requestBody:
         description: In the request body, pass the CompanyRelationshipRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CompanyRelationshipRequest"
         required: false
@@ -933,12 +933,12 @@ paths:
       tags:
         - Contacts
       summary: Create a contact
-      description: Use this endpoint to add new contacts to Inperium Sell.
+      description: Use this endpoint to add new contacts to Inperium Sell. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createContact
       requestBody:
-        description: In the request body, pass the ContactRequest object.
+        description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -960,7 +960,7 @@ paths:
       tags:
         - Contacts
       summary: Update contacts in bulk
-      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperium user or associate several contacts with the same company.
+      description: Use this endpoint to update properties for two or more contacts. For example, assign contacts to an Inperium user or associate several contacts with the same company. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContacts
       parameters:
         - name: ids
@@ -971,9 +971,9 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the ContactRequest objects will the values you want to set.
+        description: The ContactRequest object example with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1000,11 +1000,12 @@ paths:
       description: Use this endpoint to remove multiple contacts.
       operationId: deleteContacts
       requestBody:
-        description: In the request body, pass the ids of contacts to delete.
+        description: Contact IDs to delete
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
+              example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
               items:
                 type: string
                 format: uuid
@@ -1071,14 +1072,14 @@ paths:
       tags:
         - Contacts
       summary: Update a contact
-      description: Use this endpoint to update a contact. Unlike `PATCH`, this operation overwrites contact details completely.
+      description: Use this endpoint to update a contact. Unlike `PATCH`, this operation overwrites contact details completely. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContact
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, the ContactRequest object.
+        description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1100,14 +1101,14 @@ paths:
       tags:
         - Contacts
       summary: Partially update a contact
-      description: Use this endpoint to update specific fields in contact details. Unlike `PUT`, this operation overwrites properties partially.
+      description: Use this endpoint to update specific fields in contact details. Unlike `PUT`, this operation overwrites properties partially. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateContactPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the ContactRequest object.
+        description: The ContactRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1148,7 +1149,7 @@ paths:
       tags:
         - Contacts
       summary: Merge contact properties
-      description: Use this endpoint to merge contacts. The properties of the origin contact will be moved to the target contact (e.g., name, address) and the origin contact will be deleted.
+      description: Use this endpoint to merge contacts. The properties of the origin contact will be moved to the target contact (e.g., name, address) and the origin contact will be deleted. This method operates with the `ContactRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeContacts
       parameters:
         - name: sourceId
@@ -1166,9 +1167,9 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the ContactRequest object with the properties that need to be merged.
+        description: The ContactRequest object example with the properties that need to be merged
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ContactRequest"
         required: false
@@ -1221,12 +1222,12 @@ paths:
       tags:
         - Deals
       summary: Create a deal
-      description: Use this endpoint to create a new deal.
+      description: Use this endpoint to create a new deal. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createDeal
       requestBody:
-        description: In the request body, pass the DealRequest object.
+        description: The DealRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1248,7 +1249,7 @@ paths:
       tags:
         - Deals
       summary: Update deals in bulk
-      description: Use this endpoint to simultaneously update properties of several deals. For example, you can pick multiple deals and assign them to the same Inperium user.
+      description: Use this endpoint to simultaneously update properties of several deals. For example, you can pick multiple deals and assign them to the same Inperium user. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDeals
       parameters:
         - name: ids
@@ -1259,9 +1260,9 @@ paths:
             items:
               $ref: "#/components/schemas/Id"
       requestBody:
-        description: In the request body, pass the DealRequest object with properties you want to update.
+        description: The DealRequest object exaple with updated fields
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1288,14 +1289,15 @@ paths:
       description: Use this endpoint to remove multiple deals.
       operationId: deleteDeals
       requestBody:
-        description: In the request body, pass the ids of deals to delete.
+        description: Deal IDs to delete
         content:
-          "*/*":
+          application/json:
             schema:
               type: array
               items:
                 type: string
                 format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
         required: true
       responses:
         204:
@@ -1333,14 +1335,14 @@ paths:
       tags:
         - Deals
       summary: Update a deal
-      description: Use this endpoint to modify deal details. Unlike `PATCH`, this operation completely overwrites a deal.
+      description: Use this endpoint to modify deal details. Unlike `PATCH`, this operation completely overwrites a deal. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDeal
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the DealRequest object.
+        description: The DealRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1362,14 +1364,14 @@ paths:
       tags:
         - Deals
       summary: Partially update a deal
-      description: Use this endpoint to modify some of the deal properties. Unlike `PUT`, this operation doesn't overwrite the deal completely.
+      description: Use this endpoint to modify some of the deal properties. Unlike `PUT`, this operation doesn't overwrite the deal completely. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateDealPartial
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the DealRequest object with the properties you want to update.
+        description: The DealRequest object example with updated fields.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1410,7 +1412,7 @@ paths:
       tags:
         - Deals
       summary: Merge deals
-      description: Use this endpoint to merge deals. The contents of the origin deal with be moved to the target deal. As a result, the first deal will be removed.
+      description: Use this endpoint to merge deals. The contents of the origin deal with be moved to the target deal. As a result, the first deal will be removed. This method operates with the `DealRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: mergeDeals
       parameters:
         - name: sourceId
@@ -1428,9 +1430,9 @@ paths:
             type: string
             format: uuid
       requestBody:
-        description: In the request body, pass the DealRequest object with the properties to be merged.
+        description: The DealRequest object example with the properties to be merged
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/DealRequest"
         required: false
@@ -1480,7 +1482,7 @@ paths:
       requestBody:
         description: In the request body, pass the ItemsAndAdditionalFees object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ItemsAndAdditionalFees"
         required: false
@@ -1611,7 +1613,7 @@ paths:
       requestBody:
         description: In the request body, pass the Form object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Form"
         required: false
@@ -1662,7 +1664,7 @@ paths:
       requestBody:
         description: In the request body, pass the Form object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Form"
         required: false
@@ -1841,7 +1843,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/stripe/authorize/callback:
+    x-access: private
     get:
+      x-access: private
       tags:
         - Stripe Authorizations
       summary: Get the Stripe callback
@@ -1915,7 +1919,9 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /integrations/xero/authorize/callback:
+    x-access: private
     get:
+      x-access: private
       tags:
         - Xero Authorizations
       summary: Get the Xero callback
@@ -2043,7 +2049,7 @@ paths:
       requestBody:
         description: In the request body, pass the InvoiceRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceRequest"
         required: false
@@ -2118,7 +2124,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated InvoiceRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceRequest"
         required: false
@@ -2166,7 +2172,7 @@ paths:
       requestBody:
         description: In the request body, pass the InvoiceEmail object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/InvoiceEmail"
         required: false
@@ -2269,7 +2275,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentRequest"
         required: false
@@ -2323,7 +2329,7 @@ paths:
       requestBody:
         description: In the request body, pass the CreatePaymentIntent object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/CreatePaymentIntent"
         required: false
@@ -2353,7 +2359,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentRequest"
         required: false
@@ -2409,7 +2415,7 @@ paths:
       requestBody:
         description: In the request body, pass the PipelineRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PipelineRequest"
         required: false
@@ -2460,7 +2466,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated PipelineRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PipelineRequest"
         required: false
@@ -2620,12 +2626,12 @@ paths:
       tags:
         - Products
       summary: Create a product
-      description: Use this endpoint to add new products to Inperium Sell.
+      description: Use this endpoint to add new products to Inperium Sell. This method operates with the `ProductRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: createProduct
       requestBody:
-        description: In the request body, pass the ProductRequest object.
+        description: The ProductRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ProductRequest"
         required: false
@@ -2669,14 +2675,14 @@ paths:
       tags:
         - Products
       summary: Update a product
-      description: Use this endpoint to modify a product. The operation overwrites the product record.
+      description: Use this endpoint to modify a product. The operation overwrites the product record. This method operates with the `ProductRequest` object that encompasses flexible properties. If you are unsure what properties are available, query the `/properties` endpoint first.
       operationId: updateProduct
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the ProductRequest object.
+        description: The ProductRequest object example
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ProductRequest"
         required: false
@@ -2766,7 +2772,7 @@ paths:
       requestBody:
         description: In the request body, pass the PropertyRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
@@ -2800,7 +2806,7 @@ paths:
       requestBody:
         description: In the request body, pass the PropertyRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
@@ -2874,7 +2880,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice page has been generated. Returns a string.
+          description: The invoice page has been generated.
           content:
             text/html:
               schema:
@@ -2890,7 +2896,7 @@ paths:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         200:
-          description: The invoice has been saved as pdf. Returns a string.
+          description: The invoice has been saved as pdf.
           content:
             application/pdf:
               schema:
@@ -2964,7 +2970,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: false
@@ -3015,7 +3021,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: true
@@ -3037,7 +3043,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteRequest"
         required: true
@@ -3078,7 +3084,7 @@ paths:
       requestBody:
         description: In the request body, pass the QuoteToInvoice object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/QuoteToInvoice"
         required: true
@@ -3197,7 +3203,7 @@ paths:
       requestBody:
         description: In the request body, pass the StageRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StageRequest"
         required: false
@@ -3248,7 +3254,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated StageRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StageRequest"
         required: false
@@ -3316,7 +3322,7 @@ paths:
       requestBody:
         description: In the request body, pass the Template object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Template"
         required: false
@@ -3361,7 +3367,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated Template object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/Template"
         required: false
@@ -3407,7 +3413,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantSettings object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantSettings"
         required: false
@@ -3523,7 +3529,7 @@ paths:
       requestBody:
         description: In the request body, pass the StripeReaderRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StripeReaderRequest"
         required: false
@@ -3571,7 +3577,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated StripeReaderRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/StripeReaderRequest"
         required: false
@@ -3617,7 +3623,7 @@ paths:
       requestBody:
         description: In the request body, pass the ViewRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ViewRequest"
       responses:
@@ -3674,7 +3680,7 @@ paths:
       requestBody:
         description: In the request body, pass the updated ViewRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/ViewRequest"
       responses:
@@ -3765,8 +3771,7 @@ components:
       name: X-API-KEY
   schemas:
     ActivityRequest:
-      description: The ActivityRequest object is  submitted to Inperium API to add or modify activities.
-      example: {}
+      description: The ActivityRequest object is submitted to Inperium API to add or modify activities.
       type: object
       discriminator:
         propertyName: type
@@ -3783,8 +3788,6 @@ components:
           task: "#/components/schemas/TaskActivityRequest"
           TASK: "#/components/schemas/TaskActivityRequest"
       properties:
-        id:
-          $ref: "#/components/schemas/Id"
         associatedCompanies:
           type: array
           description: The list of company IDs.
@@ -3911,7 +3914,6 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Activity:
       description: The object describes an entry in the activity timeline such as a note, email, or call.
-      example: {}
       type: object
       discriminator:
         propertyName: type
@@ -4064,8 +4066,11 @@ components:
               description: The action that occurred, e.g., a new company was created or a deal won. Select one of the predefined values.
               enum:
                 - COMPANY_CREATED
+                - COMPANY_IMPORTED
                 - CONTACT_CREATED
+                - CONTACT_IMPORTED
                 - DEAL_CREATED
+                - DEAL_IMPORTED
                 - ASSIGNED_USER_UPDATED
                 - DEAL_WON
                 - DEAL_LOST
@@ -4093,9 +4098,11 @@ components:
         name:
           type: string
           description: The fee title.
+          maxLength: 64
         type:
           type: string
           description: The fee type.
+          maxLength: 32
     Attachment:
       type: object
       properties:
@@ -4221,11 +4228,6 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4241,6 +4243,14 @@ components:
             description: Musical instruments shop
             userId: $OBJECT-UUID
             contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the company was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the company was last modified.
     CompanyRequest:
       description: The incoming object that describes company properties such as a company name or employee count. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4302,11 +4312,6 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         properties:
           type: object
           additionalProperties: true
@@ -4321,6 +4326,14 @@ components:
             firstName: Emma
             companyId: $OBJECT-UUID
             userId: $OBJECT-UUID
+        createdAt:
+          type: integer
+          format: int64
+          description: The date the contact was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the contact was last modified.
     ContactRequest:
       description: The incoming object that describes contact properties such as a name or employee title. To retrieve property definitions, send a GET request to '/properties'.
       type: object
@@ -4380,25 +4393,24 @@ components:
             contactIds: [$OBJECT-UUID, $OBJECT-UUID]
             stageId: $OBJECT-UUID
             pipelineId: $OBJECT-UUID
-        activities:
-          type: array
-          description: The list of activities.
-          items:
-            $ref: "#/components/schemas/Activity"
         createdAt:
           type: integer
           format: int64
-          description: The date the deal was created.
+          description: The date the deal was created or imported.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The date the deal was last modified.
     DealRequest:
       type: object
       additionalProperties: true
       description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
       example:
-            name: Small band pack
-            userId: $OBJECT-UUID
-            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
-            stageId: $OBJECT-UUID
-            pipelineId: $OBJECT-UUID
+        name: Small band pack
+        userId: $OBJECT-UUID
+        contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+        stageId: $OBJECT-UUID
+        pipelineId: $OBJECT-UUID
     Deals:
       type: object
       description: The list of deals with paging data.
@@ -5408,6 +5420,9 @@ components:
         name:
           type: string
           description: The internal name.
+        accessor:
+          type: string
+          description: The path to access the data within the object.
         label:
           type: string
           description: The display name.
@@ -5748,12 +5763,16 @@ components:
       description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
+      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
+      required:
+        - status
       properties:
         id:
           $ref: "#/components/schemas/Id"
         name:
           type: string
           description: The quote title.
+          maxLength: 100
         dealId:
           $ref: "#/components/schemas/Id"
         expirationDate:
@@ -5767,9 +5786,11 @@ components:
         comment:
           type: string
           description: Any additional details.
+          maxLength: 2000
         purchaseTerm:
           type: string
           description: The purchasing terms.
+          maxLength: 5000
         companyId:
           $ref: "#/components/schemas/Id"
         value:
@@ -5818,9 +5839,6 @@ components:
           description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
-      required:
-        - status
-      description: This object is submitted to Inperium API when you create a new quote or update an existing quote.
     QuoteCompany:
       type: object
       properties:
@@ -5894,6 +5912,9 @@ components:
     QuoteToInvoice:
       type: object
       description: This object facilitates converting an accepted quote to an invoice.
+      required:
+        - contactId
+        - dueDate
       properties:
         contactId:
           $ref: "#/components/schemas/Id"

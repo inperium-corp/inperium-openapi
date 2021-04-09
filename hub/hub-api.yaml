@@ -25,13 +25,16 @@ tags:
   - name: Auth
     description: |
       Inperium enables you to authenticate with the Bearer token or an API key.
+  - name: Balances
+    description: |
+     Balances are used to cover metered charges such as Inperium Talk calling or SMS credits. The balance is recharged automatically when it drops below a certain threshold.
   - name: Dictionaries
     description: |
       Dictionaries are preset lists of values such as permissions or currencies that you can choose from when configuring the product.
   - name: Features
     description: |
       Each subscription plan includes a list of features that will be available to a customer after signing up for Inperium. These features are bound to Inperium products and plans.
-  - name: Health checks
+  - name: Health Checks
     description: |
       Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Limits
@@ -211,10 +214,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
   /publicAppSettings:
+    x-access: private
     get:
       summary: Get app settings
       description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
       operationId: getPublicAppSettings
+      x-access: private
       tags:
         - App Settings
       responses:
@@ -423,10 +428,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
   /health:
     get:
       tags:
-        - Health checks
+        - Health Checks
       summary: Check health
       description: Use this endpoint to verify that the microservice runs as usual.
       operationId: checkHealth
@@ -876,7 +882,9 @@ paths:
           $ref: '#/components/responses/DefaultResponse'
 
   /subscriptions/webhooks/stripe:
+    x-access: private
     post:
+      x-access: private
       summary: Handle Stripe webhooks
       description: Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook
@@ -889,11 +897,12 @@ paths:
           schema:
             type: string
       requestBody:
-        description: In the request body, pass the payload of the webhook.
+        description: The payload string
         content:
           application/json:
             schema:
               type: string
+              example: $SIGNED-PAYLOAD
       responses:
         200:
           description: The webhook was executed and verified by Stripe.
@@ -971,6 +980,56 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
+  /tenants/{id}/balance:
+    get:
+      tags:
+        - Balances
+      summary: Retrieve balance
+      description: Use this endpoint to get information about the balance of the tenant.
+      operationId: getBalance
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the Balance object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    patch:
+      summary: Update balance settings
+      description: Use this endpoint to update the tenant's balance settings for metered charges.
+      operationId: updatePartialBalance
+      tags:
+        - Balances
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the BalancePartialRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BalancePartialRequest"
+      responses:
+        200:
+          description: Returns the updated balance record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /tenants/companyInfo:
     put:
       tags:
@@ -981,7 +1040,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantCompanyInfoRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantCompanyInfoRequest"
       responses:
@@ -1008,7 +1067,7 @@ paths:
       requestBody:
         description: In the request body, pass the TenantAddressRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/TenantAddressRequest"
       responses:
@@ -1035,7 +1094,7 @@ paths:
       requestBody:
         description: In the request body, pass the BillingContactRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/BillingContactRequest"
       responses:
@@ -1062,7 +1121,7 @@ paths:
       requestBody:
         description: In the request body, pass the PaymentMethodRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/PaymentMethodRequest"
       responses:
@@ -1078,6 +1137,136 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+
+  /tenants/features/{anchor}/usages:
+    get:
+      summary: Retrieve the feature usage
+      description: |
+        Use this endpoint to get information about the usage of a feature.
+      operationId: getFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: A unique identifier of the user.
+        required: false
+        schema:
+          $ref: "#/components/schemas/Id"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    post:
+      summary: Register a feature usage
+      description: |
+        Use this endpoint to inform the Hub about a new consumption of a feature.
+        As a result, the Hub can restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: createFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      summary: Update the usage count
+      description: |
+        Use this endpoint to update the counter. If the feature consumption value overtops the previous one, 
+        the Hub will restrict the use of the feature or withdraw money from the tenant's balance.
+      operationId: updateFeatureUsage
+      tags:
+      - Features
+      parameters:
+      - name: anchor
+        in: path
+        description: A unique anchor of the feature.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeatureUsageRequest"
+      responses:
+        200:
+          description: Returns the feature record.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FeatureUsage"
+        402:
+          description: |
+            Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /users:
     post:
       tags:
@@ -1249,7 +1438,7 @@ paths:
         required: true
         description: In the request body, pass the UserVerificationRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserVerificationRequest"
       responses:
@@ -1301,7 +1490,7 @@ paths:
         description: In the request body, pass the UserResetPasswordRequest object.
         required: true
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserResetPasswordRequest"
       responses:
@@ -1347,7 +1536,7 @@ paths:
       requestBody:
         description: In the request body, pass the UserRequest object.
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserRequest"
       responses:
@@ -1375,7 +1564,7 @@ paths:
         description: In the request body, pass the UserPasswordRequest object.
         required: true
         content:
-          "*/*":
+          application/json:
             schema:
               $ref: "#/components/schemas/UserPasswordRequest"
       responses:
@@ -1663,7 +1852,6 @@ components:
     UserCreationRequest:
       description: A request model that combines all user creation requests.
       type: object
-      example: { }
       discriminator:
         propertyName: type
         mapping:
@@ -1846,7 +2034,16 @@ components:
             type: string
         subscriptionIds:
           type: array
-          description: The list of subscriptions enabled for the user.
+          description: |
+            The list of subscriptions enabled for the user. If no subscription items are set,
+            then only the PRODUCT item will be assigned.
+          items:
+            $ref: "#/components/schemas/Id"
+        subscriptionItemIds:
+          type: array
+          description: |
+            The list of subscription items enabled for the user. The items should be set with their subscriptions.
+            Otherwise, the property is ignored.
           items:
             $ref: "#/components/schemas/Id"
 
@@ -2249,6 +2446,43 @@ components:
           description: The year the card expires.
           format: int64
 
+    Balance:
+      type: object
+      description: The object contains the tenant's balance information.
+      required:
+        - minimumAmount
+        - rechargeAmount
+        - currency
+        - currentAmount
+      properties:
+        minimumAmount:
+          type: number
+          format: double
+          description: The minimum amount that needs to be on the tenants balance at all times. If the current amount drops below this amount, it will automatically recharge the balance by the amount specified in the recharge amount property.
+        rechargeAmount:
+          type: number
+          format: double
+          description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
+        currency:
+          $ref: '#/components/schemas/Currency'
+        currentAmount:
+          type: number
+          format: double
+          description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
+
+    BalancePartialRequest:
+      type: object
+      description: The object contains the request model to update the balance settings of a tenant.
+      properties:
+        minimumAmount:
+          type: number
+          format: double
+          description: The minimum amount that needs to be on the tenants balance at all times. If the current amount drops below this amount, it will automatically recharge the balance by the amount specified in the recharge amount property.
+        rechargeAmount:
+          type: number
+          format: double
+          description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
+
     Permission:
       type: object
       description: The Permission object ties permission to a feature.
@@ -2374,6 +2608,47 @@ components:
           type: string
           description: The Inperium app.
 
+    FeatureUsageRequest:
+      type: object
+      description: |
+        The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
+        For example, you make an international call.
+      properties:
+        quantity:
+          type: integer
+          format: int64
+          minimum: 0
+          description: |
+            The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
+            the quantity can be either the total feature usage count or its increment.
+        userId:
+          $ref: "#/components/schemas/Id"
+
+    FeatureUsage:
+      type: object
+      description: The FeatureUsage object describes the feature in the plan you have.
+      required:
+        - plan
+        - feature
+      properties:
+        plan:
+          $ref: "#/components/schemas/Plan"
+        feature:
+          $ref: "#/components/schemas/Feature"
+        priceModels:
+          type: array
+          description: |
+            Depending on the endpoint that is in use, the price models are either the available models in the plan or the used price model.
+          items:
+            type: string
+            enum:
+              - STANDARD
+              - METERED
+        currentValue:
+          type: integer
+          format: int64
+          description: The current value of the feature usage for the tenant.
+
     Plan:
       type: object
       description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
@@ -2415,6 +2690,9 @@ components:
           type: number
           description: The sum to be paid according to this plan.
           format: double
+        name:
+          type: string
+          description: The name of the price.
         interval:
           $ref: "#/components/schemas/PriceInterval"
         intervalCount:
@@ -2535,15 +2813,63 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of used licenses.
+          deprecated: true
+          description: |
+            The number of used licenses of the related product. The property is deprecated because it's being migrated
+            to a subscription item with type PRODUCT.
         quantity:
           type: integer
           format: int64
-          description: The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity', it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+          deprecated: true
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+            The property is deprecated because it's being migrated to a subscription item with type PRODUCT.
         discountAmount:
           type: number
           format: double
           description: The discount applied to the subscription.
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubscriptionItem"
+
+    SubscriptionItem:
+      type: object
+      description: The object contains information about the tenant's active plan, product or add-on usage, etc.
+      discriminator:
+        propertyName: schema
+      required:
+        - id
+        - price
+        - licensedQuantity
+        - quantity
+        - type
+        - assignable
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        price:
+          $ref: "#/components/schemas/Price"
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of used licenses.
+        quantity:
+          type: integer
+          format: int64
+          description: |
+            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
+            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+        type:
+          type: string
+          enum:
+            - PRODUCT
+            - ADD_ON
+          description: The type identifies whether the item relates to a product or one of its add-on.
+        assignable:
+          type: boolean
+          description: The true/false parameter defining if a user can be assigned to the item.
 
     SubscriptionRequest:
       type: object

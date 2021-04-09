@@ -6164,6 +6164,7 @@ components:
         text:
           type: string
           description: The text of the snippet.
+          maxLength: 20000
         userId:
           $ref: "#/components/schemas/Id"
         createdAt:

@@ -979,7 +979,7 @@ paths:
     get:
       tags:
         - Calls
-      summary: Retrieve a list of voice calls
+      summary: List calls
       operationId: getCalls
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -987,24 +987,75 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
         - name: direction
           in: query
-          description: Query parameter for the "direction" filter
+          description: Direction of the call.
           schema:
             type: string
-        - name: status
+        - name: callerStatus
           in: query
-          description: Query parameter for the "status" filter
+          description: Caller status.
           schema:
             type: string
-        - name: phoneNumberId
+        - name: recipientStatus
           in: query
-          description: Query parameter for the "phoneNumberId" filter
+          description: Recipient status.
           schema:
             type: string
-        - name: phoneNumber
+        - name: participantStatus
           in: query
-          description: Query parameter for the "phoneNumber" filter
+          description: Participant (any) status.
           schema:
             type: string
+        - name: callerPhoneNumber
+          in: query
+          description: Caller phone number.
+          schema:
+            type: string
+        - name: recipientPhoneNumber
+          in: query
+          description: Recipient phone number.
+          schema:
+            type: string
+        - name: participantPhoneNumber
+          in: query
+          description: Participant (any) phone number.
+          schema:
+            type: string
+        - name: callerPhoneNumberId
+          in: query
+          description: Caller phone number ID.
+          schema:
+            type: string
+        - name: recipientPhoneNumberId
+          in: query
+          description: Recipient phone number ID.
+          schema:
+            type: string
+        - name: participantPhoneNumberId
+          in: query
+          description: Participant (any) phone number ID.
+          schema:
+            type: string
+        - name: recorded
+          in: query
+          description: Whether the call is recorded or not.
+          schema:
+            type: boolean
+        - name: quickFilter
+          in: query
+          description: |
+            Custom filter for some business cases.\
+            **Note**:
+            * It can be useful to combine `MISSED_BY_ME` and `MISSED_BY_TENANT`
+              with `participantPhoneNumber` and `participantPhoneNumberId` parameters
+            * It can be useful to combine `UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
+              with `callerPhoneNumber` and `callerPhoneNumberId` parameters
+          schema:
+            type: string
+            enum:
+              - MISSED_BY_ME
+              - MISSED_BY_TENANT
+              - UNANSWERED_FROM_ME
+              - UNANSWERED_FROM_TENANT
       responses:
         200:
           description: The list of voice calls has been retrieved
@@ -2459,8 +2510,6 @@ components:
       example: { }
       type: object
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
         recipient:
@@ -2469,15 +2518,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CallParticipantRequest'
-        direction:
-          type: string
-        status:
-          type: string
-        recording:
-          $ref: '#/components/schemas/Recording'
-        token:
-          type: string
-          description: Twilio capability token
     CallParticipantRequest:
       type: object
       properties:
@@ -2495,6 +2535,7 @@ components:
       type: object
       required:
         - id
+        - hold
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2506,10 +2547,13 @@ components:
           $ref: '#/components/schemas/Contact'
         hold:
           type: boolean
-        callStatus:
-          type: string
+        status:
+          $ref: '#/components/schemas/ParticipantStatus'
     Calls:
       type: object
+      required:
+        - data
+        - paging
       properties:
         data:
           type: array
@@ -2520,13 +2564,21 @@ components:
     Call:
       example: { }
       type: object
+      required:
+        - id
+        - caller
+        - recipient
+        - participants
+        - direction
+        - record
+        - createdAt
       properties:
         id:
           $ref: '#/components/schemas/Id'
         duration:
           type: integer
           format: int64
-          description: Call duration in seconds
+          description: Call duration in millis
         caller:
           $ref: '#/components/schemas/CallParticipant'
         recipient:
@@ -2536,14 +2588,11 @@ components:
           items:
             $ref: '#/components/schemas/CallParticipant'
         direction:
-          type: string
+          $ref: '#/components/schemas/CallDirection'
         status:
-          type: string
+          $ref: '#/components/schemas/CallStatus'
         recording:
           $ref: '#/components/schemas/Recording'
-        token:
-          type: string
-          description: Twilio capability token
         record:
           type: boolean
           description: If true this call is being recorded now
@@ -2551,11 +2600,32 @@ components:
           type: integer
           format: int64
           description: Timestamp of the create
-      required:
-        - id
-        - caller
-        - participants
-        - createdAt
+    CallStatus:
+      description: Status of the call
+      type: string
+      enum:
+        - IN_PROGRESS
+        - FINISHED
+    ParticipantStatus:
+      description: Status of the participant
+      type: string
+      enum:
+        - STARTED
+        - QUEUED
+        - RINGING
+        - IN_PROGRESS
+        - CANCELED
+        - COMPLETED
+        - FORWARDED
+        - BUSY
+        - FAILED
+        - NO_ANSWER
+    CallDirection:
+      description: Direction of the call with respect to the tenant possessing it
+      type: string
+      enum:
+        - INBOUND
+        - OUTBOUND
     ParticipantChangeRequestBody:
       type: object
       properties:

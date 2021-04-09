@@ -1045,17 +1045,17 @@ paths:
           description: |
             Custom filter for some business cases.\
             **Note**:
-            * It is useful to restrict `MY_MISSED` and `TENANT_MISSED`
+            * It can be useful to combine `MISSED_BY_ME` and `MISSED_BY_TENANT`
               with `participantPhoneNumber` and `participantPhoneNumberId` parameters
-            * It is useful to restrict `MY_NO_ANSWER` and `TENANT_NO_ANSWER`
+            * It can be useful to combine `UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
               with `callerPhoneNumber` and `callerPhoneNumberId` parameters
           schema:
             type: string
             enum:
-              - MY_MISSED
-              - TENANT_MISSED
-              - MY_NO_ANSWER
-              - TENANT_NO_ANSWER
+              - MISSED_BY_ME
+              - MISSED_BY_TENANT
+              - UNANSWERED_FROM_ME
+              - UNANSWERED_FROM_TENANT
       responses:
         200:
           description: The list of voice calls has been retrieved

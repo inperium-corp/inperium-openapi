@@ -12,8 +12,8 @@ servers:
   - url: https://api.inperium.com/v1/sell
 
 security:
-  - BearerAuth: [ ]
-  - ApiKeyAuth: [ ]
+  - BearerAuth: []
+  - ApiKeyAuth: []
 
 tags:
   - name: Activities
@@ -275,7 +275,7 @@ paths:
       responses:
         204:
           description: The activity has been removed. Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -411,7 +411,7 @@ paths:
       responses:
         204:
           description: The attachment has been removed. Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -512,7 +512,7 @@ paths:
       responses:
         204:
           description: The campaign has been removed. Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -655,7 +655,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -779,7 +779,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -893,7 +893,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1016,7 +1016,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1140,7 +1140,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1305,7 +1305,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1403,7 +1403,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1696,7 +1696,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1779,7 +1779,7 @@ paths:
       responses:
         201:
           description: The entities have been imported.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1863,7 +1863,7 @@ paths:
       responses:
         200:
           description: Authorization has been successful.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1894,7 +1894,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1944,7 +1944,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
   /integrations/xero/deauthorize:
     get:
       tags:
@@ -1955,7 +1955,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2156,7 +2156,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2182,7 +2182,7 @@ paths:
       responses:
         202:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2208,7 +2208,7 @@ paths:
       responses:
         200:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2498,7 +2498,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2715,7 +2715,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2836,7 +2836,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2939,7 +2939,7 @@ paths:
       responses:
         200:
           description: The quote has been accepted.
-          content: { }
+          content: {}
   /quotes:
     get:
       tags:
@@ -3068,7 +3068,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3277,7 +3277,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3399,7 +3399,7 @@ paths:
       responses:
         200:
           description: The stage has been deleted. Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3512,7 +3512,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3652,7 +3652,7 @@ paths:
       responses:
         200:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3722,7 +3722,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3823,7 +3823,7 @@ paths:
       responses:
         204:
           description: Returns an empty response.
-          content: { }
+          content: {}
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -4555,7 +4555,7 @@ components:
           description: The item description or any additional information.
         extendedAttributes:
           type: object
-          properties: { }
+          properties: {}
           description: Additional properties.
       description: An entry in a preset dictionary (e.g., currency). Dictionary items cannot be modified.
     DictionaryItems:
@@ -5242,7 +5242,7 @@ components:
         customer:
           type: object
           description: The ID of the customer.
-          properties: { }
+          properties: {}
         description:
           type: string
           description: Comments or any additional information about the payment intent.
@@ -5252,7 +5252,7 @@ components:
         invoice:
           type: object
           description: The ID of the invoice.
-          properties: { }
+          properties: {}
         amount_capturable:
           type: integer
           format: int64
@@ -5263,11 +5263,11 @@ components:
         on_behalf_of:
           type: object
           description: The funds recipient.
-          properties: { }
+          properties: {}
         payment_method:
           type: object
           description: The ID of the payment method.
-          properties: { }
+          properties: {}
         payment_method_options:
           type: string
           description: Details specific to the payment method.
@@ -5282,18 +5282,18 @@ components:
         review:
           type: object
           description: The ID of the review.
-          properties: { }
+          properties: {}
         setup_future_usage:
           type: string
           description: This parameter indicates if the payment method selected in this payment intent will be reused in the future.
         shipping:
           type: object
           description: Shipping details.
-          properties: { }
+          properties: {}
         source:
           type: object
           description: The source.
-          properties: { }
+          properties: {}
         statement_descriptor:
           type: string
           description: A description for the customer's statements.
@@ -5306,7 +5306,7 @@ components:
         transfer_data:
           type: object
           description: This data is used to create a transfer once the payment is finalized.
-          properties: { }
+          properties: {}
         livemode:
           type: boolean
           description: The true/false parameter that defines if the payment intent exists in the live mode (true) or test mode (false).
@@ -6254,13 +6254,13 @@ components:
         billing_details:
           type: object
           description: Billing information specific to the payment method.
-          properties: { }
+          properties: {}
         card:
           $ref: "#/components/schemas/StripePaymentMethodCard"
         card_present:
           type: object
           description: Details related to 'card_preset' payment method, if applicable.
-          properties: { }
+          properties: {}
         created:
           type: integer
           format: int64
@@ -6274,7 +6274,7 @@ components:
         metadata:
           type: object
           description: Additional information about the object.
-          properties: { }
+          properties: {}
         type:
           type: string
           description: The payment type.
@@ -6288,11 +6288,11 @@ components:
         wallet:
           type: object
           description: Wallet details, if applicable.
-          properties: { }
+          properties: {}
         checks:
           type: object
           description: Verification of the card address and CVC.
-          properties: { }
+          properties: {}
         country:
           type: string
           description: The country code.
@@ -6319,7 +6319,7 @@ components:
         three_d_secure_usage:
           type: object
           description: The 3D authentication details.
-          properties: { }
+          properties: {}
         fingerprint:
           type: string
           description: The unique card identifier.

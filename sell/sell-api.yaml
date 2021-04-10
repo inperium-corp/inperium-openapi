@@ -3208,7 +3208,7 @@ paths:
               $ref: "#/components/schemas/SnippetRequest"
         required: false
       responses:
-        200:
+        201:
           description: A new snippet has been created. Returns a snippet.
           content:
             application/json:

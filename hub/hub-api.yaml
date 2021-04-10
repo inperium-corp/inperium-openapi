@@ -1965,9 +1965,15 @@ components:
             $ref: '#/components/schemas/Role'
         subscriptions:
           type: array
-          description: The list of subscriptions enabled for the user.
+          deprecated: true
+          description: The list of subscriptions enabled for the user. Please consider use of the subscription items.
           items:
             $ref: '#/components/schemas/Subscription'
+        subscriptionItems:
+          type: array
+          description: The list of subscription items enabled for the user.
+          items:
+            $ref: '#/components/schemas/SubscriptionItem'
 
     UserRequest:
       description: The UserRequest object is sent to Inperium Hub service when you need to update the user record. Upon submitting it, all user parameters will be overwritten.

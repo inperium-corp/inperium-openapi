@@ -1222,7 +1222,7 @@ paths:
     put:
       summary: Update the usage count
       description: |
-        Use this endpoint to update the counter. If the feature consumption value overtops the previous one, 
+        Use this endpoint to update the counter. If the feature consumption value overtops the previous one,
         the Hub will restrict the use of the feature or withdraw money from the tenant's balance.
       operationId: updateFeatureUsage
       tags:
@@ -1966,7 +1966,7 @@ components:
         subscriptions:
           type: array
           deprecated: true
-          description: The list of subscriptions enabled for the user. Please consider use of the subscription items.
+          description: The list of subscriptions enabled for the user. DEPRECATED. Consider using `subscriptionItems`.
           items:
             $ref: '#/components/schemas/Subscription'
         subscriptionItems:
@@ -2621,7 +2621,7 @@ components:
     FeatureUsageRequest:
       type: object
       description: |
-        The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub. 
+        The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub.
         For example, you make an international call.
       properties:
         quantity:
@@ -2629,7 +2629,7 @@ components:
           format: int64
           minimum: 0
           description: |
-            The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use, 
+            The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use,
             the quantity can be either the total feature usage count or its increment.
         userId:
           $ref: "#/components/schemas/Id"
@@ -2825,16 +2825,14 @@ components:
           format: int64
           deprecated: true
           description: |
-            The number of used licenses of the related product. The property is deprecated because it's being migrated
-            to a subscription item with type PRODUCT.
+            The number of used licenses of the related product. DEPRECATED. The property is deprecated because it's being migrated to a subscription item with the type `PRODUCT`.
         quantity:
           type: integer
           format: int64
           deprecated: true
           description: |
-            The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
-            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
-            The property is deprecated because it's being migrated to a subscription item with type PRODUCT.
+            The number of available licenses. If the overall number of purchased licenses exceeds the 'licensedQuantity',
+            it indicates that some licenses aren't currently in use. You can leverage these licenses by inviting more users. DEPRECATED. The property is deprecated because it's being migrated to a subscription item with type `PRODUCT`.
         discountAmount:
           type: number
           format: double
@@ -2870,7 +2868,7 @@ components:
           format: int64
           description: |
             The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
-            it indicates that some license aren't currently in use. You can leverage this licenses by inviting more users.
+            it indicates that some license aren't currently in use. You can leverage these licenses by inviting more users.
         type:
           type: string
           enum:

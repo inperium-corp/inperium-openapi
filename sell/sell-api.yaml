@@ -6144,6 +6144,7 @@ components:
         text:
           type: string
           description: The text of the snippet.
+          maxLength: 20000
     Snippet:
       type: object
       description: The object describes a reusable text snippet that can be applied to many input fields throughout Inperium.

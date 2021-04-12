@@ -18,6 +18,7 @@ Since Inperium runs several microservices under the hood, each service has a ded
 
 | Folder            |           Specification   |                                    Description |
 |-------------------|---------------------------|------------------------------------------------|
+| `/global-registry`| `global-registry-api.yaml`| Contains endpoints responsible for cross-region mappings. |
 | `/hub`            | `hub-api.yaml`            | Contains endpoints related to the Inperium Account functionality including auth services, user management, application settings, and licensing. |
 | `/lead-router`    | `lead-router-api.yaml`    | Contains endpoints related to internal lead management microservice. |
 | `/message-center` | `message-center-api.yaml` | Contains endpoints related to the Message Center microservice that is responsible for the functionality such as sending and receiving emails. |

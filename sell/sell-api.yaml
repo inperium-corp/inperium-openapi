@@ -124,6 +124,9 @@ tags:
   - name: Stages
     description: |
       The sales pipelines consist of stages. The stages are milestones the deal goes through before it gets closed. For example, Contract Sent, Initial Call. Inperium Sell enables users to add as many stages to their pipelines as they need.
+  - name: Snippets
+    description: |
+      Snippets are reusable text excerpts, for use-cases such as follow-up emails or quote purchase terms. Snippets help speed up the sales process and make it more structured.
   - name: Stripe Authorizations
     description: |
       To configure integration with Stripe, you've got to authenticate your app with Stripe.
@@ -132,7 +135,7 @@ tags:
       Configure Stripe terminals to receive payments.
   - name: Template
     description: |
-      Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up sales process and make it more structured.
+      Templates are ready-to-use samples, for example introductory emails or follow-ups. Templates help speed up the sales process and make it more structured. They support variables to automatically insert the individual contacts data.
   - name: Tenant Integrations
     description: |
       You can enable third-party integrations for your tenant and use Inperium to its fullest.
@@ -3168,6 +3171,119 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /snippets:
+    get:
+      tags:
+        - Snippets
+      summary: List snippets
+      description: Use this endpoint to get a complete list of available snippets. This operation supports paging, sorting, and filtering.
+      operationId: getSnippets
+      parameters:
+        - name: name
+          in: query
+          description: The snippet name.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: The snippets have been retrieved. Returns snippets.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippets"
+    post:
+      tags:
+        - Snippets
+      summary: Create a snippet
+      description: Use this endpoint to add a new snippet.
+      operationId: createSnippet
+      requestBody:
+        description: In the request body, pass the snippet object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SnippetRequest"
+        required: false
+      responses:
+        201:
+          description: A new snippet has been created. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+      x-codegen-request-body-name: snippet
+  /snippets/{id}:
+    get:
+      tags:
+        - Snippets
+      summary: Retrieve a snippet
+      description: Use this endpoint to locate a specific snippet and retrieve its details.
+      operationId: getSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: The snippet has been retrieved. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+    put:
+      tags:
+        - Snippets
+      summary: Update a snippet
+      description: Use this endpoint to modify and overwrite an existing snippet.
+      operationId: updateSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the updated snippet object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SnippetRequest"
+        required: false
+      responses:
+        200:
+          description: The snippet has been updated. Returns a snippet.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Snippet"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+      x-codegen-request-body-name: snippet
+    delete:
+      tags:
+        - Snippets
+      summary: Delete a snippet
+      description: Use this endpoint to remove a snippet.
+      operationId: deleteSnippet
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /stages:
     get:
       tags:
@@ -3320,7 +3436,7 @@ paths:
       description: Use this endpoint to add a new template.
       operationId: createTemplate
       requestBody:
-        description: In the request body, pass the Template object.
+        description: In the request body, pass the template object.
         content:
           application/json:
             schema:
@@ -3365,7 +3481,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the updated Template object.
+        description: In the request body, pass the updated template object.
         content:
           application/json:
             schema:
@@ -6014,6 +6130,65 @@ components:
           description: The list of errors.
           items:
             $ref: "#/components/schemas/ErrorModel"
+    SnippetRequest:
+      type: object
+      description: This object is submitted to the Inperium API when you create a new snippet or update an existing snippet.
+      required:
+        - name
+        - text
+      properties:
+        name:
+          type: string
+          description: The name of the snippet.
+          maxLength: 100
+        text:
+          type: string
+          description: The text of the snippet.
+          maxLength: 20000
+    Snippet:
+      type: object
+      description: The object describes a reusable text snippet that can be applied to many input fields throughout Inperium.
+      required:
+        - id
+        - name
+        - text
+        - userId
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The name of the snippet.
+          maxLength: 100
+        text:
+          type: string
+          description: The text of the snippet.
+          maxLength: 20000
+        userId:
+          $ref: "#/components/schemas/Id"
+        createdAt:
+          type: integer
+          format: int64
+          description: The timestamp when the snippet was created.
+        updatedAt:
+          type: integer
+          format: int64
+          description: The timestamp when the snippet was updated.
+    Snippets:
+      type: object
+      description: The list of snippets with paging data.
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Snippet"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
     Stage:
       type: object
       description: The Stage object contains information about the stage itself and a link to its parent pipeline.

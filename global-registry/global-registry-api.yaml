@@ -3,7 +3,7 @@ x-access: private
 info:
   title: Inperium Global Registry API
   description: |
-    Inperium Global Registry API manages regional mappings of root-level entities such as tenants and users. For performance and compliance reasons, customer data can be stored either in US or EU region. The Global Registry service and API gateway help route the queries to a correposding data center based on the regional mappings configured via this API.
+    For performance and compliance reasons, customer data can be stored either in US or EU region. Inperium Global Registry API manages regional mappings of root-level entities such as tenants and users. The Global Registry service and API gateway help route queries to a correposding data center based on the regional mappings configured via this API.
   version: 1.0.0-SNAPSHOT
 servers:
   - url: http://api.inperium.com/v1/globalRegistry
@@ -470,7 +470,7 @@ components:
 
     ApiKeyRequest:
       description: |
-        The incoming object maps an API key ID with the reqion ID. Note that this object is different from the ApiKeyRequest object from Hub API.
+        The incoming object maps an API key to a region. Note that this object is different from the ApiKeyRequest object used by Hub API.
       type: object
       required:
         - apiKeyId
@@ -486,7 +486,7 @@ components:
 
     ApiKey:
       description: |
-        The object maps an API key ID with the reqion ID. Note that this object is different from the ApiKey object from Hub API.
+        The object maps an API key to a region. Note that this object is different from the ApiKey object used by Hub API.
       type: object
       required:
         - id
@@ -505,7 +505,7 @@ components:
 
     ApiKeys:
       type: object
-      description: A list of API key mappings with paging and sorting. Note that this object is different from the ApiKeys object from Hub API.
+      description: A list of API key mappings with paging and sorting. Note that this object is different from the ApiKeys object used by Hub API.
       required:
         - data
         - paging
@@ -519,7 +519,7 @@ components:
 
     TenantRequest:
       description: |
-        TBD.
+        The incoming object maps a tenant entity to a region.
       type: object
       required:
         - tenantId
@@ -535,7 +535,7 @@ components:
 
     Tenant:
       description: |
-        TBD.
+        The object maps a tenant entity to a region. Note that this object is different from the Tenant object used by Hub API.
       type: object
       required:
         - id
@@ -548,13 +548,13 @@ components:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
-          description: The name of the corresponding company.
+          description: The name of the tenant's company.
         region:
           $ref: "#/components/schemas/Region"
 
     Tenants:
       type: object
-      description: A search result of tenant regional mappings.
+      description: A list of tenants' mappings with paging and sorting.
       required:
         - data
         - paging
@@ -568,7 +568,7 @@ components:
 
     UserRequest:
       description: |
-        TBD.
+        The incoming object maps a user to a region. Note that this object is different from the UserRequest object leveraged by Hub API.
       type: object
       required:
         - userId
@@ -582,13 +582,13 @@ components:
           $ref: "#/components/schemas/Id"
         email:
           type: string
-          description: The email of the corresponding user.
+          description: The user's email.
         region:
           $ref: "#/components/schemas/Region"
 
     User:
       description: |
-        TBD.
+        The object maps a user to a region. Note that this object is different from the User object leveraged by Hub API.
       type: object
       required:
         - id
@@ -605,13 +605,13 @@ components:
           $ref: "#/components/schemas/Id"
         email:
           type: string
-          description: The email of the corresponding user.
+          description: The user's email.
         region:
           $ref: "#/components/schemas/Region"
 
     Users:
       type: object
-      description: A search result of user regional mappings.
+      description: A list of users' mappings with paging and sorting.
       required:
         - data
         - paging

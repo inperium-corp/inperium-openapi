@@ -3,7 +3,7 @@ openapi: 3.0.1
 info:
   title: Sell API
   description: |
-    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, Inperium Sell must be active in your tenant subscriptionyou must have an active subscription to Inperium Sell and the user creating an API key must have access to the product.
+    The Inperium Sell API provides access to the Inperium Sell service including the ability to add companies and contacts, create deals, and generate quotes. To leverage this API, you must have an active subscription to Inperium Sell and the user creating an API key must have access to the product.
     Inperium Sell API seamlessly integrates with other API such as the Object Bucket Storage API and the Message Center API that provide document storage and email sync functionality to Inperium Sell.
   version: 1.0.0-SNAPSHOT
 

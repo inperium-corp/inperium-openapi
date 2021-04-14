@@ -572,7 +572,6 @@ components:
       type: object
       required:
         - hubUserId
-        - hubTenantId
         - email
         - region
       properties:

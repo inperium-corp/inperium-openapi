@@ -1911,7 +1911,6 @@ components:
             region:
               type: string
               description: The user's location. This is the enum parameter that defines if the user is located in the 'US' or 'EU'.
-              default: US-1
               enum:
                 - US-1
                 - EU-1

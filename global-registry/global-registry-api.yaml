@@ -490,15 +490,15 @@ components:
       type: object
       required:
         - id
-        - apiKeyId
-        - userId
+        - hubApiKeyId
+        - hubUserId
         - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        apiKeyId:
+        hubApiKeyId:
           $ref: "#/components/schemas/Id"
-        userId:
+        hubUserId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"
@@ -522,16 +522,16 @@ components:
         The incoming object maps a tenant entity to a region.
       type: object
       required:
-        - tenantId
+        - hubTenantId
         - region
       properties:
-        tenantId:
+        hubTenantId:
           $ref: "#/components/schemas/Id"
-        region:
-          $ref: "#/components/schemas/Region"
         companyName:
           type: string
           description: The name of the corresponding company.
+        region:
+          $ref: "#/components/schemas/Region"
 
     Tenant:
       description: |
@@ -539,12 +539,12 @@ components:
       type: object
       required:
         - id
-        - tenantId
+        - hubTenantId
         - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        tenantId:
+        hubTenantId:
           $ref: "#/components/schemas/Id"
         companyName:
           type: string
@@ -571,14 +571,14 @@ components:
         The incoming object maps a user to a region. Note that this object is different from the UserRequest object leveraged by Hub API.
       type: object
       required:
-        - userId
-        - tenantId
+        - hubUserId
+        - hubTenantId
         - email
         - region
       properties:
-        userId:
+        hubUserId:
           $ref: "#/components/schemas/Id"
-        tenantId:
+        hubTenantId:
           $ref: "#/components/schemas/Id"
         email:
           type: string
@@ -592,16 +592,16 @@ components:
       type: object
       required:
         - id
-        - userId
-        - tenantId
+        - hubUserId
+        - hubTenantId
         - email
         - region
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        userId:
+        hubUserId:
           $ref: "#/components/schemas/Id"
-        tenantId:
+        hubTenantId:
           $ref: "#/components/schemas/Id"
         email:
           type: string

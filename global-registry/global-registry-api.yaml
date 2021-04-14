@@ -473,13 +473,13 @@ components:
         The incoming object maps an API key to a region. Note that this object is different from the ApiKeyRequest object used by Hub API.
       type: object
       required:
-        - apiKeyId
-        - userId
+        - hubApiKeyId
+        - hubUserId
         - region
       properties:
-        apiKeyId:
+        hubApiKeyId:
           $ref: "#/components/schemas/Id"
-        userId:
+        hubUserId:
           $ref: "#/components/schemas/Id"
         region:
           $ref: "#/components/schemas/Region"

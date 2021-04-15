@@ -936,10 +936,12 @@ components:
         starred:
           type: boolean
           description: This true/false parameter indicates if one or more messages in the thread are flagged.
-        folderId:
-          type: string
-          description: The ID of the folder the thread belongs to.
-          format: uuid
+        folderIds:
+          type: array
+          description: The IDs of folders the thread belongs to.
+          items:
+            type: string
+            format: uuid
 
     ThreadParticipant:
       type: object

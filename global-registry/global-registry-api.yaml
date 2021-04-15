@@ -267,11 +267,6 @@ paths:
       tags:
         - Users
       parameters:
-        - name: userId
-          in: query
-          description: The user's ID.
-          schema:
-            type: string
         - name: email
           in: query
           description: The user's email.

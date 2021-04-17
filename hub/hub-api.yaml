@@ -769,6 +769,7 @@ paths:
                 $ref: '#/components/schemas/SubscriptionCostEstimate'
         default:
           $ref: '#/components/responses/DefaultResponse'
+
   /subscriptions:
     get:
       summary: Retrieve subscriptions
@@ -3119,6 +3120,7 @@ components:
         amountPerUser:
           type: number
           format: double
+          deprecated: true
           description: The price per user per interval of the calculated subscription without discount.
         totalAmount:
           type: number
@@ -3142,3 +3144,41 @@ components:
           description: The number of calculated licenses.
         promotionCode:
           $ref: '#/components/schemas/PromotionCode'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionItemCostEstimate'
+
+    SubscriptionItemCostEstimate:
+      type: object
+      required:
+        - name
+        - amountPerUser
+        - totalAmount
+        - currency
+        - interval
+        - licensedQuantity
+      properties:
+        name:
+          type: string
+          description: The name of the item.
+        amountPerUser:
+          type: number
+          format: double
+          description: The price per user per interval of the calculated subscription without discount.
+        totalAmount:
+          type: number
+          format: double
+          description: The overall price per interval of the calculated subscription without discount.
+        discountAmount:
+          type: number
+          format: double
+          description: The discount applied to the subscription.
+        totalDiscountedAmount:
+          type: number
+          format: double
+          description: The overall discounted price per interval of the calculated subscription.
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of calculated licenses.

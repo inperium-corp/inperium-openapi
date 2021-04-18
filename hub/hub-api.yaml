@@ -2970,11 +2970,7 @@ components:
             The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
             it indicates that some license aren't currently in use. You can leverage these licenses by inviting more users.
         type:
-          type: string
-          enum:
-            - PRODUCT
-            - ADD_ON
-          description: The type identifies whether the item relates to a product or one of its add-on.
+          $ref: '#/components/schemas/SubscriptionItemType'
         assignable:
           type: boolean
           description: The true/false parameter defining if a user can be assigned to the item.
@@ -3121,7 +3117,7 @@ components:
           type: number
           format: double
           deprecated: true
-          description: The price per user per interval of the calculated subscription without discount.
+          description: The price per user per interval of the calculated subscription without discount. Please consider taking this information from the subscription items.
         totalAmount:
           type: number
           format: double
@@ -3141,7 +3137,8 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of calculated licenses.
+          deprecated: true
+          description: The number of calculated licenses. Please consider taking this information from the subscription items.
         promotionCode:
           $ref: '#/components/schemas/PromotionCode'
         items:
@@ -3153,6 +3150,7 @@ components:
       type: object
       required:
         - name
+        - type
         - amountPerUser
         - totalAmount
         - currency
@@ -3161,24 +3159,33 @@ components:
       properties:
         name:
           type: string
-          description: The name of the item.
+          description: The name of the subscription item.
+        type:
+          $ref: '#/components/schemas/SubscriptionItemType'
         amountPerUser:
           type: number
           format: double
-          description: The price per user per interval of the calculated subscription without discount.
+          description: The price per user per interval of the calculated subscription item without discount.
         totalAmount:
           type: number
           format: double
-          description: The overall price per interval of the calculated subscription without discount.
+          description: The overall price per interval of the calculated subscription item without discount.
         discountAmount:
           type: number
           format: double
-          description: The discount applied to the subscription.
+          description: The discount applied to the subscription item.
         totalDiscountedAmount:
           type: number
           format: double
-          description: The overall discounted price per interval of the calculated subscription.
+          description: The overall discounted price per interval of the calculated subscription item.
         licensedQuantity:
           type: integer
           format: int64
           description: The number of calculated licenses.
+
+    SubscriptionItemType:
+      type: string
+      description: The enumiration defines available subscription item types.
+      enum:
+        - PRODUCT
+        - ADD_ON

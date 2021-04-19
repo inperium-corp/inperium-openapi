@@ -4810,6 +4810,23 @@ components:
           type: object
           description: The import outcome.
           additionalProperties: true
+          example:
+            DEALS:
+              errors: ""
+              created: 10
+              updated: 0
+            CONTACTS:
+              errors: ""
+              created: 20
+              updated: 0
+            PRODUCTS:
+              errors: ""
+              created: 0
+              updated: 0
+            COMPANIES:
+              errors: ""
+              created: 10
+              updated: 0
     Imports:
       type: object
       properties:
@@ -6076,7 +6093,7 @@ components:
           $ref: "#/components/schemas/PageAndSort"
     Report:
       type: object
-      description: The object contain the report description without actual report data.
+      description: The object contains the report description without actual report data.
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -6121,6 +6138,13 @@ components:
               description: The list of values.
               items:
                 type: object
+      example:
+        xAxis:
+          label: Date
+          data: ["2021-04-10T15:53:53.284Z", "2021-04-14T17:44:53.284Z", "2021-04-18T19:35:53.284Z"]
+        yAxis:
+          label: Deals
+          data: [5, 6, 0]
     ResponseError:
       type: object
       description: The error returned by Inperium API.
@@ -6534,9 +6558,17 @@ components:
           description: The view current status.
           additionalProperties: true
         filter:
-          description: The applied filter.
+          description: The applied filter. To learn more, see the 'Filtering' article.
           type: object
           additionalProperties: true
+          example:
+            groups:
+              filters:
+                - type: IS_EQUAL_TO
+                  value: [ME]
+                  propertyId: $OBJECT-UUID
+              condition: AND
+            condition: AND
         columns:
           type: array
           description: The list of columns.

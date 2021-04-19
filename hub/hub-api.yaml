@@ -3143,11 +3143,13 @@ components:
           $ref: '#/components/schemas/PromotionCode'
         items:
           type: array
+          description: A list of items.
           items:
             $ref: '#/components/schemas/SubscriptionItemCostEstimate'
 
     SubscriptionItemCostEstimate:
       type: object
+      description: The object helps predict the subscription item cost.
       required:
         - name
         - type
@@ -3185,7 +3187,7 @@ components:
 
     SubscriptionItemType:
       type: string
-      description: The enumiration defines available subscription item types.
+      description: The type of subscription item. It indicates whether the item relates to a product or one of its add-ons.
       enum:
         - PRODUCT
         - ADD_ON

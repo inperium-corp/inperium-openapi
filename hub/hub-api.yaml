@@ -1919,6 +1919,8 @@ components:
     User:
       type: object
       description: The user contact details and profile settings, including preferred authentication method, assigned roles, etc.
+      required:
+        - id
       properties:
         id:
           $ref: "#/components/schemas/Id"

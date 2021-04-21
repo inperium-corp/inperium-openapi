@@ -1921,6 +1921,8 @@ components:
       description: The user contact details and profile settings, including preferred authentication method, assigned roles, etc.
       required:
         - id
+        - email
+        - isOwner
       properties:
         id:
           $ref: "#/components/schemas/Id"

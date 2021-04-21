@@ -174,9 +174,9 @@ paths:
           description: The type of activity. Each activity type (task, call, etc.) has an ID.
           schema:
             type: string
-        - name: body
+        - name: bodyContains
           in: query
-          description: The body of the activity.
+          description: The text contained in the body of the activity.
           schema:
             type: string
         - name: associatedContactId

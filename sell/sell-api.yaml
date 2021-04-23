@@ -5168,13 +5168,13 @@ components:
       description: The object describes the message that will be sent in bulk, including recipients, the message text, and its subject.
       properties:
         messageCenterAccountId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         toParticipants:
           type: array
           description: The list of recipients.
           minItems: 1
           items:
-            $ref: '#/components/schemas/Participant'
+            $ref: "#/components/schemas/Participant"
         subject:
           type: string
           description: The subject of the message.
@@ -5182,7 +5182,7 @@ components:
         body:
           type: string
           minLength: 1
-      required: 
+      required:
         - messageCenterAccountId
         - toParticipants
         - subject
@@ -5560,10 +5560,16 @@ components:
               type: string
               format: uuid
               description: The ID of the user who added this property. 'Null' for builtin properties.
-            configuration:
-              type: object
-              additionalProperties: true
-              description: Additional configuration of the property.
+            dataTable:
+              type: boolean
+            details:
+              type: boolean
+            bulkUpdate:
+              type: boolean
+            template:
+              type: boolean
+            filtering:
+              type: boolean
             propertyOptions:
               type: array
               description: The list of options.
@@ -6208,7 +6214,12 @@ components:
       example:
         xAxis:
           label: Date
-          data: ["2021-04-10T15:53:53.284Z", "2021-04-14T17:44:53.284Z", "2021-04-18T19:35:53.284Z"]
+          data:
+            [
+              "2021-04-10T15:53:53.284Z",
+              "2021-04-14T17:44:53.284Z",
+              "2021-04-18T19:35:53.284Z",
+            ]
         yAxis:
           label: Deals
           data: [5, 6, 0]

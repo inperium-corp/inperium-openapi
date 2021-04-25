@@ -2955,6 +2955,7 @@ components:
         - id
         - plan
         - feature
+        - assignable
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -2965,7 +2966,7 @@ components:
         priceModel:
           description: The object defines what price model the feature has in the plan. Having no model means that the feature is free in the plan.
           $ref: "#/components/schemas/FeaturePriceModel"
-        isAssignable:
+        assignable:
           type: boolean
           description: The true/false parameter that marks if the feature can be assigned to users.
 

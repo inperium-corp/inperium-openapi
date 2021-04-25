@@ -2621,11 +2621,20 @@ components:
           type: string
           description: The Inperium app.
 
+    FeaturePriceModel:
+      type: string
+      enum:
+        - STANDARD
+        - METERED
+      description: The FeaturePriceModel object defines what price model the feature has.
+
     FeatureUsageRequest:
       type: object
       description: |
         The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub.
         For example, you make an international call.
+      required:
+        - quantity
       properties:
         quantity:
           type: integer
@@ -2635,32 +2644,25 @@ components:
             The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use,
             the quantity can be either the total feature usage count or its increment.
         userId:
+          description: The id defines the user who consumped the feature. This attribute is mandatory for assignable features.
+          $ref: "#/components/schemas/Id"
+        usageExternalId:
+          description: The id defines an external id of the usage, i.e. a reference to an external event. The id can be used for updating already created usage.
           $ref: "#/components/schemas/Id"
 
     FeatureUsage:
       type: object
       description: The FeatureUsage object describes the feature in the plan you have.
       required:
-        - plan
-        - feature
+        - planFeature
       properties:
-        plan:
-          $ref: "#/components/schemas/Plan"
-        feature:
-          $ref: "#/components/schemas/Feature"
-        priceModels:
-          type: array
-          description: |
-            Depending on the endpoint that is in use, the price models are either the available models in the plan or the used price model.
-          items:
-            type: string
-            enum:
-              - STANDARD
-              - METERED
-        currentValue:
-          type: integer
-          format: int64
-          description: The current value of the feature usage for the tenant.
+        planFeature:
+          $ref: "#/components/schemas/PlanFeature"
+        limit:
+          description: The object describes whether the feature has any limit in the plan for you.
+          $ref: "#/components/schemas/Limit"
+        usage:
+          $ref: "#/components/schemas/LimitUsage"
 
     Plan:
       type: object
@@ -2945,6 +2947,27 @@ components:
         - PAST_DUE
         - CANCELED
       description: The state of the subscription. This is the enum parameter.
+
+    PlanFeature:
+      type: object
+      description: TODO
+      required:
+        - id
+        - plan
+        - feature
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        plan:
+          $ref: "#/components/schemas/Plan"
+        feature:
+          $ref: "#/components/schemas/Feature"
+        priceModel:
+          description: The object defines what price model the feature has in the plan. Having no model means that the feature is free in the plan.
+          $ref: "#/components/schemas/FeaturePriceModel"
+        isAssignable:
+          type: boolean
+          description: The true/false parameter that marks if the feature can be assigned to users.
 
     PlanFullInfo:
       type: object

@@ -2646,9 +2646,12 @@ components:
         userId:
           description: The id defines the user who consumped the feature. This attribute is mandatory for assignable features.
           $ref: "#/components/schemas/Id"
-        usageExternalId:
-          description: The id defines an external id of the usage, i.e. a reference to an external event. The id can be used for updating already created usage.
+        usageId:
+          description: The id is the identifier of a usage. The id can be used for updating already created usage.
           $ref: "#/components/schemas/Id"
+        metadata:
+          type: object
+          description: The objects defines an extra information about the usage. For example, an addressee of a call.
 
     FeatureUsage:
       type: object

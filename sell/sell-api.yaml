@@ -2543,7 +2543,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/DictionaryDescription"
+                  type: string
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -5443,12 +5443,6 @@ components:
     PhoneNumber:
       anyOf:
         - $ref: "#/components/schemas/CommunicationMethod"
-    DictionaryDescription:
-      type: object
-      properties:
-        id:
-          type: string
-          description: An internal name of the group, e.g., activitiesType.
     DictionaryEntry:
       type: object
       properties:

@@ -106,9 +106,9 @@ tags:
   - name: Pipeline Statistics
     description: |
       Analyze your sales progress with pipeline statistics.
-  - name: Predefined Metadata
+  - name: Dictionaries
     description: |
-      Predefined metadata groups are dictionaries containing data such as days of weeks, standard statuses, or activity types.
+      Dictionaries containing data such as days of weeks, standard statuses, or activity types.
   - name: Products
     description: |
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.
@@ -2531,66 +2531,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups:
+  /dictionaries/{id}:
     get:
       tags:
-        - Predefined Metadata
-      summary: List metadata groups
-      description: Use this endpoint to get a list of dictionaries.
-      operationId: getAllPredefinedMetadataGroups
-      responses:
-        200:
-          description: The list of predefined metadata groups has been retrieved. Returns predefined metadata groups.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PredefinedMetadataGroup"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups/{id}:
-    get:
-      tags:
-        - Predefined Metadata
-      summary: Retrieve a metadata group
-      description: Use this endpoint to search for a specific predefined metadata group and retrieve its details.
-      operationId: getPredefinedMetadataGroup
+        - Dictionaries
+      summary: Retrieve a dictionary
+      description: Use this endpoint to search for a specific dictionary and retrieve its items.
+      operationId: getDictionary
       parameters:
         - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
-          description: The predefined metadata group has been retrieved. Returns a predefined metadata group.
+          description: The dictionary has been retrieved. Returns dictionary items.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PredefinedMetadataGroup"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups/{id}/options:
-    get:
-      tags:
-        - Predefined Metadata
-      summary: List options
-      description: Use this endpoint to retrieve a list of options for a specific predefined metadata group.
-      operationId: getAllPredefinedMetadataOptions
-      parameters:
-        - $ref: "#/components/parameters/ResourceStringId"
-      responses:
-        200:
-          description: The options has been retrieved. Returns PredefinedMetadataOptionList.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PredefinedMetadataOptionList"
+                $ref: "#/components/schemas/Dictionary"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -5468,31 +5424,9 @@ components:
     PhoneNumber:
       anyOf:
         - $ref: "#/components/schemas/CommunicationMethod"
-    PredefinedMetadataGroup:
+    DictionaryEntry:
       type: object
       properties:
-        id:
-          maxLength: 32
-          minLength: 1
-          type: string
-          description: An internal name of the group, e.g., activitiesType.
-        options:
-          $ref: "#/components/schemas/PredefinedMetadataOptionList"
-      description: The object containing the predefined metadata group.
-    PredefinedMetadataOption:
-      type: object
-      properties:
-        id:
-          maxLength: 32
-          minLength: 1
-          type: string
-          deprecated: true
-          description: The internal name or ID.
-        caption:
-          minLength: 1
-          type: string
-          deprecated: true
-          description: The caption.
         label:
           type: string
           description: The display name.
@@ -5502,12 +5436,14 @@ components:
         value:
           type: string
           description: The value of the option. In most cases, the value is the same as the label.
+        group:
+          type: string
       description: The dictionary entry.
-    PredefinedMetadataOptionList:
+    Dictionary:
       type: array
-      description: The list of entries in the predefined metadata group.
+      description: The list of entries in the dictionary.
       items:
-        $ref: "#/components/schemas/PredefinedMetadataOption"
+        $ref: "#/components/schemas/DictionaryEntry"
     Product:
       type: object
       properties:

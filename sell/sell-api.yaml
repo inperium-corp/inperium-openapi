@@ -2531,6 +2531,28 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+  /dictionaries:
+    get:
+      tags:
+        - Dictionaries
+      summary: Retrieve a list of available dictionaries
+      description: Use this endpoint to get list of all avaliable dictionaries.
+      operationId: getDictionaries
+      responses:
+        200:
+          description: The dictionary has been retrieved. Returns dictionary items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DictionaryDescription"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /dictionaries/{id}:
     get:
       tags:
@@ -5424,6 +5446,12 @@ components:
     PhoneNumber:
       anyOf:
         - $ref: "#/components/schemas/CommunicationMethod"
+    DictionaryDescription:
+      type: object
+      properties:
+        id:
+          type: string
+          description: An internal name of the group, e.g., activitiesType.
     DictionaryEntry:
       type: object
       properties:

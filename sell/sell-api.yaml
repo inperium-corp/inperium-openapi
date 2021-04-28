@@ -106,9 +106,6 @@ tags:
   - name: Pipeline Statistics
     description: |
       Analyze your sales progress with pipeline statistics.
-  - name: Dictionaries
-    description: |
-      Dictionaries containing data such as days of weeks, standard statuses, or activity types.
   - name: Products
     description: |
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.

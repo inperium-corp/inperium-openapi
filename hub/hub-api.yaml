@@ -2651,6 +2651,7 @@ components:
           $ref: "#/components/schemas/Id"
         metadata:
           type: object
+          additionalProperties: true
           description: The objects defines an extra information about the usage. For example, an addressee of a call.
 
     FeatureUsage:

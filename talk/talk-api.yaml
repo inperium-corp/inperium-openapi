@@ -354,8 +354,8 @@ paths:
   /phoneNumbers/{id}/voicemails:
     get:
       tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for phone number
+        - Voicemails
+      summary: Retrieve the list of voicemails for phone number
       operationId: getPhoneNumberVoiceMails
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -364,7 +364,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The list of voice mails have been retrieved
+          description: The list of voicemails have been retrieved
           content:
             application/json:
               schema:
@@ -379,8 +379,8 @@ paths:
   /autoReceptionists/{id}/voicemails:
     get:
       tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for auto receptionist
+        - Voicemails
+      summary: Retrieve the list of voicemails for auto receptionist
       operationId: getReceptionistVoiceMails
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -389,7 +389,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The list of voice mails have been retrieved
+          description: The list of voicemails have been retrieved
           content:
             application/json:
               schema:
@@ -401,20 +401,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /users/{id}/voicemails:
+  /voicemails:
     get:
       tags:
-        - Voice Mails
-      summary: Retrieve the mp3 voice mail for user
-      operationId: getUserVoiceMails
+        - Voicemails
+      summary: Retrieve the voicemails
+      operationId: getVoiceMails
       parameters:
-        - $ref: '#/components/parameters/ResourceId'
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
+        - name: quickFilter
+          in: query
+          schema:
+            type: string
+            enum:
+              - MY
+              - TENTANT
       responses:
         200:
-          description: The voice mail contents have been retrieved
+          description: The voicemail contents have been retrieved
           content:
             application/json:
               schema:

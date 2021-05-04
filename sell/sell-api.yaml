@@ -5515,10 +5515,10 @@ components:
               type: string
               format: uuid
               description: The ID of the user who added this property. 'Null' for builtin properties.
-            dataTable:
+            dataGrid:
               type: boolean
               description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
-            details:
+            detailsPage:
               type: boolean
               description: The parameter marka if this property should be displayed on the object card (e.g., when a user drills down to a company).
             bulkUpdate:

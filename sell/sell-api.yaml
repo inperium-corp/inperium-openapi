@@ -57,7 +57,7 @@ tags:
       Deprecated features which will be terminated in next releases.
   - name: Dictionaries
     description: |
-      Dictionaries represent lists of objects.
+      Dictionaries contain predefined data that users typically see in drop-down lists. For example, days of weeks, standard statuses, countries, or phone codes.
   - name: Documents
     description: |
       Inperium Sell stores files in AWS. In most cases, documents are attached to entities such as companies or deals, but some documents are stored independently (e.g., avatar images).
@@ -2532,12 +2532,12 @@ paths:
     get:
       tags:
         - Dictionaries
-      summary: Retrieve a list of available dictionaries
-      description: Use this endpoint to get list of all avaliable dictionaries.
+      summary: List dictionaries
+      description: Use this endpoint to retrieve available dictionaries.
       operationId: getDictionaries
       responses:
         200:
-          description: The dictionary has been retrieved. Returns dictionary items.
+          description: The dictionaries have been retrieved. Returns a list of Dictionary objects.
           content:
             application/json:
               schema:
@@ -5517,14 +5517,19 @@ components:
               description: The ID of the user who added this property. 'Null' for builtin properties.
             dataTable:
               type: boolean
+              description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
             details:
               type: boolean
+              description: The parameter marka if this property should be displayed on the object card (e.g., when a user drills down to a company).
             bulkUpdate:
               type: boolean
+              description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
             template:
               type: boolean
+              description: The parameter marks if this property can be used in the templates in the UI.
             filtering:
               type: boolean
+              description: The parameter marks if this property can be selected for filtering in the UI.
             propertyOptions:
               type: array
               description: The list of options.

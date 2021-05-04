@@ -5457,6 +5457,7 @@ components:
           description: The value of the option. In most cases, the value is the same as the label.
         group:
           type: string
+          description: The type or a subset the entry belongs to.
       description: The dictionary entry.
     Dictionary:
       type: array
@@ -5520,7 +5521,7 @@ components:
               description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
             detailsPage:
               type: boolean
-              description: The parameter marka if this property should be displayed on the object card (e.g., when a user drills down to a company).
+              description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
             bulkUpdate:
               type: boolean
               description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).

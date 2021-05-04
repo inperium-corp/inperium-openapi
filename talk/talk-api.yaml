@@ -406,7 +406,7 @@ paths:
       tags:
         - Voicemails
       summary: Retrieve the voicemails
-      operationId: getVoiceMails
+      operationId: getVoicemails
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
@@ -2111,7 +2111,7 @@ components:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         callQueue:
           type: string # TODO
@@ -2168,7 +2168,7 @@ components:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
           $ref: '#/components/schemas/User'
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
@@ -2918,7 +2918,7 @@ components:
           type: integer
           minimum: 1
           maximum: 5
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
@@ -2929,7 +2929,7 @@ components:
     UserSettingsRequest:
       type: object
       properties:
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
@@ -2938,7 +2938,7 @@ components:
     UserSettings:
       type: object
       properties:
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
@@ -3113,8 +3113,8 @@ components:
         - answeredOutbound
         - missedInbound
         - missedOutbounв
-        - voiceMailsInbound
-        - voiceMailsOutbound
+        - voicemailsInbound
+        - voicemailsOutbound
       properties:
         hour:
           type: integer
@@ -3130,10 +3130,10 @@ components:
         missedOutbound:
           type: integer
           format: int64
-        voiceMailsInbound:
+        voicemailsInbound:
           type: integer
           format: int64
-        voiceMailsOutbound:
+        voicemailsOutbound:
           type: integer
           format: int64
 

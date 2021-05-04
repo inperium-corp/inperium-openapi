@@ -351,56 +351,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /phoneNumbers/{id}/voicemails:
-    get:
-      tags:
-        - Voicemails
-      summary: Retrieve the list of voicemails for phone number
-      operationId: getPhoneNumberVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voicemails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /autoReceptionists/{id}/voicemails:
-    get:
-      tags:
-        - Voicemails
-      summary: Retrieve the list of voicemails for auto receptionist
-      operationId: getReceptionistVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voicemails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /voicemails:
     get:
       tags:
@@ -411,13 +361,18 @@ paths:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
-        - name: quickFilter
+        - name: phoneNumberId
           in: query
           schema:
             type: string
-            enum:
-              - MY
-              - TENTANT
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: The voicemail contents have been retrieved

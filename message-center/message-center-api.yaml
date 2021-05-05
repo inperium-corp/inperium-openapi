@@ -145,13 +145,13 @@ paths:
       tags:
         - Accounts
       summary: Disconnect an account
-      description: Use this endpoint to disconnect and remove a mailbox from Inperium.
+      description: Use this endpoint to stop synchronizing the mailbox with Inperium.
       operationId: cancelAccount
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
-          description: The mailbox has been removed.
+          description: The mailbox sync has been stopped.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -845,7 +845,7 @@ components:
           description: The email address registered with the Message Center.
         connectionDate:
           type: integer
-          description: The date the email was connected.
+          description: The date the mailbox was connected.
           format: int64
         status:
           type: string
@@ -936,10 +936,12 @@ components:
         starred:
           type: boolean
           description: This true/false parameter indicates if one or more messages in the thread are flagged.
-        folderId:
-          type: string
-          description: The ID of the folder the thread belongs to.
-          format: uuid
+        folderIds:
+          type: array
+          description: The IDs of folders the thread belongs to.
+          items:
+            type: string
+            format: uuid
 
     ThreadParticipant:
       type: object
@@ -950,7 +952,10 @@ components:
           description: The participant's name.
         email:
           type: string
+          format: email
           description: The participant's email address.
+      required:
+        - email
 
     Messages:
       type: object
@@ -1050,9 +1055,11 @@ components:
         subject:
           type: string
           description: The subject of the message.
+          minLength: 1
         body:
           type: string
           description: The contents of the message.
+          minLength: 1
         fromUserAccountId:
           type: string
           description: A unique ID of the user sending the message.
@@ -1060,31 +1067,38 @@ components:
         to:
           type: array
           description: The list of contacts added as respondents.
+          minItems: 1
           items:
             $ref: "#/components/schemas/ThreadParticipant"
         replyTo:
           type: array
           description: The list of contacts that are in the message thread.
+          minItems: 1
           items:
             $ref: "#/components/schemas/ThreadParticipant"
         cc:
           type: array
           description: The list of contacts who will receive the message as a copy.
+          minItems: 1
           items:
             $ref: "#/components/schemas/ThreadParticipant"
         bcc:
           type: array
           description: The list of contacts who will receive the message as a blind copy.
+          minItems: 1
           items:
             $ref: "#/components/schemas/ThreadParticipant"
         attachmentIds:
           type: array
           description: The list of attached files.
+          minItems: 1
           items:
             type: string
             format: uuid
       required:
-        - from
+        - subject
+        - body
+        - fromUserAccountId
         - to
 
     Folders:

@@ -1,0 +1,618 @@
+openapi: 3.0.3
+x-access: private
+info:
+  title: Inperium Global Registry API
+  description: |
+    For performance and compliance reasons, customer data can be stored either in US or EU region. Inperium Global Registry API manages regional mappings of root-level entities such as tenants and users. The Global Registry service and API gateway help route queries to a correposding data center based on the regional mappings configured via this API.
+  version: 1.0.0-SNAPSHOT
+servers:
+  - url: http://api.inperium.com/v1/globalRegistry
+  - url: https://api.inperium.com/v1/globalRegistry
+
+security:
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Health checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service.
+      You can rely on the health state information when troubleshooting issues.
+  - name: API Keys
+    description: |
+      Management and provisioning of regional mappings for API keys.
+  - name: Tenants
+    description: |
+      Management and provisioning of regional mappings for tenants.
+  - name: Users
+    description: |
+      Management and provisioning of regional mappings for users.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Health checks
+      summary: Check health
+      description: Use this endpoint to verify that the microservice runs as usual.
+      operationId: checkHealth
+      responses:
+        200:
+          description: Returns an empty response.
+          content: { }
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /apiKeys:
+    get:
+      summary: List API key mappings
+      description: |
+        Use this endpoint to retrieve existing regional API key mappings. This endpoint supports paging, sorting, and filtering.
+      operationId: getApiKeys
+      tags:
+        - API Keys
+      parameters:
+        - name: apiKeyId
+          in: query
+          description: The ID of the API key.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns API key mappings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiKeys"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create an API key mapping
+      tags:
+        - API Keys
+      description: |
+        Use this endpoint to add a new regional mapping for an API key.
+      operationId: createApiKey
+      requestBody:
+        description: In the request body, pass the ApiKeyRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiKeyRequest"
+      responses:
+        201:
+          description: A new mapping has been created. Returns an API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /apiKeys/{id}:
+    get:
+      summary: Retrieve an API key mapping
+      description: |
+        Use this endpoint to retrieve details about a regional mapping for a specific API key.
+      operationId: getApiKey
+      tags:
+        - API Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    put:
+      summary: Update an API key mapping
+      description: |
+        Use this endpoint to update a regional mapping for a specific API key.
+      operationId: updateApiKey
+      tags:
+        - API Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the ApiKeyRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApiKeyRequest"
+      responses:
+        200:
+          description: Returns the updated regional API key mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiKey"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete an API key mapping
+      description: |
+        Use this endpoint to remove a regional mapping for a specific API key. The API key will no longer be associated with a corresponding region.
+      operationId: deleteApiKey
+      tags:
+        - API Keys
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response. The mapping has been successfully deleted.
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /tenants:
+    get:
+      summary: List tenants' mappings
+      description: |
+        Use this endpoint to retrieve existing regional tenants' mappings. This endpoint supports paging, sorting, and filtering.
+      operationId: getTenants
+      tags:
+        - Tenants
+      parameters:
+        - name: tenantId
+          in: query
+          description: The tenant's ID.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns tenants' mappings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenants"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create a tenant's mapping
+      tags:
+        - Tenants
+      description: |
+        Use this endpoint to add a new regional mapping for a tenant.
+      operationId: createTenant
+      requestBody:
+        description: In the request body, pass the TenantRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantRequest"
+      responses:
+        201:
+          description: A new regional mapping has been created. Returns a tenant's mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /tenants/{id}:
+    get:
+      summary: Retrieve a tenant's mapping
+      description: |
+        Use this endpoint to retrieve details about a regional mapping of a specific tenant.
+      operationId: getTenant
+      tags:
+        - Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns a tenant's mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    put:
+      summary: Update a tenant's mapping
+      description: |
+        Use this endpoint to update a regional mapping of a specific tenant.
+      operationId: updateTenant
+      tags:
+        - Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the TenantRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TenantRequest"
+      responses:
+        200:
+          description: Returns the updated regional mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tenant"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete a tenant's mapping
+      description: |
+        Use this endpoint to remove a regional mapping of a specific tenant. This tenant will no longer be associated with a corresponding region.
+      operationId: deleteTenant
+      tags:
+        - Tenants
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response. The mapping has been successfully deleted.
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /users:
+    get:
+      summary: List users' mappings
+      description: |
+        Use this endpoint to retrieve existing regional mappings for users. This endpoint supports paging, sorting, and filtering.
+      operationId: getUsers
+      tags:
+        - Users
+      parameters:
+        - name: email
+          in: query
+          description: The user's email.
+          schema:
+            type: string
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns users' mappings.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    post:
+      summary: Create a user's mapping
+      tags:
+        - Users
+      description: |
+        Use this endpoint to add a new regional mapping for a user.
+      operationId: createUser
+      requestBody:
+        description: In the request body, pass the UserRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        201:
+          description: A new regional mapping has been created. Returns a user's mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+  /users/{id}:
+    get:
+      summary: Retrieve a user's mapping
+      description: |
+        Use this endpoint to retrieve details about a regional mapping of a specific user.
+      operationId: getUser
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        200:
+          description: Returns the regional mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    put:
+      summary: Update a user's mapping
+      description: |
+        Use this endpoint to update a regional mapping of a user.
+      operationId: updateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the UserRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequest"
+      responses:
+        200:
+          description: Returns the updated regional mapping.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+    delete:
+      summary: Delete a user's mapping
+      description: |
+        Use this endpoint to remove a regional mapping for a specific user. This user will no longer be associated with a correponding region.
+      operationId: deleteUser
+      tags:
+        - Users
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response. The mapping has been successfully deleted.
+        default:
+          $ref: "#/components/responses/DefaultResponse"
+
+components:
+  responses:
+    DefaultResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ResponseError"
+
+  securitySchemes:
+    BearerAuth:
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note that due to security concerns it frequently expires.
+      type: http
+      scheme: bearer
+
+    ApiKeyAuth:
+      description: The API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  parameters:
+
+    ResourceId:
+      name: id
+      description: A unique ID of the object.
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from page 3.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: This parameter affects paging. It defines the number of records per page, e.g., 20 records per page.
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+
+    QuerySort:
+      name: sort
+      in: query
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
+      schema:
+        type: string
+
+  schemas:
+
+    Id:
+      type: string
+      format: uuid
+      description: A unique identifier of the record or resource.
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+
+    Region:
+      description: The unique code of the region.
+      type: string
+      enum:
+        - US-1
+        - EU-1
+
+    ResponseError:
+      type: object
+      description: The error that is returned as a response to a request.
+      discriminator:
+        propertyName: schema
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: The HTTP status code.
+        code:
+          type: string
+          format: uuid
+          description: The optional code of the exception.
+        message:
+          type: string
+          description: The error message text.
+        errors:
+          type: object
+          description: Mapping of fields and errors.
+
+    ApiKeyRequest:
+      description: |
+        The incoming object maps an API key to a region. Note that this object is different from the ApiKeyRequest object used by Hub API.
+      type: object
+      required:
+        - hubApiKeyId
+        - hubUserId
+        - region
+      properties:
+        hubApiKeyId:
+          $ref: "#/components/schemas/Id"
+        hubUserId:
+          $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
+
+    ApiKey:
+      description: |
+        The object maps an API key to a region. Note that this object is different from the ApiKey object used by Hub API.
+      type: object
+      required:
+        - id
+        - hubApiKeyId
+        - hubUserId
+        - region
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        hubApiKeyId:
+          $ref: "#/components/schemas/Id"
+        hubUserId:
+          $ref: "#/components/schemas/Id"
+        region:
+          $ref: "#/components/schemas/Region"
+
+    ApiKeys:
+      type: object
+      description: A list of API key mappings with paging and sorting. Note that this object is different from the ApiKeys object used by Hub API.
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiKey"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    TenantRequest:
+      description: |
+        The incoming object maps a tenant entity to a region.
+      type: object
+      required:
+        - hubTenantId
+        - region
+      properties:
+        hubTenantId:
+          $ref: "#/components/schemas/Id"
+        companyName:
+          type: string
+          description: The name of the corresponding company.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    Tenant:
+      description: |
+        The object maps a tenant entity to a region. Note that this object is different from the Tenant object used by Hub API.
+      type: object
+      required:
+        - id
+        - hubTenantId
+        - region
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        hubTenantId:
+          $ref: "#/components/schemas/Id"
+        companyName:
+          type: string
+          description: The name of the tenant's company.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    Tenants:
+      type: object
+      description: A list of tenants' mappings with paging and sorting.
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Tenant"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    UserRequest:
+      description: |
+        The incoming object maps a user to a region. Note that this object is different from the UserRequest object leveraged by Hub API.
+      type: object
+      required:
+        - hubUserId
+        - email
+        - region
+      properties:
+        hubUserId:
+          $ref: "#/components/schemas/Id"
+        hubTenantId:
+          $ref: "#/components/schemas/Id"
+        email:
+          type: string
+          description: The user's email.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    User:
+      description: |
+        The object maps a user to a region. Note that this object is different from the User object leveraged by Hub API.
+      type: object
+      required:
+        - id
+        - hubUserId
+        - hubTenantId
+        - email
+        - region
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        hubUserId:
+          $ref: "#/components/schemas/Id"
+        hubTenantId:
+          $ref: "#/components/schemas/Id"
+        email:
+          type: string
+          description: The user's email.
+        region:
+          $ref: "#/components/schemas/Region"
+
+    Users:
+      type: object
+      description: A list of users' mappings with paging and sorting.
+      required:
+        - data
+        - paging
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"

@@ -351,41 +351,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /voicemails:
-    get:
-      tags:
-        - Voicemails
-      summary: Retrieve the voicemails
-      operationId: getVoicemails
-      parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-        - name: phoneNumberId
-          in: query
-          schema:
-            type: string
-        - name: autoReceptionistId
-          in: query
-          schema:
-            type: string
-        - name: userId
-          in: query
-          schema:
-            type: string
-      responses:
-        200:
-          description: The voicemail contents have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /users/{id}/phoneNumbers:
     post:
       tags:
@@ -1739,6 +1704,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /voicemails:
+    get:
+      tags:
+        - Voicemails
+      summary: Retrieve the voicemails
+      operationId: getVoicemails
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: phoneNumberId
+          in: query
+          schema:
+            type: string
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The voicemail contents have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            audio/*:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /userSettings:
     get:
       tags:

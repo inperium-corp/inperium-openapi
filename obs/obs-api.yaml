@@ -35,6 +35,24 @@ paths:
       summary: Upload file
       description: Use this endpoint to upload a new file to Inperium OBS. For example, a contract or an image.
       operationId: uploadFile
+      parameters:
+        - name: description
+          in: query
+          description: An optional description of this file.
+          schema:
+            type: string
+        - name: public
+          in: query
+          description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
+          schema:
+            type: boolean
+            default: false
+        - name: userId
+          in: query
+          description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           multipart/form-data:
@@ -44,17 +62,6 @@ paths:
                   type: string
                   description: A file to be uploaded.
                   format: binary
-                description:
-                  type: string
-                  description: An optional description of this file.
-                public:
-                  type: boolean
-                  default: false
-                  description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
-                userId:
-                  type: string
-                  format: uuid
-                  description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
       responses:
         201:
           description: A new file has been created.

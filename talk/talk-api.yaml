@@ -3112,7 +3112,7 @@ components:
         - inbound
         - outbound
         - averageTime
-        - forwardedToVoiceMail
+        - forwardedToVoicemail
         - missed
         - total
       properties:
@@ -3131,7 +3131,7 @@ components:
         averageTime:
           type: integer
           format: int64
-        forwardedToVoiceMail:
+        forwardedToVoicemail:
           type: integer
           format: int64
         missed:

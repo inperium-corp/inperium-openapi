@@ -1737,7 +1737,7 @@ paths:
         default:
           description: Bad request, security violation, or internal server error
           content:
-            audio/*:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 

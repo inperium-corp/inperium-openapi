@@ -2736,6 +2736,9 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Recording:
       type: object
+      required:
+        - id
+        - call
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2752,7 +2755,6 @@ components:
           description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
-
     Reports:
       type: object
       required:

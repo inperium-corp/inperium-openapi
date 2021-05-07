@@ -4332,6 +4332,8 @@ components:
     CommunicationMethod:
       type: object
       description: The communication method object that defines a source of communication configured for a company.
+      discriminator:
+        propertyName: value
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -4641,7 +4643,7 @@ components:
           description: Comma-separated list of fields, which caused the error condition.
       description: An error returned by Inperium API.
     Email:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CommunicationMethod"
     ExportRequest:
       type: object
@@ -5441,7 +5443,7 @@ components:
                 description: The total number of deals.
                 format: int64
     PhoneNumber:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CommunicationMethod"
     DictionaryEntry:
       type: object

@@ -2487,6 +2487,7 @@ components:
         - rechargeAmount
         - currency
         - currentAmount
+        - active
       properties:
         minimumAmount:
           type: number
@@ -2502,6 +2503,9 @@ components:
           type: number
           format: double
           description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
+        isActive:
+          description: The true/false parameter that marks if the balance is active. A reason for the inactive state can be a failed attempt to add a fund to the balance. 
+          type: boolean
 
     BalanceCharge:
       type: object

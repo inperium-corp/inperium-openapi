@@ -2507,8 +2507,13 @@ components:
       type: object
       description: The object contains the tenant's balance charge information.
       required:
+        - id
         - grossAmount
+        - createAt
+        - updatedAt
       properties:
+        id:
+          $ref: "#/components/schemas/Id"
         grossAmount:
           type: number
           format: double
@@ -2525,6 +2530,14 @@ components:
           type: object
           additionalProperties: true
           description: Additional information about the charge. For example, it can be infortmation about addressee of a call in Inperium Talk.
+        createdAt:
+          type: integer
+          description: The date the charge was recorded.
+          format: int64
+        updatedAt:
+          type: integer
+          description: The date the charge was modified.
+          format: int64
 
     BalanceCharges:
       type: object

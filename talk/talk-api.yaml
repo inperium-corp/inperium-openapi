@@ -1550,9 +1550,15 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               properties:
-                CallStatus:
-                  type: string
                 CallSid:
+                  type: string
+                To:
+                  type: string
+                From:
+                  type: string
+                AccountSid:
+                  type: string
+                CallStatus:
                   type: string
       responses:
         200:

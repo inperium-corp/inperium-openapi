@@ -1244,6 +1244,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1280,6 +1287,13 @@ paths:
         402:
           description: |
             Use of the function is restricted because the feature is an add-on and withdrawing from the balance failed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+        403:
+          description: |
+            Use of the function is restricted because the feature is limited and the limit is exceeded.
           content:
             application/json:
               schema:

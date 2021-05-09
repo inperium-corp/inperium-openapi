@@ -3041,7 +3041,7 @@ components:
 
     PlanFeature:
       type: object
-      description: TODO
+      description: The plan-feature object defines additional information of the feature in the plan.
       required:
         - id
         - plan

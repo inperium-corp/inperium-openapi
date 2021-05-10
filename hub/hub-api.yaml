@@ -2517,7 +2517,7 @@ components:
           type: number
           format: double
           description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
-        isActive:
+        active:
           description: The true/false parameter that marks if the balance is active. A reason for the inactive state can be a failed attempt to add a fund to the balance. 
           type: boolean
 
@@ -2584,7 +2584,7 @@ components:
           minimum: 20
           maximum: 200
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
-        isActive:
+        active:
           type: boolean
           description: The true/false parameter that marks if the balance is active. Making balance active allows using metered add-ons.
 

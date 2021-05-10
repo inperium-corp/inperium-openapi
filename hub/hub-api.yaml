@@ -2584,6 +2584,9 @@ components:
           minimum: 20
           maximum: 200
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
+        isActive:
+          type: boolean
+          description: The true/false parameter that marks if the balance is active. Making balance active allows using metered add-ons.
 
     Permission:
       type: object

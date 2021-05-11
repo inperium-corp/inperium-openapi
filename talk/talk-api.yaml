@@ -351,80 +351,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /phoneNumbers/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for phone number
-      operationId: getPhoneNumberVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voice mails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /autoReceptionists/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for auto receptionist
-      operationId: getReceptionistVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voice mails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /users/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the mp3 voice mail for user
-      operationId: getUserVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The voice mail contents have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /users/{id}/phoneNumbers:
     post:
       tags:
@@ -1624,9 +1550,15 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               properties:
-                CallStatus:
-                  type: string
                 CallSid:
+                  type: string
+                To:
+                  type: string
+                From:
+                  type: string
+                AccountSid:
+                  type: string
+                CallStatus:
                   type: string
       responses:
         200:
@@ -1778,6 +1710,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /voicemails:
+    get:
+      tags:
+        - Voicemails
+      summary: Retrieve the voicemails
+      operationId: getVoicemails
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: phoneNumberId
+          in: query
+          schema:
+            type: string
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The voicemail contents have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /userSettings:
     get:
       tags:
@@ -2105,7 +2074,7 @@ components:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         callQueue:
           type: string # TODO
@@ -2162,7 +2131,7 @@ components:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
           $ref: '#/components/schemas/User'
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
@@ -2773,6 +2742,9 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Recording:
       type: object
+      required:
+        - id
+        - call
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2789,7 +2761,6 @@ components:
           description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
-
     Reports:
       type: object
       required:
@@ -2912,7 +2883,7 @@ components:
           type: integer
           minimum: 1
           maximum: 5
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
@@ -2923,7 +2894,7 @@ components:
     UserSettingsRequest:
       type: object
       properties:
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
@@ -2932,7 +2903,7 @@ components:
     UserSettings:
       type: object
       properties:
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
@@ -3107,8 +3078,8 @@ components:
         - answeredOutbound
         - missedInbound
         - missedOutbounв
-        - voiceMailsInbound
-        - voiceMailsOutbound
+        - voicemailsInbound
+        - voicemailsOutbound
       properties:
         hour:
           type: integer
@@ -3124,10 +3095,10 @@ components:
         missedOutbound:
           type: integer
           format: int64
-        voiceMailsInbound:
+        voicemailsInbound:
           type: integer
           format: int64
-        voiceMailsOutbound:
+        voicemailsOutbound:
           type: integer
           format: int64
 
@@ -3149,7 +3120,7 @@ components:
         - inbound
         - outbound
         - averageTime
-        - forwardedToVoiceMail
+        - forwardedToVoicemail
         - missed
         - total
       properties:
@@ -3168,7 +3139,7 @@ components:
         averageTime:
           type: integer
           format: int64
-        forwardedToVoiceMail:
+        forwardedToVoicemail:
           type: integer
           format: int64
         missed:

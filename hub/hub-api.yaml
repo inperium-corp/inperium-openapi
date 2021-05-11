@@ -2526,24 +2526,24 @@ components:
       description: The object contains the tenant's balance charge information.
       required:
         - id
-        - grossAmount
+        - netAmount
         - createAt
         - updatedAt
       properties:
         id:
           $ref: "#/components/schemas/Id"
-        grossAmount:
+        netAmount:
           type: number
           format: double
-          description: The gross amount of the charge. 
+          description: The net amount of the charge.
         taxAmount:
           type: number
           format: double
-          description: The tax amount of the charge. 
-        totalAmount:
+          description: The tax amount of the charge.
+        grossAmount:
           type: number
           format: double
-          description: The total amount of the charge.
+          description: The gross amount of the charge.
         metadata:
           type: object
           additionalProperties: true

@@ -1733,6 +1733,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: state
+          in: query
+          schema:
+            $ref: '#/components/schemas/RecordingState'
       responses:
         200:
           description: The voicemail contents have been retrieved

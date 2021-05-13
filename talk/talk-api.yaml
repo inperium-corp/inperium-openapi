@@ -130,7 +130,7 @@ paths:
               $ref: '#/components/schemas/AudioFileUpdateRequest'
       responses:
         200:
-          description: The audio file have been created
+          description: The audio file has been updated
           content:
             application/json:
               schema:
@@ -1733,6 +1733,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: state
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: The voicemail contents have been retrieved
@@ -1748,6 +1752,31 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
 
   /voicemails/{id}:
+    patch:
+      tags:
+        - Voicemails
+      summary: Update (partially) the voicemail
+      operationId: updateVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordingRequest'
+      responses:
+        200:
+          description: The voicemail has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Voicemails
@@ -2763,7 +2792,9 @@ components:
       type: object
       required:
         - id
+        - createdAt
         - call
+        - state
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2780,6 +2811,22 @@ components:
           description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
+        state:
+          $ref: '#/components/schemas/RecordingState'
+
+    RecordingRequest:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/RecordingState'
+
+    RecordingState:
+      type: string
+      enum:
+        - UNREAD
+        - READ
+      description: Lifecycle state of a recording
+
     Reports:
       type: object
       required:

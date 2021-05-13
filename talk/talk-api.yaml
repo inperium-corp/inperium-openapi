@@ -1736,7 +1736,7 @@ paths:
         - name: state
           in: query
           schema:
-            $ref: '#/components/schemas/RecordingState'
+            type: string
       responses:
         200:
           description: The voicemail contents have been retrieved
@@ -2792,7 +2792,9 @@ components:
       type: object
       required:
         - id
+        - createdAt
         - call
+        - state
       properties:
         id:
           $ref: '#/components/schemas/Id'

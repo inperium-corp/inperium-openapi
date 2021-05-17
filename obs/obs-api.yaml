@@ -131,34 +131,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /files/uploadFromStarter:
-    x-access: private
-    post:
-      x-access: private
-      tags:
-        - Files
-      deprecated: true
-      summary: Re-upload by OBS starter
-      description: This is a deprecated endpoint. Use this endpoint to re-add the file uploaded by OBS starter lib via the microservice.
-      operationId: reAddFile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileMigration'
-      responses:
-        201:
-          description: A new file has been created.
-          content:
-            application/json:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /health:
     get:
       tags:
@@ -176,6 +148,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -188,26 +161,6 @@ components:
       in: header
       name: X-API-KEY
   schemas:
-    FileMigration:
-      type: object
-      properties:
-        fileId:
-          type: string
-          description: The ID of the file.
-        tenantId:
-          type: string
-          description: The ID of the tenant.
-          format: uuid
-        userId:
-          type: string
-          description: The ID of the user.
-          format: uuid
-        fileName:
-          type: string
-          description: The file name.
-        fileDescription:
-          type: string
-          description: Any information about the file.
     DataFile:
       type: object
       properties:

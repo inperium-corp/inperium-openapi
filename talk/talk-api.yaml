@@ -2806,6 +2806,7 @@ components:
         duration:
           type: integer
           format: int64
+          description: Duration audio file in milliseconds
         message:
           type: string
         createdAt:

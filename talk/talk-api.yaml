@@ -1484,6 +1484,8 @@ paths:
                   type: string
                 RecordingSid:
                   type: string
+                RecordingDuration:
+                  type: string
       responses:
         200:
           description: TwiML response has been received
@@ -1519,6 +1521,8 @@ paths:
             schema:
               properties:
                 RecordingUrl:
+                  type: string
+                RecordingDuration:
                   type: string
       responses:
         200:
@@ -2800,9 +2804,6 @@ components:
           $ref: '#/components/schemas/Id'
         url:
           type: string
-        size:
-          type: integer
-          format: int64
         duration:
           type: integer
           format: int64

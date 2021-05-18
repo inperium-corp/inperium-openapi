@@ -2763,28 +2763,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactEmail'
+    ContactInfoType:
+      type: string
+      enum:
+        - WORK
+        - PERSONAL
+        - OTHER
     ContactPhoneNumber:
       type: object
       required:
         - phoneNumber
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        label:
-          type: string
         phoneNumber:
           type: string
+        type:
+          $ref: '#/components/schemas/ContactInfoType'
     ContactEmail:
       type: object
       required:
         - email
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        label:
-          type: string
         email:
           type: string
+        type:
+          $ref: '#/components/schemas/ContactInfoType'
     Recordings:
       type: object
       properties:

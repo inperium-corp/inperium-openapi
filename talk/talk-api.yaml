@@ -1485,7 +1485,8 @@ paths:
                 RecordingSid:
                   type: string
                 RecordingDuration:
-                  type: string
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received
@@ -1523,7 +1524,8 @@ paths:
                 RecordingUrl:
                   type: string
                 RecordingDuration:
-                  type: string
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received

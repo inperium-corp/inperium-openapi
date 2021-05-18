@@ -2767,6 +2767,7 @@ components:
       type: object
       required:
         - phoneNumber
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2774,16 +2775,21 @@ components:
           type: string
         phoneNumber:
           type: string
+        type:
+          type: string
     ContactEmail:
       type: object
       required:
         - email
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
         label:
           type: string
         email:
+          type: string
+        type:
           type: string
     Recordings:
       type: object

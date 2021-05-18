@@ -1484,6 +1484,9 @@ paths:
                   type: string
                 RecordingSid:
                   type: string
+                RecordingDuration:
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received
@@ -1520,6 +1523,9 @@ paths:
               properties:
                 RecordingUrl:
                   type: string
+                RecordingDuration:
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received
@@ -2800,9 +2806,10 @@ components:
           $ref: '#/components/schemas/Id'
         url:
           type: string
-        size:
+        duration:
           type: integer
           format: int64
+          description: Duration audio file in milliseconds
         message:
           type: string
         createdAt:

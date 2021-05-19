@@ -76,6 +76,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Files
+      summary: Delete files
+      description: Use this endpoint to remove multiple files.
+      operationId: deleteFiles
+      requestBody:
+        description: File IDs to delete
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
+        required: true
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /files/{id}:
     get:
       tags:
@@ -103,6 +130,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Files
+      summary: Delete a file
+      description: Use this endpoint to remove a file.
+      operationId: deleteFile
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /files/{id}/content:
     get:
       tags:

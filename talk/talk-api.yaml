@@ -2989,8 +2989,6 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        forwardingPhoneNumber:
-          type: string
     UserSettings:
       type: object
       properties:
@@ -2998,8 +2996,6 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        forwardingPhoneNumber:
-          type: string
     User:
       type: object
       properties:

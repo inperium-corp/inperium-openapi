@@ -2295,9 +2295,9 @@ components:
       description: Forwarding phone number model
       required:
         - id
-        properties:
-          id:
-            $ref: '#/components/schemas/Id'
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
       allOf:
         - $ref: '#/components/schemas/ForwardingPhoneNumberRequest'
     PhoneNumberAssignmentType:

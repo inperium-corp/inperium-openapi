@@ -2295,10 +2295,10 @@ components:
       description: Forwarding phone number model
       required:
         - id
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
       allOf:
+        - properties:
+            id:
+              $ref: '#/components/schemas/Id'
         - $ref: '#/components/schemas/ForwardingPhoneNumberRequest'
     PhoneNumberAssignmentType:
       type: string

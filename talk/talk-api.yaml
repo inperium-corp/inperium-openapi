@@ -2277,7 +2277,6 @@ components:
       type: object
       description: Forwarding phone number model
       required:
-        - id
         - phoneNumber
         - twentyFourSeven
         - businessHours

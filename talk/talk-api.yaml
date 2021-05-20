@@ -2271,6 +2271,28 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
+        forwardingPhoneNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
+    ForwardingPhoneNumber:
+      type: object
+      description: Forwarding phone number model
+      required:
+        - id
+        - phoneNumber
+        - twentyFourSeven
+        - businessHours
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        phoneNumber:
+          type: string
+        twentyFourSeven:
+          type: boolean
+          description: The forwarding phone number available as business hours 24/7
+        businessHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessCalendarInterval'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2324,6 +2346,8 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+        forwardingPhoneNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     IVRMenuRequest:
       required:
         - audioPromptId

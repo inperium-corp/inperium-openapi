@@ -2273,7 +2273,7 @@ components:
           $ref: '#/components/schemas/Address'
         forwardingNumber:
           type: string
-        timezone:
+        forwardingTimezone:
           $ref: '#/components/schemas/TimezoneId'
         forwardingTwentyFourSeven:
           type: boolean
@@ -2336,7 +2336,7 @@ components:
           type: boolean
         forwardingNumber:
           type: string
-        timezone:
+        forwardingTimezone:
           $ref: '#/components/schemas/TimezoneId'
         forwardingTwentyFourSeven:
           type: boolean

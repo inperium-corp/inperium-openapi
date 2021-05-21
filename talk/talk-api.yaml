@@ -2151,7 +2151,7 @@ components:
         - businessHoursPart
         - closedHoursPart
         - twentyFourSeven
-        - businessHour
+        - businessHours
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2174,7 +2174,7 @@ components:
         twentyFourSeven:
           type: boolean
           description: If the auto receptionist works as business hours 24/7
-        businessHour:
+        businessHours:
           type: array
           items:
             $ref: '#/components/schemas/BusinessHour'
@@ -3289,7 +3289,7 @@ components:
       required:
         - phoneNumber
         - twentyFourSeven
-        - businessHour
+        - businessHours
       properties:
         phoneNumber:
           type: string
@@ -3297,7 +3297,7 @@ components:
           $ref: '#/components/schemas/TimezoneId'
         twentyFourSeven:
           type: boolean
-        businessHour:
+        businessHours:
           type: array
           items:
             $ref: '#/components/schemas/BusinessHour'

@@ -2120,7 +2120,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/BusinessCalendarInterval'
+            $ref: '#/components/schemas/BusinessHours'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
@@ -2177,7 +2177,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/BusinessCalendarInterval'
+            $ref: '#/components/schemas/BusinessHours'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
@@ -2272,15 +2272,7 @@ components:
         address:
           $ref: '#/components/schemas/Address'
         forwardingNumber:
-          type: string
-        forwardingTimezone:
-          $ref: '#/components/schemas/TimezoneId'
-        forwardingTwentyFourSeven:
-          type: boolean
-        forwardingBusinessHours:
-          type: array
-          items:
-            $ref: '#/components/schemas/BusinessCalendarInterval'
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2335,15 +2327,7 @@ components:
         whatsappEnabled:
           type: boolean
         forwardingNumber:
-          type: string
-        forwardingTimezone:
-          $ref: '#/components/schemas/TimezoneId'
-        forwardingTwentyFourSeven:
-          type: boolean
-        forwardingBusinessHours:
-          type: array
-          items:
-            $ref: '#/components/schemas/BusinessCalendarInterval'
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -3280,7 +3264,7 @@ components:
           type: integer
           format: int64
 
-    BusinessCalendarInterval:
+    BusinessHours:
       type: object
       required:
         - openHour
@@ -3299,3 +3283,23 @@ components:
         enabled:
           type: boolean
           description: If the business hour turned on or not
+
+    ForwardingPhoneNumber:
+      type: object
+      required:
+        - phoneNumber
+        - twentyFourSeven
+        - businessHours
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        phoneNumber:
+          type: string
+        timezone:
+          $ref: '#/components/schemas/TimezoneId'
+        twentyFourSeven:
+          type: boolean
+        businessHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessHours'

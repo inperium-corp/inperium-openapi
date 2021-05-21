@@ -3291,8 +3291,6 @@ components:
         - twentyFourSeven
         - businessHours
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         phoneNumber:
           type: string
         timezone:

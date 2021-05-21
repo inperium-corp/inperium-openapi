@@ -2096,7 +2096,7 @@ components:
         - businessHoursPart
         - closedHoursPart
         - twentyFourSeven
-        - businessHour
+        - businessHours
       properties:
         name:
           type: string
@@ -2117,7 +2117,7 @@ components:
         twentyFourSeven:
           type: boolean
           description: If the auto receptionist works as business hours 24/7
-        businessHour:
+        businessHours:
           type: array
           items:
             $ref: '#/components/schemas/BusinessHour'

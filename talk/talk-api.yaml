@@ -2096,7 +2096,7 @@ components:
         - businessHoursPart
         - closedHoursPart
         - twentyFourSeven
-        - businessHours
+        - businessHour
       properties:
         name:
           type: string
@@ -2117,10 +2117,10 @@ components:
         twentyFourSeven:
           type: boolean
           description: If the auto receptionist works as business hours 24/7
-        businessHours:
+        businessHour:
           type: array
           items:
-            $ref: '#/components/schemas/BusinessHours'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
@@ -2151,7 +2151,7 @@ components:
         - businessHoursPart
         - closedHoursPart
         - twentyFourSeven
-        - businessHours
+        - businessHour
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2174,10 +2174,10 @@ components:
         twentyFourSeven:
           type: boolean
           description: If the auto receptionist works as business hours 24/7
-        businessHours:
+        businessHour:
           type: array
           items:
-            $ref: '#/components/schemas/BusinessHours'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
@@ -3264,7 +3264,7 @@ components:
           type: integer
           format: int64
 
-    BusinessHours:
+    BusinessHour:
       type: object
       required:
         - openHour
@@ -3289,7 +3289,7 @@ components:
       required:
         - phoneNumber
         - twentyFourSeven
-        - businessHours
+        - businessHour
       properties:
         phoneNumber:
           type: string
@@ -3297,7 +3297,7 @@ components:
           $ref: '#/components/schemas/TimezoneId'
         twentyFourSeven:
           type: boolean
-        businessHours:
+        businessHour:
           type: array
           items:
-            $ref: '#/components/schemas/BusinessHours'
+            $ref: '#/components/schemas/BusinessHour'

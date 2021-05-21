@@ -3282,7 +3282,7 @@ components:
           $ref: '#/components/schemas/DayOfWeek'
         enabled:
           type: boolean
-          description: If the business hour turned on or not
+          description: If the business hour is turned on or not.
 
     ForwardingPhoneNumber:
       type: object

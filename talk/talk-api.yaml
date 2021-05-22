@@ -2120,7 +2120,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/AutoReceptionistHour'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
@@ -2177,7 +2177,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/AutoReceptionistHour'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
@@ -2199,25 +2199,6 @@ components:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
-    AutoReceptionistHour:
-      type: object
-      required:
-        - openHour
-        - closeHour
-        - weekday
-        - enabled
-      properties:
-        openHour:
-          type: string
-          format: x-time
-        closeHour:
-          type: string
-          format: x-time
-        weekday:
-          $ref: '#/components/schemas/DayOfWeek'
-        enabled:
-          type: boolean
-          description: If the business hour turned on or not
     AutoReceptionistStrategy:
       type: string
       enum:
@@ -2290,6 +2271,8 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
+        forwardingNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2343,6 +2326,8 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+        forwardingNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -2989,8 +2974,6 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        forwardingPhoneNumber:
-          type: string
     UserSettings:
       type: object
       properties:
@@ -2998,8 +2981,6 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        forwardingPhoneNumber:
-          type: string
     User:
       type: object
       properties:
@@ -3282,3 +3263,41 @@ components:
         onCall:
           type: integer
           format: int64
+
+    BusinessHour:
+      type: object
+      required:
+        - openHour
+        - closeHour
+        - weekday
+        - enabled
+      properties:
+        openHour:
+          type: string
+          format: x-time
+        closeHour:
+          type: string
+          format: x-time
+        weekday:
+          $ref: '#/components/schemas/DayOfWeek'
+        enabled:
+          type: boolean
+          description: If the business hour is turned on or not.
+
+    ForwardingPhoneNumber:
+      type: object
+      required:
+        - phoneNumber
+        - twentyFourSeven
+        - businessHours
+      properties:
+        phoneNumber:
+          type: string
+        timezone:
+          $ref: '#/components/schemas/TimezoneId'
+        twentyFourSeven:
+          type: boolean
+        businessHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessHour'

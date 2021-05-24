@@ -46,6 +46,9 @@ tags:
   - name: Contact Data
     description: |
       Contact data can be enriched with the publicly available information about from the internet, for example, links to social media or a CV.
+  - name: DataGridViews
+    description: |
+      Data grid views control what data is returned to the user, including filtering, sorting, and columns on a display.
   - name: Deals
     description: |
       Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
@@ -55,6 +58,9 @@ tags:
   - name: Deprecated
     description: |
       Deprecated features which will be terminated in next releases.
+  - name: Detail Page Views
+    description: |
+      Detail page views control what data is returned to the user.
   - name: Dictionaries
     description: |
       Dictionaries contain predefined data that users typically see in drop-down lists. For example, days of weeks, standard statuses, countries, or phone codes.
@@ -142,9 +148,6 @@ tags:
   - name: Tenant Settings
     description: |
       In Inperium Sell, administrators can set up tenant-wide properties and preferences such as default currency, quote prefix, revenue goal, etc.
-  - name: Views
-    description: |
-      Views control what data is returned to the user, including filtering, sorting, and columns on a display.
   - name: Widgets
     description: |
       In Inperium Sell, a widget is a dashboard element providing certain data, for example, the leader board or the number of deals on each pipeline.
@@ -2737,7 +2740,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfigs"
+                $ref: "#/components/schemas/Properties"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2762,7 +2765,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfig"
+                $ref: "#/components/schemas/Property"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2796,7 +2799,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfig"
+                $ref: "#/components/schemas/Property"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2815,35 +2818,6 @@ paths:
         204:
           description: Returns an empty response.
           content: {}
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /properties/{objectType}:
-    get:
-      tags:
-        - Properties
-      summary: List properties by object
-      description: Retrieve properties belonging to a specific entity. For example, company properties or deal properties.
-      operationId: getPropertiesByType
-      parameters:
-        - name: objectType
-          in: path
-          description: The object, e.g., companies, contacts, or deals.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: The properties have been retrieved. Returns the list of PropertyConfigs.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PropertyConfig"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3734,39 +3708,39 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /views:
+  /views/dataGrid:
     post:
       tags:
-        - Views
-      summary: Create a view
-      description: Use this endpoint to add a new view.
-      operationId: createView
+        - DataGridViews
+      summary: Create a data grid view
+      description: Use this endpoint to add a new data grid view.
+      operationId: createDataGridView
       requestBody:
-        description: In the request body, pass the ViewRequest object.
+        description: In the request body, pass the DataGridViewRequest object.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ViewRequest"
+              $ref: "#/components/schemas/DataGridViewRequest"
       responses:
         201:
-          description: A new view has been created. Returns a view.
+          description: A new data grid view has been created. Returns a data grid view.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/View"
+                $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /views/{type}:
+  /views/dataGrid/{type}:
     get:
       tags:
-        - Views
+        - DataGridViews
       summary: List views of a specific type
       description: Use this endpoint to retrieve views by their type. For example, company views or contact views.
-      operationId: getViews
+      operationId: getDataGridViewsByType
       parameters:
         - name: type
           in: path
@@ -3782,20 +3756,20 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/View"
+                  $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /views/{id}:
+  /views/dataGrid/{id}:
     put:
       tags:
-        - Views
+        - DataGridViews
       summary: Update a view
       description: Use this endpoint to modify and overwrite an existing view.
-      operationId: updateView
+      operationId: updateDataGridView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
@@ -3803,14 +3777,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ViewRequest"
+              $ref: "#/components/schemas/DataGridViewRequest"
       responses:
         200:
           description: The view has been updated. Returns a view.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/View"
+                $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3819,16 +3793,98 @@ paths:
                 $ref: "#/components/schemas/ResponseError"
     delete:
       tags:
-        - Views
+        - DataGridViews
       summary: Delete a view
       description: Use this endpoint to remove an obsolete view.
-      operationId: deleteView
+      operationId: deleteDataGridView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
         204:
           description: Returns an empty response.
           content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /views/detailPage:
+    post:
+      tags:
+        - DetailPageViews
+      summary: Create a detail page view
+      description: Use this endpoint to add a new view.
+      operationId: createDetailPageView
+      requestBody:
+        description: In the request body, pass the DetailPageView object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPageView"
+      responses:
+        201:
+          description: The view has been created. Returns the DetailPageView object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /views/detailPage/{id}:
+    put:
+      tags:
+        - DetailPageViews
+      summary: Update a detail page view
+      description: Use this endpoint to modify an existing view.
+      operationId: updateDetailPageView
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the DetailPageView object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPageView"
+      responses:
+        204:
+          description: The view has been updated. Returns a DetailPageView object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+  /views/detailPage/{type}:
+    get:
+      tags:
+        - DetailPageViews
+      summary: List detail page views
+      description: Use this endpoint to retrieve the detail page views by the type of object they belong to. For example, company page views or contact page views.
+      operationId: getDetailPageViewByType
+      parameters:
+        - name: type
+          in: path
+          description: The Inperium entity (companies, deals, etc.) the detail page view is used for.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The detail page views have been retrieved. Returns the DetailPageView.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -4510,6 +4566,100 @@ components:
           type: boolean
           description: The true/false parameter that defines the terminal usage.
       description: The incoming object that instructs Stripe to create a payment intent.
+    DataGridView:
+      type: object
+      description: The view object controls what data to display in Inperium Sell, i.e., the columns in the table view, their order, applied filters.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The view title.
+        state:
+          type: object
+          description: The view current status.
+          additionalProperties: true
+        filter:
+          description: The applied filter. To learn more, see the 'Filtering' article.
+          type: object
+          additionalProperties: true
+          example:
+            groups:
+              filters:
+                - type: IS_EQUAL_TO
+                  value: [ME]
+                  propertyId: $OBJECT-UUID
+              condition: AND
+            condition: AND
+        columns:
+          type: array
+          description: The list of columns.
+          items:
+            type: object
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              columnOrder:
+                type: integer
+                description: The position of the column.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        private:
+          type: boolean
+          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
+        userId:
+          $ref: "#/components/schemas/Id"
+    DataGridViewRequest:
+      type: object
+      description: This object is submitted to Inperium API when you create a new view or update an existing view. Use it to create custom filters and column sets.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The view title.
+        state:
+          type: object
+          description: The view current status.
+          additionalProperties: true
+        filter:
+          description: The applied filter.
+          type: object
+          additionalProperties: true
+        columns:
+          type: array
+          description: The list of columns.
+          items:
+            type: object
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              columnOrder:
+                type: integer
+                description: The position of the column.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        private:
+          type: boolean
+          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
+    DataGridViews:
+      type: object
+      description: The list of views with paging data.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/DataGridView"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
     Deal:
       type: object
       description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
@@ -4525,26 +4675,26 @@ components:
               id: $OBJECT-UUID
               name: Ensemble
               stages:
-                  - id: $OBJECT-UUID1
-                    name: Initial
-                    probability: 0.1
-                    sortOrder: 0
-                    pipelineId: $OBJECT-UUID
-                  - id: $OBJECT-UUID2
-                    name: Showcasing
-                    probability: 0.5
-                    sortOrder: 1
-                    pipelineId: $OBJECT-UUID
-                  - id: $OBJECT-UUID3
-                    name: Closed won
-                    probability: 1
-                    sortOrder: 2
-                    pipelineId: $OBJECT-UUID
-                  - id: $OBJECT-UUID4
-                    name: Closed lost
-                    probability: 0
-                    sortOrder: 3
-                    pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID1
+                  name: Initial
+                  probability: 0.1
+                  sortOrder: 0
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID2
+                  name: Showcasing
+                  probability: 0.5
+                  sortOrder: 1
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID3
+                  name: Closed won
+                  probability: 1
+                  sortOrder: 2
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID4
+                  name: Closed lost
+                  probability: 0
+                  sortOrder: 3
+                  pipelineId: $OBJECT-UUID
             closeDate: 1582558487000
             stage:
               id: $OBJECT-UUID2
@@ -4609,6 +4759,32 @@ components:
             $ref: "#/components/schemas/Deal"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+    DetailPageView:
+      type: object
+      description: The object describes the properties to be displayed on the detail page and their order.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the view.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        properties:
+          type: array
+          description: The list of displayed properties.
+          items:
+            type: object
+            description: The property & order pair.
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              propertyOrder:
+                type: integer
+                description: The position in the list, with the lowest value on top.
     DictionaryItem:
       type: object
       properties:
@@ -4813,7 +4989,7 @@ components:
           type: boolean
           description: The true/false parameter that defines if the field should be hidden from view.
         definition:
-          $ref: "#/components/schemas/PropertyDefinition"
+          $ref: "#/components/schemas/Property"
         description:
           type: string
           description: Additional information about the form field.
@@ -5567,77 +5743,26 @@ components:
             $ref: "#/components/schemas/Product"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-    PropertyConfig:
-      description: A complete description of the field (or property) used in Inperium Sell.
-      anyOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            usedIn:
-              type: integer
-              format: int64
-              description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
-            ownerId:
-              type: string
-              format: uuid
-              description: The ID of the user who added this property. 'Null' for builtin properties.
-            dataGrid:
-              type: boolean
-              description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
-            detailsPage:
-              type: boolean
-              description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
-            bulkUpdate:
-              type: boolean
-              description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
-            template:
-              type: boolean
-              description: The parameter marks if this property can be used in the templates in the UI.
-            filtering:
-              type: boolean
-              description: The parameter marks if this property can be selected for filtering in the UI.
-            propertyOptions:
-              type: array
-              description: The list of options.
-              items:
-                $ref: "#/components/schemas/PropertyOption"
-            validation:
-              type: object
-              description: The validation parameters for the property such as a maximum input length or a support pattern.
-              properties:
-                required:
-                  type: boolean
-                  description: The true/false parameter that marks if this property must be filled.
-                max:
-                  type: integer
-                  format: int64
-                  description: The maximum supported value.
-                min:
-                  type: integer
-                  format: int64
-                  description: The minimum supported value.
-                maxLength:
-                  type: integer
-                  format: int64
-                  description: The maximum length of the input text.
-                minLength:
-                  type: integer
-                  format: int64
-                  description: The minimum length of the input text.
-                pattern:
-                  type: string
-                  description: The pattern to validate the input against.
-    PropertyConfigs:
+    PropertyUsage:
+      description: The object configures how and when the property is used.
       type: object
-      description: The list of property configurations with paging data.
       properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/PropertyConfig"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
-    PropertyDefinition:
+        dataGrid:
+          type: boolean
+          description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
+        detailPage:
+          type: boolean
+          description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
+        bulkUpdate:
+          type: boolean
+          description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
+        template:
+          type: boolean
+          description: The parameter marks if this property can be used in the templates in the UI.
+        filtering:
+          type: boolean
+          description: The parameter marks if this property can be selected for filtering in the UI.
+    Property:
       required:
         - label
         - name
@@ -5670,6 +5795,62 @@ components:
         custom:
           type: boolean
           description: The true/false parameter that marks if the property is builtin (false) or created by user (true).
+        usedIn:
+          type: integer
+          format: int64
+          description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
+        options:
+          type: array
+          description: The list of options for select property.
+          items:
+            $ref: "#/components/schemas/PropertyOption"
+        isMulti:
+          type: boolean
+          description: The parameter defines if this property field can store multiple values (e.g., an array of contact IDs).
+        validation:
+          $ref: "#/components/schemas/PropertyValidation"
+        authorId:
+          type: string
+          format: uuid
+          description: The ID of the user who added this property configuration. 'Null' for builtin properties.
+        usage:
+          $ref: "#/components/schemas/PropertyUsage"
+    Properties:
+      type: object
+      description: The list of properties with paging data.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Property"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+    PropertyValidation:
+      type: object
+      description: The validation parameters for the property such as a maximum input length or a support pattern.
+      properties:
+        required:
+          type: boolean
+          description: The true/false parameter that marks if this property must be filled.
+        max:
+          type: integer
+          format: int64
+          description: The maximum supported value.
+        min:
+          type: integer
+          format: int64
+          description: The minimum supported value.
+        maxLength:
+          type: integer
+          format: int64
+          description: The maximum length of the input text.
+        minLength:
+          type: integer
+          format: int64
+          description: The minimum length of the input text.
+        pattern:
+          type: string
+          description: The pattern to validate the input against.
     PropertyOption:
       type: object
       description: When you create a property with the 'select' data, you have to define the possible values. For example, for the 'Shipping' property with the 'Select' data type, the options will be 'Ground' and 'Air'.
@@ -5683,16 +5864,37 @@ components:
           type: string
           description: The value.
     PropertyRequest:
+      type: object
       description: The incoming object that provides a complete definition of a custom property.
-      allOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            propertyOptions:
-              type: array
-              description: The list of property options.
-              items:
-                $ref: "#/components/schemas/PropertyOption"
+      properties:
+        objectType:
+          type: string
+          description: The property can belong to either a company, a contact, a deal, or a product.
+        name:
+          type: string
+          description: The internal name.
+        label:
+          type: string
+          description: The display name.
+        description:
+          type: string
+          description: Comments or additional details.
+        dataType:
+          type: string
+          description: The property data type such as string, boolean or monetary.
+        currency:
+          type: string
+          description: For monetary properties, the default currency of the property.
+        options:
+          type: array
+          description: The list of options for select property.
+          items:
+            $ref: "#/components/schemas/PropertyOption"
+        isMulti:
+          type: boolean
+          description: Shows that value is multi or not.
+        validation:
+          $ref: "#/components/schemas/PropertyValidation"
     PublicQuote:
       type: object
       description: The quote that is sent to a customer for approval. The PublicQuote object will have less parameters than the Quote object that is used internally.
@@ -6648,100 +6850,6 @@ components:
           type: string
           description: The Stripe secret key.
       description: The object containing a terminal token.
-    View:
-      type: object
-      description: The view object controls what data to display in Inperium Sell, i.e., the columns in the table view, their order, applied filters.
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-          description: The view title.
-        state:
-          type: object
-          description: The view current status.
-          additionalProperties: true
-        filter:
-          description: The applied filter. To learn more, see the 'Filtering' article.
-          type: object
-          additionalProperties: true
-          example:
-            groups:
-              filters:
-                - type: IS_EQUAL_TO
-                  value: [ME]
-                  propertyId: $OBJECT-UUID
-              condition: AND
-            condition: AND
-        columns:
-          type: array
-          description: The list of columns.
-          items:
-            type: object
-            properties:
-              propertyId:
-                $ref: "#/components/schemas/Id"
-              columnOrder:
-                type: integer
-                description: The position of the column.
-        type:
-          type: string
-          description: The type of object the view applies to.
-        custom:
-          type: boolean
-          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
-        private:
-          type: boolean
-          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-        userId:
-          $ref: "#/components/schemas/Id"
-    ViewRequest:
-      type: object
-      description: This object is submitted to Inperium API when you create a new view or update an existing view. Use it to create custom filters and column sets.
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-          description: The view title.
-        state:
-          type: object
-          description: The view current status.
-          additionalProperties: true
-        filter:
-          description: The applied filter.
-          type: object
-          additionalProperties: true
-        columns:
-          type: array
-          description: The list of columns.
-          items:
-            type: object
-            properties:
-              propertyId:
-                $ref: "#/components/schemas/Id"
-              columnOrder:
-                type: integer
-                description: The position of the column.
-        type:
-          type: string
-          description: The type of object the view applies to.
-        custom:
-          type: boolean
-          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
-        private:
-          type: boolean
-          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-    Views:
-      type: object
-      description: The list of views with paging data.
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/View"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
     Widgets:
       type: object
       description: The Widgets object is an aggregation of smaller widget components. It gives you insights into the sales team progress. To learn more about charts and analytics, refer to Inperium Sell user documentation.

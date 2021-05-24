@@ -769,6 +769,7 @@ paths:
                 $ref: '#/components/schemas/SubscriptionCostEstimate'
         default:
           $ref: '#/components/responses/DefaultResponse'
+
   /subscriptions:
     get:
       summary: Retrieve subscriptions
@@ -2518,7 +2519,7 @@ components:
           format: double
           description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
         active:
-          description: The true/false parameter that marks if the balance is active. A reason for the inactive state can be a failed attempt to add a fund to the balance. 
+          description: The true/false parameter that marks if the balance is active. A reason for the inactive state can be a failed attempt to add a fund to the balance.
           type: boolean
 
     BalanceCharge:
@@ -2969,11 +2970,7 @@ components:
             The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
             it indicates that some license aren't currently in use. You can leverage these licenses by inviting more users.
         type:
-          type: string
-          enum:
-            - PRODUCT
-            - ADD_ON
-          description: The type identifies whether the item relates to a product or one of its add-on.
+          $ref: '#/components/schemas/SubscriptionItemType'
         assignable:
           type: boolean
           description: The true/false parameter defining if a user can be assigned to the item.
@@ -3119,7 +3116,8 @@ components:
         amountPerUser:
           type: number
           format: double
-          description: The price per user per interval of the calculated subscription without discount.
+          deprecated: true
+          description: The price per user per interval of the calculated subscription without discount. Please consider taking this information from the subscription items.
         totalAmount:
           type: number
           format: double
@@ -3139,6 +3137,57 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of calculated licenses.
+          deprecated: true
+          description: The number of calculated licenses. Please consider taking this information from the subscription items.
         promotionCode:
           $ref: '#/components/schemas/PromotionCode'
+        items:
+          type: array
+          description: A list of items.
+          items:
+            $ref: '#/components/schemas/SubscriptionItemCostEstimate'
+
+    SubscriptionItemCostEstimate:
+      type: object
+      description: The object helps predict the subscription item cost.
+      required:
+        - name
+        - type
+        - amountPerUser
+        - totalAmount
+        - currency
+        - interval
+        - licensedQuantity
+      properties:
+        name:
+          type: string
+          description: The name of the subscription item.
+        type:
+          $ref: '#/components/schemas/SubscriptionItemType'
+        amountPerUser:
+          type: number
+          format: double
+          description: The price per user per interval of the calculated subscription item without discount.
+        totalAmount:
+          type: number
+          format: double
+          description: The overall price per interval of the calculated subscription item without discount.
+        discountAmount:
+          type: number
+          format: double
+          description: The discount applied to the subscription item.
+        totalDiscountedAmount:
+          type: number
+          format: double
+          description: The overall discounted price per interval of the calculated subscription item.
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of calculated licenses.
+
+    SubscriptionItemType:
+      type: string
+      description: The type of subscription item. It indicates whether the item relates to a product or one of its add-ons.
+      enum:
+        - PRODUCT
+        - ADD_ON

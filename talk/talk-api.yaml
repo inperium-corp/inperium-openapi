@@ -1529,6 +1529,8 @@ paths:
               properties:
                 RecordingUrl:
                   type: string
+                RecordingSid:
+                  type: string
                 RecordingDuration:
                   type: number
                   format: double

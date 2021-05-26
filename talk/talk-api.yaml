@@ -2328,8 +2328,8 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
-        forwardingNumber:
-          $ref: '#/components/schemas/ForwardingPhoneNumber'
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
       required:
         - audioPromptId

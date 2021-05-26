@@ -769,6 +769,7 @@ paths:
                 $ref: '#/components/schemas/SubscriptionCostEstimate'
         default:
           $ref: '#/components/responses/DefaultResponse'
+
   /subscriptions:
     get:
       summary: Retrieve subscriptions
@@ -1023,6 +1024,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Balance"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
+  /tenants/{id}/balance/charges:
+    get:
+      tags:
+        - Balances
+      summary: Retrieve balance charges
+      description: Use this endpoint to get information about the balance charges of the tenant.
+      operationId: getBalanceCharges
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+        - name: from
+          in: query
+          description: The start date.
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          description: The finish date.
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: Returns the Balance Charges object.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceCharges"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2463,6 +2502,7 @@ components:
         - rechargeAmount
         - currency
         - currentAmount
+        - active
       properties:
         minimumAmount:
           type: number
@@ -2478,6 +2518,56 @@ components:
           type: number
           format: double
           description: The current amount of money that is on the tenants balance. This can be used for any metered charges such as Inperium Talk calling or SMS credits.
+        active:
+          description: The true/false parameter that marks if the balance is active. A reason for the inactive state can be a failed attempt to add a fund to the balance.
+          type: boolean
+
+    BalanceCharge:
+      type: object
+      description: The object contains the tenant's balance charge information.
+      required:
+        - id
+        - netAmount
+        - createAt
+        - updatedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        netAmount:
+          type: number
+          format: double
+          description: The net amount of the charge.
+        taxAmount:
+          type: number
+          format: double
+          description: The tax amount of the charge.
+        grossAmount:
+          type: number
+          format: double
+          description: The gross amount of the charge.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: Additional information about the charge. For example, it can be infortmation about addressee of a call in Inperium Talk.
+        createdAt:
+          type: integer
+          description: The date the charge was recorded.
+          format: int64
+        updatedAt:
+          type: integer
+          description: The date the charge was modified.
+          format: int64
+
+    BalanceCharges:
+      type: object
+      description: The list of available charges.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/BalanceCharge"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
 
     BalancePartialRequest:
       type: object
@@ -2495,6 +2585,9 @@ components:
           minimum: 20
           maximum: 200
           description: The amount that will be charged on the tenants payment method if the balances current amount drops below the minimum amount.
+        active:
+          type: boolean
+          description: The true/false parameter that marks if the balance is active. Making balance active allows using metered add-ons.
 
     Permission:
       type: object
@@ -2621,11 +2714,20 @@ components:
           type: string
           description: The Inperium app.
 
+    FeaturePriceModel:
+      type: string
+      enum:
+        - STANDARD
+        - METERED
+      description: The FeaturePriceModel object defines what price model the feature has.
+
     FeatureUsageRequest:
       type: object
       description: |
         The incoming object sent by Inperium services to Hub when a feature usage is updated outside the Hub.
         For example, you make an international call.
+      required:
+        - quantity
       properties:
         quantity:
           type: integer
@@ -2635,32 +2737,27 @@ components:
             The number demonstrating how many times the feature was consumed. Depending on the endpoint that is in use,
             the quantity can be either the total feature usage count or its increment.
         userId:
+          description: The id defines the user who consumped the feature. This attribute is mandatory for assignable features.
           $ref: "#/components/schemas/Id"
+        usageId:
+          description: The id is the identifier of a usage. The id can be used for updating already created usage.
+          $ref: "#/components/schemas/Id"
+        metadata:
+          type: object
+          additionalProperties: true
+          description: The objects defines an extra information about the usage. For example, an addressee of a call.
 
     FeatureUsage:
       type: object
       description: The FeatureUsage object describes the feature in the plan you have.
       required:
-        - plan
-        - feature
+        - planFeature
       properties:
-        plan:
-          $ref: "#/components/schemas/Plan"
-        feature:
-          $ref: "#/components/schemas/Feature"
-        priceModels:
-          type: array
-          description: |
-            Depending on the endpoint that is in use, the price models are either the available models in the plan or the used price model.
-          items:
-            type: string
-            enum:
-              - STANDARD
-              - METERED
-        currentValue:
-          type: integer
-          format: int64
-          description: The current value of the feature usage for the tenant.
+        planFeature:
+          $ref: "#/components/schemas/PlanFeature"
+        limitUsage:
+          description: The object describes whether the feature has any limit in the plan for you and what the current state it has.
+          $ref: "#/components/schemas/LimitUsage"
 
     Plan:
       type: object
@@ -2873,11 +2970,7 @@ components:
             The number of available licenses. If the overall number of purchased licenses exceed the 'licensedQuantity',
             it indicates that some license aren't currently in use. You can leverage these licenses by inviting more users.
         type:
-          type: string
-          enum:
-            - PRODUCT
-            - ADD_ON
-          description: The type identifies whether the item relates to a product or one of its add-on.
+          $ref: '#/components/schemas/SubscriptionItemType'
         assignable:
           type: boolean
           description: The true/false parameter defining if a user can be assigned to the item.
@@ -2946,6 +3039,28 @@ components:
         - CANCELED
       description: The state of the subscription. This is the enum parameter.
 
+    PlanFeature:
+      type: object
+      description: The plan-feature object defines additional information of the feature in the plan.
+      required:
+        - id
+        - plan
+        - feature
+        - assignable
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        plan:
+          $ref: "#/components/schemas/Plan"
+        feature:
+          $ref: "#/components/schemas/Feature"
+        priceModel:
+          description: The object defines what price model the feature has in the plan. Having no model means that the feature is free in the plan.
+          $ref: "#/components/schemas/FeaturePriceModel"
+        assignable:
+          type: boolean
+          description: The true/false parameter that marks if the feature can be assigned to users.
+
     PlanFullInfo:
       type: object
       description: The PlanFullInfo object contains complete information about a plan enabled for a specific tenant.
@@ -3001,7 +3116,8 @@ components:
         amountPerUser:
           type: number
           format: double
-          description: The price per user per interval of the calculated subscription without discount.
+          deprecated: true
+          description: The price per user per interval of the calculated subscription without discount. Please consider taking this information from the subscription items.
         totalAmount:
           type: number
           format: double
@@ -3021,6 +3137,57 @@ components:
         licensedQuantity:
           type: integer
           format: int64
-          description: The number of calculated licenses.
+          deprecated: true
+          description: The number of calculated licenses. Please consider taking this information from the subscription items.
         promotionCode:
           $ref: '#/components/schemas/PromotionCode'
+        items:
+          type: array
+          description: A list of items.
+          items:
+            $ref: '#/components/schemas/SubscriptionItemCostEstimate'
+
+    SubscriptionItemCostEstimate:
+      type: object
+      description: The object helps predict the subscription item cost.
+      required:
+        - name
+        - type
+        - amountPerUser
+        - totalAmount
+        - currency
+        - interval
+        - licensedQuantity
+      properties:
+        name:
+          type: string
+          description: The name of the subscription item.
+        type:
+          $ref: '#/components/schemas/SubscriptionItemType'
+        amountPerUser:
+          type: number
+          format: double
+          description: The price per user per interval of the calculated subscription item without discount.
+        totalAmount:
+          type: number
+          format: double
+          description: The overall price per interval of the calculated subscription item without discount.
+        discountAmount:
+          type: number
+          format: double
+          description: The discount applied to the subscription item.
+        totalDiscountedAmount:
+          type: number
+          format: double
+          description: The overall discounted price per interval of the calculated subscription item.
+        licensedQuantity:
+          type: integer
+          format: int64
+          description: The number of calculated licenses.
+
+    SubscriptionItemType:
+      type: string
+      description: The type of subscription item. It indicates whether the item relates to a product or one of its add-ons.
+      enum:
+        - PRODUCT
+        - ADD_ON

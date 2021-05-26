@@ -42,6 +42,12 @@ paths:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
+        - name: name
+          in: query
+          description: Filter by name
+          schema:
+            type: string
+            example: like::Some name
       responses:
         200:
           description: The list of audio files have been retrieved
@@ -130,7 +136,7 @@ paths:
               $ref: '#/components/schemas/AudioFileUpdateRequest'
       responses:
         200:
-          description: The audio file have been created
+          description: The audio file has been updated
           content:
             application/json:
               schema:
@@ -351,80 +357,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
-  /phoneNumbers/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for phone number
-      operationId: getPhoneNumberVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voice mails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /autoReceptionists/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the list of voice mails for auto receptionist
-      operationId: getReceptionistVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of voice mails have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /users/{id}/voicemails:
-    get:
-      tags:
-        - Voice Mails
-      summary: Retrieve the mp3 voice mail for user
-      operationId: getUserVoiceMails
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The voice mail contents have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Recordings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /users/{id}/phoneNumbers:
     post:
       tags:
@@ -1558,6 +1490,9 @@ paths:
                   type: string
                 RecordingSid:
                   type: string
+                RecordingDuration:
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received
@@ -1594,6 +1529,9 @@ paths:
               properties:
                 RecordingUrl:
                   type: string
+                RecordingDuration:
+                  type: number
+                  format: double
       responses:
         200:
           description: TwiML response has been received
@@ -1624,9 +1562,15 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               properties:
-                CallStatus:
-                  type: string
                 CallSid:
+                  type: string
+                To:
+                  type: string
+                From:
+                  type: string
+                AccountSid:
+                  type: string
+                CallStatus:
                   type: string
       responses:
         200:
@@ -1677,6 +1621,10 @@ paths:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
+        - name: fullName
+          in: query
+          schema:
+            type: string
       responses:
         200:
           description: The contacts have been retrieved
@@ -1778,6 +1726,91 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /voicemails:
+    get:
+      tags:
+        - Voicemails
+      summary: Retrieve the voicemails
+      operationId: getVoicemails
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: phoneNumberId
+          in: query
+          schema:
+            type: string
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The voicemail contents have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /voicemails/{id}:
+    patch:
+      tags:
+        - Voicemails
+      summary: Update (partially) the voicemail
+      operationId: updateVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordingRequest'
+      responses:
+        200:
+          description: The voicemail has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Voicemails
+      summary: Delete a voicemail
+      operationId: deleteVoicemail
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The voicemail has been deleted
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /userSettings:
     get:
       tags:
@@ -2087,7 +2120,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/AutoReceptionistHour'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
@@ -2105,7 +2138,7 @@ components:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         callQueue:
           type: string # TODO
@@ -2144,7 +2177,7 @@ components:
         businessHours:
           type: array
           items:
-            $ref: '#/components/schemas/AutoReceptionistHour'
+            $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
@@ -2162,29 +2195,10 @@ components:
           $ref: '#/components/schemas/AutoReceptionist'
         user:
           $ref: '#/components/schemas/User'
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
-    AutoReceptionistHour:
-      type: object
-      required:
-        - openHour
-        - closeHour
-        - weekday
-        - enabled
-      properties:
-        openHour:
-          type: string
-          format: x-time
-        closeHour:
-          type: string
-          format: x-time
-        weekday:
-          $ref: '#/components/schemas/DayOfWeek'
-        enabled:
-          type: boolean
-          description: If the business hour turned on or not
     AutoReceptionistStrategy:
       type: string
       enum:
@@ -2257,6 +2271,8 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
+        forwardingNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2310,6 +2326,8 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+        forwardingNumber:
+          $ref: '#/components/schemas/ForwardingPhoneNumber'
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -2740,28 +2758,36 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactEmail'
+    ContactInfoType:
+      type: string
+      enum:
+        - WORK
+        - PERSONAL
+        - OTHER
     ContactPhoneNumber:
       type: object
       required:
         - phoneNumber
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        label:
-          type: string
         phoneNumber:
           type: string
+        type:
+          $ref: '#/components/schemas/ContactInfoType'
     ContactEmail:
       type: object
       required:
         - email
+        - type
       properties:
         id:
           $ref: '#/components/schemas/Id'
-        label:
-          type: string
         email:
           type: string
+        type:
+          $ref: '#/components/schemas/ContactInfoType'
     Recordings:
       type: object
       properties:
@@ -2773,14 +2799,20 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Recording:
       type: object
+      required:
+        - id
+        - createdAt
+        - call
+        - state
       properties:
         id:
           $ref: '#/components/schemas/Id'
         url:
           type: string
-        size:
+        duration:
           type: integer
           format: int64
+          description: Duration audio file in milliseconds
         message:
           type: string
         createdAt:
@@ -2789,6 +2821,21 @@ components:
           description: Timestamp of the create
         call:
           $ref: '#/components/schemas/Call'
+        state:
+          $ref: '#/components/schemas/RecordingState'
+
+    RecordingRequest:
+      type: object
+      properties:
+        state:
+          $ref: '#/components/schemas/RecordingState'
+
+    RecordingState:
+      type: string
+      enum:
+        - UNREAD
+        - READ
+      description: Lifecycle state of a recording
 
     Reports:
       type: object
@@ -2912,7 +2959,7 @@ components:
           type: integer
           minimum: 1
           maximum: 5
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
@@ -2923,21 +2970,17 @@ components:
     UserSettingsRequest:
       type: object
       properties:
-        voiceMailId:
+        voicemailId:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        forwardingPhoneNumber:
-          type: string
     UserSettings:
       type: object
       properties:
-        voiceMail:
+        voicemail:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        forwardingPhoneNumber:
-          type: string
     User:
       type: object
       properties:
@@ -3107,8 +3150,8 @@ components:
         - answeredOutbound
         - missedInbound
         - missedOutbounв
-        - voiceMailsInbound
-        - voiceMailsOutbound
+        - voicemailsInbound
+        - voicemailsOutbound
       properties:
         hour:
           type: integer
@@ -3124,10 +3167,10 @@ components:
         missedOutbound:
           type: integer
           format: int64
-        voiceMailsInbound:
+        voicemailsInbound:
           type: integer
           format: int64
-        voiceMailsOutbound:
+        voicemailsOutbound:
           type: integer
           format: int64
 
@@ -3149,7 +3192,7 @@ components:
         - inbound
         - outbound
         - averageTime
-        - forwardedToVoiceMail
+        - forwardedToVoicemail
         - missed
         - total
       properties:
@@ -3168,7 +3211,7 @@ components:
         averageTime:
           type: integer
           format: int64
-        forwardedToVoiceMail:
+        forwardedToVoicemail:
           type: integer
           format: int64
         missed:
@@ -3220,3 +3263,41 @@ components:
         onCall:
           type: integer
           format: int64
+
+    BusinessHour:
+      type: object
+      required:
+        - openHour
+        - closeHour
+        - weekday
+        - enabled
+      properties:
+        openHour:
+          type: string
+          format: x-time
+        closeHour:
+          type: string
+          format: x-time
+        weekday:
+          $ref: '#/components/schemas/DayOfWeek'
+        enabled:
+          type: boolean
+          description: If the business hour is turned on or not.
+
+    ForwardingPhoneNumber:
+      type: object
+      required:
+        - phoneNumber
+        - twentyFourSeven
+        - businessHours
+      properties:
+        phoneNumber:
+          type: string
+        timezone:
+          $ref: '#/components/schemas/TimezoneId'
+        twentyFourSeven:
+          type: boolean
+        businessHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessHour'

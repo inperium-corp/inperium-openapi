@@ -57,7 +57,7 @@ tags:
       Deprecated features which will be terminated in next releases.
   - name: Dictionaries
     description: |
-      Dictionaries represent lists of objects.
+      Dictionaries contain predefined data that users typically see in drop-down lists. For example, days of weeks, standard statuses, countries, or phone codes.
   - name: Documents
     description: |
       Inperium Sell stores files in AWS. In most cases, documents are attached to entities such as companies or deals, but some documents are stored independently (e.g., avatar images).
@@ -106,9 +106,6 @@ tags:
   - name: Pipeline Statistics
     description: |
       Analyze your sales progress with pipeline statistics.
-  - name: Predefined Metadata
-    description: |
-      Predefined metadata groups are dictionaries containing data such as days of weeks, standard statuses, or activity types.
   - name: Products
     description: |
       Products are items or services the tenant offers. Each product has a description, retail price, and cost.
@@ -2531,66 +2528,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups:
+  /dictionaries:
     get:
       tags:
-        - Predefined Metadata
-      summary: List metadata groups
-      description: Use this endpoint to get a list of dictionaries.
-      operationId: getAllPredefinedMetadataGroups
+        - Dictionaries
+      summary: List dictionaries
+      description: Use this endpoint to retrieve available dictionaries.
+      operationId: getDictionaries
       responses:
         200:
-          description: The list of predefined metadata groups has been retrieved. Returns predefined metadata groups.
+          description: The dictionaries have been retrieved. Returns a list of Dictionary objects.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PredefinedMetadataGroup"
+                  type: string
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups/{id}:
+  /dictionaries/{id}:
     get:
       tags:
-        - Predefined Metadata
-      summary: Retrieve a metadata group
-      description: Use this endpoint to search for a specific predefined metadata group and retrieve its details.
-      operationId: getPredefinedMetadataGroup
+        - Dictionaries
+      summary: Retrieve a dictionary
+      description: Use this endpoint to search for a specific dictionary and retrieve its items.
+      operationId: getDictionary
       parameters:
         - $ref: "#/components/parameters/ResourceStringId"
       responses:
         200:
-          description: The predefined metadata group has been retrieved. Returns a predefined metadata group.
+          description: The dictionary has been retrieved. Returns dictionary items.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PredefinedMetadataGroup"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
-  /predefinedMetadataGroups/{id}/options:
-    get:
-      tags:
-        - Predefined Metadata
-      summary: List options
-      description: Use this endpoint to retrieve a list of options for a specific predefined metadata group.
-      operationId: getAllPredefinedMetadataOptions
-      parameters:
-        - $ref: "#/components/parameters/ResourceStringId"
-      responses:
-        200:
-          description: The options has been retrieved. Returns PredefinedMetadataOptionList.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PredefinedMetadataOptionList"
+                $ref: "#/components/schemas/Dictionary"
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -4357,6 +4332,8 @@ components:
     CommunicationMethod:
       type: object
       description: The communication method object that defines a source of communication configured for a company.
+      discriminator:
+        propertyName: value
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -4666,7 +4643,7 @@ components:
           description: Comma-separated list of fields, which caused the error condition.
       description: An error returned by Inperium API.
     Email:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CommunicationMethod"
     ExportRequest:
       type: object
@@ -5168,13 +5145,13 @@ components:
       description: The object describes the message that will be sent in bulk, including recipients, the message text, and its subject.
       properties:
         messageCenterAccountId:
-          $ref: '#/components/schemas/Id'
+          $ref: "#/components/schemas/Id"
         toParticipants:
           type: array
           description: The list of recipients.
           minItems: 1
           items:
-            $ref: '#/components/schemas/Participant'
+            $ref: "#/components/schemas/Participant"
         subject:
           type: string
           description: The subject of the message.
@@ -5182,7 +5159,7 @@ components:
         body:
           type: string
           minLength: 1
-      required: 
+      required:
         - messageCenterAccountId
         - toParticipants
         - subject
@@ -5466,33 +5443,11 @@ components:
                 description: The total number of deals.
                 format: int64
     PhoneNumber:
-      anyOf:
+      allOf:
         - $ref: "#/components/schemas/CommunicationMethod"
-    PredefinedMetadataGroup:
+    DictionaryEntry:
       type: object
       properties:
-        id:
-          maxLength: 32
-          minLength: 1
-          type: string
-          description: An internal name of the group, e.g., activitiesType.
-        options:
-          $ref: "#/components/schemas/PredefinedMetadataOptionList"
-      description: The object containing the predefined metadata group.
-    PredefinedMetadataOption:
-      type: object
-      properties:
-        id:
-          maxLength: 32
-          minLength: 1
-          type: string
-          deprecated: true
-          description: The internal name or ID.
-        caption:
-          minLength: 1
-          type: string
-          deprecated: true
-          description: The caption.
         label:
           type: string
           description: The display name.
@@ -5502,12 +5457,15 @@ components:
         value:
           type: string
           description: The value of the option. In most cases, the value is the same as the label.
+        group:
+          type: string
+          description: The type or a subset the entry belongs to.
       description: The dictionary entry.
-    PredefinedMetadataOptionList:
+    Dictionary:
       type: array
-      description: The list of entries in the predefined metadata group.
+      description: The list of entries in the dictionary.
       items:
-        $ref: "#/components/schemas/PredefinedMetadataOption"
+        $ref: "#/components/schemas/DictionaryEntry"
     Product:
       type: object
       properties:
@@ -5560,10 +5518,21 @@ components:
               type: string
               format: uuid
               description: The ID of the user who added this property. 'Null' for builtin properties.
-            configuration:
-              type: object
-              additionalProperties: true
-              description: Additional configuration of the property.
+            dataGrid:
+              type: boolean
+              description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
+            detailsPage:
+              type: boolean
+              description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
+            bulkUpdate:
+              type: boolean
+              description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
+            template:
+              type: boolean
+              description: The parameter marks if this property can be used in the templates in the UI.
+            filtering:
+              type: boolean
+              description: The parameter marks if this property can be selected for filtering in the UI.
             propertyOptions:
               type: array
               description: The list of options.
@@ -6208,7 +6177,12 @@ components:
       example:
         xAxis:
           label: Date
-          data: ["2021-04-10T15:53:53.284Z", "2021-04-14T17:44:53.284Z", "2021-04-18T19:35:53.284Z"]
+          data:
+            [
+              "2021-04-10T15:53:53.284Z",
+              "2021-04-14T17:44:53.284Z",
+              "2021-04-18T19:35:53.284Z",
+            ]
         yAxis:
           label: Deals
           data: [5, 6, 0]

@@ -35,6 +35,24 @@ paths:
       summary: Upload file
       description: Use this endpoint to upload a new file to Inperium OBS. For example, a contract or an image.
       operationId: uploadFile
+      parameters:
+        - name: description
+          in: query
+          description: An optional description of this file.
+          schema:
+            type: string
+        - name: public
+          in: query
+          description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
+          schema:
+            type: boolean
+            default: false
+        - name: userId
+          in: query
+          description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
+          schema:
+            type: string
+            format: uuid
       requestBody:
         content:
           multipart/form-data:
@@ -44,17 +62,6 @@ paths:
                   type: string
                   description: A file to be uploaded.
                   format: binary
-                description:
-                  type: string
-                  description: An optional description of this file.
-                public:
-                  type: boolean
-                  default: false
-                  description: An optional true/false parameter that indicates if the file should be visible for non-authorized users or not. Default false.
-                userId:
-                  type: string
-                  format: uuid
-                  description: An optional ID of the user who uploaded the file. Default is taken from the principal. Only for internal usage.
       responses:
         201:
           description: A new file has been created.
@@ -69,6 +76,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Files
+      summary: Delete files
+      description: Use this endpoint to remove multiple files.
+      operationId: deleteFiles
+      requestBody:
+        description: File IDs to delete
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+                example: ["$OBJECT-UUID1", "$OBJECT-UUID2"]
+        required: true
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /files/{id}:
     get:
       tags:
@@ -96,6 +130,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Files
+      summary: Delete a file
+      description: Use this endpoint to remove a file.
+      operationId: deleteFile
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      responses:
+        204:
+          description: Returns an empty response.
+          content: {}
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
   /files/{id}/content:
     get:
       tags:
@@ -124,34 +176,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /files/uploadFromStarter:
-    x-access: private
-    post:
-      x-access: private
-      tags:
-        - Files
-      deprecated: true
-      summary: Re-upload by OBS starter
-      description: This is a deprecated endpoint. Use this endpoint to re-add the file uploaded by OBS starter lib via the microservice.
-      operationId: reAddFile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/FileMigration'
-      responses:
-        201:
-          description: A new file has been created.
-          content:
-            application/json:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /health:
     get:
       tags:
@@ -169,6 +193,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
 components:
   securitySchemes:
     BearerAuth:
@@ -181,26 +206,6 @@ components:
       in: header
       name: X-API-KEY
   schemas:
-    FileMigration:
-      type: object
-      properties:
-        fileId:
-          type: string
-          description: The ID of the file.
-        tenantId:
-          type: string
-          description: The ID of the tenant.
-          format: uuid
-        userId:
-          type: string
-          description: The ID of the user.
-          format: uuid
-        fileName:
-          type: string
-          description: The file name.
-        fileDescription:
-          type: string
-          description: Any information about the file.
     DataFile:
       type: object
       properties:

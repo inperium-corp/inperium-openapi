@@ -1835,7 +1835,7 @@ paths:
     put:
       tags:
         - User Settings
-      summary: Update a contact
+      summary: Update user settings
       operationId: updateUserSettings
       requestBody:
         description: Updated user settings
@@ -2273,8 +2273,8 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
-        forwardingNumber:
-          $ref: '#/components/schemas/ForwardingPhoneNumber'
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2976,6 +2976,8 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
       properties:
@@ -2983,6 +2985,8 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     User:
       type: object
       properties:
@@ -3286,13 +3290,16 @@ components:
           type: boolean
           description: If the business hour is turned on or not.
 
-    ForwardingPhoneNumber:
+    CallForwarding:
       type: object
       required:
+        - enabled
         - phoneNumber
         - twentyFourSeven
         - businessHours
       properties:
+        enabled:
+          type: boolean
         phoneNumber:
           type: string
         timezone:

@@ -35,7 +35,7 @@ paths:
   /portOrders:
     post:
       tags:
-        - Number porting
+        - Port number
       summary: Create a new port order
       operationId: createPortOrder
       requestBody:

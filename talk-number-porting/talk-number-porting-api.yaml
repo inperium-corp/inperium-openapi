@@ -1,14 +1,14 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Server Talk Number Porting Bot API
+  title: Inperium Server Talk Number Porting API
   description: |
-    The initial version of Inperium Talk API.
+    The initial version of Inperium Talk Number Porting API.
   version: 1.0.0-SNAPSHOT
 
 servers:
-  - url: http://api.inperium.com/v1/talkNumberPortingBot
-  - url: https://api.inperium.com/v1/talkNumberPortingBot
+  - url: http://api.inperium.com/v1/talkNumberPorting
+  - url: https://api.inperium.com/v1/talkNumberPorting
 
 security:
   - BearerAuth: [ ]

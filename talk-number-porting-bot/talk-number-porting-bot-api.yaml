@@ -1,0 +1,197 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Server Talk Number Porting Bot API
+  description: |
+    The initial version of Inperium Talk API.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/talkNumberPortingBot
+  - url: https://api.inperium.com/v1/talkNumberPortingBot
+
+security:
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
+
+paths:
+  /health:
+    get:
+      tags:
+        - Health Checks
+      summary: Checks the health of the microservice
+      operationId: checkHealth
+      responses:
+        200:
+          description: An empty response that is used for OK non-returning operations
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /portOrders:
+    post:
+      tags:
+        - Number porting
+      summary: Create a new port order
+      operationId: createPortOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: '#/components/schemas/PortOrderResidentialRequest'
+                - $ref: '#/components/schemas/PortOrderBusinessRequest'
+      responses:
+        201:
+          description: A new port order has been created
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  parameters:
+
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: Query parameter for the "pageNumber"
+      schema:
+        type: integer
+        format: int64
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: Query parameter for the "pageSize"
+      schema:
+        type: integer
+        format: int64
+    QuerySort:
+      name: sort
+      in: query
+      description: Query parameter for the "sort" criteria
+      schema:
+        type: string
+
+  schemas:
+
+    ResponseError:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
+    Id:
+      type: string
+      format: uuid
+
+    Address:
+      type: object
+      properties:
+        address:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+
+    DataFile:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+
+    PortOrderRequest:
+      type: object
+      required:
+        - portOrderId
+        - portRequestName
+        - address
+        - phoneNumbers
+        - letterOfAuthorization
+        - billingStatements
+        - statusCallback
+      properties:
+        portOrderId:
+          $ref: '#/components/schemas/Id'
+        portRequestName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        phoneNumbers:
+          type: array
+          items:
+            type: string
+        letterOfAuthorization:
+          $ref: '#/components/schemas/DataFile'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataFile'
+        statusCallback:
+          type: string
+
+    PortOrderResidentialRequest:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - firstName
+            - lastName
+          properties:
+            firstName:
+              type: string
+            lastName:
+              type: string
+
+    PortOrderBusinessRequest:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - companyName
+          properties:
+            companyName:
+              type: string

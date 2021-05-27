@@ -42,9 +42,7 @@ paths:
         content:
           application/json:
             schema:
-              oneOf:
-                - $ref: '#/components/schemas/PortOrderResidentialRequest'
-                - $ref: '#/components/schemas/PortOrderBusinessRequest'
+              $ref: '#/components/schemas/PortOrderRequest'
       responses:
         201:
           description: A new port order has been created
@@ -166,6 +164,12 @@ components:
           $ref: '#/components/schemas/Id'
         portRequestName:
           type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
         address:
           $ref: '#/components/schemas/Address'
         phoneNumbers:
@@ -180,26 +184,3 @@ components:
             $ref: '#/components/schemas/DataFile'
         statusCallback:
           type: string
-
-    PortOrderResidentialRequest:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - firstName
-            - lastName
-          properties:
-            firstName:
-              type: string
-            lastName:
-              type: string
-
-    PortOrderBusinessRequest:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - companyName
-          properties:
-            companyName:
-              type: string

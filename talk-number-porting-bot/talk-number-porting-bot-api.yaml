@@ -147,6 +147,7 @@ components:
       type: object
       required:
         - portOrderId
+        - tenantId
         - portRequestName
         - address
         - phoneNumbers
@@ -155,6 +156,8 @@ components:
         - statusCallback
       properties:
         portOrderId:
+          $ref: '#/components/schemas/Id'
+        tenantId:
           $ref: '#/components/schemas/Id'
         portRequestName:
           type: string

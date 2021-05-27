@@ -6695,6 +6695,8 @@ components:
         private:
           type: boolean
           description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
+        userId:
+          $ref: "#/components/schemas/Id"
     ViewRequest:
       type: object
       description: This object is submitted to Inperium API when you create a new view or update an existing view. Use it to create custom filters and column sets.

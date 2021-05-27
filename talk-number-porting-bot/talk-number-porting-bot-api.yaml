@@ -125,6 +125,11 @@ components:
 
     Address:
       type: object
+      required:
+        - address
+        - city
+        - state
+        - zip
       properties:
         address:
           type: string

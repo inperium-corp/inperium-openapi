@@ -132,6 +132,7 @@ components:
         - city
         - state
         - zip
+        - tenantId
       properties:
         address:
           type: string
@@ -141,13 +142,18 @@ components:
           type: string
         zip:
           type: string
+        tenantId:
+          $ref: '#/components/schemas/Id'
 
     DataFile:
       type: object
       required:
         - id
+        - tenantId
       properties:
         id:
+          $ref: '#/components/schemas/Id'
+        tenantId:
           $ref: '#/components/schemas/Id'
 
     PortOrderRequest:
@@ -161,6 +167,7 @@ components:
         - letterOfAuthorization
         - billingStatements
         - statusCallback
+        - tenantId
       properties:
         portOrderId:
           $ref: '#/components/schemas/Id'
@@ -188,6 +195,8 @@ components:
             $ref: '#/components/schemas/DataFile'
         statusCallback:
           type: string
+        tenantId:
+          $ref: '#/components/schemas/Id'
 
     PortOrder:
       allOf:

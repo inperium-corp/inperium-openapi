@@ -145,6 +145,17 @@ components:
         tenantId:
           $ref: '#/components/schemas/Id'
 
+    PhoneNumber:
+      type: object
+      required:
+        - phoneNumber
+        - tenantId
+      properties:
+        phoneNumber:
+          type: string
+        tenantId:
+          $ref: '#/components/schemas/Id'
+
     DataFile:
       type: object
       required:
@@ -160,7 +171,6 @@ components:
       type: object
       required:
         - portOrderId
-        - tenantId
         - portRequestName
         - address
         - phoneNumbers
@@ -170,8 +180,6 @@ components:
         - tenantId
       properties:
         portOrderId:
-          $ref: '#/components/schemas/Id'
-        tenantId:
           $ref: '#/components/schemas/Id'
         portRequestName:
           type: string
@@ -186,7 +194,7 @@ components:
         phoneNumbers:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/PhoneNumber'
         letterOfAuthorization:
           $ref: '#/components/schemas/DataFile'
         billingStatements:

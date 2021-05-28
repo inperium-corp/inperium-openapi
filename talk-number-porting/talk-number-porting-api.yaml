@@ -159,10 +159,10 @@ components:
     DataFile:
       type: object
       required:
-        - id
+        - obsId
         - tenantId
       properties:
-        id:
+        obsId:
           $ref: '#/components/schemas/Id'
         tenantId:
           $ref: '#/components/schemas/Id'

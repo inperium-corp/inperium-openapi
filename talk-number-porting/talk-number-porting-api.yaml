@@ -209,3 +209,9 @@ components:
     PortOrder:
       allOf:
         - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string

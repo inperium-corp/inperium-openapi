@@ -42,10 +42,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PortOrder'
+              $ref: '#/components/schemas/PortOrderRequest'
       responses:
         201:
           description: A new port order has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
         default:
           description: Bad request, security violation, or internal server error
           content:
@@ -146,7 +150,7 @@ components:
         id:
           $ref: '#/components/schemas/Id'
 
-    PortOrder:
+    PortOrderRequest:
       type: object
       required:
         - portOrderId
@@ -184,3 +188,7 @@ components:
             $ref: '#/components/schemas/DataFile'
         statusCallback:
           type: string
+
+    PortOrder:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'

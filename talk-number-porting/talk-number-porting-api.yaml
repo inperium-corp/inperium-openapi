@@ -178,6 +178,7 @@ components:
         - billingStatements
         - statusCallback
         - tenantId
+        - accountSid
       properties:
         portOrderId:
           $ref: '#/components/schemas/Id'
@@ -204,6 +205,8 @@ components:
         statusCallback:
           type: string
         tenantId:
+          $ref: '#/components/schemas/Id'
+        accountSid:
           $ref: '#/components/schemas/Id'
 
     PortOrder:

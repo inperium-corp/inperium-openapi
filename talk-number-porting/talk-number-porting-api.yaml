@@ -207,7 +207,7 @@ components:
         tenantId:
           $ref: '#/components/schemas/Id'
         accountSid:
-          $ref: '#/components/schemas/Id'
+          type: string
 
     PortOrder:
       allOf:

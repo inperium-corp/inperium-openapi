@@ -169,6 +169,8 @@ components:
           type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
+        description:
+          type: string
         tenantId:
           $ref: '#/components/schemas/Id'
 
@@ -234,3 +236,5 @@ components:
               $ref: '#/components/schemas/Id'
             status:
               $ref: '#/components/schemas/PortOrderStatus'
+            description:
+              type: string

@@ -166,7 +166,7 @@ paths:
         200:
           description: The file contents have been retrieved.
           content:
-            multipart/form-data:
+            application/json:
               schema:
                 type: string
                 format: binary

@@ -145,7 +145,21 @@ components:
         tenantId:
           $ref: '#/components/schemas/Id'
 
-    PhoneNumber:
+    PortOrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - FAILED
+
+    PhoneNumberPortStatus:
+      type: string
+      enum:
+        - WAIT
+        - IN_PROGRESS
+        - REJECTED
+
+    PhoneNumberRequest:
       type: object
       required:
         - phoneNumber
@@ -153,8 +167,20 @@ components:
       properties:
         phoneNumber:
           type: string
+        portStatus:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
         tenantId:
           $ref: '#/components/schemas/Id'
+
+    PhoneNumber:
+      allOf:
+        - $ref: '#/components/schemas/PhoneNumberRequest'
+        - type: object
+          required:
+            - status
+          properties:
+            portStatus:
+              $ref: '#/components/schemas/PhoneNumberPortStatus'
 
     DataFile:
       type: object
@@ -192,7 +218,7 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber'
+            $ref: '#/components/schemas/PhoneNumberRequest'
         letterOfAuthorization:
           $ref: '#/components/schemas/DataFile'
         billingStatements:
@@ -217,4 +243,4 @@ components:
             id:
               $ref: '#/components/schemas/Id'
             status:
-              type: string
+              $ref: '#/components/schemas/PortOrderStatus'

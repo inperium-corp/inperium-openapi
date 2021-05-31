@@ -4512,7 +4512,7 @@ components:
       description: The incoming object that instructs Stripe to create a payment intent.
     Deal:
       type: object
-      description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and he properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
+      description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -4568,7 +4568,6 @@ components:
               lastName: Doe,
               email: john.doe@example.com,
               tenantId: null
-            value: 3
         createdAt:
           type: integer
           format: int64
@@ -4585,28 +4584,6 @@ components:
         pipeline:
           id: $OBJECT-UUID
           name: Ensemble
-          stages:
-            - id: $OBJECT-UUID1
-              name: Initial
-              probability: 0.1
-              sortOrder: 0
-              pipelineId: $OBJECT-UUID
-            - id: $OBJECT-UUID2
-              name: Showcasing
-              probability: 0.5
-              sortOrder: 1
-              pipelineId: $OBJECT-UUID
-            - id: $OBJECT-UUID3
-              name: Closed won
-              probability: 1
-              sortOrder: 2
-              pipelineId: $OBJECT-UUID
-            - id: $OBJECT-UUID4
-              name: Closed lost
-              probability: 0
-              sortOrder: 3
-              pipelineId: $OBJECT-UUID
-        closeDate: 1582558487000
         stage:
           id: $OBJECT-UUID2
           name: Showcasing
@@ -4622,7 +4599,6 @@ components:
             companyName: Rocky road band
           createdAt: 1582558000000
           updatedAt: 1582558000000
-        value: 3
     Deals:
       type: object
       description: The list of deals with paging data.

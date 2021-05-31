@@ -156,6 +156,33 @@ paths:
                 format: binary
         default:
           $ref: "#/components/responses/ErrorResponse"
+  /files/{id}/internal:
+    get:
+      tags:
+        - Files
+      summary: Get contnet refernce data of the file
+      description: Use this endpoint to get the contnet reference data of the file on the S3.
+      operationId: getFileContentReferenceData
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: token
+          in: query
+          description: The JWT token or API key.
+          schema:
+            type: string
+      responses:
+        200:
+          description: The file content reference has been retrieved.
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ErrorResponse"
   /health:
     get:
       tags:

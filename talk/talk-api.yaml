@@ -1868,6 +1868,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /services/transcribe/{id}:
+    get:
+      tags:
+        - Services
+      summary: Convert call recording to text
+      description: Use this endpoint to transcribe a call recording.
+      operationId: transcribeRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The transcription amazon job has started. Response body is empty.
+          content:
+            application/json:
+              schema:
+                { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /services/textToSpeech:
     post:
       tags:

@@ -159,7 +159,7 @@ components:
         - IN_PROGRESS
         - REJECTED
 
-    PhoneNumberRequest:
+    PhoneNumber:
       type: object
       required:
         - phoneNumber
@@ -171,16 +171,6 @@ components:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
         tenantId:
           $ref: '#/components/schemas/Id'
-
-    PhoneNumber:
-      allOf:
-        - $ref: '#/components/schemas/PhoneNumberRequest'
-        - type: object
-          required:
-            - status
-          properties:
-            portStatus:
-              $ref: '#/components/schemas/PhoneNumberPortStatus'
 
     DataFile:
       type: object
@@ -218,7 +208,7 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumberRequest'
+            $ref: '#/components/schemas/PhoneNumber'
         letterOfAuthorization:
           $ref: '#/components/schemas/DataFile'
         billingStatements:

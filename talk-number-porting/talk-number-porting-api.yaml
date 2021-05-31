@@ -170,7 +170,6 @@ components:
     PortOrderRequest:
       type: object
       required:
-        - portOrderId
         - portRequestName
         - address
         - phoneNumbers
@@ -180,8 +179,6 @@ components:
         - tenantId
         - accountSid
       properties:
-        portOrderId:
-          $ref: '#/components/schemas/Id'
         portRequestName:
           type: string
         firstName:
@@ -214,7 +211,10 @@ components:
         - $ref: '#/components/schemas/PortOrderRequest'
         - type: object
           required:
+            - id
             - status
           properties:
+            id:
+              $ref: '#/components/schemas/Id'
             status:
               type: string

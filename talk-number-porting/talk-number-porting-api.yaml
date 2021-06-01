@@ -157,8 +157,11 @@ components:
     PhoneNumberPortStatus:
       type: string
       enum:
+        - NONE
         - WAIT
         - IN_PROGRESS
+        - RECEIVED
+        - INFORMATION_REQUIRED
         - REJECTED
         - COMPLETED
 

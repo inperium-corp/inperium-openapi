@@ -2437,6 +2437,7 @@ components:
     PhoneNumberPortStatus:
       type: string
       enum:
+        - NONE
         - WAIT
         - IN_PROGRESS
         - REJECTED

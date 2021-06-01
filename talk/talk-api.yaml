@@ -2472,7 +2472,7 @@ components:
         companyName:
           type: string
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressRequest'
         phoneNumbers:
           type: array
           items:
@@ -2491,19 +2491,51 @@ components:
           type: string
 
     PortOrder:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - id
-            - status
-          properties:
-            id:
-              $ref: '#/components/schemas/Id'
-            status:
-              $ref: '#/components/schemas/PortOrderStatus'
-            description:
-              type: string
+      type: object
+      required:
+        - id
+        - portRequestName
+        - address
+        - phoneNumbers
+        - letterOfAuthorization
+        - billingStatements
+        - statusCallback
+        - tenantId
+        - accountSid
+        - status
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        letterOfAuthorization:
+          $ref: '#/components/schemas/DataFile'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataFile'
+        statusCallback:
+          type: string
+        tenantId:
+          $ref: '#/components/schemas/Id'
+        accountSid:
+          type: string
+        status:
+          $ref: '#/components/schemas/PortOrderStatus'
+        description:
+          type: string
 
     PortOrders:
       type: object

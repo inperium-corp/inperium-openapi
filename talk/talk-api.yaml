@@ -2483,8 +2483,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataFile'
-        accountSid:
-          type: string
 
     PortOrder:
       type: object

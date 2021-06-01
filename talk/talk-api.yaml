@@ -2430,9 +2430,9 @@ components:
       type: string
       enum:
         - CREATED
-        - REQUESTED
         - IN_PROGRESS
         - FAILED
+        - REJECTED
         - COMPLETED
 
     PhoneNumberPortStatus:

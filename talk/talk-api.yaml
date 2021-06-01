@@ -357,6 +357,97 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /portOrders:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a list of port orders
+      operationId: getPortOrders
+      responses:
+        200:
+          description: The port orders have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrders'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Port Orders
+      summary: Create a new port order
+      operationId: createPortOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortOrderRequest'
+      responses:
+        201:
+          description: A new port order has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /portOrders/{id}:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a port order details by its ID
+      operationId: getPortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The port orders have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Port orders
+      summary: Update a port order
+      operationId: updatePortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Updates port order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortOrderRequest'
+      responses:
+        200:
+          description: The port order has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /users/{id}/phoneNumbers:
     post:
       tags:
@@ -2275,6 +2366,10 @@ components:
           $ref: '#/components/schemas/Address'
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        portStatus:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portDescription:
+          type: string
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2330,6 +2425,96 @@ components:
           type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+
+    PortOrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - FAILED
+
+    PhoneNumberPortStatus:
+      type: string
+      enum:
+        - WAIT
+        - IN_PROGRESS
+        - REJECTED
+
+    DataFile:
+      type: object
+      required:
+        - obsId
+        - tenantId
+      properties:
+        obsId:
+          $ref: '#/components/schemas/Id'
+        tenantId:
+          $ref: '#/components/schemas/Id'
+
+    PortOrderRequest:
+      type: object
+      required:
+        - portRequestName
+        - address
+        - phoneNumbers
+        - letterOfAuthorization
+        - billingStatements
+        - statusCallback
+        - tenantId
+        - accountSid
+      properties:
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        letterOfAuthorization:
+          $ref: '#/components/schemas/DataFile'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/DataFile'
+        statusCallback:
+          type: string
+        tenantId:
+          $ref: '#/components/schemas/Id'
+        accountSid:
+          type: string
+
+    PortOrder:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - id
+            - status
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
+            status:
+              $ref: '#/components/schemas/PortOrderStatus'
+            description:
+              type: string
+
+    PortOrders:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortOrder'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
+
     IVRMenuRequest:
       required:
         - audioPromptId

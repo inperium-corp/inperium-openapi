@@ -167,6 +167,17 @@ components:
         - CANCELED
         - COMPLETED
 
+    PhoneNumberType:
+      type: string
+      description: Type of the phone number
+      enum:
+        - LOCAL
+        - TOLL_FREE
+
+    CountryCode:
+      type: string
+      description: Country code (ISO alpha-2)
+
     PhoneNumber:
       type: object
       required:
@@ -177,6 +188,14 @@ components:
           type: string
         twilioSid:
           type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        city:
+          type: string
+        state:
+          type: string
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
         description:

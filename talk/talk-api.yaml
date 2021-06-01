@@ -2430,6 +2430,7 @@ components:
       type: string
       enum:
         - CREATED
+        - REQUESTED
         - IN_PROGRESS
         - FAILED
         - COMPLETED

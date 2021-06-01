@@ -2613,6 +2613,12 @@ components:
         - id
     AddressRequest:
       type: object
+      required:
+        - addressLine1
+        - city
+        - state
+        - zip
+        - countryCode
       properties:
         id:
           $ref: '#/components/schemas/Id'

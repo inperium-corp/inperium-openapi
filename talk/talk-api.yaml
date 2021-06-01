@@ -1,9 +1,9 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Server Talk API
+  title: Talk API
   description: |
-    The initial version of Inperium Talk API.
+    The Inperium Talk API provides access to the Inperium Talk service including the ability to make calls, add contacts, configure auto receptionist settings, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -14,12 +14,50 @@ security:
   - BearerAuth: [ ]
   - ApiKeyAuth: [ ]
 
+tags:
+  - name: Addresses
+    description:
+  - name: Audio Files
+    description:
+  - name: Auto Receptionists
+    description:
+  - name: Calls
+    description:
+  - name: Call Callbacks
+    description:
+  - name: Contacts
+    description:
+  - name: Health Checks
+    description:
+  - name: IVR Callbacks
+    description:
+  - name: Participants
+    description:
+  - name: Phone Numbers
+    description:
+  - name: Recording Callbacks
+    description:
+  - name: Regulatory Bundles
+    description:
+  - name: Reports
+    description:
+  - name: Report Data
+    description:
+  - name: Services
+    description:
+  - name: Voicemails
+    description:
+  - name: User Settings
+    description:
+  - name: Widgets
+    description:
+
 paths:
   /health:
     get:
       tags:
         - Health Checks
-      summary: Checks the health of the microservice
+      summary: Check the health of the microservice
       operationId: checkHealth
       responses:
         200:

@@ -162,7 +162,9 @@ components:
         - IN_PROGRESS
         - RECEIVED
         - INFORMATION_REQUIRED
-        - REJECTED
+        - SUBMITTED_TO_CARRIER
+        - PORT_SCHEDULED
+        - CANCELED
         - COMPLETED
 
     PhoneNumber:

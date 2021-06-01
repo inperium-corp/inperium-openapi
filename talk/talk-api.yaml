@@ -2447,11 +2447,8 @@ components:
       type: object
       required:
         - obsId
-        - tenantId
       properties:
         obsId:
-          $ref: '#/components/schemas/Id'
-        tenantId:
           $ref: '#/components/schemas/Id'
 
     PortOrderRequest:
@@ -2486,8 +2483,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataFile'
-        statusCallback:
-          type: string
         tenantId:
           $ref: '#/components/schemas/Id'
         accountSid:

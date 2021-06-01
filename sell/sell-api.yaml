@@ -147,7 +147,7 @@ tags:
       Views control what data is returned to the user, including filtering, sorting, and columns on a display.
   - name: Widgets
     description: |
-      In Inperium Sell, a widget is a dashboard element providing certain data, for example, the leader board or the number of deals on each pipeline.
+      In Inperium Sell, a widget is a dashboard element that provides certain data, for example, the leader list or the number of deals on each pipeline.
   - name: Xero Authorizations
     description: |
       Configure integration with Xero.

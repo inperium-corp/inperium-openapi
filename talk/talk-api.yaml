@@ -16,41 +16,58 @@ security:
 
 tags:
   - name: Addresses
-    description:
+    description: |
+      To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
   - name: Audio Files
-    description:
+    description: |
+      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menues.
   - name: Auto Receptionists
-    description:
+    description: |
+      Auto receptionists streamline call routing both during work hours and off-duty. An auto receptionist represents an automatic workflow and consists of configurable rules and steps. For example, you set a greeting audio and then enable an IVR menu that helps forward the call to the right manager. Auto receptionists can be multi-tiered and reference each other.
   - name: Calls
-    description:
+    description: |
+      Inperium Talk enables users to make calls and logs all statictics about them such as the duration of the call, the direction of call (inbound, outbound), and call particiapants.
   - name: Call Callbacks
-    description:
+    description: |
+      We use callbacks from our partnner & service provider to manage calls within Inperium Talk system.
   - name: Contacts
-    description:
+    description: |
+      Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
   - name: Health Checks
-    description:
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: IVR Callbacks
-    description:
+    description: |
+      IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
   - name: Participants
-    description:
+    description: |
+      Each call has multiple participants—persons taking part in the call either as a caller or as recipients.
   - name: Phone Numbers
-    description:
+    description: |
+      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
   - name: Recording Callbacks
-    description:
+    description: |
+      Inperium Talk enables you to create recordings.
   - name: Regulatory Bundles
-    description:
+    description: |
+      Depeding on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
   - name: Reports
-    description:
+    description: |
+      Inperium Talk creates reports to help you assess productivity and see how your metrics change over time.
   - name: Report Data
-    description:
+    description: |
+      The report data is the actual metrics and values.
   - name: Services
-    description:
+    description: |
+      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text or buy phone numbers from our partners.
   - name: Voicemails
-    description:
+    description: |
+      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
   - name: User Settings
-    description:
+    description: |
+      Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
   - name: Widgets
-    description:
+    description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
 paths:
   /health:

@@ -151,6 +151,7 @@ components:
         - CREATED
         - IN_PROGRESS
         - FAILED
+        - COMPLETED
 
     PhoneNumberPortStatus:
       type: string
@@ -158,6 +159,7 @@ components:
         - WAIT
         - IN_PROGRESS
         - REJECTED
+        - COMPLETED
 
     PhoneNumber:
       type: object

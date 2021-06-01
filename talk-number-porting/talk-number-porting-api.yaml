@@ -175,6 +175,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
         description:

@@ -2476,7 +2476,7 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber'
+            $ref: '#/components/schemas/PhoneNumberRequest'
         letterOfAuthorization:
           $ref: '#/components/schemas/DataFile'
         billingStatements:

@@ -2483,8 +2483,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataFile'
-        tenantId:
-          $ref: '#/components/schemas/Id'
         accountSid:
           type: string
 

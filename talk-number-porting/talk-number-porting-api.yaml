@@ -198,7 +198,7 @@ components:
           $ref: '#/components/schemas/CountryCode'
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
-        description:
+        portDescription:
           type: string
         tenantId:
           $ref: '#/components/schemas/Id'

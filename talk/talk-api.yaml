@@ -433,7 +433,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PortOrderUpdateRequest'
+              $ref: '#/components/schemas/PortOrderRequest'
       responses:
         200:
           description: The port order has been modified
@@ -2495,22 +2495,6 @@ components:
             $ref: '#/components/schemas/DataFile'
         status:
           $ref: '#/components/schemas/PortOrderStatus'
-
-    PortOrderUpdateRequest:
-      type: object
-      required:
-        - phoneNumbers
-        - status
-        - description
-      properties:
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-        status:
-          $ref: '#/components/schemas/PortOrderStatus'
-        description:
-          type: string
 
     PortOrder:
       type: object

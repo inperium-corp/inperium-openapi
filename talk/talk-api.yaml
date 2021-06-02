@@ -1804,6 +1804,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /recordings:
+    get:
+      tags:
+        - Recordings
+      summary: Retrieve the recordings
+      operationId: getRecordings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: url
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The recording contents have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /recordings/{id}:
+    get:
+      tags:
+        - Recordings
+      summary: Get the recording by id
+      operationId: getRecording
+      parameters:
+      - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The recording has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Recordings
+      summary: Update (partially) the recording
+      operationId: updateRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordingRequest'
+      responses:
+        200:
+          description: The recording has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Recordings
+      summary: Delete a recording
+      operationId: deleteRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The voicemail has been deleted
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /userSettings:
     get:
       tags:

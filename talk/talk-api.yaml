@@ -89,7 +89,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Addresses'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -112,7 +112,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Address'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -141,7 +141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AudioFiles'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -164,7 +164,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -185,7 +185,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -202,7 +202,7 @@ paths:
           description: The audio file has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -227,7 +227,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -256,7 +256,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AutoReceptionists'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -280,7 +280,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -301,7 +301,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -327,7 +327,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -353,7 +353,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -370,7 +370,7 @@ paths:
           description: The auto receptionist has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -464,7 +464,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Calls'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -487,7 +487,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -512,7 +512,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -541,7 +541,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/VoiceToken'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -562,7 +562,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -588,7 +588,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -614,7 +614,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -628,10 +628,10 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -658,7 +658,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CallParticipant'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -692,7 +692,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -720,7 +720,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -750,7 +750,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -783,7 +783,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -815,7 +815,7 @@ paths:
           description: The status has been accepted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -845,7 +845,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -871,7 +871,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -902,7 +902,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -944,7 +944,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -984,7 +984,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1013,7 +1013,7 @@ paths:
           description: Empty response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1041,7 +1041,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1075,7 +1075,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1102,7 +1102,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contacts'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1126,7 +1126,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1147,7 +1147,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1173,7 +1173,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1190,7 +1190,7 @@ paths:
           description: The contact has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1203,10 +1203,10 @@ paths:
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1233,7 +1233,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CallParticipant'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1249,7 +1249,7 @@ paths:
         204:
           description: The participant has been deleted
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1277,7 +1277,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/CallParticipant'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1329,7 +1329,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PhoneNumbers'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1357,7 +1357,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1378,7 +1378,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1404,7 +1404,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1421,7 +1421,7 @@ paths:
           description: The phone number has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1455,7 +1455,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundles'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1481,7 +1481,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundle'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1503,7 +1503,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundle'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1531,7 +1531,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundle'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1546,10 +1546,10 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1571,7 +1571,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundle'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1603,7 +1603,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/RegulatoryBundleRequirements'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1628,10 +1628,10 @@ paths:
                   type: string
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1654,7 +1654,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Reports'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1697,7 +1697,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ReportData'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1722,7 +1722,7 @@ paths:
                 type: string
                 format: binary
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             audio/*:
               schema:
@@ -1759,7 +1759,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/AvailablePhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1784,7 +1784,7 @@ paths:
           description: The phone number has been created and assigned to the user
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1803,7 +1803,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserSettings'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1827,7 +1827,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserSettings'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1866,7 +1866,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Recordings'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1892,7 +1892,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Recording'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1909,7 +1909,7 @@ paths:
           description: The voicemail has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1951,7 +1951,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Widgets'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

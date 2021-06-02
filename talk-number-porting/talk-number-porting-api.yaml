@@ -217,6 +217,7 @@ components:
     PortOrderRequest:
       type: object
       required:
+        - talk_id
         - portRequestName
         - address
         - phoneNumbers
@@ -225,6 +226,8 @@ components:
         - tenantId
         - accountSid
       properties:
+        talk_id:
+          $ref: '#/components/schemas/Id'
         portRequestName:
           type: string
         firstName:

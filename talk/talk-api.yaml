@@ -421,22 +421,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-    post:
+    patch:
       tags:
-        - Port orders
-      summary: Update a port order
-      operationId: updatePortOrder
+        - Port Orders
+      summary: Partially update a port order
+      operationId: partiallyUpdatePortOrder
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updates port order
+        description: Partially updates port order
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PortOrderRequest'
+              $ref: '#/components/schemas/PortOrderUpdateRequest'
       responses:
         200:
-          description: The port order has been updated
+          description: The port order has been modified
           content:
             application/json:
               schema:
@@ -2495,6 +2495,22 @@ components:
             $ref: '#/components/schemas/DataFile'
         status:
           $ref: '#/components/schemas/PortOrderStatus'
+
+    PortOrderUpdateRequest:
+      type: object
+      required:
+        - phoneNumbers
+        - status
+        - description
+      properties:
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        status:
+          $ref: '#/components/schemas/PortOrderStatus'
+        description:
+          type: string
 
     PortOrder:
       type: object

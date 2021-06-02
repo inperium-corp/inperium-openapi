@@ -2395,8 +2395,6 @@ components:
       description: User phone number request model
       required:
         - phoneNumber
-        - type
-        - countryCode
       properties:
         phoneNumber:
           type: string

@@ -2396,6 +2396,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
@@ -2425,6 +2427,10 @@ components:
           type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        portStatus:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portDescription:
+            type: string
 
     PortOrderStatus:
       type: string
@@ -2488,6 +2494,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataFile'
+        status:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PortOrder:
       type: object

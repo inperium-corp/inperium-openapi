@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /accounts:
     get:
       tags:
@@ -90,7 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Accounts
@@ -118,7 +118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /accounts/{id}:
     get:
       tags:
@@ -140,7 +140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - Accounts
@@ -157,7 +157,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /attachments:
     get:
       tags:
@@ -182,7 +182,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Attachments
@@ -212,7 +212,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /attachments/{id}:
     get:
       tags:
@@ -234,7 +234,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - Attachments
@@ -251,7 +251,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /attachments/{id}/content:
     get:
       tags:
@@ -275,7 +275,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /drafts:
     get:
       tags:
@@ -300,7 +300,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Drafts
@@ -325,7 +325,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /drafts/{id}:
     get:
       tags:
@@ -347,7 +347,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       summary: Update a draft
       description: Use this endpoint to update an existing draft. Note that the draft contents will be overwritten.
@@ -374,7 +374,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /folders:
     get:
       tags:
@@ -399,7 +399,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Folders
@@ -424,7 +424,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /folders/{id}:
     get:
       tags:
@@ -447,7 +447,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       summary: Update a folder
       description: Use this endpoint to modify an existing folder such as a folder name. Note that the folder properties will be overwritten.
@@ -474,7 +474,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - Folders
@@ -492,7 +492,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /messages:
     get:
       tags:
@@ -522,7 +522,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       summary: Create a message
       description: Use this endpoint to compose a new message.
@@ -547,7 +547,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /messages/{id}:
     get:
       tags:
@@ -569,7 +569,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       summary: Update a message
       description: Use this endpoint to update an existing message. Note that the message contents will be overwritten.
@@ -596,7 +596,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /threads:
     get:
       tags:
@@ -661,7 +661,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /threads/{id}:
     get:
       tags:
@@ -683,7 +683,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Threads
@@ -710,7 +710,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /webhook/sync:
     x-access: private
     get:
@@ -739,7 +739,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       x-access: private
       tags:
@@ -761,7 +761,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
 
 components:
   securitySchemes:
@@ -1264,26 +1264,36 @@ components:
         sortingCriteria: null
         hasMore: false
 
-    ResponseError:
-      type: object
-      description: The error that is returned as a response to a request.
+    ErrorResponse:
       required:
+        - id
         - status
+        - path
         - message
+        - details
+      type: object
       properties:
-        status:
-          type: string
-          description: The HTTP status code.
-        code:
+        id:
           type: string
           format: uuid
-          description: The optional code of the exception.
+          description: The unique error id.
+        status:
+          type: integer
+          description: HTTP response code.
+          example: 403
+        path:
+          type: string
+          description: a URI that identifies the specific occurrence of the error.
+          example: 'GET items/77807c87-b6ef-49e4-89f5-07c07d33a331'
         message:
           type: string
-          description: The error message text.
-        errors:
-          type: object
-          description: Mapping of fields and errors.
+          description: The human-readable localized error message.
+          example: 'Could not change item.'
+        details:
+          type: string
+          description: The human-readable explanation of the error for developers on English.
+          example: 'Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status.'
+      description: An error returned by Inperium API.
 
     MessageAttributes:
       description: The Attributes object is a DTO used for Nylas synchronization. Only applicable for message webhooks.

@@ -71,11 +71,7 @@ paths:
                 type: string
                 example: $FILE-UUID
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+          $ref: "#/components/responses/ErrorResponse"
     delete:
       tags:
         - Files
@@ -98,11 +94,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
+          $ref: "#/components/responses/ErrorResponse"
   /files/{id}:
     get:
       tags:
@@ -125,11 +117,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DataFile'
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+          $ref: "#/components/responses/ErrorResponse"
     delete:
       tags:
         - Files
@@ -143,11 +131,7 @@ paths:
           description: Returns an empty response.
           content: {}
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
+          $ref: "#/components/responses/ErrorResponse"
   /files/{id}/content:
     get:
       tags:
@@ -171,11 +155,7 @@ paths:
                 type: string
                 format: binary
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+          $ref: "#/components/responses/ErrorResponse"
   /health:
     get:
       tags:
@@ -188,11 +168,7 @@ paths:
           description: Returns an empty response that is used for OK non-returning operations.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+          $ref: "#/components/responses/ErrorResponse"
 
 components:
   securitySchemes:
@@ -239,40 +215,40 @@ components:
           type: integer
           format: int64
       description: Inperium OBS service processes various DataFile objects such as pdf files and images.
-    ErrorModel:
+    ErrorResponse:
       required:
-        - code
-        - type
+        - id
+        - status
+        - path
+        - message
+        - details
       type: object
       properties:
-        code:
+        id:
           type: string
-          description: HTTP error code returned by Inperium.
+          format: uuid
+          description: The unique error id.
+        status:
+          type: integer
+          description: HTTP response code.
+          example: 403
+        path:
+          type: string
+          description: a URI that identifies the specific occurrence of the error.
+          example: 'GET items/77807c87-b6ef-49e4-89f5-07c07d33a331'
         message:
           type: string
-          description: The message with event details.
-        type:
-          type: string
-          description: The error level.
-          enum:
-            - ERROR
-            - WARN
-            - INFO
+          description: The human-readable localized error message.
+          example: 'Could not change item.'
         details:
           type: string
-          description: Comma-separated list of fields, which caused the error condition
-      description: Each error contains information that might be helpful for troubleshooting issues.
+          description: The human-readable explanation of the error for developers on English.
+          example: 'Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status.'
+      description: An error returned by Inperium API.
     Id:
       type: string
       format: uuid
       description: A unique ID of the object.
-    ResponseError:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorModel'
   responses:
     EmptyResponse:
       description: Returns an empty response that is used for OK non-returning operations.
@@ -282,7 +258,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ResponseError'
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     ResourceId:
       name: id

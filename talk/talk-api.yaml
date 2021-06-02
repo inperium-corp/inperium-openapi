@@ -2495,6 +2495,8 @@ components:
             $ref: '#/components/schemas/DataFile'
         status:
           $ref: '#/components/schemas/PortOrderStatus'
+        description:
+          type: string
 
     PortOrder:
       type: object

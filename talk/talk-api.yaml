@@ -586,6 +586,7 @@ paths:
     post:
       tags:
         - IVR Callbacks
+      x-access: private
       summary: Callback for doing IVR
       operationId: numberIVRCallback
       parameters:
@@ -614,6 +615,7 @@ paths:
     post:
       tags:
         - IVR Callbacks
+      x-access: private
       summary: Callback for handling when a user enters no action for IVR menu
       operationId: noActionIVRCallback
       parameters:
@@ -695,6 +697,7 @@ paths:
     get:
       tags:
         - Regulatory Bundles
+      x-access: private
       summary: Retrieve regulatory bundles
       operationId: getRegulatoryBundles
       parameters:
@@ -727,6 +730,7 @@ paths:
     post:
       tags:
         - Regulatory Bundles
+      x-access: private
       summary: Create new regulatory bundle
       operationId: createRegulatoryBundle
       requestBody:
@@ -753,6 +757,7 @@ paths:
     get:
       tags:
         - Regulatory Bundles
+      x-access: private
       summary: Retrieve the regulatory bundle by id
       operationId: getRegulatoryBundle
       parameters:
@@ -773,6 +778,7 @@ paths:
     put:
       tags:
         - Regulatory Bundles
+      x-access: private
       summary: Update regulatory bundle by id
       operationId: updateRegulatoryBundle
       parameters:
@@ -799,7 +805,8 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
+      x-access: private
       summary: Delete a regulatory bundle by id
       operationId: deleteRegulatoryBundle
       parameters:
@@ -817,7 +824,8 @@ paths:
   /regulatoryBundles/{id}/sendToReview:
     post:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
+      x-access: private
       summary: Send the regulatory bundle to review
       operationId: sendRegulatoryBundleToReview
       parameters:
@@ -838,7 +846,8 @@ paths:
   /regulatoryBundles/requirements:
     get:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
+      x-access: private
       summary: Retrieve the list of requirements
       operationId: getRegulatoryRequirements
       parameters:
@@ -869,7 +878,8 @@ paths:
   /regulatoryBundles/callbacks:
     post:
       tags:
-        - Regulatory bundles
+        - Regulatory Bundles
+      x-access: private
       summary: Twilio callback for notify about changes status of regulatory bundle status
       operationId: regulatoryBundleCallback
       requestBody:
@@ -1326,6 +1336,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for call conference
       operationId: conferenceCallback
       parameters:
@@ -1359,6 +1370,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Add a fallback URL in case of error during the call
       operationId: fallbackCall
       requestBody:
@@ -1386,6 +1398,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Notify about new inbound call on Twilio number
       operationId: startInboundCall
       requestBody:
@@ -1415,6 +1428,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Notify about the start of outbound Twilio call
       operationId: startOutboundCall
       requestBody:
@@ -1447,6 +1461,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Set the status of the current Twilio call
       operationId: setCallStatus
       requestBody:
@@ -1478,6 +1493,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Forward the incoming call if the agent does not answer in the browser
       operationId: forwardIncomingCall
       parameters:
@@ -1507,6 +1523,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for call client on app
       operationId: joinUserToCall
       parameters:
@@ -1532,6 +1549,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
       operationId: saveRecording
       parameters:
@@ -1562,6 +1580,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
       operationId: saveRecordingWithType
       parameters:
@@ -1604,6 +1623,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for status call
       operationId: callStatus
       parameters:
@@ -1643,6 +1663,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make an asynchronous POST request when the transcription
         for recording is complete
       operationId: saveRecordingMessage

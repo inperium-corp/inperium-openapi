@@ -75,7 +75,8 @@ paths:
     get:
       tags:
         - Addresses
-      summary: Retrieve addresses
+      summary: List addresses
+      description: Use this endpoint to retrieve addresses. This request supports paging and sorting.
       operationId: getAddresses
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -83,7 +84,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The addresses have been retrieved
+          description: The addresses have been retrieved. Returns addresses.
           content:
             application/json:
               schema:
@@ -97,16 +98,18 @@ paths:
     post:
       tags:
         - Addresses
-      summary: Create a new address for the tenant
+      summary: Create an address.
+      description: Use this endpoint to add a new address for a tenant.
       operationId: createAddress
       requestBody:
+        description: In the request body, pass the AddressRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AddressRequest'
       responses:
         201:
-          description: A new address has been created
+          description: The address has been created. Returns the address.
           content:
             application/json:
               schema:
@@ -121,7 +124,8 @@ paths:
     get:
       tags:
         - Audio Files
-      summary: Get list of audio files
+      summary: List audio files
+      description: Use this endpoint to retrieve a list of available audio files stored in the Audio Library. This request supports paging, sorting, and filtering.
       operationId: getAudioFiles
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -129,13 +133,12 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
         - name: name
           in: query
-          description: Filter by name
+          description: The name of the audio file.
           schema:
             type: string
-            example: like::Some name
       responses:
         200:
-          description: The list of audio files have been retrieved
+          description: The list of audio files has been retrieved. Returns audio files.
           content:
             application/json:
               schema:
@@ -149,16 +152,18 @@ paths:
     post:
       tags:
         - Audio Files
-      summary: Upload a new audio file
+      summary: Add an audio file
+      description: Use this endpoint to upload a new audio file.
       operationId: uploadAudioFile
       requestBody:
+        description: In the request body, pass the AudioFileUploadRequest object.
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/AudioFileUploadRequest'
       responses:
         201:
-          description: The audio file have been created
+          description: The audio file has been created. Returns an audio file.
           content:
             application/json:
               schema:
@@ -173,13 +178,14 @@ paths:
     get:
       tags:
         - Audio Files
-      summary: Retrieve audio file details by its ID
+      summary: Get audio file by ID
+      description: Use this endpoint to retrieve details on specific audio file based on its ID.
       operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The audio file details have been retrieved
+          description: The audio file details have been retrieved. Returns an audio file details.
           content:
             application/json:
               schema:
@@ -193,13 +199,14 @@ paths:
     delete:
       tags:
         - Audio Files
-      summary: Delete the audio file
+      summary: Delete an audio file
+      description: Use this endpoint to remove an audio file.
       operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The audio file has been deleted
+          description: The audio file has been deleted.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -210,18 +217,20 @@ paths:
     patch:
       tags:
         - Audio Files
-      summary: Update (partially) the audio file
+      summary: Partially update an audio file
+      description: Use this endpoint to partially update the audio file details.
       operationId: updateAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        description: In the request body, pass the updated AudioFileUpdateRequest object.
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/AudioFileUpdateRequest'
       responses:
         200:
-          description: The audio file has been updated
+          description: The audio file has been updated. Returns the audio file.
           content:
             application/json:
               schema:
@@ -236,21 +245,22 @@ paths:
     get:
       tags:
         - Auto Receptionists
-      summary: Retrieve a list of auto receptionists.
+      summary: List auto receptionists
+      description: Use this endpoint to retrieve a list of auto receptionists configured for this tenant. The request support paging, sorting, and filtering.
       operationId: findAutoReceptionists
       parameters:
         - name: name
           in: query
-          description: Filter by name
+          description: The auto receptionist name.
           schema:
             type: string
-            example: like::Some name
+            example: like::Departments
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The auto receptionists have been retrieved
+          description: The auto receptionists have been retrieved. Returns auto receptionists.
           content:
             application/json:
               schema:
@@ -264,17 +274,18 @@ paths:
     post:
       tags:
         - Auto Receptionists
-      summary: Create a new auto receptionist
+      summary: Create an auto receptionist
+      description: Use this endpoint to configure a new auto receptionist.
       operationId: createAutoReceptionist
       requestBody:
-        description: Auto receptionist to create
+        description: In the request body, pass the AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         201:
-          description: A new auto receptionist has been created
+          description: A new auto receptionist has been created. Returns an auto receptionist.
           content:
             application/json:
               schema:
@@ -289,13 +300,14 @@ paths:
     get:
       tags:
         - Auto Receptionists
-      summary: Retrieve details of the auto receptionist by its ID
+      summary: Retrieve an auto receptionist
+      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID.
       operationId: findAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The details of the auto receptionist have been retrieved
+          description: The auto receptionist details have been retrieved. Returns an auto receptionist.
           content:
             application/json:
               schema:
@@ -310,18 +322,19 @@ paths:
       tags:
         - Auto Receptionists
       summary: Partially update an auto receptionist
+      description: Use this endpoint to partially modify an existing auto receptionist.
       operationId: partiallyUpdateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Partially updated auto receptionist specification
+        description: In the request body, pass the updated AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         200:
-          description: The auto receptionist has been modified
+          description: The auto receptionist has been modified. Returns an auto receptionist.
           content:
             application/json:
               schema:
@@ -336,18 +349,19 @@ paths:
       tags:
         - Auto Receptionists
       summary: Update an auto receptionist
+      description: Use this endpoint to completely overwrite the current auto receptionist settings.
       operationId: updateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated auto receptionist specification
+        description: In the request body, pass the updated AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         200:
-          description: The auto receptionist has been modified
+          description: The auto receptionist has been modified. Returns the auto receptionist.
           content:
             application/json:
               schema:
@@ -362,12 +376,13 @@ paths:
       tags:
         - Auto Receptionists
       summary: Delete an auto receptionist
+      description: Use this endpoint to remove an auto receptionist.
       operationId: deleteAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The auto receptionist has been deleted
+          description: The auto receptionist has been deleted.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.

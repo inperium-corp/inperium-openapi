@@ -2470,7 +2470,6 @@ components:
         - phoneNumbers
         - letterOfAuthorization
         - billingStatements
-        - statusCallback
         - tenantId
         - accountSid
       properties:
@@ -2506,7 +2505,6 @@ components:
         - phoneNumbers
         - letterOfAuthorization
         - billingStatements
-        - statusCallback
         - tenantId
         - accountSid
         - status
@@ -2533,8 +2531,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DataFile'
-        statusCallback:
-          type: string
         tenantId:
           $ref: '#/components/schemas/Id'
         accountSid:

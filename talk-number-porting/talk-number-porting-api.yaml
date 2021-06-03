@@ -210,14 +210,6 @@ components:
         portDescription:
           type: string
 
-    DataFile:
-      type: object
-      required:
-        - obsId
-      properties:
-        obsId:
-          $ref: '#/components/schemas/Id'
-
     PortOrderRequest:
       type: object
       required:
@@ -247,11 +239,11 @@ components:
           items:
             $ref: '#/components/schemas/PhoneNumber'
         letterOfAuthorization:
-          $ref: '#/components/schemas/DataFile'
+          $ref: '#/components/schemas/Id'
         billingStatements:
           type: array
           items:
-            $ref: '#/components/schemas/DataFile'
+            $ref: '#/components/schemas/Id'
         tenantId:
           $ref: '#/components/schemas/Id'
         accountSid:

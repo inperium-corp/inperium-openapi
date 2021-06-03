@@ -2513,6 +2513,10 @@ components:
               $ref: '#/components/schemas/Id'
             address:
               $ref: '#/components/schemas/Address'
+            phoneNumbers:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhoneNumber'
             accountSid:
               type: string
             tenantId:

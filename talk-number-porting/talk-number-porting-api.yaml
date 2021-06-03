@@ -104,23 +104,36 @@ components:
 
     ResponseError:
       type: object
-      required:
-        - status
-        - message
       properties:
-        status:
-          type: string
-          description: Http status code
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorModel'
+
+    ErrorModel:
+      required:
+        - code
+        - type
+      type: object
+      properties:
         code:
           type: string
-          format: uuid
-          description: Optional code of the exception
+          description: HTTP error code returned by Inperium.
         message:
           type: string
-          description: Error message
-        errors:
-          type: object
-          description: Map of field -> list of errors
+          description: The message with event details.
+        type:
+          type: string
+          description: The error level.
+          enum:
+            - ERROR
+            - WARN
+            - INFO
+        details:
+          type: string
+          description: Comma-separated list of fields, which caused the error condition
+      description: Each error contains information that might be helpful for troubleshooting issues.
+
     Id:
       type: string
       format: uuid
@@ -158,7 +171,7 @@ components:
       type: string
       enum:
         - NONE
-        - WAIT
+        - WAITING
         - IN_PROGRESS
         - RECEIVED
         - INFORMATION_REQUIRED
@@ -182,7 +195,6 @@ components:
       type: object
       required:
         - phoneNumber
-        - tenantId
       properties:
         phoneNumber:
           type: string
@@ -200,24 +212,19 @@ components:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
         portDescription:
           type: string
-        tenantId:
-          $ref: '#/components/schemas/Id'
 
     DataFile:
       type: object
       required:
         - obsId
-        - tenantId
       properties:
         obsId:
-          $ref: '#/components/schemas/Id'
-        tenantId:
           $ref: '#/components/schemas/Id'
 
     PortOrderRequest:
       type: object
       required:
-        - talk_id
+        - talkId
         - portRequestName
         - address
         - phoneNumbers
@@ -226,7 +233,7 @@ components:
         - tenantId
         - accountSid
       properties:
-        talk_id:
+        talkId:
           $ref: '#/components/schemas/Id'
         portRequestName:
           type: string

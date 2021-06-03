@@ -145,7 +145,6 @@ components:
         - city
         - state
         - zip
-        - tenantId
       properties:
         address:
           type: string
@@ -155,8 +154,6 @@ components:
           type: string
         zip:
           type: string
-        tenantId:
-          $ref: '#/components/schemas/Id'
 
     PortOrderStatus:
       type: string

@@ -2501,48 +2501,16 @@ components:
           type: string
 
     PortOrder:
-      type: object
-      required:
-        - id
-        - portRequestName
-        - address
-        - phoneNumbers
-        - letterOfAuthorization
-        - billingStatements
-        - tenantId
-        - accountSid
-        - status
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        portRequestName:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
-        phoneNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/PhoneNumber'
-        letterOfAuthorization:
-          $ref: '#/components/schemas/DataFile'
-        billingStatements:
-          type: array
-          items:
-            $ref: '#/components/schemas/DataFile'
-        tenantId:
-          $ref: '#/components/schemas/Id'
-        accountSid:
-          type: string
-        status:
-          $ref: '#/components/schemas/PortOrderStatus'
-        description:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - id
+            - status
+            - description
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
 
     PortOrders:
       type: object

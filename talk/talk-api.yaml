@@ -2511,6 +2511,12 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/Id'
+            address:
+              $ref: '#/components/schemas/Address'
+            accountSid:
+              type: string
+            tenantId:
+              $ref: '#/components/schemas/Id'
 
     PortOrders:
       type: object

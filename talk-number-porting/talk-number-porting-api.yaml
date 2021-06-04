@@ -22,7 +22,7 @@ paths:
       summary: Checks the health of the microservice
       operationId: checkHealth
       responses:
-        200:
+        204:
           $ref: '#/components/responses/EmptyResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'

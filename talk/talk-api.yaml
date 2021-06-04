@@ -1220,7 +1220,7 @@ paths:
       summary: Check the health of the microservice
       operationId: checkHealth
       responses:
-        200:
+        204:
           description: Returns an empty response.
           content: { }
         default:

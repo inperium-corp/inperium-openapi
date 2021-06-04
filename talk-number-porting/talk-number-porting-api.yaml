@@ -221,14 +221,27 @@ components:
         sortingCriteria: null
         hasMore: false
 
-    Address:
+    PortOrderRequest:
       type: object
       required:
         - address
         - city
         - state
         - zip
+        - phoneNumbers
+        - letterOfAuthorization
+        - billingStatements
+        - tenantId
+        - accountSid
       properties:
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
         address:
           type: string
         city:
@@ -237,28 +250,6 @@ components:
           type: string
         zip:
           type: string
-
-    PortOrderRequest:
-      type: object
-      required:
-        - talkId
-        - address
-        - phoneNumbers
-        - letterOfAuthorization
-        - billingStatements
-        - tenantId
-        - accountSid
-      properties:
-        talkId:
-          $ref: '#/components/schemas/Id'
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        address:
-          $ref: '#/components/schemas/Address'
         phoneNumbers:
           type: array
           items:

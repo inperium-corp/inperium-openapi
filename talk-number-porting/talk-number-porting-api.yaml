@@ -30,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: '#/components/schemas/Error'
 
   /portOrders:
     get:
@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: '#/components/schemas/Error'
     post:
       tags:
         - Port Orders
@@ -73,11 +73,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/PortOrder'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: '#/components/schemas/Error'
 
   /portOrders/{id}:
     get:
@@ -99,7 +99,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: '#/components/schemas/Error'
     patch:
       tags:
         - Port Orders
@@ -125,7 +125,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseError'
+                $ref: '#/components/schemas/Error'
+
+  /phoneNumbers:
+    get:
+      tags:
+        - Phone Numbers
+      summary: Retrieve a list of phone numbers
+      operationId: getPhoneNumbers
+      parameters:
+        - name: portStatus
+          in: query
+          description: Phone number status. Use PhoneNumberPortStatus object for filtering.
+          schema:
+            type: string
+          example: nin::CANCELED,PORTED
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The phone numbers have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumbers'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
 
@@ -170,39 +200,40 @@ components:
       schema:
         type: string
 
+  responses:
+
+    EmptyResponse:
+      description: Returns an empty response that is used for OK non-returning operations.
+      content: { }
+
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
   schemas:
 
-    ResponseError:
+    Error:
       type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorModel'
-
-    ErrorModel:
       required:
-        - code
-        - type
-      type: object
+        - status
+        - message
       properties:
+        status:
+          type: string
+          description: Http status code
         code:
           type: string
-          description: HTTP error code returned by Inperium.
+          format: uuid
+          description: Optional code of the exception
         message:
           type: string
-          description: The message with event details.
-        type:
-          type: string
-          description: The error level.
-          enum:
-            - ERROR
-            - WARN
-            - INFO
-        details:
-          type: string
-          description: Comma-separated list of fields, which caused the error condition
-      description: Each error contains information that might be helpful for troubleshooting issues.
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
 
     Id:
       type: string
@@ -220,6 +251,41 @@ components:
         hasPreviousPage: false
         sortingCriteria: null
         hasMore: false
+
+    PhoneNumber:
+      type: object
+      description: User phone number model
+      required:
+        - phoneNumber
+        - portStatus
+      properties:
+        phoneNumber:
+          type: string
+        portStatus:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
+
+    PhoneNumberPortStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - RECEIVED
+        - INFORMATION_REQUIRED
+        - SUBMITTED_TO_CARRIER
+        - PORT_SCHEDULED
+        - CANCELED
+        - COMPLETED
+        - PORTED
+
+    PhoneNumbers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
 
     PortOrderRequest:
       type: object
@@ -268,14 +334,22 @@ components:
           type: string
 
     PortOrder:
-      type: object
-      required:
-        - id
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        twilioComment:
-          type: string
+      allOf:
+        - $ref: '#/components/schemas/PortOrderRequest'
+        - type: object
+          required:
+            - id
+            - phoneNumbers
+            - status
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
+            phoneNumbers:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhoneNumber'
+            twilioComment:
+              type: string
 
     PortOrders:
       type: object

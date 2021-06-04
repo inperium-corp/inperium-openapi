@@ -45,6 +45,9 @@ tags:
   - name: Phone Numbers
     description: |
       Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+  - name: Phone Number Webhooks
+    description: |
+      Inperium Talk enables you to create phone numbers.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -1441,6 +1444,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      summary: Port a phone number
+      operationId: portPhoneNumber
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /regulatoryBundles:
     get:
       tags:
@@ -2374,6 +2405,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
@@ -2454,26 +2487,22 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Address:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-      required:
-        - id
+      allOf:
+        - $ref: '#/components/schemas/AddressRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
     AddressRequest:
       type: object
+      required:
+        - addressLine1
+        - city
+        - state
+        - zip
+        - countryCode
       properties:
         id:
           $ref: '#/components/schemas/Id'

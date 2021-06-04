@@ -183,7 +183,7 @@ components:
       type: string
       format: uuid
 
-    AddressRequest:
+    Address:
       type: object
       required:
         - address
@@ -220,7 +220,7 @@ components:
         companyName:
           type: string
         address:
-          $ref: '#/components/schemas/AddressRequest'
+          $ref: '#/components/schemas/Address'
         phoneNumbers:
           type: array
           items:

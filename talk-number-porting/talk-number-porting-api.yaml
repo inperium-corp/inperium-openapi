@@ -57,6 +57,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /portOrders/{id}:
+    patch:
+      tags:
+        - Port Orders
+      summary: Partially update a port order
+      operationId: partiallyUpdatePortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Partially updates port order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortOrderRequest'
+      responses:
+        200:
+          description: The port order has been modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
 components:
 
   securitySchemes:
@@ -155,66 +183,10 @@ components:
         zip:
           type: string
 
-    PortOrderStatus:
-      type: string
-      enum:
-        - CREATED
-        - IN_PROGRESS
-        - FAILED
-        - REJECTED
-        - COMPLETED
-
-    PhoneNumberPortStatus:
-      type: string
-      enum:
-        - NONE
-        - WAITING
-        - IN_PROGRESS
-        - RECEIVED
-        - INFORMATION_REQUIRED
-        - SUBMITTED_TO_CARRIER
-        - PORT_SCHEDULED
-        - CANCELED
-        - COMPLETED
-
-    PhoneNumberType:
-      type: string
-      description: Type of the phone number
-      enum:
-        - LOCAL
-        - TOLL_FREE
-
-    CountryCode:
-      type: string
-      description: Country code (ISO alpha-2)
-
-    PhoneNumber:
-      type: object
-      required:
-        - phoneNumber
-      properties:
-        phoneNumber:
-          type: string
-        twilioSid:
-          type: string
-        type:
-          $ref: '#/components/schemas/PhoneNumberType'
-        city:
-          type: string
-        state:
-          type: string
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-        portStatus:
-          $ref: '#/components/schemas/PhoneNumberPortStatus'
-        portDescription:
-          type: string
-
     PortOrderRequest:
       type: object
       required:
         - talkId
-        - portRequestName
         - address
         - phoneNumbers
         - letterOfAuthorization
@@ -224,8 +196,6 @@ components:
       properties:
         talkId:
           $ref: '#/components/schemas/Id'
-        portRequestName:
-          type: string
         firstName:
           type: string
         lastName:
@@ -237,29 +207,24 @@ components:
         phoneNumbers:
           type: array
           items:
-            $ref: '#/components/schemas/PhoneNumber'
+            type: string
         letterOfAuthorization:
           $ref: '#/components/schemas/Id'
         billingStatements:
           type: array
           items:
             $ref: '#/components/schemas/Id'
+        comment:
+          type: string
         tenantId:
           $ref: '#/components/schemas/Id'
         accountSid:
           type: string
 
     PortOrder:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - id
-            - status
-          properties:
-            id:
-              $ref: '#/components/schemas/Id'
-            status:
-              $ref: '#/components/schemas/PortOrderStatus'
-            description:
-              type: string
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'

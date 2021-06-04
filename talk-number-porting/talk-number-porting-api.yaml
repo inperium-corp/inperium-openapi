@@ -273,7 +273,6 @@ components:
         - letterOfAuthorization
         - billingStatements
         - tenantId
-        - accountSid
       properties:
         portRequestName:
           type: string
@@ -305,8 +304,6 @@ components:
           type: string
         tenantId:
           $ref: '#/components/schemas/Id'
-        accountSid:
-          type: string
 
     PortOrder:
       allOf:

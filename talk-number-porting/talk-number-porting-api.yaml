@@ -23,8 +23,7 @@ paths:
       operationId: checkHealth
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
+          $ref: '#/components/responses/EmptyResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -71,7 +70,7 @@ paths:
     get:
       tags:
         - Port Orders
-      summary: Retrieve a port order phone number detail
+      summary: Retrieve a port order details
       operationId: getPortOrder
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -302,7 +301,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
-        userComment:
+        requestComment:
           type: string
         tenantId:
           $ref: '#/components/schemas/Id'
@@ -324,7 +323,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PhoneNumber'
-            twilioComment:
+            responseComment:
               type: string
 
     PortOrders:

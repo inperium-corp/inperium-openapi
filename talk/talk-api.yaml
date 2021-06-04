@@ -2504,8 +2504,6 @@ components:
         - zip
         - countryCode
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         addressLine1:
           type: string
         addressLine2:

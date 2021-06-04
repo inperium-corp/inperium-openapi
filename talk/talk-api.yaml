@@ -2329,6 +2329,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:

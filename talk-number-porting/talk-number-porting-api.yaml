@@ -33,6 +33,28 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
 
   /portOrders:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a list of port orders
+      operationId: getPortOrders
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The port orders have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrders'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     post:
       tags:
         - Port Orders
@@ -58,6 +80,26 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
 
   /portOrders/{id}:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a port order phone number detail
+      operationId: getPortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The port order has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     patch:
       tags:
         - Port Orders
@@ -166,6 +208,19 @@ components:
       type: string
       format: uuid
 
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
+
     Address:
       type: object
       required:
@@ -228,3 +283,13 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Id'
+
+    PortOrders:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortOrder'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'

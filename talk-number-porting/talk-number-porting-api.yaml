@@ -260,7 +260,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
-        comment:
+        userComment:
           type: string
         tenantId:
           $ref: '#/components/schemas/Id'
@@ -274,6 +274,8 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Id'
+        twilioComment:
+          type: string
 
     PortOrders:
       type: object

@@ -295,7 +295,6 @@ paths:
   /webhooks/phoneNumbers/port:
     x-access: private
     post:
-      x-access: private
       tags:
         - Phone Number Webhooks
       summary: Port a phone number

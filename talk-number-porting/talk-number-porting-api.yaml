@@ -26,11 +26,7 @@ paths:
           description: An empty response that is used for OK non-returning operations
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders:
     get:
@@ -50,11 +46,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PortOrders'
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
     post:
       tags:
         - Port Orders
@@ -73,11 +65,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PortOrder'
         default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders/{id}:
     get:
@@ -95,11 +83,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PortOrder'
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
     patch:
       tags:
         - Port Orders
@@ -121,11 +105,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PortOrder'
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 
   /phoneNumbers:
     get:
@@ -151,11 +131,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PhoneNumbers'
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
+          $ref: '#/components/responses/ErrorResponse'
 
 components:
 

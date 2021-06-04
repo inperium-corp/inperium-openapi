@@ -292,6 +292,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      x-access: private
+      tags:
+        - Phone Number Webhooks
+      summary: Port a phone number
+      operationId: portPhoneNumber
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /phoneNumbers/{id}:
     get:
       tags:

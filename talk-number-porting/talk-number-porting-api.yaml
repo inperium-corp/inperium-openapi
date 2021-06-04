@@ -84,6 +84,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Port Orders
+      summary: Delete a port order
+      operationId: deletePortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The port order has been deleted
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
 components:
 

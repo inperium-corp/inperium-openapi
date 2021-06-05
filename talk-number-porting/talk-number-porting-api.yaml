@@ -14,7 +14,16 @@ security:
   - BearerAuth: [ ]
   - ApiKeyAuth: [ ]
 
+tags:
+  - name: Health Checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
+  - name: Port Orders
+    description: |
+      Inperium Talk enables users to port phone numbers.
+
 paths:
+
   /health:
     get:
       tags:

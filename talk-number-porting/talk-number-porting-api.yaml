@@ -23,7 +23,7 @@ tags:
       Inperium Talk Number Porting enables users to port phone numbers.
   - name: Phone Numbers
     description: |
-      Inperium Talk Number Porting enables users to view phone numbers which are porting.
+      Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
 
 paths:
 

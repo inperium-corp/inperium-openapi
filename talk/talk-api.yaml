@@ -66,6 +66,9 @@ tags:
   - name: Voicemails
     description: |
       The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
+  - name: Tenant Settings
+    description: |
+      Inperium Talk enables users to get tenant settings.
   - name: User Settings
     description: |
       Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
@@ -1835,6 +1838,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /tenantSettings/{id}:
+    x-access: private
+    get:
+      tags:
+        - Tenant Settings
+      summary: Retrieve tenant settings by tenant ID
+      operationId: getTenantSettings
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The tenant settings have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantSettings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /userSettings:
     get:
       tags:
@@ -3069,6 +3094,13 @@ components:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
+    TenantSettings:
+      type: object
+      required:
+        - twilioAccountSid
+      properties:
+        twilioAccountSid:
+          type: string
     UserSettingsRequest:
       type: object
       properties:

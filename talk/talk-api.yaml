@@ -3092,13 +3092,22 @@ components:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
-    TenantSettings:
+    TenantSetting:
       type: object
       required:
         - twilioAccountSid
       properties:
         twilioAccountSid:
           type: string
+    TenantSettings:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantSetting'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
     UserSettingsRequest:
       type: object
       properties:

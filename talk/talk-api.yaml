@@ -1839,7 +1839,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /tenantSettings:
-    x-access: private
     get:
       tags:
         - Tenant Settings

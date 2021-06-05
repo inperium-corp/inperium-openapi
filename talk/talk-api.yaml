@@ -1845,6 +1845,10 @@ paths:
         - Tenant Settings
       summary: Retrieve tenant settings by tenant ID
       operationId: getTenantSettings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
           description: The tenant settings have been retrieved

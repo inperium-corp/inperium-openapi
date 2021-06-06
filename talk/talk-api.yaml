@@ -405,9 +405,9 @@ paths:
       operationId: handleCall
       requestBody:
         content:
-          application/*:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CallWebhookHandleRequest'
+              $ref: '#/components/schemas/CallWebhookRequest'
       responses:
         200:
           description: A new call has been handled. Returns the instructions for the call.
@@ -2996,15 +2996,9 @@ components:
             - canceled
         ParentCallSid:
           type: string
-    CallWebhookHandleRequest:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/CallWebhookRequest'
-        - type: object
-          properties:
-            CallId:
-              type: string
-              format: uuid
+        CallId:
+          type: string
+          format: uuid
     CallChangeRequest:
       type: object
       description: The object submitted to Talk API to start or finish a call recording.

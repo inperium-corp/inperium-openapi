@@ -2975,6 +2975,10 @@ components:
         - From
         - To
         - CallStatus
+      discriminator:
+        propertyName: direction
+        mapping:
+          OUTBOUND: '#/CallWebhookOutboundRequest'
       properties:
         CallSid:
           type: string
@@ -2996,6 +3000,17 @@ components:
             - canceled
         ParentCallSid:
           type: string
+    CallWebhookOutboundRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/CallWebhookRequest'
+        - type: object
+          required:
+            - CallId
+          properties:
+            CallId:
+              type: string
+              format: uuid
     CallChangeRequest:
       type: object
       description: The object submitted to Talk API to start or finish a call recording.

@@ -405,9 +405,9 @@ paths:
       operationId: handleCall
       requestBody:
         content:
-          application/x-www-form-urlencoded:
+          application/*:
             schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
+              $ref: '#/components/schemas/CallWebhookHandleRequest'
       responses:
         200:
           description: A new call has been handled. Returns the instructions for the call.

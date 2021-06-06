@@ -407,7 +407,9 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
+              oneOf:
+                - $ref: '#/components/schemas/CallWebhookRequest'
+                - $ref: '#/components/schemas/CallWebhookOutboundRequest'
       responses:
         200:
           description: A new call has been handled. Returns the instructions for the call.
@@ -2975,10 +2977,6 @@ components:
         - From
         - To
         - CallStatus
-      discriminator:
-        propertyName: direction
-        mapping:
-          OUTBOUND: '#/CallWebhookOutboundRequest'
       properties:
         CallSid:
           type: string

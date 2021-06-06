@@ -107,7 +107,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PortOrderRequest'
+              $ref: '#/components/schemas/PortOrderUpdateRequest'
       responses:
         200:
           description: The port order has been modified
@@ -274,6 +274,33 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
 
+    CommentType:
+      type: string
+      enum:
+        - INCOMING
+        - OUTGOING
+
+    Comment:
+      type: object
+      required:
+        - comment
+        - type
+      properties:
+        comment:
+          type: string
+        type:
+          $ref: '#/components/schemas/CommentType'
+
+    Comments:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
+
     PortOrderRequest:
       type: object
       required:
@@ -284,7 +311,6 @@ components:
         - phoneNumbers
         - letterOfAuthorization
         - billingStatements
-        - tenantId
       properties:
         portRequestName:
           type: string
@@ -312,10 +338,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Id'
-        requestComment:
-          type: string
-        tenantId:
+
+    PortOrderUpdateRequest:
+      type: object
+      properties:
+        comment:
+          $ref: '#/components/schemas/Comment'
+        letterOfAuthorization:
           $ref: '#/components/schemas/Id'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
 
     PortOrder:
       allOf:
@@ -332,8 +366,8 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/PhoneNumber'
-            responseComment:
-              type: string
+            comments:
+              $ref: '#/components/schemas/Comments'
 
     PortOrders:
       type: object

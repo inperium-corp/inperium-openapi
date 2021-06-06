@@ -291,16 +291,6 @@ components:
         type:
           $ref: '#/components/schemas/CommentType'
 
-    Comments:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Comment'
-        paging:
-          $ref: '#/components/schemas/PageAndSort'
-
     PortOrderRequest:
       type: object
       required:
@@ -343,7 +333,7 @@ components:
       type: object
       properties:
         comment:
-          $ref: '#/components/schemas/Comment'
+          type: string
         letterOfAuthorization:
           $ref: '#/components/schemas/Id'
         billingStatements:
@@ -367,7 +357,9 @@ components:
               items:
                 $ref: '#/components/schemas/PhoneNumber'
             comments:
-              $ref: '#/components/schemas/Comments'
+              type: array
+              items:
+                $ref: '#/components/schemas/Comment'
 
     PortOrders:
       type: object

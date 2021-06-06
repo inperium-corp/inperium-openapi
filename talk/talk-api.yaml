@@ -413,7 +413,8 @@ paths:
           description: A new call has been handled. Returns the instructions for the call.
           content:
             application/xml:
-              { }
+              schema:
+                type: object
         default:
           description: Bad request, security violation, or internal server error.
           content:

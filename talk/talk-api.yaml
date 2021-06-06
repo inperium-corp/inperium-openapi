@@ -396,6 +396,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Handle inbound or outbound call
+      operationId: handleCall
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                CallId:
+                  type: string
+                  format: uuid
+                CallSid:
+                  type: string
+                To:
+                  type: string
+                From:
+                  type: string
+                AccountSid:
+                  type: string
+      responses:
+        200:
+          description: A new call has been handled. Returns the instructions for the call.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls:
     get:
       tags:

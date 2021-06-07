@@ -48,6 +48,9 @@ tags:
   - name: Recordings
     description: |
       The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
+  - name: Phone Number Webhooks
+    description: |
+      Inperium Talk enables you to create phone numbers.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -66,6 +69,9 @@ tags:
   - name: Voicemails
     description: |
       The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
+  - name: Tenant Settings
+    description: |
+      Inperium Talk enables users to get tenant settings.
   - name: User Settings
     description: |
       Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
@@ -1220,7 +1226,7 @@ paths:
       summary: Check the health of the microservice
       operationId: checkHealth
       responses:
-        200:
+        204:
           description: Returns an empty response.
           content: { }
         default:
@@ -1358,7 +1364,7 @@ paths:
       summary: Buy and create a list of Twilio phone numbers
       operationId: buyPhoneNumbers
       requestBody:
-        description: List of phone numbers to create and buy
+        description: PhoneNumberRequest object for create and buy.
         content:
           application/json:
             schema:
@@ -1367,7 +1373,7 @@ paths:
                 $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: A list of new Twilio phone numbers has been created and bought
+          description: A list of new Twilio phone numbers has been created and bought.
           content:
             application/json:
               schema:
@@ -1553,6 +1559,34 @@ paths:
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      summary: Port a phone number
+      operationId: portPhoneNumber
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
@@ -1915,6 +1949,30 @@ paths:
         201:
           description: The phone number has been created and assigned to the user
           content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /tenantSettings:
+    x-access: private
+    get:
+      tags:
+        - Tenant Settings
+      summary: Retrieve tenant settings by tenant ID
+      operationId: getTenantSettings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The tenant settings have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantSettings'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2492,6 +2550,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
@@ -2572,29 +2632,23 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Address:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-      required:
-        - id
+      allOf:
+        - $ref: '#/components/schemas/AddressRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
     AddressRequest:
       type: object
+      required:
+        - addressLine1
+        - city
+        - state
+        - zip
+        - countryCode
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         addressLine1:
           type: string
         addressLine2:
@@ -3160,6 +3214,22 @@ components:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
+    TenantSetting:
+      type: object
+      required:
+        - twilioAccountSid
+      properties:
+        twilioAccountSid:
+          type: string
+    TenantSettings:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantSetting'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
     UserSettingsRequest:
       type: object
       properties:

@@ -411,47 +411,47 @@ paths:
             type: string
         - name: callerStatus
           in: query
-          description: Caller status.
+          description: The status of the caller. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: recipientStatus
           in: query
-          description: Recipient status.
+          description: The status of the recipient. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: participantStatus
           in: query
-          description: Participant (any) status.
+          description: The status of any call participant. can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: callerPhoneNumber
           in: query
-          description: Caller phone number.
+          description: The phone number of the caller.
           schema:
             type: string
         - name: recipientPhoneNumber
           in: query
-          description: Recipient phone number.
+          description: The phone number of the recipient.
           schema:
             type: string
         - name: participantPhoneNumber
           in: query
-          description: Participant (any) phone number.
+          description: The phone number of any call participant.
           schema:
             type: string
         - name: callerPhoneNumberId
           in: query
-          description: Caller phone number ID.
+          description: The ID of caller's phone number.
           schema:
             type: string
         - name: recipientPhoneNumberId
           in: query
-          description: Recipient phone number ID.
+          description: The ID of recipient's phone number.
           schema:
             type: string
         - name: participantPhoneNumberId
           in: query
-          description: Participant (any) phone number ID.
+          description: The ID of any participant's phone number.
           schema:
             type: string
         - name: recorded
@@ -462,12 +462,12 @@ paths:
         - name: quickFilter
           in: query
           description: |
-            Custom filter for some business cases.\
+            A quick filter for locating missed and unanswered calls. \
             **Note**:
-            * It can be useful to combine `MISSED_BY_ME` and `MISSED_BY_TENANT`
-              with `participantPhoneNumber` and `participantPhoneNumberId` parameters
-            * It can be useful to combine `UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
-              with `callerPhoneNumber` and `callerPhoneNumberId` parameters
+            * Consider combining `MISSED_BY_ME` and `MISSED_BY_TENANT`
+              with `participantPhoneNumber` and `participantPhoneNumberId` parameters.
+            * Or combine`UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
+              with `callerPhoneNumber` and `callerPhoneNumberId` parameters.
           schema:
             type: string
             enum:

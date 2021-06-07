@@ -45,6 +45,9 @@ tags:
   - name: Phone Numbers
     description: |
       Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+  - name: Recordings
+    description: |
+      The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -98,7 +101,7 @@ paths:
     post:
       tags:
         - Addresses
-      summary: Create an address.
+      summary: Create an address
       description: Use this endpoint to add a new address for a tenant.
       operationId: createAddress
       requestBody:
@@ -1441,6 +1444,120 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /recordings:
+    get:
+      tags:
+        - Recordings
+      summary: Use this endpoint to list all recordings
+      operationId: getRecordings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: phoneNumberId
+          in: query
+          schema:
+            type: string
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: url
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The recording contents have been retrieved. Returns list of recordings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /recordings/{id}:
+    get:
+      tags:
+        - Recordings
+      summary: This endpoint returns recording by ID
+      operationId: getRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The recording has been retrieved. Returns recording.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Recordings
+      summary: Update (partially) the recording
+      operationId: updateRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the updated RecordingRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordingRequest'
+      responses:
+        200:
+          description: The auto receptionist has been modified. Returns the auto receptionist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Recordings
+      summary: Delete a recording by ID
+      operationId: deleteRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The voicemail has been deleted. Returns empty body.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /regulatoryBundles:
     get:
       tags:
@@ -1655,7 +1772,7 @@ paths:
     get:
       tags:
         - Reports
-      summary: Retrieve a list of available reports.
+      summary: Retrieve a list of available reports
       operationId: getReports
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1678,7 +1795,7 @@ paths:
     get:
       tags:
         - Report Data
-      summary: Gets data of the specific report.
+      summary: Gets data of the specific report
       operationId: getReportData
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1804,6 +1921,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
   /userSettings:
     get:
       tags:

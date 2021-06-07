@@ -128,6 +128,8 @@ components:
           EMAIL_VERIFIED: "#/components/schemas/EmailVerificationActivityRequest"
           contacted_us: "#/components/schemas/ContactUsActivityRequest"
           CONTACTED_US: "#/components/schemas/ContactUsActivityRequest"
+          tool_tried_out: "#/components/schemas/TryOutToolActivityRequest"
+          TOOL_TRIED_OUT: "#/components/schemas/TryOutToolActivityRequest"
       properties:
         lastReferrerUrl:
           type: string
@@ -362,3 +364,28 @@ components:
             message:
               type: string
               description: The message text submitted by the lead.
+
+    TryOutToolActivityRequest:
+      type: object
+      description: The request model to log an activity for a lead that tried out a free tool.
+      allOf:
+        - $ref: "#/components/schemas/ActivityRequest"
+        - type: object
+          required:
+            - email
+            - firstName
+            - lastName
+            - toolName
+          properties:
+            email:
+              type: string
+              description: The lead's email address.
+            firstName:
+              type: string
+              description: The lead's given name.
+            lastName:
+              type: string
+              description: The lead's family name.
+            toolName:
+              type: string
+              description: The tool tried out by the lead.

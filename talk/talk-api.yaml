@@ -395,6 +395,7 @@ paths:
       tags:
         - Calls
       summary: List calls
+      description: Use this endpoint to list all calls made, received, or missed by users. The request supports paging, sorting, and filtering.
       operationId: getCalls
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -402,7 +403,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
         - name: direction
           in: query
-          description: Direction of the call.
+          description: The direction of the call. Available options are `inbound` or `outbound`.
           schema:
             type: string
         - name: callerStatus

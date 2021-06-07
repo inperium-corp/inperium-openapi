@@ -1364,7 +1364,7 @@ paths:
       summary: Buy and create a list of Twilio phone numbers
       operationId: buyPhoneNumbers
       requestBody:
-        description: List of phone numbers to create and buy
+        description: PhoneNumberRequest object for create and buy.
         content:
           application/json:
             schema:
@@ -1373,7 +1373,7 @@ paths:
                 $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: A list of new Twilio phone numbers has been created and bought
+          description: A list of new Twilio phone numbers has been created and bought.
           content:
             application/json:
               schema:

@@ -291,44 +291,6 @@ components:
         type:
           $ref: '#/components/schemas/CommentType'
 
-    PortOrderRequest:
-      type: object
-      required:
-        - address
-        - city
-        - state
-        - zip
-        - phoneNumbers
-        - letterOfAuthorization
-        - billingStatements
-      properties:
-        portRequestName:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        companyName:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        zip:
-          type: string
-        phoneNumbers:
-          type: array
-          items:
-            type: string
-        letterOfAuthorization:
-          $ref: '#/components/schemas/Id'
-        billingStatements:
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
-
     PortOrderUpdateRequest:
       type: object
       properties:
@@ -341,6 +303,40 @@ components:
           items:
             $ref: '#/components/schemas/Id'
 
+    PortOrderRequest:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderUpdateRequest'
+        - type: object
+          required:
+            - addressLine
+            - city
+            - state
+            - zip
+            - phoneNumbers
+            - letterOfAuthorization
+            - billingStatements
+          properties:
+            portRequestName:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            companyName:
+              type: string
+            addressLine:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            phoneNumbers:
+              type: array
+              items:
+                type: string
+
     PortOrder:
       allOf:
         - $ref: '#/components/schemas/PortOrderRequest'
@@ -348,7 +344,7 @@ components:
           required:
             - id
             - phoneNumbers
-            - status
+            - comments
           properties:
             id:
               $ref: '#/components/schemas/Id'

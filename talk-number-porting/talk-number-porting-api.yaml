@@ -293,11 +293,15 @@ components:
 
     PortOrderUpdateRequest:
       type: object
+      discriminator:
+        propertyName: schema
       properties:
         comment:
           type: string
-        letterOfAuthorization:
-          $ref: '#/components/schemas/Id'
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
         billingStatements:
           type: array
           items:
@@ -313,7 +317,7 @@ components:
             - state
             - zip
             - phoneNumbers
-            - letterOfAuthorization
+            - lettersOfAuthorization
             - billingStatements
           properties:
             portRequestName:
@@ -336,6 +340,11 @@ components:
               type: array
               items:
                 type: string
+            lettersOfAuthorization:
+              maxItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
 
     PortOrder:
       allOf:
@@ -356,6 +365,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Comment'
+            lettersOfAuthorization:
+              maxItems: 100
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
 
     PortOrders:
       type: object

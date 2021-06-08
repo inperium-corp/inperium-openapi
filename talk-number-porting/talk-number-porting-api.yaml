@@ -260,8 +260,8 @@ components:
         - INFORMATION_REQUIRED
         - SUBMITTED_TO_CARRIER
         - PORT_SCHEDULED
-        - CANCELED
         - COMPLETED
+        - CANCELED
         - PORTED
 
     PhoneNumbers:
@@ -293,11 +293,15 @@ components:
 
     PortOrderUpdateRequest:
       type: object
+      discriminator:
+        propertyName: schema
       properties:
         comment:
           type: string
-        letterOfAuthorization:
-          $ref: '#/components/schemas/Id'
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
         billingStatements:
           type: array
           items:
@@ -313,7 +317,7 @@ components:
             - state
             - zip
             - phoneNumbers
-            - letterOfAuthorization
+            - lettersOfAuthorization
             - billingStatements
           properties:
             portRequestName:
@@ -336,26 +340,59 @@ components:
               type: array
               items:
                 type: string
+            lettersOfAuthorization:
+              maxItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
 
     PortOrder:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - id
-            - phoneNumbers
-            - comments
-          properties:
-            id:
-              $ref: '#/components/schemas/Id'
-            phoneNumbers:
-              type: array
-              items:
-                $ref: '#/components/schemas/PhoneNumber'
-            comments:
-              type: array
-              items:
-                $ref: '#/components/schemas/Comment'
+      type: object
+      required:
+        - id
+        - addressLine
+        - city
+        - state
+        - zip
+        - phoneNumbers
+        - comments
+        - lettersOfAuthorization
+        - billingStatements
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
 
     PortOrders:
       type: object

@@ -344,6 +344,7 @@ components:
               items:
                 type: string
             lettersOfAuthorization:
+              minItems: 1
               maxItems: 1
               type: array
               items:

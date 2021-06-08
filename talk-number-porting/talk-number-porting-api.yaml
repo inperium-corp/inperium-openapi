@@ -347,29 +347,52 @@ components:
                 $ref: '#/components/schemas/Id'
 
     PortOrder:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderRequest'
-        - type: object
-          required:
-            - id
-            - phoneNumbers
-            - comments
-          properties:
-            id:
-              $ref: '#/components/schemas/Id'
-            phoneNumbers:
-              type: array
-              items:
-                $ref: '#/components/schemas/PhoneNumber'
-            comments:
-              type: array
-              items:
-                $ref: '#/components/schemas/Comment'
-            lettersOfAuthorization:
-              maxItems: 100
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
+      type: object
+      required:
+        - id
+        - addressLine
+        - city
+        - state
+        - zip
+        - phoneNumbers
+        - comments
+        - lettersOfAuthorization
+        - billingStatements
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
 
     PortOrders:
       type: object

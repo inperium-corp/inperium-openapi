@@ -294,7 +294,10 @@ components:
     PortOrderUpdateRequest:
       type: object
       discriminator:
-        propertyName: schema
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/PortOrderRequest'
+          update: '#/components/schemas/PortOrderUpdateRequest'
       properties:
         comment:
           type: string

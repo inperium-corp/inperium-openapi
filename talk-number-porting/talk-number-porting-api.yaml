@@ -260,8 +260,8 @@ components:
         - INFORMATION_REQUIRED
         - SUBMITTED_TO_CARRIER
         - PORT_SCHEDULED
-        - CANCELED
         - COMPLETED
+        - CANCELED
         - PORTED
 
     PhoneNumbers:

@@ -1,0 +1,414 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Server Talk Number Porting API
+  description: |
+    The initial version of Inperium Talk Number Porting API.
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://api.inperium.com/v1/talkNumberPorting
+  - url: https://api.inperium.com/v1/talkNumberPorting
+
+security:
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Health Checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
+  - name: Port Orders
+    description: |
+      Inperium Talk Number Porting enables users to port phone numbers.
+  - name: Phone Numbers
+    description: |
+      Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Health Checks
+      summary: Checks the health of the microservice
+      operationId: checkHealth
+      responses:
+        204:
+          $ref: '#/components/responses/EmptyResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /portOrders:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a list of port orders
+      operationId: getPortOrders
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The port orders have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrders'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      tags:
+        - Port Orders
+      summary: Create a new port order
+      operationId: createPortOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortOrderRequest'
+      responses:
+        201:
+          description: A new port order has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /portOrders/{id}:
+    get:
+      tags:
+        - Port Orders
+      summary: Retrieve a port order details
+      operationId: getPortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The port order has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      tags:
+        - Port Orders
+      summary: Partially update a port order
+      operationId: partiallyUpdatePortOrder
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Partially updates port order
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortOrderUpdateRequest'
+      responses:
+        200:
+          description: The port order has been modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortOrder'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /phoneNumbers:
+    get:
+      tags:
+        - Phone Numbers
+      summary: Retrieve a list of phone numbers
+      operationId: getPhoneNumbers
+      parameters:
+        - name: portStatus
+          in: query
+          description: Phone number status. Use PhoneNumberPortStatus object for filtering.
+          schema:
+            type: string
+          example: nin::CANCELED,PORTED
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The phone numbers have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumbers'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  parameters:
+
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: Query parameter for the "pageNumber"
+      schema:
+        type: integer
+        format: int64
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: Query parameter for the "pageSize"
+      schema:
+        type: integer
+        format: int64
+    QuerySort:
+      name: sort
+      in: query
+      description: Query parameter for the "sort" criteria
+      schema:
+        type: string
+
+  responses:
+
+    EmptyResponse:
+      description: Returns an empty response that is used for OK non-returning operations.
+      content: { }
+
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+
+    Error:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
+
+    Id:
+      type: string
+      format: uuid
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
+
+    PhoneNumber:
+      type: object
+      description: User phone number model
+      required:
+        - phoneNumber
+        - portStatus
+      properties:
+        phoneNumber:
+          type: string
+        portStatus:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
+
+    PhoneNumberPortStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - RECEIVED
+        - INFORMATION_REQUIRED
+        - SUBMITTED_TO_CARRIER
+        - PORT_SCHEDULED
+        - COMPLETED
+        - CANCELED
+        - PORTED
+
+    PhoneNumbers:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
+
+    CommentType:
+      type: string
+      enum:
+        - INCOMING
+        - OUTGOING
+
+    Comment:
+      type: object
+      required:
+        - comment
+        - type
+      properties:
+        comment:
+          type: string
+        type:
+          $ref: '#/components/schemas/CommentType'
+
+    PortOrderUpdateRequest:
+      type: object
+      discriminator:
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/PortOrderRequest'
+          update: '#/components/schemas/PortOrderUpdateRequest'
+      properties:
+        comment:
+          type: string
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+
+    PortOrderRequest:
+      allOf:
+        - $ref: '#/components/schemas/PortOrderUpdateRequest'
+        - type: object
+          required:
+            - addressLine
+            - city
+            - state
+            - zip
+            - phoneNumbers
+            - lettersOfAuthorization
+            - billingStatements
+          properties:
+            portRequestName:
+              type: string
+            firstName:
+              type: string
+            lastName:
+              type: string
+            companyName:
+              type: string
+            addressLine:
+              type: string
+            city:
+              type: string
+            state:
+              type: string
+            zip:
+              type: string
+            phoneNumbers:
+              type: array
+              items:
+                type: string
+            lettersOfAuthorization:
+              minItems: 1
+              maxItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
+            billingStatements:
+              minItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
+
+    PortOrder:
+      type: object
+      required:
+        - id
+        - addressLine
+        - city
+        - state
+        - zip
+        - phoneNumbers
+        - comments
+        - lettersOfAuthorization
+        - billingStatements
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumber'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        lettersOfAuthorization:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        billingStatements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+
+    PortOrders:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortOrder'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'

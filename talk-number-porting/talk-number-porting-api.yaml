@@ -294,7 +294,10 @@ components:
     PortOrderUpdateRequest:
       type: object
       discriminator:
-        propertyName: schema
+        propertyName: requestType
+        mapping:
+          create: '#/components/schemas/PortOrderRequest'
+          update: '#/components/schemas/PortOrderUpdateRequest'
       properties:
         comment:
           type: string
@@ -341,7 +344,13 @@ components:
               items:
                 type: string
             lettersOfAuthorization:
+              minItems: 1
               maxItems: 1
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
+            billingStatements:
+              minItems: 1
               type: array
               items:
                 $ref: '#/components/schemas/Id'

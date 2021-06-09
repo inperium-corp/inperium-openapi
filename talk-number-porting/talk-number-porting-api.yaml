@@ -343,6 +343,7 @@ components:
             zip:
               type: string
             phoneNumbers:
+              minItems: 1
               type: array
               items:
                 type: string

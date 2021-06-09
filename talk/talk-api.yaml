@@ -182,7 +182,7 @@ paths:
       tags:
         - Audio Files
       summary: Get audio file by ID
-      description: Use this endpoint to retrieve details on specific audio file based on its ID.
+      description: Use this endpoint to retrieve details on specific audio file based on its ID. Provide an ID in the path.
       operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -203,7 +203,7 @@ paths:
       tags:
         - Audio Files
       summary: Delete an audio file
-      description: Use this endpoint to remove an audio file.
+      description: Use this endpoint to remove an audio file. Provide an ID in the path.
       operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -221,7 +221,7 @@ paths:
       tags:
         - Audio Files
       summary: Partially update an audio file
-      description: Use this endpoint to partially update the audio file details.
+      description: Use this endpoint to partially update the audio file details. Provide an ID in the path.
       operationId: updateAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -304,7 +304,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Retrieve an auto receptionist
-      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID.
+      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID. Provide an ID in the path.
       operationId: findAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -325,7 +325,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Partially update an auto receptionist
-      description: Use this endpoint to partially modify an existing auto receptionist.
+      description: Use this endpoint to partially modify an existing auto receptionist. Provide an ID in the path.
       operationId: partiallyUpdateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -352,7 +352,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Update an auto receptionist
-      description: Use this endpoint to completely overwrite the current auto receptionist settings.
+      description: Use this endpoint to completely overwrite the current auto receptionist settings. Provide an ID in the path.
       operationId: updateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -379,7 +379,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Delete an auto receptionist
-      description: Use this endpoint to remove an auto receptionist.
+      description: Use this endpoint to remove an auto receptionist. Provide an ID in the path.
       operationId: deleteAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -462,7 +462,7 @@ paths:
         - name: quickFilter
           in: query
           description: |
-            A quick filter for locating missed and unanswered calls. \
+            A quick filter for discovering missed and unanswered calls. \
             **Note**:
             * Consider combining `MISSED_BY_ME` and `MISSED_BY_TENANT`
               with `participantPhoneNumber` and `participantPhoneNumberId` parameters.
@@ -477,7 +477,7 @@ paths:
               - UNANSWERED_FROM_TENANT
       responses:
         200:
-          description: The list of voice calls has been retrieved
+          description: The list of calls has been retrieved. Returns calls.
           content:
             application/json:
               schema:
@@ -491,16 +491,18 @@ paths:
     post:
       tags:
         - Calls
-      summary: Create an outcoming call
+      summary: Create a call
+      description: Use this endpoint to create a new outcoming call.
       operationId: createCall
       requestBody:
+        description: In the request body, pass the CallRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallRequest'
       responses:
         201:
-          description: A new voice call started
+          description: A new voice call has started. Returns a call.
           content:
             application/json:
               schema:
@@ -515,10 +517,12 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a Voice call by Twilio call sid
+      summary: Find a call
+      description: Use this endpoint to locate and retrieve a call by its SID. Provide a SID in the path.
       operationId: findBySid
       parameters:
         - name: sid
+          description: A unique identifier of the call.
           in: path
           required: true
           schema:
@@ -540,10 +544,12 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a Twillio token for Voice API SDK
+      summary: Retrieve a token
+      description: Use this endpoint to get a voice token to connect to SDK.
       operationId: getVoiceToken
       parameters:
         - name: platform
+          description: A platform where Inperium Talk runs. If not specified, the default is `WEB`.
           in: query
           schema:
             type: string
@@ -554,7 +560,7 @@ paths:
             default: WEB
       responses:
         200:
-          description: A new Twilio voice token has been created
+          description: A new voice token has been created. Returns a voice token.
           content:
             application/json:
               schema:
@@ -569,13 +575,14 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a voice call by its ID
+      summary: Get call details
+      description: Use this endpoint to retrieve call details by its ID. Provide a ID in the path.
       operationId: getCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: OK
+          description: The call details have been retrieved. Returns a call.
           content:
             application/json:
               schema:
@@ -589,19 +596,19 @@ paths:
     patch:
       tags:
         - Calls
-      summary: Partially update a voice call
+      summary: Partially update a call
+      description: Use this endpoint to partially modify a call without overwritting it. Provide an ID in the path.
       operationId: patchCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Call to update
-        content:
+        description: In the request body, pass the updated CallChangeRequest.
           application/json:
             schema:
               $ref: '#/components/schemas/CallChangeRequest'
       responses:
         200:
-          description: OK
+          description: The call has been updated. Returns a call.
           content:
             application/json:
               schema:
@@ -615,19 +622,20 @@ paths:
     put:
       tags:
         - Calls
-      summary: Update a voice call
+      summary: Update a call
+      description: Use this endpoint to update a call. The call details will be overwritten. Provide an ID in the path.
       operationId: updateCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Call to update
+        description: In the request body, pass the CallRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallRequest'
       responses:
         200:
-          description: OK
+          description: The call has been updated. Returns an updated call.
           content:
             application/json:
               schema:
@@ -641,7 +649,8 @@ paths:
     delete:
       tags:
         - Calls
-      summary: Delete a voice call
+      summary: Delete a call
+      description: Use this endpoint to remove a voice call. Provide an ID in the path.
       operationId: deleteCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -660,18 +669,19 @@ paths:
       tags:
         - Calls
       summary: Join a call
+      description: Use this endpoint to add a new participant to a call. Provide a call ID in the path.
       operationId: joinCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: The participant who joins a call
+        description: In the request bodym pass the CallParticipantRequest object with information about a participant who joins.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallParticipantRequest'
       responses:
         200:
-          description: OK
+          description: A new participant has joined the call. Returns the call participant.
           content:
             application/json:
               schema:

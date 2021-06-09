@@ -288,11 +288,29 @@ components:
       required:
         - comment
         - type
+        - createdAt
       properties:
         comment:
           type: string
         type:
           $ref: '#/components/schemas/CommentType'
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
+
+    Attachment:
+      type: object
+      required:
+        - id
+        - createdAt
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
 
     PortOrderUpdateRequest:
       type: object
@@ -396,11 +414,11 @@ components:
         lettersOfAuthorization:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/Attachment'
         billingStatements:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/Attachment'
 
     PortOrders:
       type: object

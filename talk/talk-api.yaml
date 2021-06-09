@@ -1,9 +1,9 @@
 openapi: 3.0.3
 
 info:
-  title: Inperium Server Talk API
+  title: Talk API
   description: |
-    The initial version of Inperium Talk API.
+    The Inperium Talk API provides access to the Inperium Talk service including the ability to make calls, add contacts, configure auto receptionist settings, etc.
   version: 1.0.0-SNAPSHOT
 
 servers:
@@ -14,29 +14,127 @@ security:
   - BearerAuth: [ ]
   - ApiKeyAuth: [ ]
 
+tags:
+  - name: Addresses
+    description: |
+      To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
+  - name: Audio Files
+    description: |
+      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menues.
+  - name: Auto Receptionists
+    description: |
+      Auto receptionists streamline call routing both during work hours and off-duty. An auto receptionist represents an automatic workflow and consists of configurable rules and steps. For example, you set a greeting audio and then enable an IVR menu that helps forward the call to the right manager. Auto receptionists can be multi-tiered and reference each other.
+  - name: Calls
+    description: |
+      Inperium Talk enables users to make calls and logs all statictics about them such as the duration of the call, the direction of call (inbound, outbound), and call particiapants.
+  - name: Call Callbacks
+    description: |
+      We use callbacks from our partnner & service provider to manage calls within Inperium Talk system.
+  - name: Contacts
+    description: |
+      Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
+  - name: Health Checks
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
+  - name: IVR Callbacks
+    description: |
+      IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
+  - name: Participants
+    description: |
+      Each call has multiple participants—persons taking part in the call either as a caller or as recipients.
+  - name: Phone Numbers
+    description: |
+      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+  - name: Recordings
+    description: |
+      The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
+  - name: Phone Number Webhooks
+    description: |
+      Inperium Talk enables you to create phone numbers.
+  - name: Recording Callbacks
+    description: |
+      Inperium Talk enables you to create recordings.
+  - name: Regulatory Bundles
+    description: |
+      Depeding on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
+  - name: Reports
+    description: |
+      Inperium Talk creates reports to help you assess productivity and see how your metrics change over time.
+  - name: Report Data
+    description: |
+      The report data is the actual metrics and values.
+  - name: Services
+    description: |
+      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text or buy phone numbers from our partners.
+  - name: Voicemails
+    description: |
+      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
+  - name: Tenant Settings
+    description: |
+      Inperium Talk enables users to get tenant settings.
+  - name: User Settings
+    description: |
+      Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
+  - name: Widgets
+    description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
+
 paths:
-  /health:
+
+  /addresses:
     get:
       tags:
-        - Health Checks
-      summary: Checks the health of the microservice
-      operationId: checkHealth
+        - Addresses
+      summary: List addresses
+      description: Use this endpoint to retrieve addresses. This request supports paging and sorting.
+      operationId: getAddresses
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
+          description: The addresses have been retrieved. Returns addresses.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Addresses'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
+    post:
+      tags:
+        - Addresses
+      summary: Create an address
+      description: Use this endpoint to add a new address for a tenant.
+      operationId: createAddress
+      requestBody:
+        description: In the request body, pass the AddressRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddressRequest'
+      responses:
+        201:
+          description: The address has been created. Returns the address.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Address'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /audioFiles:
     get:
       tags:
         - Audio Files
-      summary: Get list of audio files
+      summary: List audio files
+      description: Use this endpoint to retrieve a list of available audio files stored in the Audio Library. This request supports paging, sorting, and filtering.
       operationId: getAudioFiles
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -44,19 +142,18 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
         - name: name
           in: query
-          description: Filter by name
+          description: The name of the audio file.
           schema:
             type: string
-            example: like::Some name
       responses:
         200:
-          description: The list of audio files have been retrieved
+          description: The list of audio files has been retrieved. Returns audio files.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AudioFiles'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -64,22 +161,24 @@ paths:
     post:
       tags:
         - Audio Files
-      summary: Upload a new audio file
+      summary: Add an audio file
+      description: Use this endpoint to upload a new audio file.
       operationId: uploadAudioFile
       requestBody:
+        description: In the request body, pass the AudioFileUploadRequest object.
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/AudioFileUploadRequest'
       responses:
         201:
-          description: The audio file have been created
+          description: The audio file has been created. Returns an audio file.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -88,19 +187,20 @@ paths:
     get:
       tags:
         - Audio Files
-      summary: Retrieve audio file details by its ID
+      summary: Get audio file by ID
+      description: Use this endpoint to retrieve details on specific audio file based on its ID.
       operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The audio file details have been retrieved
+          description: The audio file details have been retrieved. Returns an audio file details.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -108,16 +208,17 @@ paths:
     delete:
       tags:
         - Audio Files
-      summary: Delete the audio file
+      summary: Delete an audio file
+      description: Use this endpoint to remove an audio file.
       operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The audio file has been deleted
+          description: The audio file has been deleted.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -125,289 +226,56 @@ paths:
     patch:
       tags:
         - Audio Files
-      summary: Update (partially) the audio file
+      summary: Partially update an audio file
+      description: Use this endpoint to partially update the audio file details.
       operationId: updateAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        description: In the request body, pass the updated AudioFileUpdateRequest object.
         content:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/AudioFileUpdateRequest'
       responses:
         200:
-          description: The audio file has been updated
+          description: The audio file has been updated. Returns the audio file.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AudioFile'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /services/textToSpeech:
-    post:
-      tags:
-        - Services
-      summary: Convert text into audio
-      operationId: textToSpeech
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TextToSpeechRequest'
-      responses:
-        200:
-          description: The synthesized audio
-          content:
-            audio/*:
-              schema:
-                type: string
-                format: binary
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            audio/*:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /services/phoneNumbersToBuy:
-    get:
-      tags:
-        - Services
-      summary: Retrieve a list of available phone numbers from Twilio
-      operationId: findPhoneNumbersAvailableToBuy
-      parameters:
-        - name: countryCode
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CountryCode'
-        - name: areaCode
-          in: query
-          description: The rate center of the phone number
-          schema:
-            type: string
-        - name: type
-          in: query
-          description: Filter phone numbers by type
-          schema:
-            $ref: '#/components/schemas/PhoneNumberType'
-      responses:
-        200:
-          description: The list of phone numbers has been retrieved
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AvailablePhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /phoneNumbers:
-    get:
-      tags:
-        - Phone Numbers
-      summary: Retrieve a list of phone numbers
-      operationId: getPhoneNumbers
-      parameters:
-        - name: userId
-          in: query
-          description: Filter by the user assignment
-          schema:
-            type: string
-            example: eq::fda3787b-9f4e-45e3-91a3-46d61003c2d7
-        - name: assignmentType
-          in: query
-          description: Filter by the assignment type
-          schema:
-            type: string
-            example: eq::USER
-        - name: number
-          in: query
-          description: Search parameters by the phone number
-          schema:
-            minLength: 3
-            type: string
-        - name: type
-          in: query
-          description: Filter by the phone number type
-          schema:
-            type: string
-            example: eq::LOCAL
-        - name: regulatoryStatus
-          in: query
-          description: Filter by the status of the phone number's regulatory bundle
-          schema:
-            type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The phone numbers have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumbers'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    post:
-      tags:
-        - Phone Numbers
-      summary: Buy and create a list of Twilio phone numbers
-      operationId: buyPhoneNumbers
-      requestBody:
-        description: List of phone numbers to create and buy
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        200:
-          description: A list of new Twilio phone numbers has been created and bought
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /phoneNumbers/{id}:
-    get:
-      tags:
-        - Phone Numbers
-      summary: Retrieve phone number details by its ID
-      operationId: getPhoneNumber
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The phone number details have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    put:
-      tags:
-        - Phone Numbers
-      summary: Update a phone number
-      operationId: updatePhoneNumber
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        description: Updated phone number specification
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        200:
-          description: The phone number details have been modified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    delete:
-      tags:
-        - Phone Numbers
-      summary: Delete a phone number
-      operationId: deletePhoneNumber
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The phone number has been deleted
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /users/{id}/phoneNumbers:
-    post:
-      tags:
-        - Phone Numbers
-      summary: Add a phone number and assign it to the user
-      operationId: assignUserPhoneNumber
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
-      responses:
-        201:
-          description: The phone number has been created and assigned to the user
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /autoReceptionists:
     get:
       tags:
         - Auto Receptionists
-      summary: Retrieve a list of auto receptionists.
+      summary: List auto receptionists
+      description: Use this endpoint to retrieve a list of auto receptionists configured for this tenant. The request support paging, sorting, and filtering.
       operationId: findAutoReceptionists
       parameters:
         - name: name
           in: query
-          description: Filter by name
+          description: The auto receptionist name.
           schema:
             type: string
-            example: like::Some name
+            example: like::Departments
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The auto receptionists have been retrieved
+          description: The auto receptionists have been retrieved. Returns auto receptionists.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoReceptionists'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -415,23 +283,24 @@ paths:
     post:
       tags:
         - Auto Receptionists
-      summary: Create a new auto receptionist
+      summary: Create an auto receptionist
+      description: Use this endpoint to configure a new auto receptionist.
       operationId: createAutoReceptionist
       requestBody:
-        description: Auto receptionist to create
+        description: In the request body, pass the AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         201:
-          description: A new auto receptionist has been created
+          description: A new auto receptionist has been created. Returns an auto receptionist.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -440,19 +309,20 @@ paths:
     get:
       tags:
         - Auto Receptionists
-      summary: Retrieve details of the auto receptionist by its ID
+      summary: Retrieve an auto receptionist
+      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID.
       operationId: findAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The details of the auto receptionist have been retrieved
+          description: The auto receptionist details have been retrieved. Returns an auto receptionist.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -461,24 +331,25 @@ paths:
       tags:
         - Auto Receptionists
       summary: Partially update an auto receptionist
+      description: Use this endpoint to partially modify an existing auto receptionist.
       operationId: partiallyUpdateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Partially updated auto receptionist specification
+        description: In the request body, pass the updated AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         200:
-          description: The auto receptionist has been modified
+          description: The auto receptionist has been modified. Returns an auto receptionist.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -487,24 +358,25 @@ paths:
       tags:
         - Auto Receptionists
       summary: Update an auto receptionist
+      description: Use this endpoint to completely overwrite the current auto receptionist settings.
       operationId: updateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated auto receptionist specification
+        description: In the request body, pass the updated AutoReceptionistRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AutoReceptionistRequest'
       responses:
         200:
-          description: The auto receptionist has been modified
+          description: The auto receptionist has been modified. Returns the auto receptionist.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AutoReceptionist'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -513,400 +385,20 @@ paths:
       tags:
         - Auto Receptionists
       summary: Delete an auto receptionist
+      description: Use this endpoint to remove an auto receptionist.
       operationId: deleteAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The auto receptionist has been deleted
+          description: The auto receptionist has been deleted.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /calls/callbacks/ivr/{id}:
-    post:
-      tags:
-        - IVR Callbacks
-      summary: Callback for doing IVR
-      operationId: numberIVRCallback
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                CallSid:
-                  type: string
-                Digits:
-                  type: string
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /calls/callbacks/ivr/{id}/noAction/{count}:
-    post:
-      tags:
-        - IVR Callbacks
-      summary: Callback for handling when a user enters no action for IVR menu
-      operationId: noActionIVRCallback
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - name: count
-          description: How many times we play this IVR menu
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                To:
-                  type: string
-                CallSid:
-                  type: string
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /addresses:
-    get:
-      tags:
-        - Addresses
-      summary: Retrieve addresses
-      operationId: getAddresses
-      parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The addresses have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Addresses'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    post:
-      tags:
-        - Addresses
-      summary: Create a new address for the tenant
-      operationId: createAddress
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddressRequest'
-      responses:
-        201:
-          description: A new address has been created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Address'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /regulatoryBundles:
-    get:
-      tags:
-        - Regulatory Bundles
-      summary: Retrieve regulatory bundles
-      operationId: getRegulatoryBundles
-      parameters:
-        - name: type
-          in: query
-          description: Filter parameter by "type"
-          schema:
-            type: string
-        - name: status
-          in: query
-          description: Filter parameter by "status"
-          schema:
-            type: string
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The regulatory bundles have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundles'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    post:
-      tags:
-        - Regulatory Bundles
-      summary: Create new regulatory bundle
-      operationId: createRegulatoryBundle
-      requestBody:
-        description: Regulation bundle information
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegulatoryBundleRequest'
-        required: true
-      responses:
-        201:
-          description: The regulatory bundle have been created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundle'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/{id}:
-    get:
-      tags:
-        - Regulatory Bundles
-      summary: Retrieve the regulatory bundle by id
-      operationId: getRegulatoryBundle
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The regulatory bundle have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundle'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    put:
-      tags:
-        - Regulatory Bundles
-      summary: Update regulatory bundle by id
-      operationId: updateRegulatoryBundle
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        description: Regulation bundle information
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegulatoryBundleRequest'
-        required: true
-      responses:
-        200:
-          description: The regulatory bundle have been updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundle'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    delete:
-      tags:
-        - Regulatory bundles
-      summary: Delete a regulatory bundle by id
-      operationId: deleteRegulatoryBundle
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/{id}/sendToReview:
-    post:
-      tags:
-        - Regulatory bundles
-      summary: Send the regulatory bundle to review
-      operationId: sendRegulatoryBundleToReview
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        200:
-          description: The regulatory requirements have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundle'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/requirements:
-    get:
-      tags:
-        - Regulatory bundles
-      summary: Retrieve the list of requirements
-      operationId: getRegulatoryRequirements
-      parameters:
-        - name: countryCode
-          in: query
-          required: true
-          schema:
-            $ref: '#/components/schemas/CountryCode'
-        - name: type
-          in: query
-          required: true
-          description: Phone number type
-          schema:
-            type: string
-      responses:
-        200:
-          description: The regulatory requirements have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RegulatoryBundleRequirements'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /regulatoryBundles/callbacks:
-    post:
-      tags:
-        - Regulatory bundles
-      summary: Twilio callback for notify about changes status of regulatory bundle status
-      operationId: regulatoryBundleCallback
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                BundleSid:
-                  type: string
-                Status:
-                  type: string
-                FailureReason:
-                  type: string
-      responses:
-        204:
-          description: An empty response that is used for OK non-returning operations
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /reports:
-    get:
-      tags:
-        - Reports
-      summary: Retrieve a list of available reports.
-      operationId: getReports
-      parameters:
-        - $ref: '#/components/parameters/QueryPageNumber'
-        - $ref: '#/components/parameters/QueryPageSize'
-        - $ref: '#/components/parameters/QuerySort'
-      responses:
-        200:
-          description: The list of reports has been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Reports'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /reports/{id}/data:
-    get:
-      tags:
-        - Report Data
-      summary: Gets data of the specific report.
-      operationId: getReportData
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - name: from
-          in: query
-          required: true
-          description: The date when the report data set calculation starts
-          schema:
-            type: integer
-            format: int64
-        - name: to
-          in: query
-          required: true
-          description: The date when the report data set calculation starts
-          schema:
-            type: integer
-            format: int64
-        - name: who
-          in: query
-          description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
-          schema:
-            type: string
-            enum:
-              - ME
-              - TEAM
-      responses:
-        200:
-          description: The data of the report.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportData'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /calls:
     get:
       tags:
@@ -996,7 +488,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Calls'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1019,7 +511,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1044,7 +536,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1073,7 +565,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/VoiceToken'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1094,7 +586,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1120,7 +612,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1146,7 +638,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Call'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1160,10 +652,10 @@ paths:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: An empty response that is used for OK non-returning operations
+          description: Returns an empty response.
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1190,79 +682,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CallParticipant'
         default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
-  /participants/{id}:
-    patch:
-      tags:
-        - Participants
-      summary: Update participant
-      operationId: patchParticipant
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ParticipantChangeRequestBody'
-        required: false
-      responses:
-        200:
-          description: The participant has been updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CallParticipant'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    delete:
-      tags:
-        - Participants
-      summary: Delete participant from conference
-      operationId: removeParticipant
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      responses:
-        204:
-          description: The participant has been deleted
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /participants:
-    patch:
-      tags:
-        - Participants
-      summary: Update list of participants
-      operationId: patchParticipants
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/ParticipantChangeRequest'
-      responses:
-        200:
-          description: The updated participants have been retreived
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CallParticipant'
-        default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1271,6 +691,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for call conference
       operationId: conferenceCallback
       parameters:
@@ -1295,7 +716,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1304,6 +725,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Add a fallback URL in case of error during the call
       operationId: fallbackCall
       requestBody:
@@ -1322,7 +744,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1331,6 +753,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Notify about new inbound call on Twilio number
       operationId: startInboundCall
       requestBody:
@@ -1351,7 +774,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1360,6 +783,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Notify about the start of outbound Twilio call
       operationId: startOutboundCall
       requestBody:
@@ -1383,7 +807,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1392,6 +816,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Set the status of the current Twilio call
       operationId: setCallStatus
       requestBody:
@@ -1414,7 +839,7 @@ paths:
           description: The status has been accepted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1423,6 +848,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Forward the incoming call if the agent does not answer in the browser
       operationId: forwardIncomingCall
       parameters:
@@ -1443,7 +869,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1452,6 +878,7 @@ paths:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for call client on app
       operationId: joinUserToCall
       parameters:
@@ -1468,7 +895,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1477,6 +904,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
       operationId: saveRecording
       parameters:
@@ -1498,7 +926,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1507,6 +935,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
       operationId: saveRecordingWithType
       parameters:
@@ -1539,16 +968,16 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /calls/callbacks/{id}/status/{participantId}:
     post:
       tags:
         - Call Callbacks
+      x-access: private
       summary: Twilio callback for status call
       operationId: callStatus
       parameters:
@@ -1579,7 +1008,7 @@ paths:
           description: TwiML response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
@@ -1588,6 +1017,7 @@ paths:
     post:
       tags:
         - Recording Callbacks
+      x-access: private
       summary: Instruct Twilio to make an asynchronous POST request when the transcription
         for recording is complete
       operationId: saveRecordingMessage
@@ -1607,12 +1037,73 @@ paths:
           description: Empty response has been received
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
+  /calls/callbacks/ivr/{id}:
+    post:
+      tags:
+        - IVR Callbacks
+      x-access: private
+      summary: Callback for doing IVR
+      operationId: numberIVRCallback
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                CallSid:
+                  type: string
+                Digits:
+                  type: string
+      responses:
+        200:
+          description: TwiML response has been received
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /calls/callbacks/ivr/{id}/noAction/{count}:
+    post:
+      tags:
+        - IVR Callbacks
+      x-access: private
+      summary: Callback for handling when a user enters no action for IVR menu
+      operationId: noActionIVRCallback
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: count
+          description: How many times we play this IVR menu
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                To:
+                  type: string
+                CallSid:
+                  type: string
+      responses:
+        200:
+          description: TwiML response has been received
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /contacts:
     get:
       tags:
@@ -1635,7 +1126,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contacts'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1659,7 +1150,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1680,7 +1171,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1706,7 +1197,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Contact'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1723,12 +1214,815 @@ paths:
           description: The contact has been deleted
           content: { }
         default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /health:
+    get:
+      tags:
+        - Health Checks
+      summary: Check the health of the microservice
+      operationId: checkHealth
+      responses:
+        204:
+          description: Returns an empty response.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /participants/{id}:
+    patch:
+      tags:
+        - Participants
+      summary: Update participant
+      operationId: patchParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        required: false
+      responses:
+        200:
+          description: The participant has been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Participants
+      summary: Delete participant from conference
+      operationId: removeParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The participant has been deleted
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /participants:
+    patch:
+      tags:
+        - Participants
+      summary: Update list of participants
+      operationId: patchParticipants
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ParticipantChangeRequest'
+      responses:
+        200:
+          description: The updated participants have been retreived
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /phoneNumbers:
+    get:
+      tags:
+        - Phone Numbers
+      summary: Retrieve a list of phone numbers
+      operationId: getPhoneNumbers
+      parameters:
+        - name: userId
+          in: query
+          description: Filter by the user assignment
+          schema:
+            type: string
+            example: eq::fda3787b-9f4e-45e3-91a3-46d61003c2d7
+        - name: assignmentType
+          in: query
+          description: Filter by the assignment type
+          schema:
+            type: string
+            example: eq::USER
+        - name: number
+          in: query
+          description: Search parameters by the phone number
+          schema:
+            minLength: 3
+            type: string
+        - name: type
+          in: query
+          description: Filter by the phone number type
+          schema:
+            type: string
+            example: eq::LOCAL
+        - name: regulatoryStatus
+          in: query
+          description: Filter by the status of the phone number's regulatory bundle
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The phone numbers have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumbers'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Phone Numbers
+      summary: Buy and create a list of Twilio phone numbers
+      operationId: buyPhoneNumbers
+      requestBody:
+        description: PhoneNumberRequest object for create and buy.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: A list of new Twilio phone numbers has been created and bought.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /phoneNumbers/{id}:
+    get:
+      tags:
+        - Phone Numbers
+      summary: Retrieve phone number details by its ID
+      operationId: getPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The phone number details have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      tags:
+        - Phone Numbers
+      summary: Update a phone number
+      operationId: updatePhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Updated phone number specification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number details have been modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Phone Numbers
+      summary: Delete a phone number
+      operationId: deletePhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The phone number has been deleted
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /recordings:
+    get:
+      tags:
+        - Recordings
+      summary: Use this endpoint to list all recordings
+      operationId: getRecordings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+        - name: phoneNumberId
+          in: query
+          schema:
+            type: string
+        - name: autoReceptionistId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+        - name: state
+          in: query
+          schema:
+            type: string
+        - name: type
+          in: query
+          schema:
+            type: string
+        - name: url
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          description: The recording contents have been retrieved. Returns list of recordings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recordings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /recordings/{id}:
+    get:
+      tags:
+        - Recordings
+      summary: This endpoint returns recording by ID
+      operationId: getRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The recording has been retrieved. Returns recording.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Recordings
+      summary: Update (partially) the recording
+      operationId: updateRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the updated RecordingRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecordingRequest'
+      responses:
+        200:
+          description: The auto receptionist has been modified. Returns the auto receptionist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recording'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Recordings
+      summary: Delete a recording by ID
+      operationId: deleteRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The voicemail has been deleted. Returns empty body.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      summary: Port a phone number
+      operationId: portPhoneNumber
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
           description: Bad request, security violation, or internal server error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /regulatoryBundles:
+    get:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Retrieve regulatory bundles
+      operationId: getRegulatoryBundles
+      parameters:
+        - name: type
+          in: query
+          description: Filter parameter by "type"
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter parameter by "status"
+          schema:
+            type: string
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The regulatory bundles have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundles'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    post:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Create new regulatory bundle
+      operationId: createRegulatoryBundle
+      requestBody:
+        description: Regulation bundle information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegulatoryBundleRequest'
+        required: true
+      responses:
+        201:
+          description: The regulatory bundle have been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundle'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /regulatoryBundles/{id}:
+    get:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Retrieve the regulatory bundle by id
+      operationId: getRegulatoryBundle
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The regulatory bundle have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundle'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Update regulatory bundle by id
+      operationId: updateRegulatoryBundle
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Regulation bundle information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegulatoryBundleRequest'
+        required: true
+      responses:
+        200:
+          description: The regulatory bundle have been updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundle'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    delete:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Delete a regulatory bundle by id
+      operationId: deleteRegulatoryBundle
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: Returns an empty response.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /regulatoryBundles/{id}/sendToReview:
+    post:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Send the regulatory bundle to review
+      operationId: sendRegulatoryBundleToReview
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The regulatory requirements have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundle'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /regulatoryBundles/requirements:
+    get:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Retrieve the list of requirements
+      operationId: getRegulatoryRequirements
+      parameters:
+        - name: countryCode
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CountryCode'
+        - name: type
+          in: query
+          required: true
+          description: Phone number type
+          schema:
+            type: string
+      responses:
+        200:
+          description: The regulatory requirements have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryBundleRequirements'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /regulatoryBundles/callbacks:
+    post:
+      tags:
+        - Regulatory Bundles
+      x-access: private
+      summary: Twilio callback for notify about changes status of regulatory bundle status
+      operationId: regulatoryBundleCallback
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                BundleSid:
+                  type: string
+                Status:
+                  type: string
+                FailureReason:
+                  type: string
+      responses:
+        204:
+          description: Returns an empty response.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /reports:
+    get:
+      tags:
+        - Reports
+      summary: Retrieve a list of available reports
+      operationId: getReports
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The list of reports has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reports'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /reports/{id}/data:
+    get:
+      tags:
+        - Report Data
+      summary: Gets data of the specific report
+      operationId: getReportData
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - name: from
+          in: query
+          required: true
+          description: The date when the report data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: true
+          description: The date when the report data set calculation starts
+          schema:
+            type: integer
+            format: int64
+        - name: who
+          in: query
+          description: The report can show data for the currently authenticated user (ME) or the whole team (TEAM).
+          schema:
+            type: string
+            enum:
+              - ME
+              - TEAM
+      responses:
+        200:
+          description: The data of the report.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportData'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /services/textToSpeech:
+    post:
+      tags:
+        - Services
+      summary: Convert text into audio
+      operationId: textToSpeech
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextToSpeechRequest'
+      responses:
+        200:
+          description: The synthesized audio
+          content:
+            audio/*:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            audio/*:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /services/phoneNumbersToBuy:
+    get:
+      tags:
+        - Services
+      summary: Retrieve a list of available phone numbers from Twilio
+      operationId: findPhoneNumbersAvailableToBuy
+      parameters:
+        - name: countryCode
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/CountryCode'
+        - name: areaCode
+          in: query
+          description: The rate center of the phone number
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Filter phone numbers by type
+          schema:
+            $ref: '#/components/schemas/PhoneNumberType'
+      responses:
+        200:
+          description: The list of phone numbers has been retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AvailablePhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /users/{id}/phoneNumbers:
+    post:
+      tags:
+        - Phone Numbers
+      summary: Add a phone number and assign it to the user
+      operationId: assignUserPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
+      responses:
+        201:
+          description: The phone number has been created and assigned to the user
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /tenantSettings:
+    x-access: private
+    get:
+      tags:
+        - Tenant Settings
+      summary: Retrieve tenant settings by tenant ID
+      operationId: getTenantSettings
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The tenant settings have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantSettings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /userSettings:
+    get:
+      tags:
+        - User Settings
+      summary: Retrieve user settings of current user
+      operationId: getUserSettings
+      responses:
+        200:
+          description: The user settings have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    put:
+      tags:
+        - User Settings
+      summary: Update user settings
+      operationId: updateUserSettings
+      requestBody:
+        description: Updated user settings
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSettingsRequest'
+      responses:
+        200:
+          description: The user settings have been modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettings'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /voicemails:
     get:
       tags:
@@ -1763,12 +2057,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Recordings'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /voicemails/{id}:
     patch:
       tags:
@@ -1790,7 +2083,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Recording'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1807,56 +2100,11 @@ paths:
           description: The voicemail has been deleted
           content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /userSettings:
-    get:
-      tags:
-        - User Settings
-      summary: Retrieve user settings of current user
-      operationId: getUserSettings
-      responses:
-        200:
-          description: The user settings have been retrieved
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSettings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-    put:
-      tags:
-        - User Settings
-      summary: Update user settings
-      operationId: updateUserSettings
-      requestBody:
-        description: Updated user settings
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserSettingsRequest'
-      responses:
-        200:
-          description: The user settings have been modified
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserSettings'
-        default:
-          description: Bad request, security violation, or internal server error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /widgets:
     get:
       tags:
@@ -1894,11 +2142,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Widgets'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
 components:
 
   securitySchemes:
@@ -2301,6 +2550,8 @@ components:
       properties:
         phoneNumber:
           type: string
+        twilioSid:
+          type: string
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
@@ -2381,29 +2632,23 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Address:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        addressLine1:
-          type: string
-        addressLine2:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        state:
-          type: string
-        countryCode:
-          $ref: '#/components/schemas/CountryCode'
-      required:
-        - id
+      allOf:
+        - $ref: '#/components/schemas/AddressRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
     AddressRequest:
       type: object
+      required:
+        - addressLine1
+        - city
+        - state
+        - zip
+        - countryCode
       properties:
-        id:
-          $ref: '#/components/schemas/Id'
         addressLine1:
           type: string
         addressLine2:
@@ -2969,6 +3214,22 @@ components:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
+    TenantSetting:
+      type: object
+      required:
+        - twilioAccountSid
+      properties:
+        twilioAccountSid:
+          type: string
+    TenantSettings:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TenantSetting'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'
     UserSettingsRequest:
       type: object
       properties:

@@ -75,6 +75,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PortOrder'
+        409:
+          description: Error in the request for creating a new port order, check the error message.
+          $ref: '#/components/responses/ErrorResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
 

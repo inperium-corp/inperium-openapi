@@ -3739,7 +3739,7 @@ paths:
         - Data Grid Views
       summary: List views of a specific type
       description: Use this endpoint to retrieve views by their type. For example, company views or contact views. Provide a type in the path.
-      operationId: getData Grid ViewsByType
+      operationId: getDataGridViewsByType
       parameters:
         - name: type
           in: path
@@ -4649,7 +4649,7 @@ components:
         private:
           type: boolean
           description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-    Data Grid Views:
+    DataGridViews:
       type: object
       description: The list of views with paging data.
       properties:

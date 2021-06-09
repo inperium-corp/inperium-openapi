@@ -296,11 +296,6 @@ components:
 
     PortOrderUpdateRequest:
       type: object
-      discriminator:
-        propertyName: requestType
-        mapping:
-          create: '#/components/schemas/PortOrderRequest'
-          update: '#/components/schemas/PortOrderUpdateRequest'
       properties:
         comment:
           type: string
@@ -314,50 +309,48 @@ components:
             $ref: '#/components/schemas/Id'
 
     PortOrderRequest:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderUpdateRequest'
-        - type: object
-          required:
-            - addressLine
-            - city
-            - state
-            - zip
-            - phoneNumbers
-            - lettersOfAuthorization
-            - billingStatements
-          properties:
-            portRequestName:
-              type: string
-            firstName:
-              type: string
-            lastName:
-              type: string
-            companyName:
-              type: string
-            addressLine:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            phoneNumbers:
-              minItems: 1
-              type: array
-              items:
-                type: string
-            lettersOfAuthorization:
-              minItems: 1
-              maxItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
-            billingStatements:
-              minItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
+      type: object
+      required:
+        - addressLine
+        - city
+        - state
+        - zip
+        - phoneNumbers
+        - lettersOfAuthorization
+        - billingStatements
+      properties:
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        phoneNumbers:
+          minItems: 1
+          type: array
+          items:
+            type: string
+        lettersOfAuthorization:
+          minItems: 1
+          maxItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        billingStatements:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
 
     PortOrder:
       type: object

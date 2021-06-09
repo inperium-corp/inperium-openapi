@@ -340,6 +340,8 @@ components:
           type: array
           items:
             type: string
+        comment:
+          type: string
         lettersOfAuthorization:
           minItems: 1
           maxItems: 1

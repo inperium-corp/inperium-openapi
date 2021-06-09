@@ -1113,19 +1113,21 @@ paths:
     get:
       tags:
         - Contacts
-      summary: Retrieve a list of contacts
+      summary: List contacts
+      description: Use this endpoint to retrieve a list of contacts. This operation supports paging, sorting, and filtering.
       operationId: getContacts
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
         - name: fullName
+          description: The contact's first and last name.
           in: query
           schema:
             type: string
       responses:
         200:
-          description: The contacts have been retrieved
+          description: The contacts have been retrieved. Returns contacts.
           content:
             application/json:
               schema:
@@ -1139,17 +1141,18 @@ paths:
     post:
       tags:
         - Contacts
-      summary: Create a new contact
+      summary: Create a contact
+      description: Use this endpoint to add a new contact.
       operationId: createContact
       requestBody:
-        description: Contact to create
+        description: In the request body, pass the ContactRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRequest'
       responses:
         201:
-          description: A new contact has been created
+          description: A new contact has been created. Returns a contact.
           content:
             application/json:
               schema:
@@ -1164,13 +1167,14 @@ paths:
     get:
       tags:
         - Contacts
-      summary: Retrieve details of the contact by its ID
+      summary: Retrieve contact details
+      description: Use this endpoint to retrieve a contact by its ID. Provide an ID in the path.
       operationId: getContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The details of the contact have been retrieved
+          description: The contact details have been retrieved. Returns a contact.
           content:
             application/json:
               schema:
@@ -1185,18 +1189,19 @@ paths:
       tags:
         - Contacts
       summary: Update a contact
+      description: Use this endpoint to modify an existing contact. The contact details will be overwritten. Provide an ID in the path.
       operationId: updateContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated contact specification
+        description: In the request body, pass the updated ContactRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRequest'
       responses:
         200:
-          description: The contact has been modified
+          description: The contact has been modified. Returns a contact.
           content:
             application/json:
               schema:
@@ -1211,12 +1216,13 @@ paths:
       tags:
         - Contacts
       summary: Delete a contact
+      description: Use this endpoint to remove a contact. Provide an ID in the path.
       operationId: deleteContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The contact has been deleted
+          description: The contact has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1228,7 +1234,8 @@ paths:
     get:
       tags:
         - Health Checks
-      summary: Check the health of the microservice
+      summary: Check microservice
+      description: Use this endpoint to check if the Inperium Talk microservice operates as normal.
       operationId: checkHealth
       responses:
         200:

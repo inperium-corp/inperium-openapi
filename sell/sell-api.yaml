@@ -3734,6 +3734,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
+  /views/dataGrid/{type}:                
     get:
       tags:
         - Data Grid Views

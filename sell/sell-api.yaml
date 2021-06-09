@@ -46,9 +46,9 @@ tags:
   - name: Contact Data
     description: |
       Contact data can be enriched with the publicly available information about from the internet, for example, links to social media or a CV.
-  - name: DataGridViews
+  - name: Data Grid Views
     description: |
-      Data grid views control what data is returned to the user, including filtering, sorting, and columns on a display.
+      Data grid views control what data is displayed to the user on pages such as Companies, Contacts, or Deals. The view includes filtering and sorting options as well as displayed columns.
   - name: Deals
     description: |
       Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
@@ -60,7 +60,7 @@ tags:
       Deprecated features which will be terminated in next releases.
   - name: Detail Page Views
     description: |
-      Detail page views control what data is returned to the user.
+      Detail page views control what data is displayed on the object card, for example when you view a specific company or a deal. The view includes the displayed properties and their order.
   - name: Dictionaries
     description: |
       Dictionaries contain predefined data that users typically see in drop-down lists. For example, days of weeks, standard statuses, countries, or phone codes.
@@ -2823,7 +2823,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /public/invoices/{id}:
     get:
       tags:
@@ -3711,7 +3711,7 @@ paths:
   /views/dataGrid:
     post:
       tags:
-        - DataGridViews
+        - Data Grid Views
       summary: Create a data grid view
       description: Use this endpoint to add a new data grid view.
       operationId: createDataGridView
@@ -3736,10 +3736,10 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
     get:
       tags:
-        - DataGridViews
+        - Data Grid Views
       summary: List views of a specific type
-      description: Use this endpoint to retrieve views by their type. For example, company views or contact views.
-      operationId: getDataGridViewsByType
+      description: Use this endpoint to retrieve views by their type. For example, company views or contact views. Provide a type in the path.
+      operationId: getData Grid ViewsByType
       parameters:
         - name: type
           in: path
@@ -3765,21 +3765,21 @@ paths:
   /views/dataGrid/{id}:
     put:
       tags:
-        - DataGridViews
+        - Data Grid Views
       summary: Update a view
       description: Use this endpoint to modify and overwrite an existing view.
       operationId: updateDataGridView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the updated ViewRequest object.
+        description: In the request body, pass the updated DataGridViewRequest object.
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/DataGridViewRequest"
       responses:
         200:
-          description: The view has been updated. Returns a view.
+          description: The view has been updated. Returns a data grid view.
           content:
             application/json:
               schema:
@@ -3792,7 +3792,7 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
-        - DataGridViews
+        - Data Grid Views
       summary: Delete a view
       description: Use this endpoint to remove an obsolete view.
       operationId: deleteDataGridView
@@ -3811,9 +3811,9 @@ paths:
   /views/detailPage:
     post:
       tags:
-        - DetailPageViews
+        - Detail Page Views
       summary: Create a detail page view
-      description: Use this endpoint to add a new view.
+      description: Use this endpoint to add a new view that will be applicable for the object cards (e.g., for company details).
       operationId: createDetailPageView
       requestBody:
         description: In the request body, pass the DetailPageView object.
@@ -3823,7 +3823,7 @@ paths:
               $ref: "#/components/schemas/DetailPageView"
       responses:
         201:
-          description: The view has been created. Returns the DetailPageView object.
+          description: The view has been created. Returns the detail page view.
           content:
             application/json:
               schema:
@@ -3838,7 +3838,7 @@ paths:
   /views/detailPage/{id}:
     put:
       tags:
-        - DetailPageViews
+        - Detail Page Views
       summary: Update a detail page view
       description: Use this endpoint to modify an existing view.
       operationId: updateDetailPageView
@@ -3852,7 +3852,7 @@ paths:
               $ref: "#/components/schemas/DetailPageView"
       responses:
         204:
-          description: The view has been updated. Returns a DetailPageView object.
+          description: The view has been updated. Returns a detail page view.
           content:
             application/json:
               schema:
@@ -3866,7 +3866,7 @@ paths:
   /views/detailPage/{type}:
     get:
       tags:
-        - DetailPageViews
+        - Detail Page Views
       summary: List detail page views
       description: Use this endpoint to retrieve the detail page views by the type of object they belong to. For example, company page views or contact page views.
       operationId: getDetailPageViewByType
@@ -3879,7 +3879,7 @@ paths:
             type: string
       responses:
         200:
-          description: The detail page views have been retrieved. Returns the DetailPageView.
+          description: The detail page views have been retrieved. Returns the detail page view.
           content:
             application/json:
               schema:
@@ -4649,7 +4649,7 @@ components:
         private:
           type: boolean
           description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-    DataGridViews:
+    Data Grid Views:
       type: object
       description: The list of views with paging data.
       properties:
@@ -4878,16 +4878,16 @@ components:
           example: 403
         path:
           type: string
-          description: a URI that identifies the specific occurrence of the error.
-          example: 'GET items/77807c87-b6ef-49e4-89f5-07c07d33a331'
+          description: An URI that identifies the specific occurrence of the error.
+          example: "GET items/77807c87-b6ef-49e4-89f5-07c07d33a331"
         message:
           type: string
           description: The human-readable localized error message.
-          example: 'Could not change item.'
+          example: "Could not change item."
         details:
           type: string
           description: The human-readable explanation of the error for developers on English.
-          example: 'Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status.'
+          example: "Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status."
       description: An error returned by Inperium API.
     Email:
       allOf:

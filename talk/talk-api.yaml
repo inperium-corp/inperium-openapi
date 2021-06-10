@@ -50,7 +50,7 @@ tags:
       The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
   - name: Phone Number Webhooks
     description: |
-      Inperium Talk enables you to create phone numbers.
+      Inperium Talk enables you to create and register phone numbers.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -66,15 +66,15 @@ tags:
   - name: Services
     description: |
       Inperium Talk provides various communication services such as the ability to generate voice recordings based on text or buy phone numbers from our partners.
-  - name: Voicemails
-    description: |
-      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
   - name: Tenant Settings
     description: |
       Inperium Talk enables users to get tenant settings.
   - name: User Settings
     description: |
       Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
+  - name: Voicemails
+    description: |
+      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
   - name: Widgets
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
@@ -1285,13 +1285,14 @@ paths:
     delete:
       tags:
         - Participants
-      summary: Delete participant from conference
+      summary: Remove from conference
+      description: Use this endpoint to remove a person from a conference call. Provide an ID in the path.
       operationId: removeParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The participant has been deleted
+          description: The participant has been removed.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1302,9 +1303,11 @@ paths:
     patch:
       tags:
         - Participants
-      summary: Update list of participants
+      summary: Update participants on a call
+      description: Use this endpoint to change the call participant's status, for example, to mute or put on hold. You can update one or more participants on a call.
       operationId: patchParticipants
       requestBody:
+        description: In the request body, pass the array of ParticipantChangeRequest objects.
         content:
           application/json:
             schema:
@@ -1313,7 +1316,7 @@ paths:
                 $ref: '#/components/schemas/ParticipantChangeRequest'
       responses:
         200:
-          description: The updated participants have been retreived
+          description: The participants have been updated. Returns call participants.
           content:
             application/json:
               schema:
@@ -1330,36 +1333,37 @@ paths:
     get:
       tags:
         - Phone Numbers
-      summary: Retrieve a list of phone numbers
+      summary: List phone numbers
+      description: Use this endpoint to retrieve all available phone numbers. This operation supports paging, sorting, and filtering.
       operationId: getPhoneNumbers
       parameters:
         - name: userId
           in: query
-          description: Filter by the user assignment
+          description: To search for phone numbers assigned to a specific user, provide the user's ID.
           schema:
             type: string
             example: eq::fda3787b-9f4e-45e3-91a3-46d61003c2d7
         - name: assignmentType
           in: query
-          description: Filter by the assignment type
+          description: Search for phone numbers by their assignment type. A phone number can be assigned to `USER`, `AUTO_RECEPTIONIST`, or be `UNASSIGNED`.
           schema:
             type: string
             example: eq::USER
         - name: number
           in: query
-          description: Search parameters by the phone number
+          description: A specific phone number you're interested in. Submit a phone number.
           schema:
             minLength: 3
             type: string
         - name: type
           in: query
-          description: Filter by the phone number type
+          description: Search for phone numbers of a specific type such as `LOCAL`, or `TOLL_FREE`.
           schema:
             type: string
             example: eq::LOCAL
         - name: regulatoryStatus
           in: query
-          description: Filter by the status of the phone number's regulatory bundle
+          description: Search for phone numbers with a specifici regulatory bundle status. Submit a status.
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1367,7 +1371,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The phone numbers have been retrieved
+          description: The phone numbers have been retrieved. Returns phone numbers.
           content:
             application/json:
               schema:
@@ -1381,10 +1385,11 @@ paths:
     post:
       tags:
         - Phone Numbers
-      summary: Buy and create a list of Twilio phone numbers
+      summary: Buy a phone number
+      description: Use this endpoint to buy and register a new phone number. You can create several phone numbers at once. Charges apply in accordance with your subscription plan.
       operationId: buyPhoneNumbers
       requestBody:
-        description: PhoneNumberRequest object for create and buy.
+        description: In the request body, pass an array of PhoneNumberRequest objects.
         content:
           application/json:
             schema:
@@ -1393,7 +1398,7 @@ paths:
                 $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: A list of new Twilio phone numbers has been created and bought.
+          description: New phone numbers have been bought. Returns phone numbers.
           content:
             application/json:
               schema:

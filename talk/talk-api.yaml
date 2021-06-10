@@ -1251,19 +1251,21 @@ paths:
     patch:
       tags:
         - Participants
-      summary: Update participant
+      summary: Update a participant
+      description: Use this endpoint to modify a participant. Provide an ID in the path.
       operationId: patchParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
         content:
+          description: In the request body, pass the ParticipantChangeRequestBody object.
           application/json:
             schema:
               $ref: '#/components/schemas/ParticipantChangeRequestBody'
         required: false
       responses:
         200:
-          description: The participant has been updated
+          description: The participant has been updated. Returns a call participant.
           content:
             application/json:
               schema:

@@ -340,7 +340,7 @@ components:
         - state
         - zip
         - phoneNumbers
-        - lettersOfAuthorization
+        - letterOfAuthorization
         - billingStatements
       properties:
         portRequestName:

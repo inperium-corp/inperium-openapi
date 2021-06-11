@@ -364,12 +364,8 @@ components:
           type: array
           items:
             type: string
-        lettersOfAuthorization:
-          minItems: 1
-          maxItems: 1
-          type: array
-          items:
-            $ref: '#/components/schemas/Id'
+        letterOfAuthorization:
+          $ref: '#/components/schemas/Id'
         billingStatements:
           minItems: 1
           type: array

@@ -157,11 +157,12 @@ paths:
         default:
           $ref: "#/components/responses/ErrorResponse"
   /files/{id}/internal:
+    x-access: private
     get:
       tags:
         - Files
-      summary: Get contnet refernce data of the file
-      description: Use this endpoint to get the contnet reference data of the file on the S3.
+      summary: Get content reference of the file by file ID
+      description: Use this endpoint to get the content reference of the file on the S3.
       operationId: getFileContentReference
       parameters:
         - $ref: '#/components/parameters/ResourceId'

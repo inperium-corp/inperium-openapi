@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Actuator
+    description: |
+      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Addresses
     description: |
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
@@ -33,9 +36,6 @@ tags:
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
-  - name: Health Checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: IVR Callbacks
     description: |
       IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
@@ -79,6 +79,22 @@ tags:
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
 paths:
+
+  /actuator/health:
+    get:
+      tags:
+        - Actuator
+      summary: Check the health of the microservice
+      operationId: checkHealth
+      responses:
+        200:
+          description: Returns the health status of the microservice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActuatorHealth'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
 
   /addresses:
     get:
@@ -1219,22 +1235,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /health:
-    get:
-      tags:
-        - Health Checks
-      summary: Check the health of the microservice
-      operationId: checkHealth
-      responses:
-        204:
-          description: Returns an empty response.
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+
   /participants/{id}:
     patch:
       tags:
@@ -2189,9 +2190,41 @@ components:
       schema:
         type: string
 
-  schemas:
+  responses:
 
+    EmptyResponse:
+      description: Returns an empty response that is used for OK non-returning operations.
+      content: { }
+
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
     ResponseError:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
+
+    Error:
       type: object
       required:
         - status
@@ -2226,6 +2259,20 @@ components:
     PageAndSort:
       type: object
       description: Paging and sorting information
+
+    ActuatorHealth:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/ActuatorHealthStatus'
+
+    ActuatorHealthStatus:
+      type: string
+      enum:
+        - UP
+        - DOWN
 
     AudioFiles:
       type: object

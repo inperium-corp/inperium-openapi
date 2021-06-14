@@ -1568,18 +1568,15 @@ paths:
     get:
       tags:
         - Recordings
-      summary: Convert call recording to text
+      summary: Submit call recording transcription job.
       description: Use this endpoint to transcribe a call recording.
       operationId: transcribeRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
-        200:
-          description: The transcription amazon job has started. Response body is empty.
-          content:
-            application/json:
-              schema:
-                { }
+        206:
+          description: The transcription job has been accepted. Response body is empty.
+          content: { }
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1894,9 +1891,9 @@ paths:
     patch:
       tags:
         - Services
-      summary: Save and convert call recording to text
-      description: Use this endpoint to save and transcribe a call recording.
-      operationId: saveAndtranscribeRecording
+      summary: Save and convert audio file to text
+      description: Use this endpoint to save and transcribe audio file.
+      operationId: saveAndTranscribeAudioFile
       requestBody:
         description: In the request body, pass the audio file to transcribe.
         content:
@@ -1906,11 +1903,11 @@ paths:
               format: binary
       responses:
         200:
-          description: The transcription amazon job has started. Response body contains transcription of the recording.
+          description: Response body contains transcription of the audio.
           content:
             application/json:
               schema:
-                { }
+                type: string
         default:
           description: Bad request, security violation, or internal server error.
           content:

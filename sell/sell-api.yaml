@@ -46,6 +46,9 @@ tags:
   - name: Contact Data
     description: |
       Contact data can be enriched with the publicly available information about from the internet, for example, links to social media or a CV.
+  - name: Data Grid Views
+    description: |
+      Data grid views control what data is displayed to the user on pages such as Companies, Contacts, or Deals. The view includes filtering and sorting options as well as displayed columns.
   - name: Deals
     description: |
       Deals are one of the major entities in Inperium Sell. Users create deals, link them to contacts or companies. For each deal, a user can create multiple quotes and invoices, add products, etc.
@@ -55,6 +58,9 @@ tags:
   - name: Deprecated
     description: |
       Deprecated features which will be terminated in next releases.
+  - name: Detail Page Views
+    description: |
+      Detail page views control what data is displayed on the object card, for example when you view a specific company or a deal. The view includes the displayed properties and their order.
   - name: Dictionaries
     description: |
       Dictionaries contain predefined data that users typically see in drop-down lists. For example, days of weeks, standard statuses, countries, or phone codes.
@@ -142,12 +148,9 @@ tags:
   - name: Tenant Settings
     description: |
       In Inperium Sell, administrators can set up tenant-wide properties and preferences such as default currency, quote prefix, revenue goal, etc.
-  - name: Views
-    description: |
-      Views control what data is returned to the user, including filtering, sorting, and columns on a display.
   - name: Widgets
     description: |
-      In Inperium Sell, a widget is a dashboard element providing certain data, for example, the leader board or the number of deals on each pipeline.
+      In Inperium Sell, a widget is a dashboard element that provides certain data, for example, the leader list or the number of deals on each pipeline.
   - name: Xero Authorizations
     description: |
       Configure integration with Xero.
@@ -206,7 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Activities
@@ -232,7 +235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: activity
   /activities/{id}:
     put:
@@ -262,7 +265,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: activity
     delete:
       tags:
@@ -281,7 +284,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /attachments:
     get:
       tags:
@@ -321,7 +324,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Attachments
@@ -347,7 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: attachment
   /attachments/{id}:
     get:
@@ -370,7 +373,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Attachments
@@ -398,7 +401,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: attachment
     delete:
       tags:
@@ -417,7 +420,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /campaigns:
     get:
       tags:
@@ -451,7 +454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Campaigns
@@ -477,7 +480,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: campaign
   /campaigns/{id}:
     get:
@@ -500,7 +503,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - Campaigns
@@ -518,7 +521,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /campaigns/{id}/contacts:
     get:
       tags:
@@ -543,7 +546,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /companies:
     get:
       tags:
@@ -570,7 +573,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Companies
@@ -596,7 +599,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -633,7 +636,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: companies
     delete:
       tags:
@@ -661,7 +664,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /companies/enrich:
     get:
       tags:
@@ -687,7 +690,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /companies/{id}:
     get:
       tags:
@@ -709,7 +712,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Companies
@@ -737,7 +740,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: company
     patch:
       tags:
@@ -766,7 +769,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: company
     delete:
       tags:
@@ -785,7 +788,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /companies/merge:
     post:
       tags:
@@ -827,7 +830,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /companyRelationships:
     get:
       tags:
@@ -853,7 +856,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Company Relationships
@@ -879,7 +882,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: companyRelationship
   /companyRelationships/{id}:
     delete:
@@ -899,7 +902,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /contacts:
     get:
       tags:
@@ -931,7 +934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Contacts
@@ -957,7 +960,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -994,7 +997,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: contact
     delete:
       tags:
@@ -1022,7 +1025,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /contacts/enrich:
     get:
       tags:
@@ -1048,7 +1051,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /contacts/{id}:
     get:
       tags:
@@ -1070,7 +1073,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Contacts
@@ -1098,7 +1101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: contact
     patch:
       tags:
@@ -1127,7 +1130,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: contact
     delete:
       tags:
@@ -1146,7 +1149,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /contacts/merge:
     post:
       tags:
@@ -1188,7 +1191,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /deals:
     get:
       tags:
@@ -1220,7 +1223,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Deals
@@ -1246,7 +1249,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1283,7 +1286,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: deals
     delete:
       tags:
@@ -1311,7 +1314,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /deals/{id}:
     get:
       tags:
@@ -1333,7 +1336,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Deals
@@ -1361,7 +1364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: deal
     patch:
       tags:
@@ -1390,7 +1393,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: deal
     delete:
       tags:
@@ -1409,7 +1412,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /deals/merge:
     post:
       tags:
@@ -1451,7 +1454,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /deals/{id}/items:
     get:
       tags:
@@ -1473,7 +1476,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Deal Items
@@ -1501,7 +1504,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: dealItems
   /exports:
     post:
@@ -1524,7 +1527,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: fields
   /exports/{id}:
     get:
@@ -1548,7 +1551,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /items:
     get:
       tags:
@@ -1577,7 +1580,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /forms:
     get:
       tags:
@@ -1606,7 +1609,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Forms
@@ -1632,7 +1635,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: form
   /forms/{id}:
     get:
@@ -1655,7 +1658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Forms
@@ -1683,7 +1686,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: form
     delete:
       tags:
@@ -1702,7 +1705,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /globalSearch:
     get:
       tags:
@@ -1729,7 +1732,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /imports:
     get:
       tags:
@@ -1758,7 +1761,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Imports
@@ -1785,7 +1788,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations:
     get:
       tags:
@@ -1824,7 +1827,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/stripe/authorize:
     get:
       tags:
@@ -1844,7 +1847,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/stripe/authorize/callback:
     x-access: private
     get:
@@ -1869,7 +1872,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/stripe/credentials:
     get:
       tags:
@@ -1900,7 +1903,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/xero/authorize:
     get:
       tags:
@@ -1920,7 +1923,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/xero/authorize/callback:
     x-access: private
     get:
@@ -1961,7 +1964,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /integrations/{id}:
     get:
       tags:
@@ -1983,7 +1986,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /invoices:
     get:
       tags:
@@ -2042,7 +2045,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Invoices
@@ -2068,7 +2071,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: invoice
   /invoices/paymentPlans:
     get:
@@ -2093,7 +2096,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /invoices/{id}:
     get:
       tags:
@@ -2115,7 +2118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Invoices
@@ -2143,7 +2146,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: invoice
     delete:
       tags:
@@ -2162,7 +2165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /invoices/{id}/email:
     post:
       tags:
@@ -2188,7 +2191,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: invoiceEmail
   /invoices/{id}/sync/{integrationAnchor}:
     get:
@@ -2214,7 +2217,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /payments:
     get:
       tags:
@@ -2268,7 +2271,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Payments
@@ -2294,7 +2297,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: paymentDetails
   /payments/capturePaymentIntent:
     get:
@@ -2321,7 +2324,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /payments/createPaymentIntent:
     post:
       tags:
@@ -2348,7 +2351,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: createPaymentIntent
   /payments/{id}:
     put:
@@ -2378,7 +2381,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: payment
   /pipelines:
     get:
@@ -2408,7 +2411,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Pipelines
@@ -2434,7 +2437,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: pipeline
   /pipelines/{id}:
     get:
@@ -2457,7 +2460,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Pipelines
@@ -2485,7 +2488,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: pipeline
     delete:
       tags:
@@ -2504,7 +2507,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /pipelines/{id}/statistics:
     get:
       tags:
@@ -2527,7 +2530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /dictionaries:
     get:
       tags:
@@ -2549,7 +2552,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /dictionaries/{id}:
     get:
       tags:
@@ -2571,7 +2574,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /products:
     get:
       tags:
@@ -2602,7 +2605,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Products
@@ -2628,7 +2631,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: product
   /products/{id}:
     get:
@@ -2651,7 +2654,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Products
@@ -2679,7 +2682,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
 
       x-codegen-request-body-name: product
     delete:
@@ -2699,7 +2702,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /properties:
     get:
       tags:
@@ -2737,13 +2740,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfigs"
+                $ref: "#/components/schemas/Properties"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Properties
@@ -2762,13 +2765,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfig"
+                $ref: "#/components/schemas/Property"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /properties/{id}:
     put:
       tags:
@@ -2796,13 +2799,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PropertyConfig"
+                $ref: "#/components/schemas/Property"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
         - Properties
@@ -2820,36 +2823,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
-  /properties/{objectType}:
-    get:
-      tags:
-        - Properties
-      summary: List properties by object
-      description: Retrieve properties belonging to a specific entity. For example, company properties or deal properties.
-      operationId: getPropertiesByType
-      parameters:
-        - name: objectType
-          in: path
-          description: The object, e.g., companies, contacts, or deals.
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: The properties have been retrieved. Returns the list of PropertyConfigs.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PropertyConfig"
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /public/invoices/{id}:
     get:
       tags:
@@ -2967,7 +2941,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: quote
   /quotes/{id}:
     get:
@@ -2990,7 +2964,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Quotes
@@ -3052,7 +3026,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /quotes/{id}/convertToInvoice:
     post:
       tags:
@@ -3081,7 +3055,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: conversionModel
   /reports:
     get:
@@ -3106,7 +3080,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /reports/{id}/data:
     get:
       tags:
@@ -3148,7 +3122,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /snippets:
     get:
       tags:
@@ -3214,7 +3188,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Snippets
@@ -3242,7 +3216,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: snippet
     delete:
       tags:
@@ -3261,7 +3235,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /stages:
     get:
       tags:
@@ -3287,7 +3261,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Stages
@@ -3313,7 +3287,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: stage
   /stages/{id}:
     get:
@@ -3336,7 +3310,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Stages
@@ -3364,7 +3338,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: stage
     delete:
       tags:
@@ -3383,7 +3357,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /templates:
     get:
       tags:
@@ -3449,7 +3423,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Template
@@ -3477,7 +3451,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: template
     delete:
       tags:
@@ -3496,7 +3470,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /messages:
     post:
       tags:
@@ -3522,7 +3496,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: message
   /tenant/settings:
     put:
@@ -3550,7 +3524,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: tenantSettings
     get:
       tags:
@@ -3570,7 +3544,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /tenant/integrations:
     get:
       tags:
@@ -3594,7 +3568,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /terminals/connectionToken:
     post:
       tags:
@@ -3614,7 +3588,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
   /terminals/readers:
     get:
       tags:
@@ -3640,7 +3614,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Stripe Terminals
@@ -3663,7 +3637,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: readerDetails
   /terminals/readers/{id}:
     get:
@@ -3686,7 +3660,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     put:
       tags:
         - Stripe Terminals
@@ -3714,7 +3688,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: reader
     delete:
       tags:
@@ -3733,40 +3707,40 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
-  /views:
+                $ref: "#/components/schemas/ErrorResponse"
+  /views/dataGrid:
     post:
       tags:
-        - Views
-      summary: Create a view
-      description: Use this endpoint to add a new view.
-      operationId: createView
+        - Data Grid Views
+      summary: Create a data grid view
+      description: Use this endpoint to add a new data grid view.
+      operationId: createDataGridView
       requestBody:
-        description: In the request body, pass the ViewRequest object.
+        description: In the request body, pass the DataGridViewRequest object.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ViewRequest"
+              $ref: "#/components/schemas/DataGridViewRequest"
       responses:
         201:
-          description: A new view has been created. Returns a view.
+          description: A new data grid view has been created. Returns a data grid view.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/View"
+                $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
-  /views/{type}:
+                $ref: "#/components/schemas/ErrorResponse"
+  /views/dataGrid/{type}:                
     get:
       tags:
-        - Views
+        - Data Grid Views
       summary: List views of a specific type
-      description: Use this endpoint to retrieve views by their type. For example, company views or contact views.
-      operationId: getViews
+      description: Use this endpoint to retrieve views by their type. For example, company views or contact views. Provide a type in the path.
+      operationId: getDataGridViewsByType
       parameters:
         - name: type
           in: path
@@ -3782,47 +3756,47 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/View"
+                  $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
-  /views/{id}:
+                $ref: "#/components/schemas/ErrorResponse"
+  /views/dataGrid/{id}:
     put:
       tags:
-        - Views
+        - Data Grid Views
       summary: Update a view
       description: Use this endpoint to modify and overwrite an existing view.
-      operationId: updateView
+      operationId: updateDataGridView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       requestBody:
-        description: In the request body, pass the updated ViewRequest object.
+        description: In the request body, pass the updated DataGridViewRequest object.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ViewRequest"
+              $ref: "#/components/schemas/DataGridViewRequest"
       responses:
         200:
-          description: The view has been updated. Returns a view.
+          description: The view has been updated. Returns a data grid view.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/View"
+                $ref: "#/components/schemas/DataGridView"
         default:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
     delete:
       tags:
-        - Views
+        - Data Grid Views
       summary: Delete a view
       description: Use this endpoint to remove an obsolete view.
-      operationId: deleteView
+      operationId: deleteDataGridView
       parameters:
         - $ref: "#/components/parameters/ResourceId"
       responses:
@@ -3834,7 +3808,89 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
+  /views/detailPage:
+    post:
+      tags:
+        - Detail Page Views
+      summary: Create a detail page view
+      description: Use this endpoint to add a new view that will be applicable for the object cards (e.g., for company details).
+      operationId: createDetailPageView
+      requestBody:
+        description: In the request body, pass the DetailPageView object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPageView"
+      responses:
+        201:
+          description: The view has been created. Returns the detail page view.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /views/detailPage/{id}:
+    put:
+      tags:
+        - Detail Page Views
+      summary: Update a detail page view
+      description: Use this endpoint to modify an existing view.
+      operationId: updateDetailPageView
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+      requestBody:
+        description: In the request body, pass the DetailPageView object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DetailPageView"
+      responses:
+        204:
+          description: The view has been updated. Returns a detail page view.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /views/detailPage/{type}:
+    get:
+      tags:
+        - Detail Page Views
+      summary: List detail page views
+      description: Use this endpoint to retrieve the detail page views by the type of object they belong to. For example, company page views or contact page views.
+      operationId: getDetailPageViewByType
+      parameters:
+        - name: type
+          in: path
+          description: The Inperium entity (companies, deals, etc.) the detail page view is used for.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: The detail page views have been retrieved. Returns the detail page view.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DetailPageView"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
   /widgets:
     get:
       tags:
@@ -3878,7 +3934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseError"
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   securitySchemes:
     BearerAuth:
@@ -4364,8 +4420,13 @@ components:
             city: Newtown
             state: CA
             description: Musical instruments shop
-            userId: $OBJECT-UUID
-            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
+            user:
+              id: $OBJECT-UUID,
+              avatarUrl: null,
+              firstName: John,
+              lastName: Doe,
+              email: john.doe@example.com,
+              tenantId: null
         createdAt:
           type: integer
           format: int64
@@ -4448,7 +4509,13 @@ components:
             lastName: Clock
             firstName: Emma
             companyId: $OBJECT-UUID
-            userId: $OBJECT-UUID
+            user:
+              id: $OBJECT-UUID,
+              avatarUrl: null,
+              firstName: John,
+              lastName: Doe,
+              email: john.doe@example.com,
+              tenantId: null
         createdAt:
           type: integer
           format: int64
@@ -4499,9 +4566,103 @@ components:
           type: boolean
           description: The true/false parameter that defines the terminal usage.
       description: The incoming object that instructs Stripe to create a payment intent.
+    DataGridView:
+      type: object
+      description: The view object controls what data to display in Inperium Sell, i.e., the columns in the table view, their order, applied filters.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The view title.
+        state:
+          type: object
+          description: The view current status.
+          additionalProperties: true
+        filter:
+          description: The applied filter. To learn more, see the 'Filtering' article.
+          type: object
+          additionalProperties: true
+          example:
+            groups:
+              filters:
+                - type: IS_EQUAL_TO
+                  value: [ME]
+                  propertyId: $OBJECT-UUID
+              condition: AND
+            condition: AND
+        columns:
+          type: array
+          description: The list of columns.
+          items:
+            type: object
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              columnOrder:
+                type: integer
+                description: The position of the column.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        private:
+          type: boolean
+          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
+        userId:
+          $ref: "#/components/schemas/Id"
+    DataGridViewRequest:
+      type: object
+      description: This object is submitted to Inperium API when you create a new view or update an existing view. Use it to create custom filters and column sets.
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        name:
+          type: string
+          description: The view title.
+        state:
+          type: object
+          description: The view current status.
+          additionalProperties: true
+        filter:
+          description: The applied filter.
+          type: object
+          additionalProperties: true
+        columns:
+          type: array
+          description: The list of columns.
+          items:
+            type: object
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              columnOrder:
+                type: integer
+                description: The position of the column.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        private:
+          type: boolean
+          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
+    DataGridViews:
+      type: object
+      description: The list of views with paging data.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/DataGridView"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
     Deal:
       type: object
-      description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and he properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
+      description: The deal object returned by Inperium API includes the ID, activities, the timestamp, and properties stored in a JSON format. To retrieve property definitions, send a GET request to '/properties'.
       properties:
         id:
           $ref: "#/components/schemas/Id"
@@ -4510,12 +4671,53 @@ components:
           additionalProperties: true
           description: The JSON containing product properties and their values, such as a deal name or value.
           example:
-            companyId: $OBJECT-UUID
-            name: Small band pack
-            userId: $OBJECT-UUID
-            contactIds: [$OBJECT-UUID, $OBJECT-UUID]
-            stageId: $OBJECT-UUID
-            pipelineId: $OBJECT-UUID
+            pipeline:
+              id: $OBJECT-UUID
+              name: Ensemble
+              stages:
+                - id: $OBJECT-UUID1
+                  name: Initial
+                  probability: 0.1
+                  sortOrder: 0
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID2
+                  name: Showcasing
+                  probability: 0.5
+                  sortOrder: 1
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID3
+                  name: Closed won
+                  probability: 1
+                  sortOrder: 2
+                  pipelineId: $OBJECT-UUID
+                - id: $OBJECT-UUID4
+                  name: Closed lost
+                  probability: 0
+                  sortOrder: 3
+                  pipelineId: $OBJECT-UUID
+            closeDate: 1582558487000
+            stage:
+              id: $OBJECT-UUID2
+              name: Showcasing
+              probability: 0.5
+              sortOrder: 1
+              pipelineId: $OBJECT-UUID
+            name: Small band
+            company:
+              id: $OBJECT-UUID
+              properties:
+                country: US
+                city: Newtown
+                companyName: Rocky road band
+              createdAt: 1582558000000
+              updatedAt: 1582558000000
+            user:
+              id: $OBJECT-UUID,
+              avatarUrl: null,
+              firstName: John,
+              lastName: Doe,
+              email: john.doe@example.com,
+              tenantId: null
         createdAt:
           type: integer
           format: int64
@@ -4529,11 +4731,24 @@ components:
       additionalProperties: true
       description: The incoming object that describes deal properties such as a deal name or value. To retrieve property definitions, send a GET request to '/properties'.
       example:
-        name: Small band pack
-        userId: $OBJECT-UUID
-        contactIds: [$OBJECT-UUID, $OBJECT-UUID]
-        stageId: $OBJECT-UUID
-        pipelineId: $OBJECT-UUID
+        pipeline:
+          id: $OBJECT-UUID
+          name: Ensemble
+        stage:
+          id: $OBJECT-UUID2
+          name: Showcasing
+          probability: 0.5
+          sortOrder: 1
+          pipelineId: $OBJECT-UUID
+        name: Small band
+        company:
+          id: $OBJECT-UUID
+          properties:
+            country: US
+            city: Newtown
+            companyName: Rocky road band
+          createdAt: 1582558000000
+          updatedAt: 1582558000000
     Deals:
       type: object
       description: The list of deals with paging data.
@@ -4544,6 +4759,32 @@ components:
             $ref: "#/components/schemas/Deal"
         paging:
           $ref: "#/components/schemas/PageAndSort"
+    DetailPageView:
+      type: object
+      description: The object describes the properties to be displayed on the detail page and their order.
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The ID of the view.
+        type:
+          type: string
+          description: The type of object the view applies to.
+        custom:
+          type: boolean
+          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
+        properties:
+          type: array
+          description: The list of displayed properties.
+          items:
+            type: object
+            description: The property & order pair.
+            properties:
+              propertyId:
+                $ref: "#/components/schemas/Id"
+              propertyOrder:
+                type: integer
+                description: The position in the list, with the lowest value on top.
     DictionaryItem:
       type: object
       properties:
@@ -4619,28 +4860,35 @@ components:
           format: int64
           description: The date the file was modified.
       description: A document stored in Inperium Sell.
-    ErrorModel:
+    ErrorResponse:
       required:
-        - code
-        - type
+        - id
+        - status
+        - path
+        - message
+        - details
       type: object
       properties:
-        code:
+        id:
           type: string
-          description: The error code.
+          format: uuid
+          description: The unique error id.
+        status:
+          type: integer
+          description: HTTP response code.
+          example: 403
+        path:
+          type: string
+          description: An URI that identifies the specific occurrence of the error.
+          example: "GET items/77807c87-b6ef-49e4-89f5-07c07d33a331"
         message:
           type: string
-          description: The error message.
-        type:
-          type: string
-          description: The error level (error, warn, or info).
-          enum:
-            - ERROR
-            - WARN
-            - INFO
+          description: The human-readable localized error message.
+          example: "Could not change item."
         details:
           type: string
-          description: Comma-separated list of fields, which caused the error condition.
+          description: The human-readable explanation of the error for developers on English.
+          example: "Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status."
       description: An error returned by Inperium API.
     Email:
       allOf:
@@ -4748,7 +4996,7 @@ components:
           type: boolean
           description: The true/false parameter that defines if the field should be hidden from view.
         definition:
-          $ref: "#/components/schemas/PropertyDefinition"
+          $ref: "#/components/schemas/Property"
         description:
           type: string
           description: Additional information about the form field.
@@ -5212,8 +5460,6 @@ components:
           type: integer
           format: int64
           description: The date the payment was processed.
-        stripePaymentMethod:
-          $ref: "#/components/schemas/StripePaymentMethod"
         paymentMethod:
           type: string
           description: The payment method.
@@ -5504,77 +5750,26 @@ components:
             $ref: "#/components/schemas/Product"
         paging:
           $ref: "#/components/schemas/PageAndSort"
-    PropertyConfig:
-      description: A complete description of the field (or property) used in Inperium Sell.
-      anyOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            usedIn:
-              type: integer
-              format: int64
-              description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
-            ownerId:
-              type: string
-              format: uuid
-              description: The ID of the user who added this property. 'Null' for builtin properties.
-            dataGrid:
-              type: boolean
-              description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
-            detailsPage:
-              type: boolean
-              description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
-            bulkUpdate:
-              type: boolean
-              description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
-            template:
-              type: boolean
-              description: The parameter marks if this property can be used in the templates in the UI.
-            filtering:
-              type: boolean
-              description: The parameter marks if this property can be selected for filtering in the UI.
-            propertyOptions:
-              type: array
-              description: The list of options.
-              items:
-                $ref: "#/components/schemas/PropertyOption"
-            validation:
-              type: object
-              description: The validation parameters for the property such as a maximum input length or a support pattern.
-              properties:
-                required:
-                  type: boolean
-                  description: The true/false parameter that marks if this property must be filled.
-                max:
-                  type: integer
-                  format: int64
-                  description: The maximum supported value.
-                min:
-                  type: integer
-                  format: int64
-                  description: The minimum supported value.
-                maxLength:
-                  type: integer
-                  format: int64
-                  description: The maximum length of the input text.
-                minLength:
-                  type: integer
-                  format: int64
-                  description: The minimum length of the input text.
-                pattern:
-                  type: string
-                  description: The pattern to validate the input against.
-    PropertyConfigs:
+    PropertyUsage:
+      description: The object configures how and when the property is used.
       type: object
-      description: The list of property configurations with paging data.
       properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/PropertyConfig"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
-    PropertyDefinition:
+        dataGrid:
+          type: boolean
+          description: The parameter marks if this property should be displayed in the table view (e.g., on the Contacts page, the Companies page).
+        detailPage:
+          type: boolean
+          description: The parameter marks if this property should be displayed on the object card (e.g., when a user drills down to a company).
+        bulkUpdate:
+          type: boolean
+          description: The parameter marks if this property should be available for bulk updating in the UI (e.g., bulk update allows changing several objects at once).
+        template:
+          type: boolean
+          description: The parameter marks if this property can be used in the templates in the UI.
+        filtering:
+          type: boolean
+          description: The parameter marks if this property can be selected for filtering in the UI.
+    Property:
       required:
         - label
         - name
@@ -5607,6 +5802,62 @@ components:
         custom:
           type: boolean
           description: The true/false parameter that marks if the property is builtin (false) or created by user (true).
+        usedIn:
+          type: integer
+          format: int64
+          description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
+        options:
+          type: array
+          description: The list of options for select property.
+          items:
+            $ref: "#/components/schemas/PropertyOption"
+        isMulti:
+          type: boolean
+          description: The parameter defines if this property field can store multiple values (e.g., an array of contact IDs).
+        validation:
+          $ref: "#/components/schemas/PropertyValidation"
+        authorId:
+          type: string
+          format: uuid
+          description: The ID of the user who added this property configuration. 'Null' for builtin properties.
+        usage:
+          $ref: "#/components/schemas/PropertyUsage"
+    Properties:
+      type: object
+      description: The list of properties with paging data.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Property"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+    PropertyValidation:
+      type: object
+      description: The validation parameters for the property such as a maximum input length or a support pattern.
+      properties:
+        required:
+          type: boolean
+          description: The true/false parameter that marks if this property must be filled.
+        max:
+          type: integer
+          format: int64
+          description: The maximum supported value.
+        min:
+          type: integer
+          format: int64
+          description: The minimum supported value.
+        maxLength:
+          type: integer
+          format: int64
+          description: The maximum length of the input text.
+        minLength:
+          type: integer
+          format: int64
+          description: The minimum length of the input text.
+        pattern:
+          type: string
+          description: The pattern to validate the input against.
     PropertyOption:
       type: object
       description: When you create a property with the 'select' data, you have to define the possible values. For example, for the 'Shipping' property with the 'Select' data type, the options will be 'Ground' and 'Air'.
@@ -5620,16 +5871,37 @@ components:
           type: string
           description: The value.
     PropertyRequest:
+      type: object
       description: The incoming object that provides a complete definition of a custom property.
-      allOf:
-        - $ref: "#/components/schemas/PropertyDefinition"
-        - type: object
-          properties:
-            propertyOptions:
-              type: array
-              description: The list of property options.
-              items:
-                $ref: "#/components/schemas/PropertyOption"
+      properties:
+        objectType:
+          type: string
+          description: The property can belong to either a company, a contact, a deal, or a product.
+        name:
+          type: string
+          description: The internal name.
+        label:
+          type: string
+          description: The display name.
+        description:
+          type: string
+          description: Comments or additional details.
+        dataType:
+          type: string
+          description: The property data type such as string, boolean or monetary.
+        currency:
+          type: string
+          description: For monetary properties, the default currency of the property.
+        options:
+          type: array
+          description: The list of options for select property.
+          items:
+            $ref: "#/components/schemas/PropertyOption"
+        isMulti:
+          type: boolean
+          description: Shows that value is multi or not.
+        validation:
+          $ref: "#/components/schemas/PropertyValidation"
     PublicQuote:
       type: object
       description: The quote that is sent to a customer for approval. The PublicQuote object will have less parameters than the Quote object that is used internally.
@@ -6186,15 +6458,6 @@ components:
         yAxis:
           label: Deals
           data: [5, 6, 0]
-    ResponseError:
-      type: object
-      description: The error returned by Inperium API.
-      properties:
-        errors:
-          type: array
-          description: The list of errors.
-          items:
-            $ref: "#/components/schemas/ErrorModel"
     SnippetRequest:
       type: object
       description: This object is submitted to the Inperium API when you create a new snippet or update an existing snippet.
@@ -6585,98 +6848,6 @@ components:
           type: string
           description: The Stripe secret key.
       description: The object containing a terminal token.
-    View:
-      type: object
-      description: The view object controls what data to display in Inperium Sell, i.e., the columns in the table view, their order, applied filters.
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-          description: The view title.
-        state:
-          type: object
-          description: The view current status.
-          additionalProperties: true
-        filter:
-          description: The applied filter. To learn more, see the 'Filtering' article.
-          type: object
-          additionalProperties: true
-          example:
-            groups:
-              filters:
-                - type: IS_EQUAL_TO
-                  value: [ME]
-                  propertyId: $OBJECT-UUID
-              condition: AND
-            condition: AND
-        columns:
-          type: array
-          description: The list of columns.
-          items:
-            type: object
-            properties:
-              propertyId:
-                $ref: "#/components/schemas/Id"
-              columnOrder:
-                type: integer
-                description: The position of the column.
-        type:
-          type: string
-          description: The type of object the view applies to.
-        custom:
-          type: boolean
-          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
-        private:
-          type: boolean
-          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-    ViewRequest:
-      type: object
-      description: This object is submitted to Inperium API when you create a new view or update an existing view. Use it to create custom filters and column sets.
-      properties:
-        id:
-          $ref: "#/components/schemas/Id"
-        name:
-          type: string
-          description: The view title.
-        state:
-          type: object
-          description: The view current status.
-          additionalProperties: true
-        filter:
-          description: The applied filter.
-          type: object
-          additionalProperties: true
-        columns:
-          type: array
-          description: The list of columns.
-          items:
-            type: object
-            properties:
-              propertyId:
-                $ref: "#/components/schemas/Id"
-              columnOrder:
-                type: integer
-                description: The position of the column.
-        type:
-          type: string
-          description: The type of object the view applies to.
-        custom:
-          type: boolean
-          description: The true/false parameter that defines if the view is builtin (false) or custom (true).
-        private:
-          type: boolean
-          description: This true/false parameters defines if the view is shared across all users (true) in the company or is personal (false).
-    Views:
-      type: object
-      description: The list of views with paging data.
-      properties:
-        data:
-          type: array
-          items:
-            $ref: "#/components/schemas/View"
-        paging:
-          $ref: "#/components/schemas/PageAndSort"
     Widgets:
       type: object
       description: The Widgets object is an aggregation of smaller widget components. It gives you insights into the sales team progress. To learn more about charts and analytics, refer to Inperium Sell user documentation.

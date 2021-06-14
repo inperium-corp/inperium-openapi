@@ -1415,13 +1415,14 @@ paths:
     get:
       tags:
         - Phone Numbers
-      summary: Retrieve phone number details by its ID
+      summary: Retrieve a phone number
+      description: Use this endpoint to retrieve phone number details. Provide an ID in the path.
       operationId: getPhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The phone number details have been retrieved
+          description: The phone number details have been retrieved. Returns a phone number.
           content:
             application/json:
               schema:
@@ -1436,18 +1437,19 @@ paths:
       tags:
         - Phone Numbers
       summary: Update a phone number
+      description: Use this endpoint to modify a phone number and overvwrite its details. Provide an ID in the path.
       operationId: updatePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated phone number specification
+        description: In the request body, pass the updated PhoneNumberRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: The phone number details have been modified
+          description: The phone number details have been modified. Returns a phone number.
           content:
             application/json:
               schema:
@@ -1462,12 +1464,13 @@ paths:
       tags:
         - Phone Numbers
       summary: Delete a phone number
+      description: Use this endpoint to release and remove a phone number. You'll no longer have access to it once you remove it. Provide an ID in the path.
       operationId: deletePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The phone number has been deleted
+          description: The phone number has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1475,44 +1478,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /recordings:
     get:
       tags:
         - Recordings
-      summary: Use this endpoint to list all recordings
+      summary: List recordings
+      description: Use this endpoint to retrieve all recordings stored with Inperium. The operation supports paging, sorting, and filtering.
       operationId: getRecordings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
         - name: phoneNumberId
+          description: The ID of the phone number the recording is linked to.
           in: query
           schema:
             type: string
         - name: autoReceptionistId
+          description: The ID of the auto receptionist the recording is linked to.
           in: query
           schema:
             type: string
         - name: userId
+          description: The ID of the user the recording is linked to.
           in: query
           schema:
             type: string
         - name: state
+          description: The `READ` or `UNREAD` status.
           in: query
           schema:
             type: string
         - name: type
+          description: The type of recording.
           in: query
           schema:
             type: string
         - name: url
+          description: The URL of recording.
           in: query
           schema:
             type: string
       responses:
         200:
-          description: The recording contents have been retrieved. Returns list of recordings.
+          description: The recordings have been retrieved. Returns recordings.
           content:
             application/json:
               schema:
@@ -1523,24 +1532,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /recordings/{id}:
     get:
       tags:
         - Recordings
-      summary: This endpoint returns recording by ID
+      summary: Retrieve a recording
+      description: Use this endpoint to get a specific recording by its ID. Provide an ID in the path.
       operationId: getRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The recording has been retrieved. Returns recording.
+          description: The recording has been retrieved. Returns the recording.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Recording'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1548,7 +1557,8 @@ paths:
     patch:
       tags:
         - Recordings
-      summary: Update (partially) the recording
+      summary: Partically update recording
+      description: Use this endpoint to partially modify a recording and its properties. Provide an ID in the path.
       operationId: updateRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1560,7 +1570,7 @@ paths:
               $ref: '#/components/schemas/RecordingRequest'
       responses:
         200:
-          description: The auto receptionist has been modified. Returns the auto receptionist.
+          description: The recording has been updated. Returns the recording.
           content:
             application/json:
               schema:
@@ -1574,13 +1584,14 @@ paths:
     delete:
       tags:
         - Recordings
-      summary: Delete a recording by ID
+      summary: Delete recording
+      description: Use this endpoint to remove a recording. Provide an ID in the path.
       operationId: deleteRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The voicemail has been deleted. Returns empty body.
+          description: The recording has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1802,7 +1813,8 @@ paths:
     get:
       tags:
         - Reports
-      summary: Retrieve a list of available reports
+      summary: List reports
+      description: Use this endpoint to retrieve a list of available reports. This operation supports paging and sorting.
       operationId: getReports
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1810,7 +1822,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The list of reports has been retrieved
+          description: The reports have been retrieved. Returns reports.
           content:
             application/json:
               schema:
@@ -1825,21 +1837,22 @@ paths:
     get:
       tags:
         - Report Data
-      summary: Gets data of the specific report
+      summary: Retrieve report data
+      description: Use this endpoint to see report data returned by a specific report. Provide a report ID in the path.
       operationId: getReportData
       parameters:
         - $ref: '#/components/parameters/ResourceId'
         - name: from
           in: query
           required: true
-          description: The date when the report data set calculation starts
+          description: The start date.
           schema:
             type: integer
             format: int64
         - name: to
           in: query
           required: true
-          description: The date when the report data set calculation starts
+          description: The finish date.
           schema:
             type: integer
             format: int64
@@ -1853,7 +1866,7 @@ paths:
               - TEAM
       responses:
         200:
-          description: The data of the report.
+          description: The report data has been retrieved. Returns report data.
           content:
             application/json:
               schema:
@@ -1868,16 +1881,18 @@ paths:
     post:
       tags:
         - Services
-      summary: Convert text into audio
+      summary: Convert text to audio
+      description: Use this endpoint to generate an audio file based on provided text sample.
       operationId: textToSpeech
       requestBody:
+        description: In the request body, pass the TextToSpeechRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TextToSpeechRequest'
       responses:
         200:
-          description: The synthesized audio
+          description: The text has been converted in audio. Returns an audio file.
           content:
             audio/*:
               schema:
@@ -1893,27 +1908,29 @@ paths:
     get:
       tags:
         - Services
-      summary: Retrieve a list of available phone numbers from Twilio
+      summary: List phone numbers for sale
+      description: Use this endpoint to retrieve a list of phone numbers that can be purchased in Inperium Talk.
       operationId: findPhoneNumbersAvailableToBuy
       parameters:
         - name: countryCode
+          description: The country phone code.
           in: query
           required: true
           schema:
             $ref: '#/components/schemas/CountryCode'
         - name: areaCode
           in: query
-          description: The rate center of the phone number
+          description: The area phone code.
           schema:
             type: string
         - name: type
           in: query
-          description: Filter phone numbers by type
+          description: The type of the phonw number that can be `TOLL_FREE` or `LOCAL`.
           schema:
             $ref: '#/components/schemas/PhoneNumberType'
       responses:
         200:
-          description: The list of phone numbers has been retrieved
+          description: The phone numbers have been retrieved. Returns available phone numbers.
           content:
             application/json:
               schema:

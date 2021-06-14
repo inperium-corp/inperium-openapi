@@ -1564,6 +1564,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
 
+  /recordings/{id}/transcribe:
+    get:
+      tags:
+        - Recordings
+      summary: Convert call recording to text
+      description: Use this endpoint to transcribe a call recording.
+      operationId: transcribeRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The transcription amazon job has started. Response body is empty.
+          content:
+            application/json:
+              schema:
+                { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /webhooks/phoneNumbers/port:
     x-access: private
@@ -1868,18 +1890,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /services/transcribe/{id}:
-    get:
+  /services/transcribe:
+    patch:
       tags:
         - Services
-      summary: Convert call recording to text
-      description: Use this endpoint to transcribe a call recording.
-      operationId: transcribeRecording
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
+      summary: Save and convert call recording to text
+      description: Use this endpoint to save and transcribe a call recording.
+      operationId: saveAndtranscribeRecording
+      requestBody:
+        description: In the request body, pass the audio file to transcribe.
+        content:
+          audio/*:
+            schema:
+              type: string
+              format: binary
       responses:
         200:
-          description: The transcription amazon job has started. Response body is empty.
+          description: The transcription amazon job has started. Response body contains transcription of the recording.
           content:
             application/json:
               schema:

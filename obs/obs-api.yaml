@@ -162,14 +162,9 @@ paths:
         - Files
       summary: Get contnet refernce data of the file
       description: Use this endpoint to get the contnet reference data of the file on the S3.
-      operationId: getFileContentReferenceData
+      operationId: getFileContentReference
       parameters:
         - $ref: '#/components/parameters/ResourceId'
-        - name: token
-          in: query
-          description: The JWT token or API key.
-          schema:
-            type: string
       responses:
         200:
           description: The file content reference has been retrieved.

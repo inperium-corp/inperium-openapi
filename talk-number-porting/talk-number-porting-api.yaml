@@ -15,9 +15,6 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
-  - name: Actuator
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Port Orders
     description: |
       Inperium Talk Number Porting enables users to port phone numbers.
@@ -26,22 +23,6 @@ tags:
       Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
 
 paths:
-
-  /actuator/health:
-    get:
-      tags:
-        - Actuator
-      summary: Check the health of the microservice
-      operationId: checkHealth
-      responses:
-        200:
-          description: Returns the health status of the microservice.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ActuatorHealth'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders:
     get:
@@ -251,20 +232,6 @@ components:
         hasPreviousPage: false
         sortingCriteria: null
         hasMore: false
-
-    ActuatorHealth:
-      type: object
-      required:
-        - status
-      properties:
-        status:
-          $ref: '#/components/schemas/ActuatorHealthStatus'
-
-    ActuatorHealthStatus:
-      type: string
-      enum:
-        - UP
-        - DOWN
 
     PhoneNumber:
       type: object

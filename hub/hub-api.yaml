@@ -2584,7 +2584,7 @@ components:
           $ref: "#/components/schemas/Id"
         resourceAmount:
           type: number
-          format: double
+          format: int64
           description: The consumed amount of a resource associated with the charge.
         feature:
           $ref: "#/components/schemas/Feature"

@@ -1568,8 +1568,8 @@ paths:
     get:
       tags:
         - Recordings
-      summary: Submit call recording transcription job.
-      description: Use this endpoint to transcribe a call recording.
+      summary: Submit recording transcription job.
+      description: Use this endpoint to transcribe a recording.
       operationId: transcribeRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1888,12 +1888,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /services/transcribe:
-    patch:
+    post:
       tags:
         - Services
-      summary: Save and convert audio file to text
-      description: Use this endpoint to save and transcribe audio file.
-      operationId: saveAndTranscribeAudioFile
+      summary: Convert audio file to text
+      description: Use this endpoint to  transcribe audio file.
+      operationId: transcribeAudioFile
       requestBody:
         description: In the request body, pass the audio file to transcribe.
         content:

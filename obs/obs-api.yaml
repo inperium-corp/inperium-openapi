@@ -156,6 +156,30 @@ paths:
                 format: binary
         default:
           $ref: "#/components/responses/ErrorResponse"
+  /files/{id}/internal:
+    x-access: private
+    get:
+      x-access: private
+      tags:
+        - Files
+      summary: Get content reference of the file by file ID
+      description: Use this endpoint to get the content reference of the file on the S3.
+      operationId: getFileContentReference
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The file content reference has been retrieved.
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/ErrorResponse"
   /health:
     get:
       tags:

@@ -15,9 +15,6 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
-  - name: Health Checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: Port Orders
     description: |
       Inperium Talk Number Porting enables users to port phone numbers.
@@ -26,18 +23,6 @@ tags:
       Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
 
 paths:
-
-  /health:
-    get:
-      tags:
-        - Health Checks
-      summary: Checks the health of the microservice
-      operationId: checkHealth
-      responses:
-        204:
-          $ref: '#/components/responses/EmptyResponse'
-        default:
-          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders:
     get:
@@ -75,6 +60,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PortOrder'
+        409:
+          description: Error in the request for creating a new port order, check the error message.
+          $ref: '#/components/responses/ErrorResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -131,6 +119,12 @@ paths:
           schema:
             type: string
           example: nin::CANCELED,PORTED
+        - name: number
+          in: query
+          description: The phone number such as +12126551232.
+          schema:
+            type: string
+          example: eq::+12126551232
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
@@ -285,19 +279,32 @@ components:
       required:
         - comment
         - type
+        - createdAt
       properties:
         comment:
           type: string
         type:
           $ref: '#/components/schemas/CommentType'
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
+
+    Attachment:
+      type: object
+      required:
+        - id
+        - createdAt
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        createdAt:
+          type: integer
+          format: int64
+          description: Timestamp of the create
 
     PortOrderUpdateRequest:
       type: object
-      discriminator:
-        propertyName: requestType
-        mapping:
-          create: '#/components/schemas/PortOrderRequest'
-          update: '#/components/schemas/PortOrderUpdateRequest'
       properties:
         comment:
           type: string
@@ -311,49 +318,44 @@ components:
             $ref: '#/components/schemas/Id'
 
     PortOrderRequest:
-      allOf:
-        - $ref: '#/components/schemas/PortOrderUpdateRequest'
-        - type: object
-          required:
-            - addressLine
-            - city
-            - state
-            - zip
-            - phoneNumbers
-            - lettersOfAuthorization
-            - billingStatements
-          properties:
-            portRequestName:
-              type: string
-            firstName:
-              type: string
-            lastName:
-              type: string
-            companyName:
-              type: string
-            addressLine:
-              type: string
-            city:
-              type: string
-            state:
-              type: string
-            zip:
-              type: string
-            phoneNumbers:
-              type: array
-              items:
-                type: string
-            lettersOfAuthorization:
-              minItems: 1
-              maxItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
-            billingStatements:
-              minItems: 1
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
+      type: object
+      required:
+        - addressLine
+        - city
+        - state
+        - zip
+        - phoneNumbers
+        - letterOfAuthorization
+        - billingStatements
+      properties:
+        portRequestName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
+        phoneNumbers:
+          minItems: 1
+          type: array
+          items:
+            type: string
+        letterOfAuthorization:
+          $ref: '#/components/schemas/Id'
+        billingStatements:
+          minItems: 1
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
 
     PortOrder:
       type: object
@@ -397,11 +399,11 @@ components:
         lettersOfAuthorization:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/Attachment'
         billingStatements:
           type: array
           items:
-            $ref: '#/components/schemas/Id'
+            $ref: '#/components/schemas/Attachment'
 
     PortOrders:
       type: object

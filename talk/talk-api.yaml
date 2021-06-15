@@ -33,9 +33,6 @@ tags:
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
-  - name: Health Checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: IVR Callbacks
     description: |
       IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
@@ -1236,23 +1233,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /health:
-    get:
-      tags:
-        - Health Checks
-      summary: Check microservice
-      description: Use this endpoint to check if the Inperium Talk microservice operates as normal.
-      operationId: checkHealth
-      responses:
-        204:
-          description: Returns an empty response.
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /participants/{id}:
     patch:
       tags:
@@ -1599,6 +1579,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+
+  /recordings/{id}/transcribe:
+    get:
+      tags:
+        - Recordings
+      summary: Submit recording transcription job.
+      description: Use this endpoint to transcribe a recording.
+      operationId: transcribeRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        206:
+          description: The transcription job has been accepted. Response body is empty.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      summary: Port a phone number
+      operationId: portPhoneNumber
+      requestBody:
+        description: List of phone numbers to create and buy
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /regulatoryBundles:
     get:
       tags:
@@ -1877,6 +1905,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /services/transcribe:
+    post:
+      tags:
+        - Services
+      summary: Convert audio to text
+      description: Use this endpoint to transcribe audio file.
+      operationId: transcribeAudioFile
+      requestBody:
+        description: In the request body, pass the audio file to transcribe.
+        content:
+          audio/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        200:
+          description: Returns a transcription of the audio.
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
   /services/textToSpeech:
     post:
       tags:

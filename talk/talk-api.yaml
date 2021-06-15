@@ -2974,6 +2974,8 @@ components:
           type: string
         shared:
           type: boolean
+        contactOwner:
+          $ref: '#/components/schemas/Id'
         addressLine1:
           type: string
         addressLine2:

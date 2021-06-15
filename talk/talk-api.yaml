@@ -1946,9 +1946,11 @@ paths:
   /tenantSettings:
     x-access: private
     get:
+      x-access: private
       tags:
         - Tenant Settings
-      summary: Retrieve tenant settings by tenant ID
+      summary: Retrieve tenant settings.
+      description: Use this endpoint to get settings configured on teh tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1956,7 +1958,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The tenant settings have been retrieved
+          description: The tenant settings have been retrieved. Returns tenant settings.
           content:
             application/json:
               schema:
@@ -1971,11 +1973,13 @@ paths:
     post:
       tags:
         - Phone Numbers
-      summary: Add a phone number and assign it to the user
+      summary: Assign to user
+      description: Use this endpoint to assign a phone number to a user. Provide a user ID in the path.
       operationId: assignUserPhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        description: In the request body, pass the phone number IDs.
         content:
           application/json:
             schema:
@@ -1984,7 +1988,7 @@ paths:
                 $ref: '#/components/schemas/Id'
       responses:
         201:
-          description: The phone number has been created and assigned to the user
+          description: The phone number has been created and assigned to the user.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1996,11 +2000,12 @@ paths:
     get:
       tags:
         - User Settings
-      summary: Retrieve user settings of current user
+      summary: List user settings
+      description: Use this endpoint to retrieve settings for a currently authenticated user.
       operationId: getUserSettings
       responses:
         200:
-          description: The user settings have been retrieved
+          description: The user settings have been retrieved. Returns user settings.
           content:
             application/json:
               schema:
@@ -2015,16 +2020,17 @@ paths:
       tags:
         - User Settings
       summary: Update user settings
+      description: Use this endpoint to modify and overwrite current user settings.
       operationId: updateUserSettings
       requestBody:
-        description: Updated user settings
+        description: In the request body, pass the UserSettingsRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserSettingsRequest'
       responses:
         200:
-          description: The user settings have been modified
+          description: The user settings have been modified. Returns user settings.
           content:
             application/json:
               schema:
@@ -2037,6 +2043,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /voicemails:
     get:
+      x-access: private
       tags:
         - Voicemails
       summary: Retrieve the voicemails
@@ -2076,6 +2083,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /voicemails/{id}:
     patch:
+      x-access: private
       tags:
         - Voicemails
       summary: Update (partially) the voicemail
@@ -2101,6 +2109,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      x-access: private
       tags:
         - Voicemails
       summary: Delete a voicemail
@@ -2123,22 +2132,23 @@ paths:
       tags:
         - Phone Number Webhooks
       summary: Port a phone number
+      description: Use this endpoint to port an existing phone number.
       operationId: portPhoneNumber
       requestBody:
-        description: List of phone numbers to create and buy
+        description: In the request body, pass the PhoneNumberRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: The phone number has been ported
+          description: The phone number has been ported. Returns a phone number.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -2147,20 +2157,21 @@ paths:
     get:
       tags:
         - Widgets
-      summary: Widgets
+      summary: List widgets
+      description: Use this endpoint to retrieve a list of available widgets. This operation supports paging, sorting, and filtering.
       operationId: getWidgets
       parameters:
         - name: from
           in: query
           required: true
-          description: The date when the widgets data set calculation starts
+          description: The start date.
           schema:
             type: integer
             format: int64
         - name: to
           in: query
           required: true
-          description: The date when the widgets data set calculation starts
+          description: The finish date.
           schema:
             type: integer
             format: int64
@@ -2174,7 +2185,7 @@ paths:
               - TEAM
       responses:
         200:
-          description: Widgets
+          description: The widgets have been retrieved. Returns widgets.
           content:
             application/json:
               schema:

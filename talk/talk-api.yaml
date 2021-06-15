@@ -33,9 +33,6 @@ tags:
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
-  - name: Health Checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: IVR Callbacks
     description: |
       IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
@@ -1219,22 +1216,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /health:
-    get:
-      tags:
-        - Health Checks
-      summary: Check the health of the microservice
-      operationId: checkHealth
-      responses:
-        204:
-          description: Returns an empty response.
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
+
   /participants/{id}:
     patch:
       tags:

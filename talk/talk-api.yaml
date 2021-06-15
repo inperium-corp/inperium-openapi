@@ -62,7 +62,7 @@ tags:
       The report data is the actual metrics and values.
   - name: Services
     description: |
-      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text or buy phone numbers from our partners.
+      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text and vice versa.
   - name: Tenant Settings
     description: |
       Inperium Talk enables users to get tenant settings.
@@ -1584,14 +1584,14 @@ paths:
     get:
       tags:
         - Recordings
-      summary: Submit recording transcription job.
-      description: Use this endpoint to transcribe a recording.
+      summary: Transcribe recording
+      description: Use this endpoint to initiate a transcription job and transcribe a recording. Provide an ID in the path.
       operationId: transcribeRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         206:
-          description: The transcription job has been accepted. Response body is empty.
+          description: The transcription job has been accepted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1605,23 +1605,25 @@ paths:
     post:
       tags:
         - Phone Number Webhooks
+      x-access: private
       summary: Port a phone number
+      description: Use this endpoint to port a phone number.
       operationId: portPhoneNumber
       requestBody:
-        description: List of phone numbers to create and buy
+        description: In the request body, pass the PhoneNumberRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: The phone number has been ported
+          description: The phone number has been ported. Returns a port number.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:

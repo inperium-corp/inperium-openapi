@@ -42,12 +42,12 @@ tags:
   - name: Phone Numbers
     description: |
       Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
-  - name: Recordings
-    description: |
-      The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
   - name: Phone Number Webhooks
     description: |
       Inperium Talk enables you to create and register phone numbers.
+  - name: Recordings
+    description: |
+      The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -1458,6 +1458,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      x-access: private
+      summary: Port a phone number
+      description: Use this endpoint to port a phone number.
+      operationId: portPhoneNumber
+      requestBody:
+        description: In the request body, pass the PhoneNumberRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported. Returns a port number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /recordings:
     get:
       tags:
@@ -1579,7 +1607,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /recordings/{id}/transcribe:
     get:
       tags:
@@ -1599,36 +1626,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-  /webhooks/phoneNumbers/port:
-    x-access: private
-    post:
-      tags:
-        - Phone Number Webhooks
-      x-access: private
-      summary: Port a phone number
-      description: Use this endpoint to port a phone number.
-      operationId: portPhoneNumber
-      requestBody:
-        description: In the request body, pass the PhoneNumberRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        200:
-          description: The phone number has been ported. Returns a port number.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-
   /regulatoryBundles:
     get:
       tags:
@@ -1934,7 +1931,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /services/textToSpeech:
     post:
       tags:
@@ -2178,33 +2174,6 @@ paths:
         204:
           description: The voicemail has been deleted
           content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /webhooks/phoneNumbers/port:
-    x-access: private
-    post:
-      tags:
-        - Phone Number Webhooks
-      summary: Port a phone number
-      description: Use this endpoint to port an existing phone number.
-      operationId: portPhoneNumber
-      requestBody:
-        description: In the request body, pass the PhoneNumberRequest object.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
-      responses:
-        200:
-          description: The phone number has been ported. Returns a phone number.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
         default:
           description: Bad request, security violation, or internal server error.
           content:

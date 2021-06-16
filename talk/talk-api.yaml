@@ -424,7 +424,7 @@ paths:
             type: string
         - name: participantStatus
           in: query
-          description: The status of any call participant. can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
+          description: The status of any call participant. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: callerPhoneNumber

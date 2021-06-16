@@ -3734,7 +3734,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /views/dataGrid/{type}:                
+  /views/dataGrid/{type}:
     get:
       tags:
         - Data Grid Views
@@ -7079,7 +7079,7 @@ components:
     QueryPageSize:
       name: pageSize
       in: query
-      description: This parameter affects paging. It defines the number of records per page
+      description: This parameter affects paging. It defines the number of records per page.
       schema:
         type: integer
     QuerySort:

@@ -159,6 +159,7 @@ paths:
   /files/{id}/internal:
     x-access: private
     get:
+      x-access: private
       tags:
         - Files
       summary: Get content reference of the file by file ID

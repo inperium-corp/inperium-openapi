@@ -2827,6 +2827,7 @@ components:
     FeaturePriceModel:
       type: string
       enum:
+        - PREPAID
         - STANDARD
         - METERED
       description: The FeaturePriceModel object defines what price model the feature has.

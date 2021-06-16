@@ -605,8 +605,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        content:
         description: In the request body, pass the updated CallChangeRequest.
+        content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallChangeRequest'

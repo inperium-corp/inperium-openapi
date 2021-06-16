@@ -1244,8 +1244,8 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        description: In the request body, pass the ParticipantChangeRequestBody object.
         content:
-          description: In the request body, pass the ParticipantChangeRequestBody object.
           application/json:
             schema:
               $ref: '#/components/schemas/ParticipantChangeRequestBody'

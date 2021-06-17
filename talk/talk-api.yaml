@@ -2310,6 +2310,7 @@ components:
 
     AudioFiles:
       type: object
+      description: The list of audio files with paging and sorting information.
       required:
         - data
         - paging
@@ -2322,7 +2323,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     AudioFile:
       type: object
-      description: Audio file
+      description: An audio file stored with Inperium Talk. For example, a greeting prompt.
       required:
         - id
         - name
@@ -2337,29 +2338,29 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
-          description: Name of the audio file
+          description: The audio file title.
         url:
           type: string
-          description: URL to the file location in OBS
+          description: The audio file URL in the Object Bucket Storage service.
         duration:
           type: number
-          description: Duration of the audio file
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
         predefined:
           type: boolean
-          description: If the audio file is predefined and is not editable
+          description: This parameyer defines if the audio file is predefined and cannot be modified (TRUE), or is custom and can be updated (FALSE).
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The date the audio file was created.
         updatedAt:
           type: integer
           format: int64
-          description: Timestamp of the update
+          description: The date the audio file was updated.
     AudioFileUploadRequest:
       type: object
-      description: Audio file upload request
+      description: The audio file object that is submitted to Inperium Talk as a part of the upload request.
       required:
         - file
         - duration
@@ -2368,29 +2369,29 @@ components:
         file:
           type: string
           format: binary
-          description: File to be uploaded as a audio file
+          description: The source file to be uploaded.
         name:
           type: string
-          description: Optional name of this document
+          description: An optional document name.
         duration:
           type: number
-          description: Duration of the audio in seconds
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
     AudioFileUpdateRequest:
       type: object
-      description: Audio file update request
+      description: The audio file object that is submitted to Inperium Talk as a part of the update request.
       properties:
         file:
           type: string
           format: binary
-          description: File to be uploaded as a audio file
+          description: The source file to be uploaded.
         name:
           type: string
-          description: Optional name of this document
+          description: An optional document name.
         duration:
           type: number
-          description: Duration of the audio in seconds
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
     AudioFileOrigin:
@@ -2399,29 +2400,30 @@ components:
         - TEXT_TO_SPEECH
         - UPLOAD
         - RECORD
-      description: Type of origin of the uploaded audio
+      description: The source the audio file came from.
     TextToSpeechRequest:
       type: object
-      description: Request model to convert text into audio
+      description: The request model to convert a text to an audio.
       required:
         - text
         - voice
       properties:
         text:
           type: string
-          description: Text to be converted into audio
+          description: The text to be converted to an audio.
         voice:
           type: string
-          description: Voice to dub the text
+          description: The voice to dub the text.
         audioFormat:
           type: string
           enum:
             - MP3
           default: MP3
-          description: Format (type) of audio to be synthesized
+          description: The audio format. Default is `MP3`.
 
     AutoReceptionistRequest:
       type: object
+      description: The auto receptionist request object is submitted to Talk API when you configure a new auto receptionist.
       required:
         - name
         - phoneNumbers
@@ -2432,50 +2434,64 @@ components:
       properties:
         name:
           type: string
+          description: The auto receptionist name.
         extension:
           type: string
+          description: The phone extension code.
         operatorIds:
           type: array
+          description: The list of users who will be granted access to this auto receptionist. Provide IDs.
           items:
             $ref: '#/components/schemas/Id'
         phoneNumberIds:
           type: array
+          description: The list of phone numbers. Provide IDs.
           items:
             $ref: '#/components/schemas/Id'
         businessHoursPart:
+          description: Settings during business hours.
           $ref: '#/components/schemas/AutoReceptionistRequestPart'
         closedHoursPart:
+          description: Settings during off-duty hours.
           $ref: '#/components/schemas/AutoReceptionistRequestPart'
         twentyFourSeven:
           type: boolean
-          description: If the auto receptionist works as business hours 24/7
+          description: This parameters defines if the auto receptionist operates 24/7.
         businessHours:
           type: array
+          description: The list of time slots.
           items:
             $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
       type: object
+      description: The object defines auto receptionist behavior during specific time slots. Depending on the `routeTo` option you choose, provide either `ivrMenu`, `autoReceptionistId`,`userId`, `voicemailId`, or `callQueue` details.
       required:
         - routeTo
       properties:
         greetingPromptId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the audio file containing a greeting prompt or any intro sounds. Inperium Talk plays this audio when a call starts.
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
           $ref: '#/components/schemas/IVRMenuRequest'
         autoReceptionistId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked auto receptionist.
         userId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked user.
         voicemailId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked user.
         callQueue:
           type: string # TODO
+          description: The queue the call gets assigned to.
     AutoReceptionist:
       type: object
+      description: The object describes how auto receptionist will handle the incoming calls to certain phone numbers.
       required:
         - id
         - name
@@ -2489,36 +2505,45 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The auto receptionist name.
         extension:
           type: string
+          description: The phone extension code.
         operators:
           type: array
+          description: The list of users in charge of this auto receptionist.
           items:
             $ref: '#/components/schemas/User'
         phoneNumbers:
           type: array
+          description: The list of phone numbers the auto receptionist is enabled for.
           items:
             $ref: '#/components/schemas/PhoneNumber'
         businessHoursPart:
+          description: Settings during business hours.
           $ref: '#/components/schemas/AutoReceptionistPart'
         closedHoursPart:
+          description: Settings during off-duty hours.
           $ref: '#/components/schemas/AutoReceptionistPart'
         twentyFourSeven:
           type: boolean
-          description: If the auto receptionist works as business hours 24/7
+          description: This parameters defines if the auto receptionist operates 24/7.
         businessHours:
           type: array
+          description: The list of time slots.
           items:
             $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
       type: object
+      description: The object defines auto receptionist behavior during specific time slots. Depending on the `routeTo` option, returns either `ivrMenu`, `autoReceptionistId`,`userId`, `voicemailId`, or `callQueue` details.
       required:
         - routeTo
       properties:
         greetingPrompt:
           $ref: '#/components/schemas/AudioFile'
+          description: The audio file containing a greeting prompt or any intro sounds. Inperium Talk plays this audio when a call starts.
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
@@ -2531,8 +2556,10 @@ components:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
+          description: The queue the call gets assigned to.
     AutoReceptionistStrategy:
       type: string
+      description: The auto receptionist behavior. Depending on the option you choose, the auto receptionist can forward a call to a voicemail or a user, move a call to a waiting queue, allow callers to pick an option from IVR menu, or froward a call to another auto receptionist. This object defines the options you can configure in the AutoReceptionistRequestPart object.
       enum:
         - VOICEMAIL
         - USER
@@ -2541,6 +2568,7 @@ components:
         - CALL_QUEUE # TODO
     AutoReceptionists:
       type: object
+      description: The list of auto receptionists with paging and sorting.
       required:
         - data
         - paging
@@ -2554,6 +2582,7 @@ components:
 
     PhoneNumbers:
       type: object
+      description: The list of phone numbers with paging and sorting.
       properties:
         data:
           type: array
@@ -2563,7 +2592,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     PhoneNumber:
       type: object
-      description: User phone number model
+      description: The phone number object contains information about the phone number itself as well as assignment type, forwarding settings, and other details.
       required:
         - id
         - phoneNumber
@@ -2576,6 +2605,7 @@ components:
           $ref: '#/components/schemas/Id'
         phoneNumber:
           type: string
+          description: The full number including the country code.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         timeout:
@@ -2584,9 +2614,10 @@ components:
           $ref: '#/components/schemas/CountryCode'
         whatsappEnabled:
           type: boolean
+          description: This parameters defines if the phone number supports WhatsApp messaging.
         name:
           type: string
-          description: The given name of the phone number
+          description: The phone number title. It can be a number itself or a name.
         assignmentType:
           $ref: '#/components/schemas/PhoneNumberAssignmentType'
         voicemail:
@@ -2599,31 +2630,33 @@ components:
           $ref: '#/components/schemas/RegulatoryBundle'
         city:
           type: string
+          description: The city where phone number resides.
         state:
           type: string
+          description: The state where phone number resides.
         address:
           $ref: '#/components/schemas/Address'
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
       type: string
-      description: Assignment type of the phone number (to whom is it assigned)
+      description: This parameter defines to whom the phone number is assigned on a high level.
       enum:
         - USER
         - UNASSIGNED
         - AUTO_RECEPTIONIST
     PhoneNumberType:
       type: string
-      description: Type of the phone number
+      description: The type of the phone number.
       enum:
         - LOCAL
         - TOLL_FREE
     PhoneNumberTimeout:
       type: integer
-      description: Timeout of the phone number (to finish the call)
+      description: The timeout set for this phone number. The call gets finished after reaching the timeout.
     PhoneNumberRequest:
       type: object
-      description: User phone number request model
+      description: The object is sumbitted to Inperium Talk API when you create a new phone number.
       required:
         - phoneNumber
         - type
@@ -2631,16 +2664,17 @@ components:
       properties:
         phoneNumber:
           type: string
+          description: A full phone number.
         twilioSid:
           type: string
+          description: Indetifier.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         name:
           type: string
-          description: The given name of the phone number
-          example: Maxim's phone number
+          description: The phone number title. It can be a name or the number itself.
           maxLength: 63
         voicemailId:
           $ref: '#/components/schemas/Id'
@@ -2654,12 +2688,15 @@ components:
           $ref: '#/components/schemas/PhoneNumberTimeout'
         city:
           type: string
+          description: The city where phone number resides.
         state:
           type: string
+          description: The state where phone number resides.
         addressId:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+          description: This parameters defines if the phone number supports WhatsApp messaging.
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
@@ -2667,17 +2704,21 @@ components:
         - audioPromptId
         - actions
       type: object
+      description: The request object describes the IVR menu settings and possible options.
       properties:
         audioPromptId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the audio file. This audio typically includes instructions such as "For English, press one".
         actions:
           type: array
+          description: The list of IVR options.
           items:
             $ref: '#/components/schemas/IVRAction'
         noAction:
           $ref: '#/components/schemas/IVRNoActionRequest'
     IVRMenu:
       type: object
+      description: The object describes the IVR menu settings and possible options.
       required:
         - audioPrompt
         - actions
@@ -2686,6 +2727,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         actions:
           type: array
+          description: The list of IVR options.
           items:
             $ref: '#/components/schemas/IVRAction'
         noAction:
@@ -2695,16 +2737,20 @@ components:
         - digit
         - action
       type: object
+      description: The object maps the IVR menu option with action. For example, 1 forwards a call to voicemail.
       properties:
         digit:
           type: string
+          description: Supports digits 0-9, asterisk, and hash.
         action:
           $ref: '#/components/schemas/IVRActionStrategy'
         actionEntityId:
           type: string
+          description: The ID of the exact action selected. For example, the voice
           format: uuid
     Addresses:
       type: object
+      description: The list of addresses with paging and sorting.
       properties:
         data:
           type: array
@@ -2713,6 +2759,7 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Address:
+      description: The address details.
       allOf:
         - $ref: '#/components/schemas/AddressRequest'
         - type: object
@@ -2723,6 +2770,7 @@ components:
               $ref: '#/components/schemas/Id'
     AddressRequest:
       type: object
+      description: The address details object that is submitted to Inperium Talk API.
       required:
         - addressLine1
         - city
@@ -2732,14 +2780,19 @@ components:
       properties:
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
     AvailablePhoneNumber:

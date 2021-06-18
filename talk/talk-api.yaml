@@ -2571,7 +2571,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
-        - useDefaultForwarding
+        - useDefaultCallForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2606,7 +2606,7 @@ components:
           $ref: '#/components/schemas/Address'
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
-        useDefaultForwarding:
+        useDefaultCallForwarding:
           type: boolean
     PhoneNumberAssignmentType:
       type: string
@@ -2665,7 +2665,7 @@ components:
           type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
-        useDefaultForwarding:
+        useDefaultCallForwarding:
           type: boolean
           default: false
     IVRMenuRequest:

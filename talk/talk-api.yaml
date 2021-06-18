@@ -3326,7 +3326,7 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        defaultForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object

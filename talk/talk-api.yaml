@@ -2571,6 +2571,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - useDefaultForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2666,6 +2667,7 @@ components:
           $ref: '#/components/schemas/CallForwarding'
         useDefaultForwarding:
           type: boolean
+          default: false
     IVRMenuRequest:
       required:
         - audioPromptId

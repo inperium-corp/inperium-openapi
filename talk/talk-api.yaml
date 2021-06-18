@@ -2571,6 +2571,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - useDefaultCallForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2605,6 +2606,8 @@ components:
           $ref: '#/components/schemas/Address'
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        useDefaultCallForwarding:
+          type: boolean
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -2662,6 +2665,9 @@ components:
           type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -3320,7 +3326,7 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
@@ -3329,7 +3335,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object

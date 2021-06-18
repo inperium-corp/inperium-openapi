@@ -3335,7 +3335,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object

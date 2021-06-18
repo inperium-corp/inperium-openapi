@@ -2664,6 +2664,8 @@ components:
           type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        useDefaultForwarding:
+          type: boolean
     IVRMenuRequest:
       required:
         - audioPromptId

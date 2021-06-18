@@ -3331,7 +3331,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        defaultForwarding:
+        callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object
@@ -3639,10 +3639,13 @@ components:
     CallForwarding:
       type: object
       required:
+        - enabled
         - phoneNumber
         - twentyFourSeven
         - businessHours
       properties:
+        enabled:
+          type: boolean
         phoneNumber:
           type: string
         timezone:

@@ -2604,10 +2604,12 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
-        callForwarding:
-          $ref: '#/components/schemas/CallForwarding'
+        callForwardingEnabled:
+          type: boolean
         useDefaultCallForwarding:
           type: boolean
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
       type: string
       description: Assignment type of the phone number (to whom is it assigned)
@@ -3644,7 +3646,6 @@ components:
     CallForwarding:
       type: object
       required:
-        - enabled
         - phoneNumber
         - twentyFourSeven
         - businessHours

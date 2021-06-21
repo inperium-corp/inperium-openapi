@@ -2571,6 +2571,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - callForwardingEnabled
         - useDefaultCallForwarding
       properties:
         id:

@@ -2615,10 +2615,10 @@ components:
           $ref: '#/components/schemas/CountryCode'
         whatsappEnabled:
           type: boolean
-          description: This parameters defines if the phone number supports WhatsApp messaging.
+          description: This parameter defines if the phone number supports WhatsApp messaging.
         name:
           type: string
-          description: The phone number title. It can be a number itself or a name.
+          description: The phone number title. It can be a number itself or a title like 'Renewals team'.
         assignmentType:
           $ref: '#/components/schemas/PhoneNumberAssignmentType'
         voicemail:
@@ -2671,14 +2671,14 @@ components:
           description: A full phone number.
         twilioSid:
           type: string
-          description: Indetifier.
+          description: A unique indetifier.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         name:
           type: string
-          description: The phone number title. It can be a name or the number itself.
+          description: The phone number title. It can be the number itself or a title like 'Renewals team'.
           maxLength: 63
         voicemailId:
           $ref: '#/components/schemas/Id'
@@ -2700,7 +2700,7 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
-          description: This parameters defines if the phone number supports WhatsApp messaging.
+          description: This parameter defines if the phone number supports WhatsApp messaging.
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
         useDefaultCallForwarding:
@@ -2745,11 +2745,11 @@ components:
         - digit
         - action
       type: object
-      description: The object maps the IVR menu option with action. For example, 1 forwards a call to voicemail.
+      description: The object maps the IVR menu option with an action. For example, 1 forwards a call to voicemail.
       properties:
         digit:
           type: string
-          description: Supports digits 0-9, asterisk, and hash.
+          description: The digit or a sign the user can select after listening to the audio prompt. Supports digits 0-9, asterisk, and hash.
         action:
           $ref: '#/components/schemas/IVRActionStrategy'
         actionEntityId:
@@ -2805,6 +2805,7 @@ components:
           $ref: '#/components/schemas/CountryCode'
     AvailablePhoneNumber:
       type: object
+      description: The phone number the user can purchase and start using in Inperium Talk.
       required:
         - name
         - phoneNumber
@@ -2815,16 +2816,20 @@ components:
       properties:
         name:
           type: string
+          description: The name of a phone number.
         phoneNumber:
           type: string
+          description: The full number including a country code.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         city:
           type: string
+          description: The city where phone number resides.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         addressRequirements:
           type: string
+          description: Any applicable address requirements or restrictions.
           enum:
             - NONE
             - ANY
@@ -2832,14 +2837,19 @@ components:
             - FOREIGN
         postalCode:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where phone number resides.
         basePrice:
           type: number
+          description: The standard price.
         currentPrice:
           type: number
+          description: The current price differ from the `basePrice`.
     RegulatoryBundles:
       type: object
+      description: The list of regulatory bundles with paging and sorting.
       properties:
         data:
           type: array
@@ -2849,32 +2859,41 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     RegulatoryBundle:
       type: object
+      description: The object lists the local regulation you've got to follow in order to use the phone number.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The regulation name.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         type:
           type: string
+          description: The regulation type.
         status:
           type: string
+          description: The status of this regulation.
     RegulatoryBundleRequest:
       type: object
+      description: The object describes the local regulation you've got to follow in order to use the phone number.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The regulation name.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         type:
           type: string
+          description: The regulation type.
         status:
           type: string
+          description: The status of this regulation.
     RegulatoryBundleRequirements:
       type: object
+      description: The list of applicable requirements.
       properties:
         fields:
           type: array
@@ -2886,47 +2905,62 @@ components:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
     RegulatoryBundleRequirementField:
       type: object
+      description: A regulation entry.
       properties:
         name:
           type: string
+          description: A name.
         type:
           type: string
+          description: A type.
         requirement_name:
           type: string
+          description: An applicable requirement.
     RegulatoryBundleRequirementDocument:
       type: object
+      description: A referenced document.
       properties:
         name:
           type: string
+          description: A name.
         description:
           type: string
+          description: Document details.
         type:
           type: string
+          description: A document type.
         requirement_name:
           type: string
+          description: An applicable requirement.
         accepted_documents:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
     CallChangeRequest:
       type: object
+      description: The object submitted to Talk API to start or finish a call recording.
       properties:
         record:
           type: boolean
+          description: The parameter defines if the call is recorded.
     CallRequest:
-      example: { }
       type: object
+      description: The object initiates a call.
       properties:
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user starting the call.
         recipient:
           $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user receiving the call.
         participants:
           type: array
+          description: All users taking part in the call.
           items:
             $ref: '#/components/schemas/CallParticipantRequest'
     CallParticipantRequest:
       type: object
+      description:
       properties:
         id:
           $ref: '#/components/schemas/Id'

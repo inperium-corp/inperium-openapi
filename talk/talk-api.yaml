@@ -3020,6 +3020,7 @@ components:
         - shared
         - phoneNumbers
         - emails
+        - user
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:
@@ -3032,8 +3033,8 @@ components:
           type: string
         shared:
           type: boolean
-        userId:
-          $ref: '#/components/schemas/Id'
+        user:
+          $ref: '#/components/schemas/User'
         addressLine1:
           type: string
         addressLine2:

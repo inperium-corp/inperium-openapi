@@ -3020,6 +3020,7 @@ components:
         - shared
         - phoneNumbers
         - emails
+        - user
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:

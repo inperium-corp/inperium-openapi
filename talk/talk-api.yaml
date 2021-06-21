@@ -2600,6 +2600,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - useDefaultCallForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2638,6 +2639,9 @@ components:
           $ref: '#/components/schemas/Address'
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        useDefaultCallForwarding:
+          type: boolean
+          description: This parameter defines if default call forwarding settings are enabled for this phone number.
     PhoneNumberAssignmentType:
       type: string
       description: This parameter defines to whom the phone number is assigned on a high level.
@@ -2699,6 +2703,10 @@ components:
           description: This parameters defines if the phone number supports WhatsApp messaging.
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
+          description: This parameter defines if default call forwarding settings are enabled for this phone number.
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -3067,6 +3075,7 @@ components:
         - shared
         - phoneNumbers
         - emails
+        - user
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:
@@ -3079,8 +3088,8 @@ components:
           type: string
         shared:
           type: boolean
-        userId:
-          $ref: '#/components/schemas/Id'
+        user:
+          $ref: '#/components/schemas/User'
         addressLine1:
           type: string
         addressLine2:
@@ -3373,7 +3382,7 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
@@ -3382,7 +3391,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object

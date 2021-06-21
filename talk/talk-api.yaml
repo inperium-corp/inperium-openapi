@@ -3650,8 +3650,6 @@ components:
         - twentyFourSeven
         - businessHours
       properties:
-        enabled:
-          type: boolean
         phoneNumber:
           type: string
         timezone:

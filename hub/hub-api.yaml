@@ -1074,7 +1074,9 @@ paths:
       tags:
         - Balances
       summary: Retrieve balance funds
-      description: Use this endpoint to get information about the balance funds of the tenant.
+      description: |
+        Use this endpoint to get information about the balance funds of the tenant.
+        This operation supports paging, sorting, and filtering. Provide an ID in the path.
       operationId: getBalanceFunds
       parameters:
         - $ref: "#/components/parameters/ResourceId"
@@ -1096,7 +1098,8 @@ paths:
           in: query
           required: false
           description: |
-            The true/false parameter that filters funds included or not included in a plan. If the paramer is missing, then it returns all funds.
+            The true/false parameter that identifies if the fund is included in a plan.
+            If the parameter isn't specified, the method returns all funds.
           schema:
             type: boolean
         - $ref: "#/components/parameters/QueryPageNumber"
@@ -1104,7 +1107,7 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Returns the Balance Charges object.
+          description: The balance funds have been retrieved. Returns balance funds.
           content:
             application/json:
               schema:
@@ -2593,7 +2596,7 @@ components:
         netAmount:
           type: number
           format: double
-          description: The net amount of the charge.
+          description: The amount without taxes.
         taxAmount:
           type: number
           format: double

@@ -2667,6 +2667,7 @@ components:
           type: boolean
         callForwardingEnabled:
           type: boolean
+          default: false
         useDefaultCallForwarding:
           type: boolean
           default: false

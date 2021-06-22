@@ -322,6 +322,12 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
 
+    CallRedirectMethod:
+      type: string
+      enum:
+        - GET
+        - POST
+
     CallRequest:
       type: object
       required:
@@ -342,9 +348,6 @@ components:
             id:
               $ref: '#/components/schemas/Id'
             redirectMethod:
-              type: string
-              enum:
-                - GET
-                - POST
+              $ref: '#/components/schemas/CallRedirectMethod'
             redirectUrl:
               type: string

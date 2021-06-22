@@ -2960,20 +2960,25 @@ components:
             $ref: '#/components/schemas/CallParticipantRequest'
     CallParticipantRequest:
       type: object
-      description:
+      description: The request object defines the person taking part in the call.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         phoneNumberEntityId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the participant's phone number.
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         webAgentId:
           $ref: '#/components/schemas/Id'
+          description: The user's ID in Inperium Talk, if exists.
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
     CallParticipant:
       type: object
+      description: The object defines the person taking part in the call.
       required:
         - id
         - hold
@@ -2984,14 +2989,17 @@ components:
           $ref: '#/components/schemas/PhoneNumber'
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         contact:
           $ref: '#/components/schemas/Contact'
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         status:
           $ref: '#/components/schemas/ParticipantStatus'
     Calls:
       type: object
+      description: The list of calls with paging and sorting.
       required:
         - data
         - paging
@@ -3003,8 +3011,8 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Call:
-      example: { }
       type: object
+      description: The object contains all information about the call, its participants, direction, etc.
       required:
         - id
         - caller
@@ -3019,13 +3027,16 @@ components:
         duration:
           type: integer
           format: int64
-          description: Call duration in millis
+          description: The call duration in milliseconds.
         caller:
           $ref: '#/components/schemas/CallParticipant'
+          description: Information about the user who initiated the call.
         recipient:
           $ref: '#/components/schemas/CallParticipant'
+          description: Information about the user who received the call.
         participants:
           type: array
+          description: The list of all call participants irrespective of their role.
           items:
             $ref: '#/components/schemas/CallParticipant'
         direction:
@@ -3036,19 +3047,19 @@ components:
           $ref: '#/components/schemas/Recording'
         record:
           type: boolean
-          description: If true this call is being recorded now
+          description: If set to true, the call is being recorded now.
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The timestamp when the call was created.
     CallStatus:
-      description: Status of the call
+      description: The status of the call.
       type: string
       enum:
         - IN_PROGRESS
         - FINISHED
     ParticipantStatus:
-      description: Status of the participant
+      description: The status of the participant.
       type: string
       enum:
         - STARTED
@@ -3062,7 +3073,7 @@ components:
         - FAILED
         - NO_ANSWER
     CallDirection:
-      description: Direction of the call with respect to the tenant possessing it
+      description: Inbound or outbound call.
       type: string
       enum:
         - INBOUND

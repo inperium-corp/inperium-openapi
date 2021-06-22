@@ -1454,6 +1454,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Phone Numbers
+      summary: Update a phone number
+      description: Use this endpoint to modify a phone number. Provide an ID in the path.
+      operationId: patchPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the PhoneNumberPatchRequest.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberPatchRequest'
+        required: true
+      responses:
+        200:
+          description: The phone number has been updated. Returns a phone number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Phone Numbers
@@ -2743,6 +2771,48 @@ components:
           type: boolean
           default: false
           description: This parameter defines if default call forwarding settings are enabled for this phone number.
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
+    PhoneNumberPatchRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        twilioSid:
+          type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        name:
+          type: string
+          description: The given name of the phone number
+          example: Maxim's phone number
+          maxLength: 63
+        voicemailId:
+          $ref: '#/components/schemas/Id'
+        autoReceptionistId:
+          $ref: '#/components/schemas/Id'
+        userId:
+          $ref: '#/components/schemas/Id'
+        regulatoryBundle:
+          $ref: '#/components/schemas/RegulatoryBundle'
+        timeout:
+          $ref: '#/components/schemas/PhoneNumberTimeout'
+        city:
+          type: string
+        state:
+          type: string
+        addressId:
+          $ref: '#/components/schemas/Id'
+        whatsappEnabled:
+          type: boolean
+        callForwardingEnabled:
+          type: boolean
+          default: false
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:

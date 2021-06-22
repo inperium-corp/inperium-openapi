@@ -336,6 +336,15 @@ components:
         - type: object
           required:
             - id
+            - redirectMethod
+            - redirectUrl
           properties:
             id:
               $ref: '#/components/schemas/Id'
+            redirectMethod:
+              type: string
+              enum:
+                - GET
+                - POST
+            redirectUrl:
+              type: string

@@ -17,7 +17,10 @@ security:
 tags:
   - name: Call Queues
     description: |
-      Inperium Talk enables users to automate the routing of calls from customers to a support service.
+      Inperium Talk Call Queue enables users to automate the routing of calls from customers to a support service.
+  - name: Calls
+    description: |
+      Inperium Talk Call Queue enables users to add calls to the call queue.
 
 paths:
 
@@ -58,7 +61,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CallQueue'
         409:
-          description: Error in the request for creating a new port order, check the error message.
+          description: Error in the request for creating a new call queue, check the error message.
           $ref: '#/components/responses/ErrorResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
@@ -99,6 +102,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CallQueue'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /calls:
+    post:
+      tags:
+        - Calls
+      summary: Add a new call to the call queue
+      operationId: addCallToCallQueue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallRequest'
+      responses:
+        201:
+          description: A new call has been added to the call queue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -240,6 +264,7 @@ components:
         - ROTATING
         - LONGEST_IDLE
       default: LONGEST_IDLE
+
     CallQueueRequest:
       type: object
       required:
@@ -276,6 +301,7 @@ components:
         maxWaitTime:
           type: integer
           default: 10
+
     CallQueue:
       allOf:
         - $ref: '#/components/schemas/CallQueueRequest'
@@ -285,6 +311,7 @@ components:
           properties:
             id:
               $ref: '#/components/schemas/Id'
+
     CallQueues:
       type: object
       properties:
@@ -294,3 +321,21 @@ components:
             $ref: '#/components/schemas/CallQueue'
         paging:
           $ref: '#/components/schemas/PageAndSort'
+
+    CallRequest:
+      type: object
+      required:
+        - name
+      properties:
+        phoneNumber:
+          type: string
+
+    Call:
+      allOf:
+        - $ref: '#/components/schemas/CallRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'

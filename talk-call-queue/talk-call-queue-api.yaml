@@ -18,6 +18,9 @@ tags:
   - name: Call Queues
     description: |
       Inperium Talk Call Queue enables users to automate the routing of calls from customers to a support service.
+  - name: Call Queues Webhooks
+    description: |
+      Inperium Talk Call Queue enables users to handle call queues webhooks.
   - name: Calls
     description: |
       Inperium Talk Call Queue enables users to add calls to the call queue.
@@ -105,6 +108,76 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
+  /webhooks/callQueues/wait:
+    post:
+      tags:
+        - Call Queues Webhooks
+      x-access: private
+      summary: Request instructions for the call from the call queue
+      operationId: wait
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - QueueSid
+                - QueuePosition
+                - QueueTime
+                - AvgQueueTime
+              properties:
+                QueueSid:
+                  type: string
+                QueuePosition:
+                  type: integer
+                QueueTime:
+                  type: integer
+                AvgQueueTime:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/callQueues/needCallback:
+    post:
+      tags:
+        - Call Queues Webhooks
+      x-access: private
+      summary: Add callback necessity for the call from the call queue
+      operationId: needCalback
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - QueueSid
+                - QueuePosition
+                - QueueTime
+                - AvgQueueTime
+              properties:
+                QueueSid:
+                  type: string
+                QueuePosition:
+                  type: integer
+                QueueTime:
+                  type: integer
+                AvgQueueTime:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
   /calls:
     post:
       tags:
@@ -116,6 +189,10 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
+              required:
+                - To
+                - From
+                - CallSid
               properties:
                 To:
                   type: string

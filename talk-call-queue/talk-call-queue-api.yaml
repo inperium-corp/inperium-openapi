@@ -189,10 +189,13 @@ paths:
               required:
                 - CallSid
                 - Digits
+                - QueueTime
               properties:
                 CallSid:
                   type: string
                 Digits:
+                  type: integer
+                QueueTime:
                   type: integer
       responses:
         200:

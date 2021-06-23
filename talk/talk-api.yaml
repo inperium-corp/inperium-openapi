@@ -2637,11 +2637,12 @@ components:
           description: The state where phone number resides.
         address:
           $ref: '#/components/schemas/Address'
-        callForwarding:
-          $ref: '#/components/schemas/CallForwarding'
+        callForwardingEnabled:
+          type: boolean
         useDefaultCallForwarding:
           type: boolean
-          description: This parameter defines if default call forwarding settings are enabled for this phone number.
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
       type: string
       description: This parameter defines to whom the phone number is assigned on a high level.
@@ -2700,13 +2701,17 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
-          description: This parameter defines if the phone number supports WhatsApp messaging.
-        callForwarding:
-          $ref: '#/components/schemas/CallForwarding'
+          description: This parameter defines if WhatsApp messaging is enabled for this phone number.
+        callForwardingEnabled:
+          type: boolean
+          default: false
+          description: This parameter defines if call forwarding is enabled for this phone number.
         useDefaultCallForwarding:
           type: boolean
           default: false
           description: This parameter defines if default call forwarding settings are enabled for this phone number.
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -3817,13 +3822,10 @@ components:
     CallForwarding:
       type: object
       required:
-        - enabled
         - phoneNumber
         - twentyFourSeven
         - businessHours
       properties:
-        enabled:
-          type: boolean
         phoneNumber:
           type: string
         timezone:

@@ -3470,7 +3470,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
-      description: An action outcome of the IVR menu.
+      description: Auto receptionist behavior in case a caller submitted no answer in the IVR menu.
       enum:
         - DISCONNECT
         - VOICEMAIL
@@ -3518,26 +3518,32 @@ components:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object
+      description: Information about Inperium Talk user.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         email:
           type: string
+          description: An email address.
         firstName:
           type: string
+          description: The user's first name.
         lastName:
           type: string
+          description: The user's family name.
         jobTitle:
           type: string
+          description: The user's job title.
         avatarUrl:
           type: string
+          description: The URL where the user's profile image is stored.
       required:
         - id
         - email
-      description: User model
 
     Widgets:
       type: object
+      description: The Widgets object is an aggregation of smaller widget components. It gives you insights into your activity. To learn more about charts and analytics, refer to Inperium user documentation.
       properties:
         totalCalls:
           $ref: '#/components/schemas/TotalCallsWidget'
@@ -3562,6 +3568,7 @@ components:
 
     TotalCallsWidget:
       type: object
+      description: The widget that shows the total number of calls.
       required:
         - inbound
         - inboundDifference
@@ -3571,18 +3578,23 @@ components:
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         inboundDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         outboundDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     MissedCallsWidget:
       type: object
+      description: The widget that shows missing calls.
       required:
         - missed
         - missedDifference
@@ -3590,12 +3602,15 @@ components:
         missed:
           type: integer
           format: int64
+          description: The number of missing calls.
         missedDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     TotalCallsTimeWidget:
       type: object
+      description: The widget that shows the overall call duration.
       required:
         - totalTime
         - totalTimeDifference
@@ -3603,12 +3618,15 @@ components:
         totalTime:
           type: integer
           format: int64
+          description: Aggregated calls duration.
         totalTimeDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     AverageCallTimeWidget:
       type: object
+      description: The widget that shows a median call duration.
       required:
         - time
         - timeDifference
@@ -3616,12 +3634,15 @@ components:
         time:
           type: integer
           format: int64
+          description: An average call duration.
         timeDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     LiveCallsWidget:
       type: object
+      description: The widget shows the number of call answered live and those in queue.
       required:
         - inProgress
         - inQueue
@@ -3629,12 +3650,15 @@ components:
         inProgress:
           type: integer
           format: int64
+          description: The number of active calls.
         inQueue:
           type: integer
           format: int64
+          description: The number of call in the queue.
 
     CallsDurationWidget:
       type: object
+      description: The widget that shows calls duration.
       required:
         - durations
       properties:
@@ -3645,6 +3669,7 @@ components:
 
     CallsDurationWidgetDurations:
       type: object
+      description: Call duration statistics.
       required:
         - hour
         - averageInbound
@@ -3654,21 +3679,27 @@ components:
       properties:
         hour:
           type: integer
+          description: Total hours.
         averageInbound:
           type: integer
           format: int64
+          description: An average inbound call duration.
         averageOutbound:
           type: integer
           format: int64
+          description: An average outbound call duration.
         todayInbound:
           type: integer
           format: int64
+          description: Inbound calls duration today.
         todayOutbound:
           type: integer
           format: int64
+          description: Outbound calls duration today.
 
     CallsVolumeWidget:
       type: object
+      description: The widget that shows calls by type.
       required:
         - volumes
       properties:
@@ -3679,6 +3710,7 @@ components:
 
     CallsVolumeWidgetVolumes:
       type: object
+      description: The calls volume statistics.
       required:
         - hour
         - answeredInbound
@@ -3690,37 +3722,47 @@ components:
       properties:
         hour:
           type: integer
+          description: Total hours.
         answeredInbound:
           type: integer
           format: int64
+          description: The number of answered inbound calls.
         answeredOutbound:
           type: integer
           format: int64
+          description: The number of answered outbound calls.
         missedInbound:
           type: integer
           format: int64
+          description: The number of missing inbound calls.
         missedOutbound:
           type: integer
           format: int64
+          description: The number of missing outbound calls.
         voicemailsInbound:
           type: integer
           format: int64
+          description: The number of inbound voicemails.
         voicemailsOutbound:
           type: integer
           format: int64
+          description: The number of outbound voicemails.
 
     UserStatisticsCallsWidget:
       type: object
+      description: The widget that shows user statistics and presents it as a leaderboard.
       required:
         - statistics
       properties:
         statistics:
           type: array
+          description: The statistic per user.
           items:
             $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'
 
     UserStatisticsCallsWidgetStatistics:
       type: object
+      description: This object is an entry in the UserStatisticsCallsWidget and contains data for a specific Inperium Talk user.
       required:
         - firstName
         - lastName
@@ -3733,41 +3775,53 @@ components:
       properties:
         firstName:
           type: string
+          description: The user's first name.
         lastName:
           type: string
+          description: The user's family name.
         avatarUrl:
           type: string
+          description: The URL of user's profile image.
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         averageTime:
           type: integer
           format: int64
+          description: An average call duration.
         forwardedToVoicemail:
           type: integer
           format: int64
+          description: The number of calls forwarded to voicemail.
         missed:
           type: integer
           format: int64
+          description: The number of missed calls.
         total:
           type: integer
           format: int64
+          description: The total number of calls.
 
     CallsByCountriesWidget:
       type: object
+      description: The widget that shows calls by destination.
       required:
         - calls
       properties:
         calls:
           type: array
+          description: The list of countries.
           items:
             $ref: '#/components/schemas/CallsByCountriesWidgetCalls'
 
     CallsByCountriesWidgetCalls:
       type: object
+      description: An entry in the CallsByCountriesWidget.
       required:
         - countryCode
         - inbound
@@ -3776,18 +3830,23 @@ components:
       properties:
         countryCode:
           type: string
+          description: The country code.
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         total:
           type: integer
           format: int64
+          description: The total number of calls.
 
     AgentStatusWidget:
       type: object
+      description: The widget that shows users' statuses.
       required:
         - avaliable
         - onCall
@@ -3795,12 +3854,15 @@ components:
         avaliable:
           type: integer
           format: int64
+          description: The number of available users.
         onCall:
           type: integer
           format: int64
+          description: The number of users on call.
 
     BusinessHour:
       type: object
+      description: The operational hours entry.
       required:
         - openHour
         - closeHour
@@ -3810,17 +3872,20 @@ components:
         openHour:
           type: string
           format: x-time
+          description: The hours when business operates.
         closeHour:
           type: string
           format: x-time
+          description: The hours when business is off-duty.
         weekday:
           $ref: '#/components/schemas/DayOfWeek'
         enabled:
           type: boolean
-          description: If the business hour is turned on or not.
+          description: The parameter defines if the business hours schedule is turned on (TRUE) or not (FALSE).
 
     CallForwarding:
       type: object
+      description: The rules for call forwarding.
       required:
         - phoneNumber
         - twentyFourSeven
@@ -3828,11 +3893,14 @@ components:
       properties:
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         timezone:
           $ref: '#/components/schemas/TimezoneId'
         twentyFourSeven:
           type: boolean
+          description: The parameter that defines if the forwarding is enabled all the time.
         businessHours:
           type: array
+          description: The list of business hour entries.
           items:
             $ref: '#/components/schemas/BusinessHour'

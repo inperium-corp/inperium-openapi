@@ -181,7 +181,7 @@ paths:
         - Calls Webhooks
       x-access: private
       summary: Add callback necessity for the call from the call queue
-      operationId: needCalback
+      operationId: callback
       requestBody:
         content:
           application/x-www-form-urlencoded:

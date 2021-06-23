@@ -187,18 +187,12 @@ paths:
           application/x-www-form-urlencoded:
             schema:
               required:
-                - QueueSid
-                - QueuePosition
-                - QueueTime
-                - AvgQueueTime
+                - CallSid
+                - Digits
               properties:
-                QueueSid:
+                CallSid:
                   type: string
-                QueuePosition:
-                  type: integer
-                QueueTime:
-                  type: integer
-                AvgQueueTime:
+                Digits:
                   type: integer
       responses:
         200:

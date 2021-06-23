@@ -3080,13 +3080,17 @@ components:
         - OUTBOUND
     ParticipantChangeRequestBody:
       type: object
+      description: The object allows updating a participant's state such as put a person on hold or mute him or her.
       properties:
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
     ParticipantChangeRequest:
       type: object
+      description: The object allows updating a participant's state.
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       required:
         - participantId
@@ -3095,16 +3099,20 @@ components:
           $ref: '#/components/schemas/Id'
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
     VoiceToken:
       type: object
+      description: The capability token.
       properties:
         token:
           type: string
-          description: Twilio capability token
+          description: Twilio capability token.
     Contacts:
       type: object
+      description: The list of contacts with paging and sorting.
       properties:
         data:
           type: array
@@ -3114,6 +3122,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Contact:
       type: object
+      description: The object contains contact details.
       required:
         - id
         - firstName
@@ -3127,38 +3136,51 @@ components:
           $ref: '#/components/schemas/Id'
         firstName:
           type: string
+          description: The contact's first name.
         lastName:
           type: string
+          description: The contact's family name.
         companyName:
           type: string
+          description: The business name.
         shared:
           type: boolean
+          description: The parameter marks if this contact is shared with all users in your organization. When set to `FALSE`, only you will see it.
         user:
           $ref: '#/components/schemas/User'
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where the contact resides.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         avatarUrl:
           type: string
+          description: The URL to contact's profile image.
         phoneNumbers:
           type: array
+          description: The list of phone numbers.
           items:
             $ref: '#/components/schemas/ContactPhoneNumber'
         emails:
           type: array
+          description: The list of emails.
           items:
             $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
+      description: The request object that is sent to Inperium Tak when you create or update a contact.
       required:
         - firstName
         - shared
@@ -3167,42 +3189,56 @@ components:
       properties:
         firstName:
           type: string
+          description: The contact's first name.
         lastName:
           type: string
+          description: The contact's family name.
         companyName:
           type: string
+          description: The business name.
         shared:
           type: boolean
+          description: The parameter marks if this contact is shared with all users in your organization. When set to `FALSE`, only you will see it.
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where the contact resides.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         avatarUrl:
           type: string
+          description: The URL to contact's profile image.
         phoneNumbers:
           type: array
+          description: The list of phone numbers.
           items:
             $ref: '#/components/schemas/ContactPhoneNumber'
         emails:
           type: array
+          description: The list of emails.
           items:
             $ref: '#/components/schemas/ContactEmail'
     ContactInfoType:
       type: string
+      description: The type of contact.
       enum:
         - WORK
         - PERSONAL
         - OTHER
     ContactPhoneNumber:
       type: object
+      description: The object contains the contact's phone number details.
       required:
         - phoneNumber
         - type
@@ -3211,10 +3247,12 @@ components:
           $ref: '#/components/schemas/Id'
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         type:
           $ref: '#/components/schemas/ContactInfoType'
     ContactEmail:
       type: object
+      description: The object contains the contact's email details.
       required:
         - email
         - type
@@ -3223,10 +3261,12 @@ components:
           $ref: '#/components/schemas/Id'
         email:
           type: string
+          description: The email address.
         type:
           $ref: '#/components/schemas/ContactInfoType'
     Recordings:
       type: object
+      description: The list of recordings with paging and sorting.
       properties:
         data:
           type: array
@@ -3236,6 +3276,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Recording:
       type: object
+      description: An audio file.
       required:
         - id
         - createdAt
@@ -3246,16 +3287,18 @@ components:
           $ref: '#/components/schemas/Id'
         url:
           type: string
+          description: The URL to an audito file.
         duration:
           type: integer
           format: int64
-          description: Duration audio file in milliseconds
+          description: The duration in milliseconds.
         message:
           type: string
+          description: The message passed along with audio file.
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The timestamp the recording was captured.
         call:
           $ref: '#/components/schemas/Call'
         state:
@@ -3263,6 +3306,7 @@ components:
 
     RecordingRequest:
       type: object
+      description: The request object with recording details.
       properties:
         state:
           $ref: '#/components/schemas/RecordingState'
@@ -3272,10 +3316,11 @@ components:
       enum:
         - UNREAD
         - READ
-      description: Lifecycle state of a recording
+      description: The status of a recording.
 
     Reports:
       type: object
+      description: The list of reports with paging data.
       required:
         - data
         - paging
@@ -3289,6 +3334,7 @@ components:
 
     Report:
       type: object
+      description: The object contains the report description without actual report data.
       required:
         - id
         - name
@@ -3297,9 +3343,11 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The report title.
 
     ReportData:
       type: object
+      description: Unlike the Report object that provides just a description, this object contains actual data. It provides values for the X-axis and Y-axis that can be further presented as a chart.
       required:
         - chartType
         - yAxis
@@ -3308,6 +3356,7 @@ components:
       properties:
         chartType:
           type: string
+          description: The type of the chart and data presentation.
           enum:
             - LINE
             - MULTI_BAR
@@ -3315,15 +3364,18 @@ components:
           $ref: '#/components/schemas/ReportDataXAxis'
         yAxises:
           type: array
+          description: The list of Y-axis values.
           items:
             $ref: '#/components/schemas/ReportDataYAxis'
         yAxisesDifferences:
           type: array
+          description: The list of Y-axis values.
           items:
             $ref: '#/components/schemas/ReportDataYAxis'
 
     ReportDataXAxis:
       type: object
+      description: The values for X-axis.
       required:
         - label
         - data
@@ -3331,15 +3383,19 @@ components:
       properties:
         unit:
           type: string
+          description: The measurement units such as seconds.
         label:
           type: string
+          description: The name of the units on the X-axis such as 'number of calls'.
         data:
           type: array
+          description: The results.
           items:
             type: object
 
     ReportDataYAxis:
       type: object
+      description: The values for Y-axis.
       required:
         - label
         - data
@@ -3347,15 +3403,19 @@ components:
       properties:
         unit:
           type: string
+          description: The measurement units such as numbers.
         label:
           type: string
+          description: The name of the units on the Y-axis such as 'duration of call'.
         data:
           type: array
+          description: The results.
           items:
             type: object
 
     DayOfWeek:
       type: string
+      description: Days of the week.
       enum:
         - MONDAY
         - TUESDAY
@@ -3366,6 +3426,7 @@ components:
         - SUNDAY
     IVRActionStrategy:
       type: string
+      description: An action outcome of the IVR menu.
       enum:
         - VOICEMAIL_USER
         - VOICEMAIL_AUTO_RECEPTIONIST
@@ -3375,6 +3436,7 @@ components:
         - REPEAT_AUDIO_PROMPT
     IVRNoActionRequest:
       type: object
+      description: This object defines behavior if a user hasn't specified an option in the IVR menu.
       required:
         - noActionStrategy
         - noActionCount
@@ -3385,10 +3447,12 @@ components:
           type: integer
           minimum: 1
           maximum: 5
+          description: The 'no response' counter.
         targetId:
           $ref: '#/components/schemas/Id'
     IVRNoActionResponse:
       type: object
+      description: The reponse object for a situation of a caller specified no action.
       properties:
         strategy:
           $ref: '#/components/schemas/IVRNoActionStrategy'
@@ -3396,23 +3460,28 @@ components:
           type: integer
           minimum: 1
           maximum: 5
+          description: The 'no response' counter.
         voicemail:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
+      description: An action outcome of the IVR menu.
       enum:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
     TenantSetting:
       type: object
+      description: The object contains general tenant settings.
       required:
         - twilioAccountSid
       properties:
         twilioAccountSid:
           type: string
+          description: The account SID.
     TenantSettings:
       type: object
+      description: The list of tenant settings with paging and sorting.
       properties:
         data:
           type: array
@@ -3422,15 +3491,19 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     UserSettingsRequest:
       type: object
+      description: The request object creates or modifies user settings.
       properties:
         voicemailId:
           $ref: '#/components/schemas/Id'
+          description: The ID of an associated voicemail.
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a default phone number.
         defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
+      description: The object contains imformation about user settings.
       properties:
         voicemail:
           $ref: '#/components/schemas/AudioFile'

@@ -109,20 +109,24 @@ paths:
     post:
       tags:
         - Calls
+      x-access: private
       summary: Add a new call to the call queue
       operationId: addCallToCallQueue
       requestBody:
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CallRequest'
+              properties:
+                To:
+                  type: string
+                AccountSid:
+                  type: string
+                CallSid:
+                  type: string
       responses:
-        201:
-          description: A new call has been added to the call queue
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Call'
+        200:
+          description: TwiML request has been received
+          content: { }
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -321,23 +325,3 @@ components:
             $ref: '#/components/schemas/CallQueue'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-
-    CallRequest:
-      type: object
-      required:
-        - name
-      properties:
-        phoneNumber:
-          type: string
-
-    Call:
-      allOf:
-        - $ref: '#/components/schemas/CallRequest'
-        - type: object
-          required:
-            - id
-            - redirectMethod
-            - redirectUrl
-          properties:
-            id:
-              $ref: '#/components/schemas/Id'

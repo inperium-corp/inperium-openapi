@@ -128,10 +128,7 @@ paths:
       responses:
         200:
           description: TwiML request has been received
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/VoiceResponse'
+          content: { }
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -330,21 +327,3 @@ components:
             $ref: '#/components/schemas/CallQueue'
         paging:
           $ref: '#/components/schemas/PageAndSort'
-
-    Enqueue:
-      type: object
-      properties:
-        waitUrl:
-          type: string
-          xml:
-            attribute: true
-      xml:
-        name: 'Enqueue'
-
-    VoiceResponse:
-      type: object
-      properties:
-        enqueue:
-          $ref: '#/components/schemas/Enqueue'
-      xml:
-        name: 'Response'

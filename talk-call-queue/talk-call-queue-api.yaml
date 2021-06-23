@@ -121,8 +121,6 @@ paths:
                   type: string
                 From:
                   type: string
-                AccountSid:
-                  type: string
                 CallSid:
                   type: string
       responses:

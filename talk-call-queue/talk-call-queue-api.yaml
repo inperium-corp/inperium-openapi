@@ -109,7 +109,6 @@ paths:
     post:
       tags:
         - Calls
-      x-access: private
       summary: Enqueue the call in a call queue
       operationId: enqueue
       requestBody:

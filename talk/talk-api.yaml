@@ -20,16 +20,16 @@ tags:
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
   - name: Audio Files
     description: |
-      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menues.
+      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menus.
   - name: Auto Receptionists
     description: |
       Auto receptionists streamline call routing both during work hours and off-duty. An auto receptionist represents an automatic workflow and consists of configurable rules and steps. For example, you set a greeting audio and then enable an IVR menu that helps forward the call to the right manager. Auto receptionists can be multi-tiered and reference each other.
   - name: Calls
     description: |
-      Inperium Talk enables users to make calls and logs all statictics about them such as the duration of the call, the direction of call (inbound, outbound), and call particiapants.
+      Inperium Talk enables users to make calls and logs all statistics about them such as the duration of the call, the direction of call (inbound, outbound), and call participants.
   - name: Call Callbacks
     description: |
-      We use callbacks from our partnner & service provider to manage calls within Inperium Talk system.
+      We use callbacks from our partner & service provider to manage calls within Inperium Talk system.
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
@@ -41,7 +41,7 @@ tags:
       Each call has multiple participants—persons taking part in the call either as a caller or as recipients.
   - name: Phone Numbers
     description: |
-      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending messages.
   - name: Phone Number Webhooks
     description: |
       Inperium Talk enables you to create and register phone numbers.
@@ -53,7 +53,7 @@ tags:
       Inperium Talk enables you to create recordings.
   - name: Regulatory Bundles
     description: |
-      Depeding on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
+      Depending on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
   - name: Reports
     description: |
       Inperium Talk creates reports to help you assess productivity and see how your metrics change over time.
@@ -495,7 +495,7 @@ paths:
       tags:
         - Calls
       summary: Create a call
-      description: Use this endpoint to create a new outcoming call.
+      description: Use this endpoint to create a new outbound call.
       operationId: createCall
       requestBody:
         description: In the request body, pass the CallRequest object.
@@ -579,7 +579,7 @@ paths:
       tags:
         - Calls
       summary: Get call details
-      description: Use this endpoint to retrieve call details by its ID. Provide a ID in the path.
+      description: Use this endpoint to retrieve call details by its ID. Provide an ID in the path.
       operationId: getCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -600,7 +600,7 @@ paths:
       tags:
         - Calls
       summary: Partially update a call
-      description: Use this endpoint to partially modify a call without overwritting it. Provide an ID in the path.
+      description: Use this endpoint to partially modify a call without overwriting it. Provide an ID in the path.
       operationId: patchCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -678,7 +678,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: In the request bodym pass the CallParticipantRequest object with information about a participant who joins.
+        description: In the request body, pass the CallParticipantRequest object with information about a participant who joins.
         content:
           application/json:
             schema:
@@ -1344,7 +1344,7 @@ paths:
             example: eq::LOCAL
         - name: regulatoryStatus
           in: query
-          description: Search for phone numbers with a specifici regulatory bundle status. Submit a status.
+          description: Search for phone numbers with a specific regulatory bundle status. Submit a status.
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1418,7 +1418,7 @@ paths:
       tags:
         - Phone Numbers
       summary: Update a phone number
-      description: Use this endpoint to modify a phone number and overvwrite its details. Provide an ID in the path.
+      description: Use this endpoint to modify a phone number and overwrite its details. Provide an ID in the path.
       operationId: updatePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1980,7 +1980,7 @@ paths:
             type: string
         - name: type
           in: query
-          description: The type of the phonw number that can be `TOLL_FREE` or `LOCAL`.
+          description: The type of a phone number that can be `TOLL_FREE` or `LOCAL`.
           schema:
             $ref: '#/components/schemas/PhoneNumberType'
       responses:
@@ -2005,7 +2005,7 @@ paths:
       tags:
         - Tenant Settings
       summary: Retrieve tenant settings.
-      description: Use this endpoint to get settings configured on teh tenant level. This operation supports paging and sorting.
+      description: Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2349,7 +2349,7 @@ components:
           $ref: '#/components/schemas/AudioFileOrigin'
         predefined:
           type: boolean
-          description: This parameyer defines if the audio file is predefined and cannot be modified (TRUE), or is custom and can be updated (FALSE).
+          description: This parameter defines if the audio file is predefined and cannot be modified (TRUE), or is custom and can be updated (FALSE).
         createdAt:
           type: integer
           format: int64
@@ -2559,7 +2559,7 @@ components:
           description: The queue the call gets assigned to.
     AutoReceptionistStrategy:
       type: string
-      description: The auto receptionist behavior. Depending on the option you choose, the auto receptionist can forward a call to a voicemail or a user, move a call to a waiting queue, allow callers to pick an option from IVR menu, or froward a call to another auto receptionist. This object defines the options you can configure in the AutoReceptionistRequestPart object.
+      description: The auto receptionist behavior. Depending on the option you choose, the auto receptionist can forward a call to a voicemail or a user, move a call to a waiting queue, allow callers to pick an option from IVR menu, or forward a call to another auto receptionist. This object defines the options you can configure in the AutoReceptionistRequestPart object.
       enum:
         - VOICEMAIL
         - USER
@@ -2661,7 +2661,7 @@ components:
       description: The timeout set for this phone number. The call gets finished after reaching the timeout.
     PhoneNumberRequest:
       type: object
-      description: The object is sumbitted to Inperium Talk API when you create a new phone number.
+      description: The object is submitted to Inperium Talk API when you create a new phone number.
       required:
         - phoneNumber
         - type
@@ -2851,7 +2851,7 @@ components:
           description: The standard price.
         currentPrice:
           type: number
-          description: The current price differ from the `basePrice`.
+          description: The current price can differ from the `basePrice`.
     RegulatoryBundles:
       type: object
       description: The list of regulatory bundles with paging and sorting.
@@ -3185,7 +3185,7 @@ components:
             $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
-      description: The request object that is sent to Inperium Tak when you create or update a contact.
+      description: The request object that is sent to Inperium Talk when you create or update a contact.
       required:
         - firstName
         - shared
@@ -3292,7 +3292,7 @@ components:
           $ref: '#/components/schemas/Id'
         url:
           type: string
-          description: The URL to an audito file.
+          description: The URL to an audio file.
         duration:
           type: integer
           format: int64
@@ -3457,7 +3457,7 @@ components:
           $ref: '#/components/schemas/Id'
     IVRNoActionResponse:
       type: object
-      description: The reponse object for a situation of a caller specified no action.
+      description: The response object for a situation of a caller specified no action.
       properties:
         strategy:
           $ref: '#/components/schemas/IVRNoActionStrategy'
@@ -3508,7 +3508,7 @@ components:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
-      description: The object contains imformation about user settings.
+      description: The object contains information about user settings.
       properties:
         voicemail:
           $ref: '#/components/schemas/AudioFile'

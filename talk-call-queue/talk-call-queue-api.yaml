@@ -110,14 +110,16 @@ paths:
       tags:
         - Calls
       x-access: private
-      summary: Add a new call to the call queue
-      operationId: addCallToCallQueue
+      summary: Enqueue the call in a call queue
+      operationId: enqueue
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
               properties:
                 To:
+                  type: string
+                From:
                   type: string
                 AccountSid:
                   type: string
@@ -126,7 +128,10 @@ paths:
       responses:
         200:
           description: TwiML request has been received
-          content: { }
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/VoiceResponse'
         default:
           $ref: '#/components/responses/ErrorResponse'
 
@@ -325,3 +330,21 @@ components:
             $ref: '#/components/schemas/CallQueue'
         paging:
           $ref: '#/components/schemas/PageAndSort'
+
+    Enqueue:
+      type: object
+      properties:
+        waitUrl:
+          type: string
+          xml:
+            attribute: true
+      xml:
+        name: 'Enqueue'
+
+    VoiceResponse:
+      type: object
+      properties:
+        enqueue:
+          $ref: '#/components/schemas/Enqueue'
+      xml:
+        name: 'Response'

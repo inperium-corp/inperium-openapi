@@ -18,9 +18,6 @@ tags:
   - name: Call Queues
     description: |
       Inperium Talk Call Queue enables users to automate the routing of calls from customers to a support service.
-  - name: Call Queues Webhooks
-    description: |
-      Inperium Talk Call Queue enables users to handle call queues webhooks.
   - name: Calls Webhooks
     description: |
       Inperium Talk Call Queue enables users to handle calls webhooks.
@@ -108,10 +105,10 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /webhooks/callQueues/wait:
+  /webhooks/calls/wait:
     post:
       tags:
-        - Call Queues Webhooks
+        - Calls Webhooks
       x-access: private
       summary: Request instructions for the call from the call queue
       operationId: wait

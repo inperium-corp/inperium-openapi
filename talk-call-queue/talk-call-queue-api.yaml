@@ -356,6 +356,7 @@ components:
       type: object
       required:
         - name
+        - adminPhoneNumber
       properties:
         name:
           type: string
@@ -388,6 +389,11 @@ components:
         maxWaitTime:
           type: integer
           default: 10
+        adminPhoneNumber:
+          type: string
+        callbackDigits:
+          type: integer
+          default: 1
 
     CallQueue:
       allOf:

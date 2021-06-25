@@ -121,17 +121,23 @@ paths:
             schema:
               required:
                 - QueueSid
+                - MaxQueueSize
                 - QueuePosition
                 - QueueTime
                 - AvgQueueTime
+                - CurrentQueueSize
               properties:
                 QueueSid:
                   type: string
+                MaxQueueSize:
+                  type: integer
                 QueuePosition:
                   type: integer
                 QueueTime:
                   type: integer
                 AvgQueueTime:
+                  type: integer
+                CurrentQueueSize:
                   type: integer
       responses:
         200:

@@ -105,6 +105,73 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
+  /webhooks/calls/enqueue:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Enqueue the call in a call queue
+      operationId: enqueue
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - To
+                - From
+                - CallSid
+              properties:
+                To:
+                  type: string
+                From:
+                  type: string
+                CallSid:
+                  type: string
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/action:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Dequeue reason and details about the time spent in the queue
+      operationId: action
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - CallSid
+                - QueueResult
+                - QueueSid
+                - QueueTime
+              properties:
+                CallSid:
+                  type: string
+                QueueResult:
+                  type: string
+                QueueSid:
+                  type: string
+                QueueTime:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
   /webhooks/calls/wait:
     post:
       tags:
@@ -136,38 +203,6 @@ paths:
                   type: integer
                 CurrentQueueSize:
                   type: integer
-      responses:
-        200:
-          description: TwiML request has been received
-          content:
-            application/xml:
-              schema:
-                type: string
-        default:
-          $ref: '#/components/responses/ErrorResponse'
-
-  /webhooks/calls/enqueue:
-    post:
-      tags:
-        - Calls Webhooks
-      x-access: private
-      summary: Enqueue the call in a call queue
-      operationId: enqueue
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              required:
-                - To
-                - From
-                - CallSid
-              properties:
-                To:
-                  type: string
-                From:
-                  type: string
-                CallSid:
-                  type: string
       responses:
         200:
           description: TwiML request has been received

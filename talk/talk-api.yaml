@@ -2972,11 +2972,14 @@ components:
     CallWebhookRequest:
       type: object
       required:
+        - AccountSid
         - CallSid
         - From
         - To
         - CallStatus
       properties:
+        AccountSid:
+          type: string
         CallSid:
           type: string
         From:
@@ -2997,9 +3000,11 @@ components:
             - canceled
         ParentCallSid:
           type: string
-        CallId:
+        FromNumberId:
           type: string
           format: uuid
+        ToNumber:
+          type: string
     CallChangeRequest:
       type: object
       description: The object submitted to Talk API to start or finish a call recording.

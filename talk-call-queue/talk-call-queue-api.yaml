@@ -165,6 +165,10 @@ paths:
       responses:
         200:
           description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
         default:
           $ref: '#/components/responses/ErrorResponse'
 

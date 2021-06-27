@@ -379,6 +379,9 @@ components:
             $ref: '#/components/schemas/BusinessHour'
         callDistributionType:
           $ref: '#/components/schemas/CallDistributionType'
+        wrapUpTime:
+          type: integer
+          default: 0
         maxSize:
           type: integer
           maximum: 5000

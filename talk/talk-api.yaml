@@ -3133,14 +3133,14 @@ components:
       enum:
         - STARTED
         - QUEUED
+        - INITIATED
         - RINGING
         - IN_PROGRESS
-        - CANCELED
         - COMPLETED
-        - FORWARDED
         - BUSY
         - FAILED
         - NO_ANSWER
+        - CANCELED
     CallDirection:
       description: Inbound or outbound call.
       type: string

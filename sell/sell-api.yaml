@@ -1766,19 +1766,15 @@ paths:
       tags:
         - Imports
       summary: Import a file
-      description: Use this endpoint to upload a file containing entities to Inperium. For example, you can upload your client data exported from other CRMs and that was previously stored in spreadsheets.
+      description: Use this endpoint to upload a file containing entities to Inperium. For example, you can upload your client data exported from other CRMs or data that was previously stored in spreadsheets.
       operationId: importFile
-      parameters:
-        - name: mappings
-          description: This parameter defines mapping between incoming data and Inperium Sell properties.
-          in: query
-          schema:
-            type: string
-        - name: fileUrl
-          description: The link to the import file.
-          in: query
-          schema:
-            type: string
+      requestBody:
+        description: In the request body, pass the ImportRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImportRequest"
+        required: true
       responses:
         201:
           description: The entities have been imported.
@@ -5092,6 +5088,26 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
       description: The list of import events.
+    ImportRequest:
+      type: object
+      description: The request object initiates import.
+      properties:
+        mappings:
+          type: array
+          description: This parameter defines mapping between incoming data and Inperium Sell properties.
+          items:
+            type: object
+            properties:
+              column:
+                description: The caption of the column from the file imported.
+                type: string
+              propertyId:
+                description: The ID of the property.
+                type: string
+          format: uuid
+        fileUrl:
+          description: The link to the import file.
+          type: string
     Integration:
       type: object
       properties:

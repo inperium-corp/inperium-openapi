@@ -33,9 +33,6 @@ tags:
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
-  - name: Health Checks
-    description: |
-      Since Inperium runs multiple services under the hood, it's crucial to identify the health state of each service. You can rely on the health state information when troubleshooting issues.
   - name: IVR Callbacks
     description: |
       IVR menu is a simple and interactive routing system. You can configure an action for each digit. The callbacks help manage user inputs.
@@ -45,12 +42,12 @@ tags:
   - name: Phone Numbers
     description: |
       Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+  - name: Phone Number Webhooks
+    description: |
+      Inperium Talk enables you to create and register phone numbers.
   - name: Recordings
     description: |
       The recordings are the messages the clients leave when nobody picks the line and recorded parts the calls. It's a safe and reliable way to gather inquires when your managers are out of office and save the most important parts of the calls.
-  - name: Phone Number Webhooks
-    description: |
-      Inperium Talk enables you to create phone numbers.
   - name: Recording Callbacks
     description: |
       Inperium Talk enables you to create recordings.
@@ -65,16 +62,16 @@ tags:
       The report data is the actual metrics and values.
   - name: Services
     description: |
-      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text or buy phone numbers from our partners.
-  - name: Voicemails
-    description: |
-      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
+      Inperium Talk provides various communication services such as the ability to generate voice recordings based on text and vice versa.
   - name: Tenant Settings
     description: |
       Inperium Talk enables users to get tenant settings.
   - name: User Settings
     description: |
       Each user has a unique profile that contains information about the default contact number, forwarding options, and many more.
+  - name: Voicemails
+    description: |
+      The voicemails are the messages the clients leave when nobody picks the line. It's a safe and reliable way to gather inquires when your managers are out of office.
   - name: Widgets
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
@@ -188,7 +185,7 @@ paths:
       tags:
         - Audio Files
       summary: Get audio file by ID
-      description: Use this endpoint to retrieve details on specific audio file based on its ID.
+      description: Use this endpoint to retrieve details on specific audio file based on its ID. Provide an ID in the path.
       operationId: getAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -209,7 +206,7 @@ paths:
       tags:
         - Audio Files
       summary: Delete an audio file
-      description: Use this endpoint to remove an audio file.
+      description: Use this endpoint to remove an audio file. Provide an ID in the path.
       operationId: deleteAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -227,7 +224,7 @@ paths:
       tags:
         - Audio Files
       summary: Partially update an audio file
-      description: Use this endpoint to partially update the audio file details.
+      description: Use this endpoint to partially update the audio file details. Provide an ID in the path.
       operationId: updateAudioFile
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -310,7 +307,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Retrieve an auto receptionist
-      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID.
+      description: Use this endpoint to retrieve details for a specific auto receptionist by its ID. Provide an ID in the path.
       operationId: findAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -331,7 +328,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Partially update an auto receptionist
-      description: Use this endpoint to partially modify an existing auto receptionist.
+      description: Use this endpoint to partially modify an existing auto receptionist. Provide an ID in the path.
       operationId: partiallyUpdateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -358,7 +355,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Update an auto receptionist
-      description: Use this endpoint to completely overwrite the current auto receptionist settings.
+      description: Use this endpoint to completely overwrite the current auto receptionist settings. Provide an ID in the path.
       operationId: updateAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -385,7 +382,7 @@ paths:
       tags:
         - Auto Receptionists
       summary: Delete an auto receptionist
-      description: Use this endpoint to remove an auto receptionist.
+      description: Use this endpoint to remove an auto receptionist. Provide an ID in the path.
       operationId: deleteAutoReceptionist
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -404,6 +401,7 @@ paths:
       tags:
         - Calls
       summary: List calls
+      description: Use this endpoint to list all calls made, received, or missed by users. The request supports paging, sorting, and filtering.
       operationId: getCalls
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -411,52 +409,52 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
         - name: direction
           in: query
-          description: Direction of the call.
+          description: The direction of the call. Available options are `inbound` or `outbound`.
           schema:
             type: string
         - name: callerStatus
           in: query
-          description: Caller status.
+          description: The status of the caller. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: recipientStatus
           in: query
-          description: Recipient status.
+          description: The status of the recipient. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: participantStatus
           in: query
-          description: Participant (any) status.
+          description: The status of any call participant. It can be `started`, `queued`, `ringing`, `in_progress`, `canceled`, `completed`, `forwarded`, `busy`, `failed`, `no_answer`.
           schema:
             type: string
         - name: callerPhoneNumber
           in: query
-          description: Caller phone number.
+          description: The phone number of the caller.
           schema:
             type: string
         - name: recipientPhoneNumber
           in: query
-          description: Recipient phone number.
+          description: The phone number of the recipient.
           schema:
             type: string
         - name: participantPhoneNumber
           in: query
-          description: Participant (any) phone number.
+          description: The phone number of any call participant.
           schema:
             type: string
         - name: callerPhoneNumberId
           in: query
-          description: Caller phone number ID.
+          description: The ID of caller's phone number.
           schema:
             type: string
         - name: recipientPhoneNumberId
           in: query
-          description: Recipient phone number ID.
+          description: The ID of recipient's phone number.
           schema:
             type: string
         - name: participantPhoneNumberId
           in: query
-          description: Participant (any) phone number ID.
+          description: The ID of any participant's phone number.
           schema:
             type: string
         - name: recorded
@@ -467,12 +465,12 @@ paths:
         - name: quickFilter
           in: query
           description: |
-            Custom filter for some business cases.\
+            A quick filter for discovering missed and unanswered calls. \
             **Note**:
-            * It can be useful to combine `MISSED_BY_ME` and `MISSED_BY_TENANT`
-              with `participantPhoneNumber` and `participantPhoneNumberId` parameters
-            * It can be useful to combine `UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
-              with `callerPhoneNumber` and `callerPhoneNumberId` parameters
+            * Consider combining `MISSED_BY_ME` and `MISSED_BY_TENANT`
+              with `participantPhoneNumber` and `participantPhoneNumberId` parameters.
+            * Or combine`UNANSWERED_FROM_ME` and `UNANSWERED_FROM_TENANT`
+              with `callerPhoneNumber` and `callerPhoneNumberId` parameters.
           schema:
             type: string
             enum:
@@ -482,7 +480,7 @@ paths:
               - UNANSWERED_FROM_TENANT
       responses:
         200:
-          description: The list of voice calls has been retrieved
+          description: The list of calls has been retrieved. Returns calls.
           content:
             application/json:
               schema:
@@ -496,16 +494,18 @@ paths:
     post:
       tags:
         - Calls
-      summary: Create an outcoming call
+      summary: Create a call
+      description: Use this endpoint to create a new outcoming call.
       operationId: createCall
       requestBody:
+        description: In the request body, pass the CallRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallRequest'
       responses:
         201:
-          description: A new voice call started
+          description: A new voice call has started. Returns a call.
           content:
             application/json:
               schema:
@@ -520,10 +520,12 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a Voice call by Twilio call sid
+      summary: Find a call
+      description: Use this endpoint to locate and retrieve a call by its SID. Provide a SID in the path.
       operationId: findBySid
       parameters:
         - name: sid
+          description: A unique identifier of the call.
           in: path
           required: true
           schema:
@@ -545,10 +547,12 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a Twillio token for Voice API SDK
+      summary: Retrieve a token
+      description: Use this endpoint to get a voice token to connect to SDK.
       operationId: getVoiceToken
       parameters:
         - name: platform
+          description: A platform where Inperium Talk runs. If not specified, the default is `WEB`.
           in: query
           schema:
             type: string
@@ -559,7 +563,7 @@ paths:
             default: WEB
       responses:
         200:
-          description: A new Twilio voice token has been created
+          description: A new voice token has been created. Returns a voice token.
           content:
             application/json:
               schema:
@@ -574,13 +578,14 @@ paths:
     get:
       tags:
         - Calls
-      summary: Get a voice call by its ID
+      summary: Get call details
+      description: Use this endpoint to retrieve call details by its ID. Provide a ID in the path.
       operationId: getCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: OK
+          description: The call details have been retrieved. Returns a call.
           content:
             application/json:
               schema:
@@ -594,19 +599,20 @@ paths:
     patch:
       tags:
         - Calls
-      summary: Partially update a voice call
+      summary: Partially update a call
+      description: Use this endpoint to partially modify a call without overwritting it. Provide an ID in the path.
       operationId: patchCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Call to update
+        description: In the request body, pass the updated CallChangeRequest.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallChangeRequest'
       responses:
         200:
-          description: OK
+          description: The call has been updated. Returns a call.
           content:
             application/json:
               schema:
@@ -620,19 +626,20 @@ paths:
     put:
       tags:
         - Calls
-      summary: Update a voice call
+      summary: Update a call
+      description: Use this endpoint to update a call. The call details will be overwritten. Provide an ID in the path.
       operationId: updateCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Call to update
+        description: In the request body, pass the CallRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallRequest'
       responses:
         200:
-          description: OK
+          description: The call has been updated. Returns an updated call.
           content:
             application/json:
               schema:
@@ -646,7 +653,8 @@ paths:
     delete:
       tags:
         - Calls
-      summary: Delete a voice call
+      summary: Delete a call
+      description: Use this endpoint to remove a voice call. Provide an ID in the path.
       operationId: deleteCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -665,18 +673,19 @@ paths:
       tags:
         - Calls
       summary: Join a call
+      description: Use this endpoint to add a new participant to a call. Provide a call ID in the path.
       operationId: joinCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: The participant who joins a call
+        description: In the request bodym pass the CallParticipantRequest object with information about a participant who joins.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CallParticipantRequest'
       responses:
         200:
-          description: OK
+          description: A new participant has joined the call. Returns the call participant.
           content:
             application/json:
               schema:
@@ -1108,19 +1117,21 @@ paths:
     get:
       tags:
         - Contacts
-      summary: Retrieve a list of contacts
+      summary: List contacts
+      description: Use this endpoint to retrieve a list of contacts. This operation supports paging, sorting, and filtering.
       operationId: getContacts
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
         - name: fullName
+          description: The contact's first and last name.
           in: query
           schema:
             type: string
       responses:
         200:
-          description: The contacts have been retrieved
+          description: The contacts have been retrieved. Returns contacts.
           content:
             application/json:
               schema:
@@ -1134,17 +1145,18 @@ paths:
     post:
       tags:
         - Contacts
-      summary: Create a new contact
+      summary: Create a contact
+      description: Use this endpoint to add a new contact.
       operationId: createContact
       requestBody:
-        description: Contact to create
+        description: In the request body, pass the ContactRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRequest'
       responses:
         201:
-          description: A new contact has been created
+          description: A new contact has been created. Returns a contact.
           content:
             application/json:
               schema:
@@ -1159,13 +1171,14 @@ paths:
     get:
       tags:
         - Contacts
-      summary: Retrieve details of the contact by its ID
+      summary: Retrieve contact details
+      description: Use this endpoint to retrieve a contact by its ID. Provide an ID in the path.
       operationId: getContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The details of the contact have been retrieved
+          description: The contact details have been retrieved. Returns a contact.
           content:
             application/json:
               schema:
@@ -1180,18 +1193,19 @@ paths:
       tags:
         - Contacts
       summary: Update a contact
+      description: Use this endpoint to modify an existing contact. The contact details will be overwritten. Provide an ID in the path.
       operationId: updateContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated contact specification
+        description: In the request body, pass the updated ContactRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactRequest'
       responses:
         200:
-          description: The contact has been modified
+          description: The contact has been modified. Returns a contact.
           content:
             application/json:
               schema:
@@ -1206,28 +1220,13 @@ paths:
       tags:
         - Contacts
       summary: Delete a contact
+      description: Use this endpoint to remove a contact. Provide an ID in the path.
       operationId: deleteContact
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The contact has been deleted
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /health:
-    get:
-      tags:
-        - Health Checks
-      summary: Check the health of the microservice
-      operationId: checkHealth
-      responses:
-        204:
-          description: Returns an empty response.
+          description: The contact has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1239,11 +1238,13 @@ paths:
     patch:
       tags:
         - Participants
-      summary: Update participant
+      summary: Update a participant
+      description: Use this endpoint to modify a participant. Provide an ID in the path.
       operationId: patchParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        description: In the request body, pass the ParticipantChangeRequestBody object.
         content:
           application/json:
             schema:
@@ -1251,7 +1252,7 @@ paths:
         required: false
       responses:
         200:
-          description: The participant has been updated
+          description: The participant has been updated. Returns a call participant.
           content:
             application/json:
               schema:
@@ -1265,13 +1266,14 @@ paths:
     delete:
       tags:
         - Participants
-      summary: Delete participant from conference
+      summary: Remove from conference
+      description: Use this endpoint to remove a person from a conference call. Provide an ID in the path.
       operationId: removeParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The participant has been deleted
+          description: The participant has been removed.
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1282,9 +1284,11 @@ paths:
     patch:
       tags:
         - Participants
-      summary: Update list of participants
+      summary: Update participants on a call
+      description: Use this endpoint to change the call participant's status, for example, to mute or put on hold. You can update one or more participants on a call.
       operationId: patchParticipants
       requestBody:
+        description: In the request body, pass the array of ParticipantChangeRequest objects.
         content:
           application/json:
             schema:
@@ -1293,7 +1297,7 @@ paths:
                 $ref: '#/components/schemas/ParticipantChangeRequest'
       responses:
         200:
-          description: The updated participants have been retreived
+          description: The participants have been updated. Returns call participants.
           content:
             application/json:
               schema:
@@ -1310,36 +1314,37 @@ paths:
     get:
       tags:
         - Phone Numbers
-      summary: Retrieve a list of phone numbers
+      summary: List phone numbers
+      description: Use this endpoint to retrieve all available phone numbers. This operation supports paging, sorting, and filtering.
       operationId: getPhoneNumbers
       parameters:
         - name: userId
           in: query
-          description: Filter by the user assignment
+          description: To search for phone numbers assigned to a specific user, provide the user's ID.
           schema:
             type: string
             example: eq::fda3787b-9f4e-45e3-91a3-46d61003c2d7
         - name: assignmentType
           in: query
-          description: Filter by the assignment type
+          description: Search for phone numbers by their assignment type. A phone number can be assigned to `USER`, `AUTO_RECEPTIONIST`, or be `UNASSIGNED`.
           schema:
             type: string
             example: eq::USER
         - name: number
           in: query
-          description: Search parameters by the phone number
+          description: A specific phone number you're interested in. Submit a phone number.
           schema:
             minLength: 3
             type: string
         - name: type
           in: query
-          description: Filter by the phone number type
+          description: Search for phone numbers of a specific type such as `LOCAL`, or `TOLL_FREE`.
           schema:
             type: string
             example: eq::LOCAL
         - name: regulatoryStatus
           in: query
-          description: Filter by the status of the phone number's regulatory bundle
+          description: Search for phone numbers with a specifici regulatory bundle status. Submit a status.
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1347,7 +1352,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The phone numbers have been retrieved
+          description: The phone numbers have been retrieved. Returns phone numbers.
           content:
             application/json:
               schema:
@@ -1361,10 +1366,11 @@ paths:
     post:
       tags:
         - Phone Numbers
-      summary: Buy and create a list of Twilio phone numbers
+      summary: Buy a phone number
+      description: Use this endpoint to buy and register a new phone number. You can create several phone numbers at once. Charges apply in accordance with your subscription plan.
       operationId: buyPhoneNumbers
       requestBody:
-        description: PhoneNumberRequest object for create and buy.
+        description: In the request body, pass an array of PhoneNumberRequest objects.
         content:
           application/json:
             schema:
@@ -1373,7 +1379,7 @@ paths:
                 $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: A list of new Twilio phone numbers has been created and bought.
+          description: New phone numbers have been bought. Returns phone numbers.
           content:
             application/json:
               schema:
@@ -1390,13 +1396,14 @@ paths:
     get:
       tags:
         - Phone Numbers
-      summary: Retrieve phone number details by its ID
+      summary: Retrieve a phone number
+      description: Use this endpoint to retrieve phone number details. Provide an ID in the path.
       operationId: getPhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The phone number details have been retrieved
+          description: The phone number details have been retrieved. Returns a phone number.
           content:
             application/json:
               schema:
@@ -1411,18 +1418,19 @@ paths:
       tags:
         - Phone Numbers
       summary: Update a phone number
+      description: Use this endpoint to modify a phone number and overvwrite its details. Provide an ID in the path.
       operationId: updatePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: Updated phone number specification
+        description: In the request body, pass the updated PhoneNumberRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
         200:
-          description: The phone number details have been modified
+          description: The phone number details have been modified. Returns a phone number.
           content:
             application/json:
               schema:
@@ -1437,12 +1445,13 @@ paths:
       tags:
         - Phone Numbers
       summary: Delete a phone number
+      description: Use this endpoint to release and remove a phone number. You'll no longer have access to it once you remove it. Provide an ID in the path.
       operationId: deletePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The phone number has been deleted
+          description: The phone number has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1450,44 +1459,78 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
+  /webhooks/phoneNumbers/port:
+    x-access: private
+    post:
+      tags:
+        - Phone Number Webhooks
+      x-access: private
+      summary: Port a phone number
+      description: Use this endpoint to port a phone number.
+      operationId: portPhoneNumber
+      requestBody:
+        description: In the request body, pass the PhoneNumberRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberRequest'
+      responses:
+        200:
+          description: The phone number has been ported. Returns a port number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /recordings:
     get:
       tags:
         - Recordings
-      summary: Use this endpoint to list all recordings
+      summary: List recordings
+      description: Use this endpoint to retrieve all recordings stored with Inperium. The operation supports paging, sorting, and filtering.
       operationId: getRecordings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
         - name: phoneNumberId
+          description: The ID of the phone number the recording is linked to.
           in: query
           schema:
             type: string
         - name: autoReceptionistId
+          description: The ID of the auto receptionist the recording is linked to.
           in: query
           schema:
             type: string
         - name: userId
+          description: The ID of the user the recording is linked to.
           in: query
           schema:
             type: string
         - name: state
+          description: The `READ` or `UNREAD` status.
           in: query
           schema:
             type: string
         - name: type
+          description: The type of recording.
           in: query
           schema:
             type: string
         - name: url
+          description: The URL of recording.
           in: query
           schema:
             type: string
       responses:
         200:
-          description: The recording contents have been retrieved. Returns list of recordings.
+          description: The recordings have been retrieved. Returns recordings.
           content:
             application/json:
               schema:
@@ -1498,24 +1541,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /recordings/{id}:
     get:
       tags:
         - Recordings
-      summary: This endpoint returns recording by ID
+      summary: Retrieve a recording
+      description: Use this endpoint to get a specific recording by its ID. Provide an ID in the path.
       operationId: getRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         200:
-          description: The recording has been retrieved. Returns recording.
+          description: The recording has been retrieved. Returns the recording.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Recording'
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
@@ -1523,7 +1566,8 @@ paths:
     patch:
       tags:
         - Recordings
-      summary: Update (partially) the recording
+      summary: Partically update recording
+      description: Use this endpoint to partially modify a recording and its properties. Provide an ID in the path.
       operationId: updateRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1535,7 +1579,7 @@ paths:
               $ref: '#/components/schemas/RecordingRequest'
       responses:
         200:
-          description: The auto receptionist has been modified. Returns the auto receptionist.
+          description: The recording has been updated. Returns the recording.
           content:
             application/json:
               schema:
@@ -1549,13 +1593,14 @@ paths:
     delete:
       tags:
         - Recordings
-      summary: Delete a recording by ID
+      summary: Delete recording
+      description: Use this endpoint to remove a recording. Provide an ID in the path.
       operationId: deleteRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       responses:
         204:
-          description: The voicemail has been deleted. Returns empty body.
+          description: The recording has been deleted. Returns an empty response.
           content: { }
         default:
           description: Bad request, security violation, or internal server error.
@@ -1563,35 +1608,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
-
-  /webhooks/phoneNumbers/port:
-    x-access: private
-    post:
+  /recordings/{id}/transcribe:
+    get:
       tags:
-        - Phone Number Webhooks
-      summary: Port a phone number
-      operationId: portPhoneNumber
-      requestBody:
-        description: List of phone numbers to create and buy
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PhoneNumberRequest'
+        - Recordings
+      summary: Transcribe recording
+      description: Use this endpoint to initiate a transcription job and transcribe a recording. Provide an ID in the path.
+      operationId: transcribeRecording
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
       responses:
-        200:
-          description: The phone number has been ported
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PhoneNumber'
+        206:
+          description: The transcription job has been accepted. Returns an empty response.
+          content: { }
         default:
-          description: Bad request, security violation, or internal server error
+          description: Bad request, security violation, or internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
   /regulatoryBundles:
     get:
       tags:
@@ -1806,7 +1841,8 @@ paths:
     get:
       tags:
         - Reports
-      summary: Retrieve a list of available reports
+      summary: List reports
+      description: Use this endpoint to retrieve a list of available reports. This operation supports paging and sorting.
       operationId: getReports
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1814,7 +1850,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The list of reports has been retrieved
+          description: The reports have been retrieved. Returns reports.
           content:
             application/json:
               schema:
@@ -1829,21 +1865,22 @@ paths:
     get:
       tags:
         - Report Data
-      summary: Gets data of the specific report
+      summary: Retrieve report data
+      description: Use this endpoint to see report data returned by a specific report. Provide a report ID in the path.
       operationId: getReportData
       parameters:
         - $ref: '#/components/parameters/ResourceId'
         - name: from
           in: query
           required: true
-          description: The date when the report data set calculation starts
+          description: The start date.
           schema:
             type: integer
             format: int64
         - name: to
           in: query
           required: true
-          description: The date when the report data set calculation starts
+          description: The finish date.
           schema:
             type: integer
             format: int64
@@ -1857,7 +1894,7 @@ paths:
               - TEAM
       responses:
         200:
-          description: The data of the report.
+          description: The report data has been retrieved. Returns report data.
           content:
             application/json:
               schema:
@@ -1868,20 +1905,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /services/transcribe:
+    post:
+      tags:
+        - Services
+      summary: Convert audio to text
+      description: Use this endpoint to transcribe audio file.
+      operationId: transcribeAudioFile
+      requestBody:
+        description: In the request body, pass the audio file to transcribe.
+        content:
+          audio/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        200:
+          description: Returns a transcription of the audio.
+          content:
+            application/json:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /services/textToSpeech:
     post:
       tags:
         - Services
-      summary: Convert text into audio
+      summary: Convert text to audio
+      description: Use this endpoint to generate an audio file based on provided text sample.
       operationId: textToSpeech
       requestBody:
+        description: In the request body, pass the TextToSpeechRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/TextToSpeechRequest'
       responses:
         200:
-          description: The synthesized audio
+          description: The text has been converted in audio. Returns an audio file.
           content:
             audio/*:
               schema:
@@ -1897,27 +1963,29 @@ paths:
     get:
       tags:
         - Services
-      summary: Retrieve a list of available phone numbers from Twilio
+      summary: List phone numbers for sale
+      description: Use this endpoint to retrieve a list of phone numbers that can be purchased in Inperium Talk.
       operationId: findPhoneNumbersAvailableToBuy
       parameters:
         - name: countryCode
+          description: The country phone code.
           in: query
           required: true
           schema:
             $ref: '#/components/schemas/CountryCode'
         - name: areaCode
           in: query
-          description: The rate center of the phone number
+          description: The area phone code.
           schema:
             type: string
         - name: type
           in: query
-          description: Filter phone numbers by type
+          description: The type of the phonw number that can be `TOLL_FREE` or `LOCAL`.
           schema:
             $ref: '#/components/schemas/PhoneNumberType'
       responses:
         200:
-          description: The list of phone numbers has been retrieved
+          description: The phone numbers have been retrieved. Returns available phone numbers.
           content:
             application/json:
               schema:
@@ -1930,37 +1998,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /users/{id}/phoneNumbers:
-    post:
-      tags:
-        - Phone Numbers
-      summary: Add a phone number and assign it to the user
-      operationId: assignUserPhoneNumber
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Id'
-      responses:
-        201:
-          description: The phone number has been created and assigned to the user
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /tenantSettings:
     x-access: private
     get:
+      x-access: private
       tags:
         - Tenant Settings
-      summary: Retrieve tenant settings by tenant ID
+      summary: Retrieve tenant settings.
+      description: Use this endpoint to get settings configured on teh tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1968,7 +2013,7 @@ paths:
         - $ref: '#/components/parameters/QuerySort'
       responses:
         200:
-          description: The tenant settings have been retrieved
+          description: The tenant settings have been retrieved. Returns tenant settings.
           content:
             application/json:
               schema:
@@ -1979,16 +2024,43 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-
+  /users/{id}/phoneNumbers:
+    post:
+      tags:
+        - Phone Numbers
+      summary: Assign to user
+      description: Use this endpoint to assign a phone number to a user. Provide a user ID in the path.
+      operationId: assignUserPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the phone number IDs.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Id'
+      responses:
+        201:
+          description: The phone number has been created and assigned to the user.
+          content: { }
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /userSettings:
     get:
       tags:
         - User Settings
-      summary: Retrieve user settings of current user
+      summary: List user settings
+      description: Use this endpoint to retrieve settings for a currently authenticated user.
       operationId: getUserSettings
       responses:
         200:
-          description: The user settings have been retrieved
+          description: The user settings have been retrieved. Returns user settings.
           content:
             application/json:
               schema:
@@ -2003,16 +2075,17 @@ paths:
       tags:
         - User Settings
       summary: Update user settings
+      description: Use this endpoint to modify and overwrite current user settings.
       operationId: updateUserSettings
       requestBody:
-        description: Updated user settings
+        description: In the request body, pass the UserSettingsRequest object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/UserSettingsRequest'
       responses:
         200:
-          description: The user settings have been modified
+          description: The user settings have been modified. Returns user settings.
           content:
             application/json:
               schema:
@@ -2025,6 +2098,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /voicemails:
     get:
+      x-access: private
       tags:
         - Voicemails
       summary: Retrieve the voicemails
@@ -2064,6 +2138,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /voicemails/{id}:
     patch:
+      x-access: private
       tags:
         - Voicemails
       summary: Update (partially) the voicemail
@@ -2089,6 +2164,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      x-access: private
       tags:
         - Voicemails
       summary: Delete a voicemail
@@ -2109,20 +2185,21 @@ paths:
     get:
       tags:
         - Widgets
-      summary: Widgets
+      summary: List widgets
+      description: Use this endpoint to retrieve a list of available widgets. This operation supports paging, sorting, and filtering.
       operationId: getWidgets
       parameters:
         - name: from
           in: query
           required: true
-          description: The date when the widgets data set calculation starts
+          description: The start date.
           schema:
             type: integer
             format: int64
         - name: to
           in: query
           required: true
-          description: The date when the widgets data set calculation starts
+          description: The finish date.
           schema:
             type: integer
             format: int64
@@ -2136,7 +2213,7 @@ paths:
               - TEAM
       responses:
         200:
-          description: Widgets
+          description: The widgets have been retrieved. Returns widgets.
           content:
             application/json:
               schema:
@@ -2154,16 +2231,19 @@ components:
     BearerAuth:
       type: http
       scheme: bearer
+      description: This token is generated when a user enters credentials. Although you can leverage this token when making API calls, please note that due to security concerns it frequently expires.
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-API-KEY
+      description: The API key is a secure key generated by Inperium that can be used for authentication. The API key has an expiration date after which your API requests will be denied by the server.
 
   parameters:
 
     ResourceId:
       name: id
       in: path
+      description: A unique object identifier.
       required: true
       schema:
         type: string
@@ -2171,21 +2251,21 @@ components:
     QueryPageNumber:
       name: pageNumber
       in: query
-      description: Query parameter for the "pageNumber"
+      description: This parameter affects paging. It defines the chunk of data to be retrieved, e.g., records from the page 3.
       schema:
         type: integer
         format: int64
     QueryPageSize:
       name: pageSize
       in: query
-      description: Query parameter for the "pageSize"
+      description: This parameter affects paging. It defines the number of records per page.
       schema:
         type: integer
         format: int64
     QuerySort:
       name: sort
       in: query
-      description: Query parameter for the "sort" criteria
+      description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
       schema:
         type: string
 
@@ -2199,33 +2279,34 @@ components:
       properties:
         status:
           type: string
-          description: Http status code
+          description: HTTP status code.
         code:
           type: string
           format: uuid
-          description: Optional code of the exception
+          description: An optional exception code.
         message:
           type: string
-          description: Error message
+          description: The human-readable localized error message.
         errors:
           type: object
-          description: Map of field -> list of errors
+          description: Mapping fields to errors.
 
     Id:
       type: string
       format: uuid
+      description: A unique identifier.
 
     CountryCode:
       type: string
-      description: Country code (ISO alpha-2)
+      description: A two-letter country code as defined by ISO 3166-1 alpha-2.
 
     TimezoneId:
       type: string
-      description: Timezone value
+      description: A timezone value.
 
     PageAndSort:
       type: object
-      description: Paging and sorting information
+      description: Paging and sorting information.
 
     AudioFiles:
       type: object
@@ -2490,6 +2571,7 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - useDefaultCallForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -2522,6 +2604,10 @@ components:
           type: string
         address:
           $ref: '#/components/schemas/Address'
+        callForwardingEnabled:
+          type: boolean
+        useDefaultCallForwarding:
+          type: boolean
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
@@ -2579,6 +2665,12 @@ components:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+        callForwardingEnabled:
+          type: boolean
+          default: false
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
@@ -2933,6 +3025,7 @@ components:
         - shared
         - phoneNumbers
         - emails
+        - user
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       properties:
         id:
@@ -2945,6 +3038,8 @@ components:
           type: string
         shared:
           type: boolean
+        user:
+          $ref: '#/components/schemas/User'
         addressLine1:
           type: string
         addressLine2:
@@ -3237,7 +3332,7 @@ components:
           $ref: '#/components/schemas/Id'
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
@@ -3246,7 +3341,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         defaultPhoneNumber:
           $ref: '#/components/schemas/PhoneNumber'
-        callForwarding:
+        defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object
@@ -3554,13 +3649,10 @@ components:
     CallForwarding:
       type: object
       required:
-        - enabled
         - phoneNumber
         - twentyFourSeven
         - businessHours
       properties:
-        enabled:
-          type: boolean
         phoneNumber:
           type: string
         timezone:

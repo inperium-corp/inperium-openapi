@@ -3734,7 +3734,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /views/dataGrid/{type}:                
+  /views/dataGrid/{type}:
     get:
       tags:
         - Data Grid Views
@@ -6034,6 +6034,9 @@ components:
         phoneNumber:
           type: string
           description: The phone number, personal or corporate.
+        jobTitle:
+          type: string
+          description: The job title.
     PublicQuoteContact:
       type: object
       description: The customer's name as it appears in the quote sent to a customer.
@@ -6050,6 +6053,9 @@ components:
         phoneNumber:
           type: string
           description: The contact's phone number.
+        title:
+          type: string
+          description: The contact's title.
     PublicQuoteCompany:
       type: object
       description: The customer's name as it appears in the quote sent to a customer.
@@ -6331,6 +6337,9 @@ components:
         phoneNumber:
           type: string
           description: The personal or corporate phone number.
+        title:
+          type: string
+          description: The contact's title.
       description: The object contains information about the contact as it will appear in the quote. Unlike the 'contact' object, it has less parameters.
     QuotePaymentPlan:
       type: object
@@ -6388,6 +6397,9 @@ components:
           description: The phone number.
         originUserId:
           $ref: "#/components/schemas/Id"
+        jobTitle:
+          type: string
+          description: The job title.
       description: The object contains information about the user who created a quote.
     Quotes:
       type: object
@@ -7079,7 +7091,7 @@ components:
     QueryPageSize:
       name: pageSize
       in: query
-      description: This parameter affects paging. It defines the number of records per page
+      description: This parameter affects paging. It defines the number of records per page.
       schema:
         type: integer
     QuerySort:

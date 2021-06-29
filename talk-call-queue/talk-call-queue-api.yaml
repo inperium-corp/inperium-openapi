@@ -399,7 +399,7 @@ components:
           type: array
           items:
             type: string
-        operatorIds:
+        userIds:
           type: array
           items:
             $ref: '#/components/schemas/Id'

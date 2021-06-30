@@ -415,7 +415,7 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
         status:
-          $ref: '#/components/schemas/PhoneNumberPortStatus'
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PortOrders:
       type: object

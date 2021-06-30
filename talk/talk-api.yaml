@@ -404,6 +404,7 @@ paths:
       summary: Handle inbound or outbound call
       operationId: handleCall
       requestBody:
+        required: true
         content:
           application/x-www-form-urlencoded:
             schema:
@@ -703,6 +704,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        required: true
         description: In the request body, pass the AddParticipantRequest object with information about a participant who joins.
         content:
           application/json:
@@ -3038,6 +3040,8 @@ components:
           type: string
     AddParticipantRequest:
       type: object
+      required:
+        - phoneNumber
       properties:
         phoneNumber:
           type: string

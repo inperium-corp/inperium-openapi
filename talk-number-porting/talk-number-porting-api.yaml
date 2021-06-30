@@ -303,6 +303,15 @@ components:
           format: int64
           description: Timestamp of the create
 
+    PortOrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - UPDATED
+        - COMPLETED
+        - ERROR
+
     PortOrderUpdateRequest:
       type: object
       properties:
@@ -369,6 +378,7 @@ components:
         - comments
         - lettersOfAuthorization
         - billingStatements
+        - status
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -404,6 +414,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+        status:
+          $ref: '#/components/schemas/PhoneNumberPortStatus'
 
     PortOrders:
       type: object

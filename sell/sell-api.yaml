@@ -2579,6 +2579,7 @@ paths:
       description: Use this endpoint to get a complete list of products offered by the tenant. This operation supports paging and sorting. You can also narrow down results to the products of a specific price, etc.
       operationId: getProducts
       parameters:
+        - $ref: "#/components/parameters/QueryFilter"
         - $ref: "#/components/parameters/QueryStringResourceId"
         - $ref: "#/components/parameters/QueryPageNumber"
         - $ref: "#/components/parameters/QueryPageSize"

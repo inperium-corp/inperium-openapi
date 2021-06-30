@@ -20,16 +20,16 @@ tags:
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
   - name: Audio Files
     description: |
-      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menues.
+      Inperium Talk enables you to create an audio library with custom recordings that you can leverage in auto receptionists and IVR menus.
   - name: Auto Receptionists
     description: |
       Auto receptionists streamline call routing both during work hours and off-duty. An auto receptionist represents an automatic workflow and consists of configurable rules and steps. For example, you set a greeting audio and then enable an IVR menu that helps forward the call to the right manager. Auto receptionists can be multi-tiered and reference each other.
   - name: Calls
     description: |
-      Inperium Talk enables users to make calls and logs all statictics about them such as the duration of the call, the direction of call (inbound, outbound), and call particiapants.
+      Inperium Talk enables users to make calls and logs all statistics about them such as the duration of the call, the direction of call (inbound, outbound), and call participants.
   - name: Call Callbacks
     description: |
-      We use callbacks from our partnner & service provider to manage calls within Inperium Talk system.
+      We use callbacks from our partner & service provider to manage calls within Inperium Talk system.
   - name: Contacts
     description: |
       Add your clients and business partners to the Contacts list. The Contacts store information such as a name, work and personal phone numbers, and address.
@@ -41,7 +41,7 @@ tags:
       Each call has multiple participants—persons taking part in the call either as a caller or as recipients.
   - name: Phone Numbers
     description: |
-      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending mesages.
+      Inperium Talk enables users to create VoIP phone numbers and leverage them for making calls and sending messages.
   - name: Phone Number Webhooks
     description: |
       Inperium Talk enables you to create and register phone numbers.
@@ -53,7 +53,7 @@ tags:
       Inperium Talk enables you to create recordings.
   - name: Regulatory Bundles
     description: |
-      Depeding on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
+      Depending on your location and various usage options, you might be subject to taxes and fees. These taxes will be added to your bill.
   - name: Reports
     description: |
       Inperium Talk creates reports to help you assess productivity and see how your metrics change over time.
@@ -495,7 +495,7 @@ paths:
       tags:
         - Calls
       summary: Create a call
-      description: Use this endpoint to create a new outcoming call.
+      description: Use this endpoint to create a new outbound call.
       operationId: createCall
       requestBody:
         description: In the request body, pass the CallRequest object.
@@ -579,7 +579,7 @@ paths:
       tags:
         - Calls
       summary: Get call details
-      description: Use this endpoint to retrieve call details by its ID. Provide a ID in the path.
+      description: Use this endpoint to retrieve call details by its ID. Provide an ID in the path.
       operationId: getCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -600,7 +600,7 @@ paths:
       tags:
         - Calls
       summary: Partially update a call
-      description: Use this endpoint to partially modify a call without overwritting it. Provide an ID in the path.
+      description: Use this endpoint to partially modify a call without overwriting it. Provide an ID in the path.
       operationId: patchCallById
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -678,7 +678,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
-        description: In the request bodym pass the CallParticipantRequest object with information about a participant who joins.
+        description: In the request body, pass the CallParticipantRequest object with information about a participant who joins.
         content:
           application/json:
             schema:
@@ -1344,7 +1344,7 @@ paths:
             example: eq::LOCAL
         - name: regulatoryStatus
           in: query
-          description: Search for phone numbers with a specifici regulatory bundle status. Submit a status.
+          description: Search for phone numbers with a specific regulatory bundle status. Submit a status.
           schema:
             type: string
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -1418,7 +1418,7 @@ paths:
       tags:
         - Phone Numbers
       summary: Update a phone number
-      description: Use this endpoint to modify a phone number and overvwrite its details. Provide an ID in the path.
+      description: Use this endpoint to modify a phone number and overwrite its details. Provide an ID in the path.
       operationId: updatePhoneNumber
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1980,7 +1980,7 @@ paths:
             type: string
         - name: type
           in: query
-          description: The type of the phonw number that can be `TOLL_FREE` or `LOCAL`.
+          description: The type of a phone number that can be `TOLL_FREE` or `LOCAL`.
           schema:
             $ref: '#/components/schemas/PhoneNumberType'
       responses:
@@ -2005,7 +2005,7 @@ paths:
       tags:
         - Tenant Settings
       summary: Retrieve tenant settings.
-      description: Use this endpoint to get settings configured on teh tenant level. This operation supports paging and sorting.
+      description: Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2310,6 +2310,7 @@ components:
 
     AudioFiles:
       type: object
+      description: The list of audio files with paging and sorting information.
       required:
         - data
         - paging
@@ -2322,7 +2323,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     AudioFile:
       type: object
-      description: Audio file
+      description: An audio file stored with Inperium Talk. For example, a greeting prompt.
       required:
         - id
         - name
@@ -2337,29 +2338,29 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
-          description: Name of the audio file
+          description: The audio file title.
         url:
           type: string
-          description: URL to the file location in OBS
+          description: The audio file URL in the Object Bucket Storage service.
         duration:
           type: number
-          description: Duration of the audio file
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
         predefined:
           type: boolean
-          description: If the audio file is predefined and is not editable
+          description: This parameter defines if the audio file is predefined and cannot be modified (TRUE), or is custom and can be updated (FALSE).
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The date the audio file was created.
         updatedAt:
           type: integer
           format: int64
-          description: Timestamp of the update
+          description: The date the audio file was updated.
     AudioFileUploadRequest:
       type: object
-      description: Audio file upload request
+      description: The audio file object that is submitted to Inperium Talk as a part of the upload request.
       required:
         - file
         - duration
@@ -2368,29 +2369,29 @@ components:
         file:
           type: string
           format: binary
-          description: File to be uploaded as a audio file
+          description: The source file to be uploaded.
         name:
           type: string
-          description: Optional name of this document
+          description: An optional document name.
         duration:
           type: number
-          description: Duration of the audio in seconds
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
     AudioFileUpdateRequest:
       type: object
-      description: Audio file update request
+      description: The audio file object that is submitted to Inperium Talk as a part of the update request.
       properties:
         file:
           type: string
           format: binary
-          description: File to be uploaded as a audio file
+          description: The source file to be uploaded.
         name:
           type: string
-          description: Optional name of this document
+          description: An optional document name.
         duration:
           type: number
-          description: Duration of the audio in seconds
+          description: The audio duration, in seconds.
         origin:
           $ref: '#/components/schemas/AudioFileOrigin'
     AudioFileOrigin:
@@ -2399,29 +2400,30 @@ components:
         - TEXT_TO_SPEECH
         - UPLOAD
         - RECORD
-      description: Type of origin of the uploaded audio
+      description: The source the audio file came from.
     TextToSpeechRequest:
       type: object
-      description: Request model to convert text into audio
+      description: The request model to convert a text to an audio.
       required:
         - text
         - voice
       properties:
         text:
           type: string
-          description: Text to be converted into audio
+          description: The text to be converted to an audio.
         voice:
           type: string
-          description: Voice to dub the text
+          description: The voice to dub the text.
         audioFormat:
           type: string
           enum:
             - MP3
           default: MP3
-          description: Format (type) of audio to be synthesized
+          description: The audio format. Default is `MP3`.
 
     AutoReceptionistRequest:
       type: object
+      description: The auto receptionist request object is submitted to Talk API when you configure a new auto receptionist.
       required:
         - name
         - phoneNumbers
@@ -2432,50 +2434,64 @@ components:
       properties:
         name:
           type: string
+          description: The auto receptionist name.
         extension:
           type: string
+          description: The phone extension code.
         operatorIds:
           type: array
+          description: The list of users who will be granted access to this auto receptionist. Provide IDs.
           items:
             $ref: '#/components/schemas/Id'
         phoneNumberIds:
           type: array
+          description: The list of phone numbers. Provide IDs.
           items:
             $ref: '#/components/schemas/Id'
         businessHoursPart:
+          description: Settings during business hours.
           $ref: '#/components/schemas/AutoReceptionistRequestPart'
         closedHoursPart:
+          description: Settings during off-duty hours.
           $ref: '#/components/schemas/AutoReceptionistRequestPart'
         twentyFourSeven:
           type: boolean
-          description: If the auto receptionist works as business hours 24/7
+          description: This parameters defines if the auto receptionist operates 24/7.
         businessHours:
           type: array
+          description: The list of time slots.
           items:
             $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistRequestPart:
       type: object
+      description: The object defines auto receptionist behavior during specific time slots. Depending on the `routeTo` option you choose, provide either `ivrMenu`, `autoReceptionistId`,`userId`, `voicemailId`, or `callQueue` details.
       required:
         - routeTo
       properties:
         greetingPromptId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the audio file containing a greeting prompt or any intro sounds. Inperium Talk plays this audio when a call starts.
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
           $ref: '#/components/schemas/IVRMenuRequest'
         autoReceptionistId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked auto receptionist.
         userId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked user.
         voicemailId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a linked user.
         callQueue:
           type: string # TODO
+          description: The queue the call gets assigned to.
     AutoReceptionist:
       type: object
+      description: The object describes how auto receptionist will handle the incoming calls to certain phone numbers.
       required:
         - id
         - name
@@ -2489,36 +2505,45 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The auto receptionist name.
         extension:
           type: string
+          description: The phone extension code.
         operators:
           type: array
+          description: The list of users in charge of this auto receptionist.
           items:
             $ref: '#/components/schemas/User'
         phoneNumbers:
           type: array
+          description: The list of phone numbers the auto receptionist is enabled for.
           items:
             $ref: '#/components/schemas/PhoneNumber'
         businessHoursPart:
+          description: Settings during business hours.
           $ref: '#/components/schemas/AutoReceptionistPart'
         closedHoursPart:
+          description: Settings during off-duty hours.
           $ref: '#/components/schemas/AutoReceptionistPart'
         twentyFourSeven:
           type: boolean
-          description: If the auto receptionist works as business hours 24/7
+          description: This parameters defines if the auto receptionist operates 24/7.
         businessHours:
           type: array
+          description: The list of time slots.
           items:
             $ref: '#/components/schemas/BusinessHour'
         timezone:
           $ref: '#/components/schemas/TimezoneId'
     AutoReceptionistPart:
       type: object
+      description: The object defines auto receptionist behavior during specific time slots. Depending on the `routeTo` option, returns either `ivrMenu`, `autoReceptionistId`,`userId`, `voicemailId`, or `callQueue` details.
       required:
         - routeTo
       properties:
         greetingPrompt:
           $ref: '#/components/schemas/AudioFile'
+          description: The audio file containing a greeting prompt or any intro sounds. Inperium Talk plays this audio when a call starts.
         routeTo:
           $ref: '#/components/schemas/AutoReceptionistStrategy'
         ivrMenu:
@@ -2531,8 +2556,10 @@ components:
           $ref: '#/components/schemas/AudioFile'
         callQueue:
           type: string # TODO
+          description: The queue the call gets assigned to.
     AutoReceptionistStrategy:
       type: string
+      description: The auto receptionist behavior. Depending on the option you choose, the auto receptionist can forward a call to a voicemail or a user, move a call to a waiting queue, allow callers to pick an option from IVR menu, or forward a call to another auto receptionist. This object defines the options you can configure in the AutoReceptionistRequestPart object.
       enum:
         - VOICEMAIL
         - USER
@@ -2541,6 +2568,7 @@ components:
         - CALL_QUEUE # TODO
     AutoReceptionists:
       type: object
+      description: The list of auto receptionists with paging and sorting.
       required:
         - data
         - paging
@@ -2554,6 +2582,7 @@ components:
 
     PhoneNumbers:
       type: object
+      description: The list of phone numbers with paging and sorting.
       properties:
         data:
           type: array
@@ -2563,7 +2592,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     PhoneNumber:
       type: object
-      description: User phone number model
+      description: The phone number object contains information about the phone number itself as well as assignment type, forwarding settings, and other details.
       required:
         - id
         - phoneNumber
@@ -2571,12 +2600,14 @@ components:
         - timeout
         - countryCode
         - whatsappEnabled
+        - callForwardingEnabled
         - useDefaultCallForwarding
       properties:
         id:
           $ref: '#/components/schemas/Id'
         phoneNumber:
           type: string
+          description: The full number including the country code.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         timeout:
@@ -2585,9 +2616,10 @@ components:
           $ref: '#/components/schemas/CountryCode'
         whatsappEnabled:
           type: boolean
+          description: This parameter defines if the phone number supports WhatsApp messaging.
         name:
           type: string
-          description: The given name of the phone number
+          description: The phone number title. It can be a number itself or a title like 'Renewals team'.
         assignmentType:
           $ref: '#/components/schemas/PhoneNumberAssignmentType'
         voicemail:
@@ -2600,8 +2632,10 @@ components:
           $ref: '#/components/schemas/RegulatoryBundle'
         city:
           type: string
+          description: The city where phone number resides.
         state:
           type: string
+          description: The state where phone number resides.
         address:
           $ref: '#/components/schemas/Address'
         callForwardingEnabled:
@@ -2612,40 +2646,43 @@ components:
           $ref: '#/components/schemas/CallForwarding'
     PhoneNumberAssignmentType:
       type: string
-      description: Assignment type of the phone number (to whom is it assigned)
+      description: This parameter defines to whom the phone number is assigned on a high level.
       enum:
         - USER
         - UNASSIGNED
         - AUTO_RECEPTIONIST
     PhoneNumberType:
       type: string
-      description: Type of the phone number
+      description: The type of the phone number.
       enum:
         - LOCAL
         - TOLL_FREE
     PhoneNumberTimeout:
       type: integer
-      description: Timeout of the phone number (to finish the call)
+      description: The timeout set for this phone number. The call gets finished after reaching the timeout.
     PhoneNumberRequest:
       type: object
-      description: User phone number request model
+      description: The object is submitted to Inperium Talk API when you create a new phone number.
       required:
         - phoneNumber
         - type
         - countryCode
+        - callForwardingEnabled
+        - useDefaultCallForwarding
       properties:
         phoneNumber:
           type: string
+          description: A full phone number.
         twilioSid:
           type: string
+          description: A unique indetifier.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         name:
           type: string
-          description: The given name of the phone number
-          example: Maxim's phone number
+          description: The phone number title. It can be the number itself or a title like 'Renewals team'.
           maxLength: 63
         voicemailId:
           $ref: '#/components/schemas/Id'
@@ -2659,18 +2696,23 @@ components:
           $ref: '#/components/schemas/PhoneNumberTimeout'
         city:
           type: string
+          description: The city where phone number resides.
         state:
           type: string
+          description: The state where phone number resides.
         addressId:
           $ref: '#/components/schemas/Id'
         whatsappEnabled:
           type: boolean
+          description: This parameter defines if WhatsApp messaging is enabled for this phone number.
         callForwardingEnabled:
           type: boolean
           default: false
+          description: This parameter defines if call forwarding is enabled for this phone number.
         useDefaultCallForwarding:
           type: boolean
           default: false
+          description: This parameter defines if default call forwarding settings are enabled for this phone number.
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
@@ -2678,17 +2720,21 @@ components:
         - audioPromptId
         - actions
       type: object
+      description: The request object describes the IVR menu settings and possible options.
       properties:
         audioPromptId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the audio file. This audio typically includes instructions such as "For English, press one".
         actions:
           type: array
+          description: The list of IVR options.
           items:
             $ref: '#/components/schemas/IVRAction'
         noAction:
           $ref: '#/components/schemas/IVRNoActionRequest'
     IVRMenu:
       type: object
+      description: The object describes the IVR menu settings and possible options.
       required:
         - audioPrompt
         - actions
@@ -2697,6 +2743,7 @@ components:
           $ref: '#/components/schemas/AudioFile'
         actions:
           type: array
+          description: The list of IVR options.
           items:
             $ref: '#/components/schemas/IVRAction'
         noAction:
@@ -2706,16 +2753,20 @@ components:
         - digit
         - action
       type: object
+      description: The object maps the IVR menu option with an action. For example, 1 forwards a call to voicemail.
       properties:
         digit:
           type: string
+          description: The digit or a sign the user can select after listening to the audio prompt. Supports digits 0-9, asterisk, and hash.
         action:
           $ref: '#/components/schemas/IVRActionStrategy'
         actionEntityId:
           type: string
+          description: The ID of the exact action selected. For example, the voice
           format: uuid
     Addresses:
       type: object
+      description: The list of addresses with paging and sorting.
       properties:
         data:
           type: array
@@ -2724,6 +2775,7 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Address:
+      description: The address details.
       allOf:
         - $ref: '#/components/schemas/AddressRequest'
         - type: object
@@ -2734,6 +2786,7 @@ components:
               $ref: '#/components/schemas/Id'
     AddressRequest:
       type: object
+      description: The address details object that is submitted to Inperium Talk API.
       required:
         - addressLine1
         - city
@@ -2743,18 +2796,24 @@ components:
       properties:
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
     AvailablePhoneNumber:
       type: object
+      description: The phone number the user can purchase and start using in Inperium Talk.
       required:
         - name
         - phoneNumber
@@ -2765,16 +2824,20 @@ components:
       properties:
         name:
           type: string
+          description: The name of a phone number.
         phoneNumber:
           type: string
+          description: The full number including a country code.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         city:
           type: string
+          description: The city where phone number resides.
         type:
           $ref: '#/components/schemas/PhoneNumberType'
         addressRequirements:
           type: string
+          description: Any applicable address requirements or restrictions.
           enum:
             - NONE
             - ANY
@@ -2782,14 +2845,19 @@ components:
             - FOREIGN
         postalCode:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where phone number resides.
         basePrice:
           type: number
+          description: The standard price.
         currentPrice:
           type: number
+          description: The current price can differ from the `basePrice`.
     RegulatoryBundles:
       type: object
+      description: The list of regulatory bundles with paging and sorting.
       properties:
         data:
           type: array
@@ -2799,32 +2867,41 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     RegulatoryBundle:
       type: object
+      description: The object lists the local regulation you've got to follow in order to use the phone number.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The regulation name.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         type:
           type: string
+          description: The regulation type.
         status:
           type: string
+          description: The status of this regulation.
     RegulatoryBundleRequest:
       type: object
+      description: The object describes the local regulation you've got to follow in order to use the phone number.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The regulation name.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         type:
           type: string
+          description: The regulation type.
         status:
           type: string
+          description: The status of this regulation.
     RegulatoryBundleRequirements:
       type: object
+      description: The list of applicable requirements.
       properties:
         fields:
           type: array
@@ -2836,60 +2913,80 @@ components:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
     RegulatoryBundleRequirementField:
       type: object
+      description: A regulation entry.
       properties:
         name:
           type: string
+          description: A name.
         type:
           type: string
+          description: A type.
         requirement_name:
           type: string
+          description: An applicable requirement.
     RegulatoryBundleRequirementDocument:
       type: object
+      description: A referenced document.
       properties:
         name:
           type: string
+          description: A name.
         description:
           type: string
+          description: Document details.
         type:
           type: string
+          description: A document type.
         requirement_name:
           type: string
+          description: An applicable requirement.
         accepted_documents:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
     CallChangeRequest:
       type: object
+      description: The object submitted to Talk API to start or finish a call recording.
       properties:
         record:
           type: boolean
+          description: The parameter defines if the call is recorded.
     CallRequest:
-      example: { }
       type: object
+      description: The object initiates a call.
       properties:
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user starting the call.
         recipient:
           $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user receiving the call.
         participants:
           type: array
+          description: All users taking part in the call.
           items:
             $ref: '#/components/schemas/CallParticipantRequest'
     CallParticipantRequest:
       type: object
+      description: The request object defines the person taking part in the call.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         phoneNumberEntityId:
           $ref: '#/components/schemas/Id'
+          description: The ID of the participant's phone number.
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         webAgentId:
           $ref: '#/components/schemas/Id'
+          description: The user's ID in Inperium Talk, if exists.
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
     CallParticipant:
       type: object
+      description: The object defines the person taking part in the call.
       required:
         - id
         - hold
@@ -2900,14 +2997,17 @@ components:
           $ref: '#/components/schemas/PhoneNumber'
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         contact:
           $ref: '#/components/schemas/Contact'
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         status:
           $ref: '#/components/schemas/ParticipantStatus'
     Calls:
       type: object
+      description: The list of calls with paging and sorting.
       required:
         - data
         - paging
@@ -2919,8 +3019,8 @@ components:
         paging:
           $ref: '#/components/schemas/PageAndSort'
     Call:
-      example: { }
       type: object
+      description: The object contains all information about the call, its participants, direction, etc.
       required:
         - id
         - caller
@@ -2935,13 +3035,16 @@ components:
         duration:
           type: integer
           format: int64
-          description: Call duration in millis
+          description: The call duration in milliseconds.
         caller:
           $ref: '#/components/schemas/CallParticipant'
+          description: Information about the user who initiated the call.
         recipient:
           $ref: '#/components/schemas/CallParticipant'
+          description: Information about the user who received the call.
         participants:
           type: array
+          description: The list of all call participants irrespective of their role.
           items:
             $ref: '#/components/schemas/CallParticipant'
         direction:
@@ -2952,19 +3055,19 @@ components:
           $ref: '#/components/schemas/Recording'
         record:
           type: boolean
-          description: If true this call is being recorded now
+          description: If set to true, the call is being recorded now.
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The timestamp when the call was created.
     CallStatus:
-      description: Status of the call
+      description: The status of the call.
       type: string
       enum:
         - IN_PROGRESS
         - FINISHED
     ParticipantStatus:
-      description: Status of the participant
+      description: The status of the participant.
       type: string
       enum:
         - STARTED
@@ -2978,20 +3081,24 @@ components:
         - FAILED
         - NO_ANSWER
     CallDirection:
-      description: Direction of the call with respect to the tenant possessing it
+      description: Inbound or outbound call.
       type: string
       enum:
         - INBOUND
         - OUTBOUND
     ParticipantChangeRequestBody:
       type: object
+      description: The object allows updating a participant's state such as put a person on hold or mute him or her.
       properties:
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
     ParticipantChangeRequest:
       type: object
+      description: The object allows updating a participant's state.
       # TODO return inheritance (allOf with discriminator propertyName: schema)
       required:
         - participantId
@@ -3000,16 +3107,20 @@ components:
           $ref: '#/components/schemas/Id'
         hold:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
     VoiceToken:
       type: object
+      description: The capability token.
       properties:
         token:
           type: string
-          description: Twilio capability token
+          description: Twilio capability token.
     Contacts:
       type: object
+      description: The list of contacts with paging and sorting.
       properties:
         data:
           type: array
@@ -3019,6 +3130,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Contact:
       type: object
+      description: The object contains contact details.
       required:
         - id
         - firstName
@@ -3032,38 +3144,51 @@ components:
           $ref: '#/components/schemas/Id'
         firstName:
           type: string
+          description: The contact's first name.
         lastName:
           type: string
+          description: The contact's family name.
         companyName:
           type: string
+          description: The business name.
         shared:
           type: boolean
+          description: The parameter marks if this contact is shared with all users in your organization. When set to `FALSE`, only you will see it.
         user:
           $ref: '#/components/schemas/User'
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where the contact resides.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         avatarUrl:
           type: string
+          description: The URL to contact's profile image.
         phoneNumbers:
           type: array
+          description: The list of phone numbers.
           items:
             $ref: '#/components/schemas/ContactPhoneNumber'
         emails:
           type: array
+          description: The list of emails.
           items:
             $ref: '#/components/schemas/ContactEmail'
     ContactRequest:
       type: object
+      description: The request object that is sent to Inperium Talk when you create or update a contact.
       required:
         - firstName
         - shared
@@ -3072,42 +3197,56 @@ components:
       properties:
         firstName:
           type: string
+          description: The contact's first name.
         lastName:
           type: string
+          description: The contact's family name.
         companyName:
           type: string
+          description: The business name.
         shared:
           type: boolean
+          description: The parameter marks if this contact is shared with all users in your organization. When set to `FALSE`, only you will see it.
         addressLine1:
           type: string
+          description: The street, apartment, office.
         addressLine2:
           type: string
+          description: The street, apartment, office.
         city:
           type: string
+          description: The city or town name.
         zip:
           type: string
+          description: The post code.
         state:
           type: string
+          description: The state where the contact resides.
         countryCode:
           $ref: '#/components/schemas/CountryCode'
         avatarUrl:
           type: string
+          description: The URL to contact's profile image.
         phoneNumbers:
           type: array
+          description: The list of phone numbers.
           items:
             $ref: '#/components/schemas/ContactPhoneNumber'
         emails:
           type: array
+          description: The list of emails.
           items:
             $ref: '#/components/schemas/ContactEmail'
     ContactInfoType:
       type: string
+      description: The type of contact.
       enum:
         - WORK
         - PERSONAL
         - OTHER
     ContactPhoneNumber:
       type: object
+      description: The object contains the contact's phone number details.
       required:
         - phoneNumber
         - type
@@ -3116,10 +3255,12 @@ components:
           $ref: '#/components/schemas/Id'
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         type:
           $ref: '#/components/schemas/ContactInfoType'
     ContactEmail:
       type: object
+      description: The object contains the contact's email details.
       required:
         - email
         - type
@@ -3128,10 +3269,12 @@ components:
           $ref: '#/components/schemas/Id'
         email:
           type: string
+          description: The email address.
         type:
           $ref: '#/components/schemas/ContactInfoType'
     Recordings:
       type: object
+      description: The list of recordings with paging and sorting.
       properties:
         data:
           type: array
@@ -3141,6 +3284,7 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     Recording:
       type: object
+      description: An audio file.
       required:
         - id
         - createdAt
@@ -3151,16 +3295,18 @@ components:
           $ref: '#/components/schemas/Id'
         url:
           type: string
+          description: The URL to an audio file.
         duration:
           type: integer
           format: int64
-          description: Duration audio file in milliseconds
+          description: The duration in milliseconds.
         message:
           type: string
+          description: The message passed along with audio file.
         createdAt:
           type: integer
           format: int64
-          description: Timestamp of the create
+          description: The timestamp the recording was captured.
         call:
           $ref: '#/components/schemas/Call'
         state:
@@ -3168,6 +3314,7 @@ components:
 
     RecordingRequest:
       type: object
+      description: The request object with recording details.
       properties:
         state:
           $ref: '#/components/schemas/RecordingState'
@@ -3177,10 +3324,11 @@ components:
       enum:
         - UNREAD
         - READ
-      description: Lifecycle state of a recording
+      description: The status of a recording.
 
     Reports:
       type: object
+      description: The list of reports with paging data.
       required:
         - data
         - paging
@@ -3194,6 +3342,7 @@ components:
 
     Report:
       type: object
+      description: The object contains the report description without actual report data.
       required:
         - id
         - name
@@ -3202,9 +3351,11 @@ components:
           $ref: '#/components/schemas/Id'
         name:
           type: string
+          description: The report title.
 
     ReportData:
       type: object
+      description: Unlike the Report object that provides just a description, this object contains actual data. It provides values for the X-axis and Y-axis that can be further presented as a chart.
       required:
         - chartType
         - yAxis
@@ -3213,6 +3364,7 @@ components:
       properties:
         chartType:
           type: string
+          description: The type of the chart and data presentation.
           enum:
             - LINE
             - MULTI_BAR
@@ -3220,15 +3372,18 @@ components:
           $ref: '#/components/schemas/ReportDataXAxis'
         yAxises:
           type: array
+          description: The list of Y-axis values.
           items:
             $ref: '#/components/schemas/ReportDataYAxis'
         yAxisesDifferences:
           type: array
+          description: The list of Y-axis values.
           items:
             $ref: '#/components/schemas/ReportDataYAxis'
 
     ReportDataXAxis:
       type: object
+      description: The values for X-axis.
       required:
         - label
         - data
@@ -3236,15 +3391,19 @@ components:
       properties:
         unit:
           type: string
+          description: The measurement units such as seconds.
         label:
           type: string
+          description: The name of the units on the X-axis such as 'number of calls'.
         data:
           type: array
+          description: The results.
           items:
             type: object
 
     ReportDataYAxis:
       type: object
+      description: The values for Y-axis.
       required:
         - label
         - data
@@ -3252,15 +3411,19 @@ components:
       properties:
         unit:
           type: string
+          description: The measurement units such as numbers.
         label:
           type: string
+          description: The name of the units on the Y-axis such as 'duration of call'.
         data:
           type: array
+          description: The results.
           items:
             type: object
 
     DayOfWeek:
       type: string
+      description: Days of the week.
       enum:
         - MONDAY
         - TUESDAY
@@ -3271,6 +3434,7 @@ components:
         - SUNDAY
     IVRActionStrategy:
       type: string
+      description: An action outcome of the IVR menu.
       enum:
         - VOICEMAIL_USER
         - VOICEMAIL_AUTO_RECEPTIONIST
@@ -3280,6 +3444,7 @@ components:
         - REPEAT_AUDIO_PROMPT
     IVRNoActionRequest:
       type: object
+      description: This object defines behavior if a user hasn't specified an option in the IVR menu.
       required:
         - noActionStrategy
         - noActionCount
@@ -3290,10 +3455,12 @@ components:
           type: integer
           minimum: 1
           maximum: 5
+          description: The 'no response' counter.
         targetId:
           $ref: '#/components/schemas/Id'
     IVRNoActionResponse:
       type: object
+      description: The response object for a situation of a caller specified no action.
       properties:
         strategy:
           $ref: '#/components/schemas/IVRNoActionStrategy'
@@ -3301,23 +3468,28 @@ components:
           type: integer
           minimum: 1
           maximum: 5
+          description: The 'no response' counter.
         voicemail:
           $ref: '#/components/schemas/AudioFile'
     IVRNoActionStrategy:
       type: string
+      description: Auto receptionist behavior in case a caller submitted no answer in the IVR menu.
       enum:
         - DISCONNECT
         - VOICEMAIL
         - REPEAT_MENU
     TenantSetting:
       type: object
+      description: The object contains general tenant settings.
       required:
         - twilioAccountSid
       properties:
         twilioAccountSid:
           type: string
+          description: The account SID.
     TenantSettings:
       type: object
+      description: The list of tenant settings with paging and sorting.
       properties:
         data:
           type: array
@@ -3327,15 +3499,19 @@ components:
           $ref: '#/components/schemas/PageAndSort'
     UserSettingsRequest:
       type: object
+      description: The request object creates or modifies user settings.
       properties:
         voicemailId:
           $ref: '#/components/schemas/Id'
+          description: The ID of an associated voicemail.
         defaultPhoneNumberId:
           $ref: '#/components/schemas/Id'
+          description: The ID of a default phone number.
         defaultCallForwarding:
           $ref: '#/components/schemas/CallForwarding'
     UserSettings:
       type: object
+      description: The object contains information about user settings.
       properties:
         voicemail:
           $ref: '#/components/schemas/AudioFile'
@@ -3345,26 +3521,32 @@ components:
           $ref: '#/components/schemas/CallForwarding'
     User:
       type: object
+      description: Information about Inperium Talk user.
       properties:
         id:
           $ref: '#/components/schemas/Id'
         email:
           type: string
+          description: An email address.
         firstName:
           type: string
+          description: The user's first name.
         lastName:
           type: string
+          description: The user's family name.
         jobTitle:
           type: string
+          description: The user's job title.
         avatarUrl:
           type: string
+          description: The URL where the user's profile image is stored.
       required:
         - id
         - email
-      description: User model
 
     Widgets:
       type: object
+      description: The Widgets object is an aggregation of smaller widget components. It gives you insights into your activity. To learn more about charts and analytics, refer to Inperium user documentation.
       properties:
         totalCalls:
           $ref: '#/components/schemas/TotalCallsWidget'
@@ -3389,6 +3571,7 @@ components:
 
     TotalCallsWidget:
       type: object
+      description: The widget that shows the total number of calls.
       required:
         - inbound
         - inboundDifference
@@ -3398,18 +3581,23 @@ components:
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         inboundDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         outboundDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     MissedCallsWidget:
       type: object
+      description: The widget that shows missing calls.
       required:
         - missed
         - missedDifference
@@ -3417,12 +3605,15 @@ components:
         missed:
           type: integer
           format: int64
+          description: The number of missing calls.
         missedDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     TotalCallsTimeWidget:
       type: object
+      description: The widget that shows the overall call duration.
       required:
         - totalTime
         - totalTimeDifference
@@ -3430,12 +3621,15 @@ components:
         totalTime:
           type: integer
           format: int64
+          description: Aggregated calls duration.
         totalTimeDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     AverageCallTimeWidget:
       type: object
+      description: The widget that shows a median call duration.
       required:
         - time
         - timeDifference
@@ -3443,12 +3637,15 @@ components:
         time:
           type: integer
           format: int64
+          description: An average call duration.
         timeDifference:
           type: integer
           format: int64
+          description: The difference compared to a previous period.
 
     LiveCallsWidget:
       type: object
+      description: The widget shows the number of call answered live and those in queue.
       required:
         - inProgress
         - inQueue
@@ -3456,12 +3653,15 @@ components:
         inProgress:
           type: integer
           format: int64
+          description: The number of active calls.
         inQueue:
           type: integer
           format: int64
+          description: The number of call in the queue.
 
     CallsDurationWidget:
       type: object
+      description: The widget that shows calls duration.
       required:
         - durations
       properties:
@@ -3472,6 +3672,7 @@ components:
 
     CallsDurationWidgetDurations:
       type: object
+      description: Call duration statistics.
       required:
         - hour
         - averageInbound
@@ -3481,21 +3682,27 @@ components:
       properties:
         hour:
           type: integer
+          description: Total hours.
         averageInbound:
           type: integer
           format: int64
+          description: An average inbound call duration.
         averageOutbound:
           type: integer
           format: int64
+          description: An average outbound call duration.
         todayInbound:
           type: integer
           format: int64
+          description: Inbound calls duration today.
         todayOutbound:
           type: integer
           format: int64
+          description: Outbound calls duration today.
 
     CallsVolumeWidget:
       type: object
+      description: The widget that shows calls by type.
       required:
         - volumes
       properties:
@@ -3506,6 +3713,7 @@ components:
 
     CallsVolumeWidgetVolumes:
       type: object
+      description: The calls volume statistics.
       required:
         - hour
         - answeredInbound
@@ -3517,37 +3725,47 @@ components:
       properties:
         hour:
           type: integer
+          description: Total hours.
         answeredInbound:
           type: integer
           format: int64
+          description: The number of answered inbound calls.
         answeredOutbound:
           type: integer
           format: int64
+          description: The number of answered outbound calls.
         missedInbound:
           type: integer
           format: int64
+          description: The number of missing inbound calls.
         missedOutbound:
           type: integer
           format: int64
+          description: The number of missing outbound calls.
         voicemailsInbound:
           type: integer
           format: int64
+          description: The number of inbound voicemails.
         voicemailsOutbound:
           type: integer
           format: int64
+          description: The number of outbound voicemails.
 
     UserStatisticsCallsWidget:
       type: object
+      description: The widget that shows user statistics and presents it as a leaderboard.
       required:
         - statistics
       properties:
         statistics:
           type: array
+          description: The statistic per user.
           items:
             $ref: '#/components/schemas/UserStatisticsCallsWidgetStatistics'
 
     UserStatisticsCallsWidgetStatistics:
       type: object
+      description: This object is an entry in the UserStatisticsCallsWidget and contains data for a specific Inperium Talk user.
       required:
         - firstName
         - lastName
@@ -3560,41 +3778,53 @@ components:
       properties:
         firstName:
           type: string
+          description: The user's first name.
         lastName:
           type: string
+          description: The user's family name.
         avatarUrl:
           type: string
+          description: The URL of user's profile image.
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         averageTime:
           type: integer
           format: int64
+          description: An average call duration.
         forwardedToVoicemail:
           type: integer
           format: int64
+          description: The number of calls forwarded to voicemail.
         missed:
           type: integer
           format: int64
+          description: The number of missed calls.
         total:
           type: integer
           format: int64
+          description: The total number of calls.
 
     CallsByCountriesWidget:
       type: object
+      description: The widget that shows calls by destination.
       required:
         - calls
       properties:
         calls:
           type: array
+          description: The list of countries.
           items:
             $ref: '#/components/schemas/CallsByCountriesWidgetCalls'
 
     CallsByCountriesWidgetCalls:
       type: object
+      description: An entry in the CallsByCountriesWidget.
       required:
         - countryCode
         - inbound
@@ -3603,18 +3833,23 @@ components:
       properties:
         countryCode:
           type: string
+          description: The country code.
         inbound:
           type: integer
           format: int64
+          description: The number of inbound calls.
         outbound:
           type: integer
           format: int64
+          description: The number of outbound calls.
         total:
           type: integer
           format: int64
+          description: The total number of calls.
 
     AgentStatusWidget:
       type: object
+      description: The widget that shows users' statuses.
       required:
         - avaliable
         - onCall
@@ -3622,12 +3857,15 @@ components:
         avaliable:
           type: integer
           format: int64
+          description: The number of available users.
         onCall:
           type: integer
           format: int64
+          description: The number of users on call.
 
     BusinessHour:
       type: object
+      description: The operational hours entry.
       required:
         - openHour
         - closeHour
@@ -3637,17 +3875,20 @@ components:
         openHour:
           type: string
           format: x-time
+          description: The hours when business operates.
         closeHour:
           type: string
           format: x-time
+          description: The hours when business is off-duty.
         weekday:
           $ref: '#/components/schemas/DayOfWeek'
         enabled:
           type: boolean
-          description: If the business hour is turned on or not.
+          description: The parameter defines if the business hours schedule is turned on (TRUE) or not (FALSE).
 
     CallForwarding:
       type: object
+      description: The rules for call forwarding.
       required:
         - phoneNumber
         - twentyFourSeven
@@ -3655,11 +3896,14 @@ components:
       properties:
         phoneNumber:
           type: string
+          description: The full phone number including the country code.
         timezone:
           $ref: '#/components/schemas/TimezoneId'
         twentyFourSeven:
           type: boolean
+          description: The parameter that defines if the forwarding is enabled all the time.
         businessHours:
           type: array
+          description: The list of business hour entries.
           items:
             $ref: '#/components/schemas/BusinessHour'

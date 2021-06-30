@@ -1766,19 +1766,15 @@ paths:
       tags:
         - Imports
       summary: Import a file
-      description: Use this endpoint to upload a file containing entities to Inperium. For example, you can upload your client data exported from other CRMs and that was previously stored in spreadsheets.
+      description: Use this endpoint to upload a file containing entities to Inperium. For example, you can upload your client data exported from other CRMs or data that was previously stored in spreadsheets.
       operationId: importFile
-      parameters:
-        - name: mappings
-          description: This parameter defines mapping between incoming data and Inperium Sell properties.
-          in: query
-          schema:
-            type: string
-        - name: fileUrl
-          description: The link to the import file.
-          in: query
-          schema:
-            type: string
+      requestBody:
+        description: In the request body, pass the ImportRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImportRequest"
+        required: true
       responses:
         201:
           description: The entities have been imported.
@@ -5092,6 +5088,26 @@ components:
         paging:
           $ref: "#/components/schemas/PageAndSort"
       description: The list of import events.
+    ImportRequest:
+      type: object
+      description: The request object initiates import.
+      properties:
+        mappings:
+          type: array
+          description: This parameter defines mapping between incoming data and Inperium Sell properties.
+          items:
+            type: object
+            properties:
+              column:
+                description: The caption of the column from the file imported.
+                type: string
+              propertyId:
+                description: The ID of the property.
+                type: string
+          format: uuid
+        fileUrl:
+          description: The link to the import file.
+          type: string
     Integration:
       type: object
       properties:
@@ -6889,13 +6905,13 @@ components:
           description: The total value of deals marked as 'won'.
         wonDifference:
           type: number
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
         lost:
           type: number
           description: The total value of deals marked as 'lost'.
         lostDifference:
           type: number
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
     WidgetDeals:
       type: object
       description: The widget that shows deal statistics.
@@ -6905,19 +6921,19 @@ components:
           description: The number of deals created.
         createdDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
         won:
           type: integer
           description: The number of deals marked as 'won'.
         wonDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
         lost:
           type: integer
           description: The number of deals marked as 'lost'.
         lostDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
     WidgetDealsByPipeline:
       type: object
       description: The widget that shows the number of deals in each pipeline.
@@ -6940,7 +6956,7 @@ components:
           format: int64
         dealsDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
           format: int64
     WidgetRevenueGoal:
       type: object
@@ -6975,19 +6991,19 @@ components:
       properties:
         emailsDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
           format: int32
         meetingsDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
           format: int32
         callsDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
           format: int32
         tasksDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
           format: int32
     WidgetCompletedActivities:
       description: The widget shows activity statistics.
@@ -7003,13 +7019,13 @@ components:
           description: The number of new companies.
         companiesDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
         contacts:
           type: integer
           description: The number of new contacts.
         contactsDifference:
           type: integer
-          description: The difference with a previous period.
+          description: The difference compared to a previous period.
     WidgetDealsLeaderboard:
       type: object
       description: The widget shows Inperium users who created most deals.

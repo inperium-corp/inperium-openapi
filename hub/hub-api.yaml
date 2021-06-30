@@ -1795,8 +1795,6 @@ components:
 
     AuthError:
       description: The error that occurred during authentication. Use this information for further error handling and troubleshooting authentication issues.
-      discriminator:
-        propertyName: schema
       allOf:
         - $ref: "#/components/schemas/ResponseError"
         - required:
@@ -1815,8 +1813,6 @@ components:
     ResponseError:
       type: object
       description: The error that is returned as a response to a request.
-      discriminator:
-        propertyName: schema
       required:
         - status
         - message
@@ -2888,8 +2884,6 @@ components:
     Subscription:
       type: object
       description: The object contains information about the tenant's active plan, product usage, etc.
-      discriminator:
-        propertyName: schema
       required:
         - id
         - state
@@ -2943,8 +2937,6 @@ components:
     SubscriptionItem:
       type: object
       description: The object contains information about the tenant's active plan, product or add-on usage, etc.
-      discriminator:
-        propertyName: schema
       required:
         - id
         - price

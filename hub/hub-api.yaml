@@ -2762,8 +2762,6 @@ components:
     Plan:
       type: object
       description: The object describes the product bundle. Typically, plans differ in the features they offer and the restrictions they impose. Customers can choose any plan that works better for their needs.
-      discriminator:
-        propertyName: schema
       properties:
         id:
           $ref: "#/components/schemas/Id"

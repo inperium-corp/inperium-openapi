@@ -303,6 +303,10 @@ components:
 
   schemas:
 
+    Id:
+      type: string
+      format: uuid
+
     Error:
       type: object
       required:
@@ -322,14 +326,6 @@ components:
         errors:
           type: object
           description: Map of field -> list of errors
-
-    Id:
-      type: string
-      format: uuid
-
-    TimezoneId:
-      type: string
-      description: A timezone value.
 
     PageAndSort:
       type: object
@@ -354,6 +350,10 @@ components:
         - FRIDAY
         - SATURDAY
         - SUNDAY
+
+    TimezoneId:
+      type: string
+      description: A timezone value.
 
     BusinessHour:
       type: object

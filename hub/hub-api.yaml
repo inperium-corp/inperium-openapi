@@ -1069,6 +1069,56 @@ paths:
               schema:
                 $ref: "#/components/schemas/ResponseError"
 
+  /tenants/{id}/balance/funds:
+    get:
+      tags:
+        - Balances
+      summary: Retrieve balance funds
+      description: |
+        Use this endpoint to get information about the balance funds of the tenant.
+        This operation supports paging, sorting, and filtering. Provide an ID in the path.
+      operationId: getBalanceFunds
+      parameters:
+        - $ref: "#/components/parameters/ResourceId"
+        - name: from
+          in: query
+          required: false
+          description: The start date.
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: false
+          description: The finish date.
+          schema:
+            type: integer
+            format: int64
+        - name: isIncluded
+          in: query
+          required: false
+          description: |
+            The true/false parameter that identifies if the fund is included in a plan.
+            If the parameter isn't specified, the method returns all funds.
+          schema:
+            type: boolean
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: The balance funds have been retrieved. Returns balance funds.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceFunds"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseError"
+
   /tenants/companyInfo:
     put:
       tags:
@@ -2527,16 +2577,26 @@ components:
       description: The object contains the tenant's balance charge information.
       required:
         - id
-        - netAmount
+        - resourceAmount
+        - feature
+        - price
         - createAt
         - updatedAt
       properties:
         id:
           $ref: "#/components/schemas/Id"
+        resourceAmount:
+          type: integer
+          format: int64
+          description: The consumed amount of a resource associated with the charge.
+        feature:
+          $ref: "#/components/schemas/Feature"
+        price:
+          $ref: "#/components/schemas/Price"
         netAmount:
           type: number
           format: double
-          description: The net amount of the charge.
+          description: The amount without taxes.
         taxAmount:
           type: number
           format: double
@@ -2566,6 +2626,53 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/BalanceCharge"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
+
+    BalanceFund:
+      type: object
+      description: The object contains the tenant's balance fund information.
+      required:
+        - id
+        - initialAmount
+        - currentAmount
+        - isIncluded
+        - createAt
+        - updatedAt
+      properties:
+        id:
+          $ref: "#/components/schemas/Id"
+        initialAmount:
+          type: number
+          format: double
+          description: The initial amount of the fund.
+        currentAmount:
+          type: number
+          format: double
+          description: The current amount of the fund.
+        feature:
+          $ref: "#/components/schemas/Feature"
+          description: The feature of the prepaid fund.
+        isIncluded:
+          type: boolean
+          description: The true/false parameter that marks if it's a prepaid fund included in a plan.
+        createdAt:
+          type: integer
+          description: The date the fund was created.
+          format: int64
+        updatedAt:
+          type: integer
+          description: The date the fund was modified.
+          format: int64
+
+    BalanceFunds:
+      type: object
+      description: The list of available funds.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/BalanceFund"
         paging:
           $ref: "#/components/schemas/PageAndSort"
 
@@ -2706,17 +2813,24 @@ components:
     Feature:
       type: object
       description: The object mapping a feature name to a corresponding Inperium product.
+      required:
+        - anchor
+        - product
       properties:
         anchor:
           type: string
-          description: The feature name, e.g., 'CONTACT_IMPORT' or 'PIPELINE_MANAGEMENT'.
+          description: The feature anchor, e.g., 'CONTACT_IMPORT' or 'PIPELINE_MANAGEMENT'.
         product:
           type: string
           description: The Inperium app.
+        name:
+          type: string
+          description: The localized feature name, e.g., 'Contact Import' or 'Die Pipeline-Verwaltung'.
 
     FeaturePriceModel:
       type: string
       enum:
+        - PREPAID
         - STANDARD
         - METERED
       description: The FeaturePriceModel object defines what price model the feature has.

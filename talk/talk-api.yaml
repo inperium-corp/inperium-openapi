@@ -693,8 +693,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /calls/{id}/participants:
+    post:
+      tags:
+        - Call Participants
+      summary: Add participant to the call
+      description: Use this endpoint to add a new participant to a call. Provide a call ID in the path.
+      operationId: createParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the AddParticipantRequest object with information about a participant who joins.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddParticipantRequest'
+      responses:
+        200:
+          description: A new participant has been added to the call. Returns the call participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls/{id}/join:
     post:
+      deprecated: true
       tags:
         - Calls
       summary: Join a call
@@ -785,6 +814,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/inbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -815,6 +845,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/outbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -3004,6 +3035,11 @@ components:
           type: string
           format: uuid
         ToNumber:
+          type: string
+    AddParticipantRequest:
+      type: object
+      properties:
+        phoneNumber:
           type: string
     CallChangeRequest:
       type: object

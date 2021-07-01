@@ -18,7 +18,7 @@ security:
 tags:
   - name: Activities
     description: |
-      Inperium Sell enables users to keep notes, plan tasks, and log calls and meetings. These activities are typically linked to deals, contacts, or companies.
+      Inperium Sell enables users to keep notes, plan tasks, and log calls and meetings. These activities are typically linked to deals, contacts, or companies, and appear in the Activity timeline in the user interface. Every time a new company, contact, or deal is created, Inperium Sell adds an `EVENT` activity automatically. The activities you can create are `NOTE`, `MEETING`, `CALL`, `TASK`, and `EMAIL`. Depending on the type, each activity object has its unique fields.
   - name: Attachments
     description: |
       In Inperium Sell, users have the ability to attach documents (pdf, csv, docx, etc.) to deals and companies.
@@ -171,7 +171,7 @@ paths:
             type: string
         - name: type
           in: query
-          description: The type of activity. Each activity type (task, call, etc.) has an ID.
+          description: The type of activity. One of `NOTE`, `MEETING`, `CALL`, `TASK`, `EMAIL`, or `EVENT`.
           schema:
             type: string
         - name: associatedContactId
@@ -199,7 +199,7 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
       responses:
         200:
-          description: Returns the activities list.
+          description: Returns the activity list.
           content:
             application/json:
               schema:
@@ -214,7 +214,7 @@ paths:
       tags:
         - Activities
       summary: Create an activity
-      description: Use this endpoint to create a new activity, for example a new To-Do task.
+      description: Use this endpoint to create a new activity, for example a new To-Do task or a note. The activities you can create are `NOTE`, `MEETING`, `CALL`, `TASK`, and `EMAIL`. Depending on the type of activity you create, the request body will be different and will contain fields unique to a particular activity type.
       operationId: createActivity
       requestBody:
         description: In the request body, pass the ActivityRequest object.
@@ -2713,7 +2713,7 @@ paths:
         - $ref: "#/components/parameters/QuerySort"
         - name: dataType
           in: query
-          description: The type of the property value.
+          description: The type of the property value such as `SELECT`, `NUMBER`, `DATE`, `MONETARY`, `COMPANY`, `BOOLEAN`, `EMAILS`, or `COUNTRY`.
           schema:
             type: string
         - name: owner
@@ -2733,7 +2733,7 @@ paths:
             type: string
       responses:
         200:
-          description: The list of properties has been retrieved. Returns PropertyConfigs.
+          description: The list of properties has been retrieved. Returns an array of properties.
           content:
             application/json:
               schema:
@@ -2758,7 +2758,7 @@ paths:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
         201:
-          description: A new property has been created. Returns a PropertyConfig.
+          description: A new property has been created. Returns a property.
           content:
             application/json:
               schema:
@@ -2792,7 +2792,7 @@ paths:
               $ref: "#/components/schemas/PropertyRequest"
       responses:
         200:
-          description: The property has been updated. Returns a PropertyConfig.
+          description: The property has been updated. Returns a property.
           content:
             application/json:
               schema:
@@ -4064,7 +4064,7 @@ components:
               description: A short title.
             status:
               type: string
-              description: This parameters marks if the task is complete or in the pending state.
+              description: This parameter marks if the task is complete or in the pending state. This is enum parameter.
               enum:
                 - TODO
                 - DONE
@@ -4217,7 +4217,7 @@ components:
               description: A short title.
             status:
               type: string
-              description: This parameters marks if the task is complete or in the pending state.
+              description: This parameter marks if the task is complete or in the pending state. This is enum parameter.
               enum:
                 - TODO
                 - DONE
@@ -4237,7 +4237,7 @@ components:
           properties:
             eventType:
               type: string
-              description: The action that occurred, e.g., a new company was created or a deal won. Select one of the predefined values.
+              description: The action that occurred, e.g., a new company was created or a deal won. This is enum parameter.
               enum:
                 - COMPANY_CREATED
                 - COMPANY_IMPORTED
@@ -4418,11 +4418,11 @@ components:
             state: CA
             description: Musical instruments shop
             user:
-              id: $OBJECT-UUID,
-              avatarUrl: null,
-              firstName: John,
-              lastName: Doe,
-              email: john.doe@example.com,
+              id: $OBJECT-UUID
+              avatarUrl: null
+              firstName: John
+              lastName: Doe
+              email: john.doe@example.com
               tenantId: null
         createdAt:
           type: integer
@@ -4507,11 +4507,11 @@ components:
             firstName: Emma
             companyId: $OBJECT-UUID
             user:
-              id: $OBJECT-UUID,
-              avatarUrl: null,
-              firstName: John,
-              lastName: Doe,
-              email: john.doe@example.com,
+              id: $OBJECT-UUID
+              avatarUrl: null
+              firstName: John
+              lastName: Doe
+              email: john.doe@example.com
               tenantId: null
         createdAt:
           type: integer
@@ -4709,11 +4709,11 @@ components:
               createdAt: 1582558000000
               updatedAt: 1582558000000
             user:
-              id: $OBJECT-UUID,
-              avatarUrl: null,
-              firstName: John,
-              lastName: Doe,
-              email: john.doe@example.com,
+              id: $OBJECT-UUID
+              avatarUrl: null
+              firstName: John
+              lastName: Doe
+              email: john.doe@example.com
               tenantId: null
         createdAt:
           type: integer
@@ -4869,7 +4869,7 @@ components:
         id:
           type: string
           format: uuid
-          description: The unique error id.
+          description: A unique error ID.
         status:
           type: integer
           description: HTTP response code.
@@ -4877,15 +4877,15 @@ components:
         path:
           type: string
           description: An URI that identifies the specific occurrence of the error.
-          example: "GET items/77807c87-b6ef-49e4-89f5-07c07d33a331"
+          example: "GET items/$OBJECT-UUID"
         message:
           type: string
           description: The human-readable localized error message.
-          example: "Could not change item."
+          example: "Could not change an item."
         details:
           type: string
           description: The human-readable explanation of the error for developers on English.
-          example: "Item entity 77807c87-b6ef-49e4-89f5-07c07d33a331 has READ_ONLY status."
+          example: "Item entity $OBJECT-UUID has READ_ONLY status."
       description: An error returned by Inperium API.
     Email:
       allOf:
@@ -4896,7 +4896,7 @@ components:
       properties:
         entityType:
           type: string
-          description: The entity to be exported.
+          description: The entity to be exported. This is enum parameter.
           enum:
             - COMPANIES
             - DEALS
@@ -4904,7 +4904,7 @@ components:
             - CONTACTS
         fileFormat:
           type: string
-          description: The export file format.
+          description: The export file format. This is enum parameter.
           enum:
             - CSV
             - PDF
@@ -5269,7 +5269,7 @@ components:
             $ref: "#/components/schemas/Payment"
         status:
           type: string
-          description: The invoice status such as open, paid, or overdue.
+          description: The invoice status. This is enum parameter.
           enum:
             - PAID
             - OVERDUE
@@ -5812,10 +5812,10 @@ components:
           description: Comments or additional details.
         dataType:
           type: string
-          description: The property data type such as string, boolean or monetary.
+          description: The property data type such as such as `SELECT`, `NUMBER`, `DATE`, `MONETARY`, `COMPANY`, `BOOLEAN`, `EMAILS`, or `COUNTRY`.
         currency:
           type: string
-          description: For monetary properties, the default currency of the property.
+          description: For `MONETARY` properties, the default currency of the property.
         custom:
           type: boolean
           description: The true/false parameter that marks if the property is builtin (false) or created by user (true).
@@ -5825,7 +5825,7 @@ components:
           description: The number of Inperium entities (contacts, companies, etc.) where this properties is defined and used.
         options:
           type: array
-          description: The list of options for select property.
+          description: The list of options for `SELECT` property.
           items:
             $ref: "#/components/schemas/PropertyOption"
         isMulti:
@@ -5836,7 +5836,7 @@ components:
         authorId:
           type: string
           format: uuid
-          description: The ID of the user who added this property configuration. 'Null' for builtin properties.
+          description: The ID of the user who added this property. 'Null' for builtin properties.
         usage:
           $ref: "#/components/schemas/PropertyUsage"
     Properties:
@@ -5905,13 +5905,13 @@ components:
           description: Comments or additional details.
         dataType:
           type: string
-          description: The property data type such as string, boolean or monetary.
+          description: The property data type such as such as `SELECT`, `NUMBER`, `DATE`, `MONETARY`, `COMPANY`, `BOOLEAN`, `EMAILS`, or `COUNTRY`.
         currency:
           type: string
-          description: For monetary properties, the default currency of the property.
+          description: For `MONETARY` properties, the default currency of the property.
         options:
           type: array
-          description: The list of options for select property.
+          description: The list of options for `SELECT` property.
           items:
             $ref: "#/components/schemas/PropertyOption"
         isMulti:
@@ -5977,7 +5977,7 @@ components:
           description: The signature text.
         status:
           type: string
-          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', or 'accepted'.
+          description: The status of the quote. This is the enum parameter.
           enum:
             - DRAFT
             - CREATED
@@ -6211,7 +6211,7 @@ components:
             $ref: "#/components/schemas/AdditionalFee"
         status:
           type: string
-          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', or 'accepted'.
+          description: The status of the quote. This is the enum parameter.
           enum:
             - DRAFT
             - CREATED
@@ -6286,7 +6286,7 @@ components:
             $ref: "#/components/schemas/Item"
         status:
           type: string
-          description: The status of the quote. This is the enum parameter and can be set to 'draft', 'created', 'sent', or 'accepted'.
+          description: The status of the quote. This is the enum parameter.
           enum:
             - DRAFT
             - CREATED

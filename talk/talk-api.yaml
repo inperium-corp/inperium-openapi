@@ -1468,6 +1468,13 @@ paths:
       summary: Port a phone number
       description: Use this endpoint to port a phone number.
       operationId: portPhoneNumber
+      parameters:
+        - in: header
+          name: X-Request-Id
+          description: Idempotency key which is a phone number
+          schema:
+            type: string
+          required: true
       requestBody:
         description: In the request body, pass the PhoneNumberRequest object.
         content:

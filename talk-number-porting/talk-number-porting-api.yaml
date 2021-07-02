@@ -237,13 +237,25 @@ components:
       type: object
       description: User phone number model
       required:
+        - id
         - phoneNumber
         - portStatus
+        - portOrderStatus
       properties:
+        id:
+          $ref: '#/components/schemas/Id'
         phoneNumber:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
           type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portOrderStatus:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PhoneNumberPortStatus:
       type: string

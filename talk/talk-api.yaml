@@ -1470,7 +1470,7 @@ paths:
       operationId: portPhoneNumber
       parameters:
         - in: header
-          name: X-Request-Id
+          name: X-REQUEST-ID
           description: Idempotency key which is a phone number
           schema:
             type: string

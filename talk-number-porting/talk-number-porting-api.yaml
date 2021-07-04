@@ -239,7 +239,12 @@ components:
       required:
         - id
         - phoneNumber
+        - addressLine
+        - city
+        - state
+        - zip
         - portStatus
+        - portOrderId
         - portOrderStatus
       properties:
         id:
@@ -252,8 +257,18 @@ components:
           type: string
         companyName:
           type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
+          type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portOrderId:
+          $ref: '#/components/schemas/Id'
         portOrderStatus:
           $ref: '#/components/schemas/PortOrderStatus'
 

@@ -4,7 +4,7 @@ info:
   title: Inperium Server Talk Number Porting API
   description: |
     The initial version of Inperium Talk Number Porting API.
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 
 servers:
   - url: http://api.inperium.com/v1/talkNumberPorting

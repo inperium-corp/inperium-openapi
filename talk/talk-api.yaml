@@ -1482,7 +1482,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
-        200:
+        201:
           description: The phone number has been ported. Returns a port number.
           content:
             application/json:

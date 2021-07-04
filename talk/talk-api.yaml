@@ -4,7 +4,7 @@ info:
   title: Talk API
   description: |
     The Inperium Talk API provides access to the Inperium Talk service including the ability to make calls, add contacts, configure auto receptionist settings, etc.
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 
 servers:
   - url: http://api.inperium.com/v1/talk

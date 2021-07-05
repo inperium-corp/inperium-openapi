@@ -730,6 +730,9 @@ paths:
         - Call Participant Webhooks
       summary: Handle participant hang during the call
       operationId: hangParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
       requestBody:
         required: true
         content:

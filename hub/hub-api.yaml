@@ -217,7 +217,7 @@ paths:
     x-access: private
     get:
       summary: Get app settings
-      description: Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to retrieve a list of public app connected to a tenant account, for example Stripe or Google Analytics.
       operationId: getPublicAppSettings
       x-access: private
       tags:
@@ -887,7 +887,7 @@ paths:
     post:
       x-access: private
       summary: Handle Stripe webhooks
-      description: Use this endpoint to handle Stripe webhooks for payment processing.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to handle Stripe webhooks for payment processing.
       operationId: handleStripeWebhook
       tags:
         - Subscriptions

@@ -702,6 +702,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for call conference
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: conferenceCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -736,6 +737,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Add a fallback URL in case of error during the call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: fallbackCall
       requestBody:
         content:
@@ -764,6 +766,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Notify about new inbound call on Twilio number
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: startInboundCall
       requestBody:
         content:
@@ -794,6 +797,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Notify about the start of outbound Twilio call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: startOutboundCall
       requestBody:
         content:
@@ -827,6 +831,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Set the status of the current Twilio call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: setCallStatus
       requestBody:
         content:
@@ -859,6 +864,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Forward the incoming call if the agent does not answer in the browser
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: forwardIncomingCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -889,6 +895,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for call client on app
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: joinUserToCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -915,6 +922,7 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -946,6 +954,7 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecordingWithType
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -988,6 +997,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for status call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: callStatus
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1028,7 +1038,8 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make an asynchronous POST request when the transcription
-        for recording is complete
+        is complete
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecordingMessage
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1056,7 +1067,8 @@ paths:
       tags:
         - IVR Callbacks
       x-access: private
-      summary: Callback for doing IVR
+      summary: Callback for IVR actions
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: numberIVRCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1085,6 +1097,7 @@ paths:
         - IVR Callbacks
       x-access: private
       summary: Callback for handling when a user enters no action for IVR menu
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: noActionIVRCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1466,7 +1479,7 @@ paths:
         - Phone Number Webhooks
       x-access: private
       summary: Port a phone number
-      description: Use this endpoint to port a phone number.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to port a phone number.
       operationId: portPhoneNumber
       requestBody:
         description: In the request body, pass the PhoneNumberRequest object.
@@ -1633,6 +1646,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve regulatory bundles
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryBundles
       parameters:
         - name: type
@@ -1666,6 +1680,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Create new regulatory bundle
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: createRegulatoryBundle
       requestBody:
         description: Regulation bundle information
@@ -1693,6 +1708,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve the regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1714,6 +1730,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Update regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: updateRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1742,6 +1759,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Delete a regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: deleteRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1761,6 +1779,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Send the regulatory bundle to review
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: sendRegulatoryBundleToReview
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1783,6 +1802,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve the list of requirements
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryRequirements
       parameters:
         - name: countryCode
@@ -1815,6 +1835,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Twilio callback for notify about changes status of regulatory bundle status
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: regulatoryBundleCallback
       requestBody:
         content:
@@ -2005,7 +2026,7 @@ paths:
       tags:
         - Tenant Settings
       summary: Retrieve tenant settings.
-      description: Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2102,6 +2123,7 @@ paths:
       tags:
         - Voicemails
       summary: Retrieve the voicemails
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getVoicemails
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2142,6 +2164,7 @@ paths:
       tags:
         - Voicemails
       summary: Update (partially) the voicemail
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: updateVoicemail
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -2168,6 +2191,7 @@ paths:
       tags:
         - Voicemails
       summary: Delete a voicemail
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: deleteVoicemail
       parameters:
         - $ref: '#/components/parameters/ResourceId'

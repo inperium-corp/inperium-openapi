@@ -1851,7 +1851,7 @@ paths:
       tags:
         - Stripe Authorizations
       summary: Get the Stripe callback
-      description: Get the Stripe OAuth2 authorization callback.
+      description: THIS IS INTERNAL ENDPOINT. Get the Stripe OAuth2 authorization callback.
       operationId: callbackStripe
       parameters:
         - name: code
@@ -1927,7 +1927,7 @@ paths:
       tags:
         - Xero Authorizations
       summary: Get the Xero callback
-      description: Use this endpoint to receive the Xero OAuth2 authorization callback.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to receive the Xero OAuth2 authorization callback.
       operationId: callbackXero
       parameters:
         - name: oAuthToken

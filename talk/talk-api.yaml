@@ -415,7 +415,7 @@ paths:
           content:
             application/xml:
               schema:
-                type: object
+                type: string
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -717,6 +717,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/{id}/participants/{subId}/hang:
+    x-access: private
+    post:
+      tags:
+        - Call Participant Webhooks
+      summary: Handle participant hang during the call
+      operationId: hangParticipant
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: The participant's hang is handled. Returns the instructions for the participant.
+          content:
+            application/xml:
+              schema:
+                type: string
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -2300,6 +2326,14 @@ components:
 
     ResourceId:
       name: id
+      in: path
+      description: A unique object identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SubresourceId:
+      name: subId
       in: path
       description: A unique object identifier.
       required: true

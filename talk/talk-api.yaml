@@ -571,7 +571,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CallCreateRequest'
+              $ref: '#/components/schemas/CallRequest'
       responses:
         201:
           description: A new voice call has started. Returns a call.
@@ -3272,7 +3272,7 @@ components:
         record:
           type: boolean
           description: The parameter defines if the call is recorded.
-    CallCreateRequest:
+    CallRequest:
       type: object
       description: The object initiates a call.
       properties:
@@ -3285,21 +3285,6 @@ components:
         twiml:
           type: string
           description: The instructions to tell Twilio what to do when the call has been initiated.
-    CallRequest:
-      type: object
-      description: The object initiates a call.
-      properties:
-        caller:
-          $ref: '#/components/schemas/CallParticipantRequest'
-          description: The user starting the call.
-        recipient:
-          $ref: '#/components/schemas/CallParticipantRequest'
-          description: The user receiving the call.
-        participants:
-          type: array
-          description: All users taking part in the call.
-          items:
-            $ref: '#/components/schemas/CallParticipantRequest'
     CallParticipantRequest:
       type: object
       description: The request object defines the person taking part in the call.

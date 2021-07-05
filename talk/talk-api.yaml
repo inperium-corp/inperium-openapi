@@ -567,11 +567,11 @@ paths:
       description: Use this endpoint to create a new outbound call.
       operationId: createCall
       requestBody:
-        description: In the request body, pass the CallRequest object.
+        description: In the request body, pass the CallCreateRequest object.
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CallRequest'
+              $ref: '#/components/schemas/CallCreateRequest'
       responses:
         201:
           description: A new voice call has started. Returns a call.
@@ -3272,6 +3272,19 @@ components:
         record:
           type: boolean
           description: The parameter defines if the call is recorded.
+    CallCreateRequest:
+      type: object
+      description: The object initiates a call.
+      properties:
+        from:
+          type: string
+          description: The phone number or client identifier of the party that initiated the call.
+        to:
+          type: string
+          description: The phone number or client identifier of the called party.
+        twiml:
+          type: string
+          description: The instructions to tell Twilio what to do when the call has been initiated.
     CallRequest:
       type: object
       description: The object initiates a call.

@@ -1468,13 +1468,6 @@ paths:
       summary: Port a phone number
       description: Use this endpoint to port a phone number.
       operationId: portPhoneNumber
-      parameters:
-        - in: header
-          name: X-REQUEST-ID
-          description: Idempotency key which is a phone number
-          schema:
-            type: string
-          required: true
       requestBody:
         description: In the request body, pass the PhoneNumberRequest object.
         content:
@@ -1488,6 +1481,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
+        409:
+          description: The phone number already ported.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
         default:
           description: Bad request, security violation, or internal server error.
           content:

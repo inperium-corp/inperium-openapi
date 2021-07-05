@@ -718,7 +718,7 @@ paths:
       tags:
         - Notifications
       summary: Verify with Nylas (incoming)
-      description: Use this endpoint to verify the Message Center service callback URI for Nylas.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to verify the Message Center service callback URI for Nylas.
       operationId: verifyNotificationURI
       parameters:
         - name: challenge
@@ -745,7 +745,7 @@ paths:
       tags:
         - Notifications
       summary: Sync with Nylas (incoming)
-      description: Use this endpoint to synchronize the Message Center service with Nylas. Feeds incoming notifications about new messages and other changes from the mail provider.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to synchronize the Message Center service with Nylas. Feeds incoming notifications about new messages and other changes from the mail provider.
       operationId: processNotifications
       requestBody:
         description: In the request body, pass the Notifications object.

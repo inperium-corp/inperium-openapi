@@ -1628,7 +1628,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /recordings/{id}/transcribe:
-    get:
+    post:
       tags:
         - Recordings
       summary: Transcribe recording

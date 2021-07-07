@@ -6224,6 +6224,9 @@ components:
         signatureUrl:
           type: string
           description: The signature.
+        referenceNumber:
+          type: string
+          description: The unique reference number of the quote.
       description: The Quote object returned by Inperium API contains information about the quote such as its name and value, included products and fees.
     QuoteRequest:
       type: object
@@ -6303,6 +6306,9 @@ components:
           description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
+        referenceNumber:
+          type: string
+          description: The unique reference number of the quote.
     QuoteCompany:
       type: object
       properties:

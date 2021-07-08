@@ -31,6 +31,16 @@ paths:
       summary: Retrieve a list of port orders
       operationId: getPortOrders
       parameters:
+        - name: phoneNumber
+          in: query
+          schema:
+            type: string
+          example: like::+12126551232
+        - name: firstLastCompanyName
+          in: query
+          schema:
+            type: string
+          example: like::inperium
         - $ref: '#/components/parameters/QueryPageNumber'
         - $ref: '#/components/parameters/QueryPageSize'
         - $ref: '#/components/parameters/QuerySort'
@@ -397,6 +407,7 @@ components:
       type: object
       required:
         - id
+        - createdAt
         - addressLine
         - city
         - state
@@ -409,6 +420,9 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/Id'
+        createdAt:
+          type: integer
+          format: int64
         portRequestName:
           type: string
         firstName:

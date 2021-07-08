@@ -3276,6 +3276,8 @@ components:
       type: object
       description: The object initiates a call.
       properties:
+        sid:
+          type: string
         caller:
           $ref: '#/components/schemas/CallParticipantRequest'
           description: The user starting the call.

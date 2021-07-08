@@ -4,7 +4,7 @@ info:
   title: Inperium Server Talk Number Porting API
   description: |
     The initial version of Inperium Talk Number Porting API.
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 
 servers:
   - url: http://api.inperium.com/v1/talkNumberPorting
@@ -237,13 +237,40 @@ components:
       type: object
       description: User phone number model
       required:
+        - id
         - phoneNumber
+        - addressLine
+        - city
+        - state
+        - zip
         - portStatus
+        - portOrderId
+        - portOrderStatus
       properties:
+        id:
+          $ref: '#/components/schemas/Id'
         phoneNumber:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
           type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portOrderId:
+          $ref: '#/components/schemas/Id'
+        portOrderStatus:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PhoneNumberPortStatus:
       type: string
@@ -302,6 +329,15 @@ components:
           type: integer
           format: int64
           description: Timestamp of the create
+
+    PortOrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - UPDATED
+        - COMPLETED
+        - ERROR
 
     PortOrderUpdateRequest:
       type: object
@@ -369,6 +405,7 @@ components:
         - comments
         - lettersOfAuthorization
         - billingStatements
+        - status
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -404,6 +441,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+        status:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PortOrders:
       type: object

@@ -575,7 +575,10 @@ paths:
       responses:
         201:
           description: A new voice call has started. Returns a call.
-          content: { }
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Call'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -3273,15 +3276,12 @@ components:
       type: object
       description: The object initiates a call.
       properties:
-        from:
-          type: string
-          description: The phone number or client identifier of the party that initiated the call.
-        to:
-          type: string
-          description: The phone number or client identifier of the called party.
-        twiml:
-          type: string
-          description: The instructions to tell Twilio what to do when the call has been initiated.
+        caller:
+          $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user starting the call.
+        recipient:
+          $ref: '#/components/schemas/CallParticipantRequest'
+          description: The user receiving the call.
     CallParticipantRequest:
       type: object
       description: The request object defines the person taking part in the call.

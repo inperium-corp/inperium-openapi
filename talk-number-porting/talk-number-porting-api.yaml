@@ -41,7 +41,7 @@ paths:
           schema:
             type: string
           example: like::jhon
-        - name: lastCompanyName
+        - name: lastName
           in: query
           schema:
             type: string

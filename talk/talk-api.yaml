@@ -567,7 +567,7 @@ paths:
       description: Use this endpoint to create a new outbound call.
       operationId: createCall
       requestBody:
-        description: In the request body, pass the CallCreateRequest object.
+        description: In the request body, pass the CallRequest object.
         content:
           application/json:
             schema:

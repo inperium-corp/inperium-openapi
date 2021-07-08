@@ -1565,12 +1565,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
-        409:
-          description: The phone number already ported.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
         default:
           description: Bad request, security violation, or internal server error.
           content:

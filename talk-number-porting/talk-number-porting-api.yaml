@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application actuator
+    description: |
+      Inperium Talk Number Porting enables users to monitor and manage the application.
   - name: Port Orders
     description: |
       Inperium Talk Number Porting enables users to port phone numbers.
@@ -23,6 +26,38 @@ tags:
       Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /info:
+    get:
+      tags:
+        - Application actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders:
     get:
@@ -195,6 +230,46 @@ components:
             $ref: '#/components/schemas/Error'
 
   schemas:
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Number Porting Implementation
+        name:
+          type: string
+          example: Inperium Server Talk Number Porting
+        artifact:
+          type: string
+          example: server-talk-number-porting
+        version:
+          type: string
+          example: 1.0.0
 
     Error:
       type: object

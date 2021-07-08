@@ -36,7 +36,17 @@ paths:
           schema:
             type: string
           example: like::+12126551232
-        - name: firstLastCompanyName
+        - name: firstName
+          in: query
+          schema:
+            type: string
+          example: like::jhon
+        - name: lastCompanyName
+          in: query
+          schema:
+            type: string
+          example: like::wick
+        - name: companyName
           in: query
           schema:
             type: string

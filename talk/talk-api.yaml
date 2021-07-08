@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk enables users to monitor and manage the application.
   - name: Addresses
     description: |
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
@@ -76,6 +79,46 @@ tags:
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /addresses:
     get:
@@ -2328,6 +2371,46 @@ components:
         type: string
 
   schemas:
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Implementation
+        name:
+          type: string
+          example: Inperium Server Talk
+        artifact:
+          type: string
+          example: server-talk
+        version:
+          type: string
+          example: 1.0.0
 
     ResponseError:
       type: object

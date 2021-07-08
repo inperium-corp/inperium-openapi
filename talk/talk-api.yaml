@@ -15,7 +15,7 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
-  - name: Application actuator
+  - name: Application Actuator
     description: |
       Inperium Talk enables users to monitor and manage the application.
   - name: Addresses
@@ -83,7 +83,7 @@ paths:
   /health:
     get:
       tags:
-        - Application actuator
+        - Application Actuator
       summary: Retrieve the application health status
       operationId: health
       responses:
@@ -103,7 +103,7 @@ paths:
   /info:
     get:
       tags:
-        - Application actuator
+        - Application Actuator
       summary: Retrieve the application info
       operationId: info
       responses:

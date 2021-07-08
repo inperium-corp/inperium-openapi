@@ -4,7 +4,7 @@ info:
   title: Talk API
   description: |
     The Inperium Talk API provides access to the Inperium Talk service including the ability to make calls, add contacts, configure auto receptionist settings, etc.
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 
 servers:
   - url: http://api.inperium.com/v1/talk
@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk enables users to monitor and manage the application.
   - name: Addresses
     description: |
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
@@ -76,6 +79,46 @@ tags:
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /addresses:
     get:
@@ -787,6 +830,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for call conference
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: conferenceCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -821,6 +865,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Add a fallback URL in case of error during the call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: fallbackCall
       requestBody:
         content:
@@ -850,6 +895,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Notify about new inbound call on Twilio number
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: startInboundCall
       requestBody:
         content:
@@ -881,6 +927,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Notify about the start of outbound Twilio call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: startOutboundCall
       requestBody:
         content:
@@ -914,6 +961,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Set the status of the current Twilio call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: setCallStatus
       requestBody:
         content:
@@ -946,6 +994,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Forward the incoming call if the agent does not answer in the browser
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: forwardIncomingCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -976,6 +1025,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for call client on app
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: joinUserToCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1002,6 +1052,7 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecording
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1033,6 +1084,7 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make a POST request when the recording has finished
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecordingWithType
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1075,6 +1127,7 @@ paths:
         - Call Callbacks
       x-access: private
       summary: Twilio callback for status call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: callStatus
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1115,7 +1168,8 @@ paths:
         - Recording Callbacks
       x-access: private
       summary: Instruct Twilio to make an asynchronous POST request when the transcription
-        for recording is complete
+        is complete
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: saveRecordingMessage
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1143,7 +1197,8 @@ paths:
       tags:
         - IVR Callbacks
       x-access: private
-      summary: Callback for doing IVR
+      summary: Callback for IVR actions
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: numberIVRCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1172,6 +1227,7 @@ paths:
         - IVR Callbacks
       x-access: private
       summary: Callback for handling when a user enters no action for IVR menu
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: noActionIVRCallback
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1528,6 +1584,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Phone Numbers
+      summary: Update a phone number
+      description: Use this endpoint to modify a phone number. Provide an ID in the path.
+      operationId: patchPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the PhoneNumberPatchRequest.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberPatchRequest'
+        required: true
+      responses:
+        200:
+          description: The phone number has been updated. Returns a phone number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
     delete:
       tags:
         - Phone Numbers
@@ -1553,7 +1637,7 @@ paths:
         - Phone Number Webhooks
       x-access: private
       summary: Port a phone number
-      description: Use this endpoint to port a phone number.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to port a phone number.
       operationId: portPhoneNumber
       requestBody:
         description: In the request body, pass the PhoneNumberRequest object.
@@ -1562,12 +1646,18 @@ paths:
             schema:
               $ref: '#/components/schemas/PhoneNumberRequest'
       responses:
-        200:
+        201:
           description: The phone number has been ported. Returns a port number.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PhoneNumber'
+        409:
+          description: The phone number already ported.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
         default:
           description: Bad request, security violation, or internal server error.
           content:
@@ -1696,7 +1786,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /recordings/{id}/transcribe:
-    get:
+    post:
       tags:
         - Recordings
       summary: Transcribe recording
@@ -1720,6 +1810,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve regulatory bundles
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryBundles
       parameters:
         - name: type
@@ -1753,6 +1844,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Create new regulatory bundle
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: createRegulatoryBundle
       requestBody:
         description: Regulation bundle information
@@ -1780,6 +1872,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve the regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1801,6 +1894,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Update regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: updateRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1829,6 +1923,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Delete a regulatory bundle by id
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: deleteRegulatoryBundle
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1848,6 +1943,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Send the regulatory bundle to review
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: sendRegulatoryBundleToReview
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -1870,6 +1966,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Retrieve the list of requirements
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getRegulatoryRequirements
       parameters:
         - name: countryCode
@@ -1902,6 +1999,7 @@ paths:
         - Regulatory Bundles
       x-access: private
       summary: Twilio callback for notify about changes status of regulatory bundle status
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: regulatoryBundleCallback
       requestBody:
         content:
@@ -2092,7 +2190,7 @@ paths:
       tags:
         - Tenant Settings
       summary: Retrieve tenant settings.
-      description: Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to get settings configured on the tenant level. This operation supports paging and sorting.
       operationId: getTenantSettings
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2189,6 +2287,7 @@ paths:
       tags:
         - Voicemails
       summary: Retrieve the voicemails
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: getVoicemails
       parameters:
         - $ref: '#/components/parameters/QueryPageNumber'
@@ -2229,6 +2328,7 @@ paths:
       tags:
         - Voicemails
       summary: Update (partially) the voicemail
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: updateVoicemail
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -2255,6 +2355,7 @@ paths:
       tags:
         - Voicemails
       summary: Delete a voicemail
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: deleteVoicemail
       parameters:
         - $ref: '#/components/parameters/ResourceId'
@@ -2365,6 +2466,46 @@ components:
         type: string
 
   schemas:
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Implementation
+        name:
+          type: string
+          example: Inperium Server Talk
+        artifact:
+          type: string
+          example: server-talk
+        version:
+          type: string
+          example: 1.0.0
 
     ResponseError:
       type: object
@@ -2808,6 +2949,48 @@ components:
           type: boolean
           default: false
           description: This parameter defines if default call forwarding settings are enabled for this phone number.
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
+    PhoneNumberPatchRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        twilioSid:
+          type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        name:
+          type: string
+          description: The given name of the phone number
+          example: Maxim's phone number
+          maxLength: 63
+        voicemailId:
+          $ref: '#/components/schemas/Id'
+        autoReceptionistId:
+          $ref: '#/components/schemas/Id'
+        userId:
+          $ref: '#/components/schemas/Id'
+        regulatoryBundle:
+          $ref: '#/components/schemas/RegulatoryBundle'
+        timeout:
+          $ref: '#/components/schemas/PhoneNumberTimeout'
+        city:
+          type: string
+        state:
+          type: string
+        addressId:
+          $ref: '#/components/schemas/Id'
+        whatsappEnabled:
+          type: boolean
+        callForwardingEnabled:
+          type: boolean
+          default: false
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:

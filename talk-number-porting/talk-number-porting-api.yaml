@@ -4,7 +4,7 @@ info:
   title: Inperium Server Talk Number Porting API
   description: |
     The initial version of Inperium Talk Number Porting API.
-  version: 1.0.0-SNAPSHOT
+  version: 1.0.0
 
 servers:
   - url: http://api.inperium.com/v1/talkNumberPorting
@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk Number Porting enables users to monitor and manage the application.
   - name: Port Orders
     description: |
       Inperium Talk Number Porting enables users to port phone numbers.
@@ -23,6 +26,38 @@ tags:
       Inperium Talk Number Porting enables users to get details about phone numbers which are porting.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
 
   /portOrders:
     get:
@@ -196,6 +231,46 @@ components:
 
   schemas:
 
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Number Porting Implementation
+        name:
+          type: string
+          example: Inperium Server Talk Number Porting
+        artifact:
+          type: string
+          example: server-talk-number-porting
+        version:
+          type: string
+          example: 1.0.0
+
     Error:
       type: object
       required:
@@ -237,13 +312,40 @@ components:
       type: object
       description: User phone number model
       required:
+        - id
         - phoneNumber
+        - addressLine
+        - city
+        - state
+        - zip
         - portStatus
+        - portOrderId
+        - portOrderStatus
       properties:
+        id:
+          $ref: '#/components/schemas/Id'
         phoneNumber:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        companyName:
+          type: string
+        addressLine:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        zip:
           type: string
         portStatus:
           $ref: '#/components/schemas/PhoneNumberPortStatus'
+        portOrderId:
+          $ref: '#/components/schemas/Id'
+        portOrderStatus:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PhoneNumberPortStatus:
       type: string
@@ -302,6 +404,15 @@ components:
           type: integer
           format: int64
           description: Timestamp of the create
+
+    PortOrderStatus:
+      type: string
+      enum:
+        - CREATED
+        - IN_PROGRESS
+        - UPDATED
+        - COMPLETED
+        - ERROR
 
     PortOrderUpdateRequest:
       type: object
@@ -369,6 +480,7 @@ components:
         - comments
         - lettersOfAuthorization
         - billingStatements
+        - status
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -404,6 +516,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+        status:
+          $ref: '#/components/schemas/PortOrderStatus'
 
     PortOrders:
       type: object

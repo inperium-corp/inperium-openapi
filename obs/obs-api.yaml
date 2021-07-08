@@ -163,7 +163,7 @@ paths:
       tags:
         - Files
       summary: Get content reference of the file by file ID
-      description: Use this endpoint to get the content reference of the file on the S3.
+      description: THIS IS INTERNAL ENDPOINT. Use this endpoint to get the content reference of the file on the S3.
       operationId: getFileContentReference
       parameters:
         - $ref: '#/components/parameters/ResourceId'

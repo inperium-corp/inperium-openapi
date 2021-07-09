@@ -3363,6 +3363,9 @@ components:
         recipient:
           $ref: '#/components/schemas/CallParticipantRequest'
           description: The user receiving the call.
+        twiml:
+          type: string
+          description: Instructions for the call.
     CallParticipantRequest:
       type: object
       description: The request object defines the person taking part in the call.

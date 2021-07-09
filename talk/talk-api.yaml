@@ -465,7 +465,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/status:
+  /webhooks/calls/callStatus:
     x-access: private
     post:
       tags:
@@ -487,13 +487,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/action:
+  /webhooks/calls/dialStatus:
     x-access: private
     post:
       tags:
         - Call Webhooks
-      summary: Receive request after the dialed call ends.
-      operationId: callAction
+      summary: Receive status of the dial.
+      operationId: dialStatus
       requestBody:
         required: true
         content:
@@ -502,7 +502,29 @@ paths:
               $ref: '#/components/schemas/CallWebhookRequest'
       responses:
         200:
-          description: An action request has been received. Returns the instructions for the call.
+          description: The status has been received.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/callFallback:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive a fallback of error during the call
+      operationId: callFallback
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: Fallback has been received. Returns the instructions for the call.
           content:
             application/xml:
               schema:
@@ -510,16 +532,16 @@ paths:
         default:
           description: Bad request, security violation, or internal server error.
           content:
-            application/json:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/fallback:
+  /webhooks/calls/dialFallback:
     x-access: private
     post:
       tags:
         - Call Webhooks
-      summary: Receive a fallback of error during the call
-      operationId: callFallback
+      summary: Receive a fallback of error during the dial
+      operationId: dialFallback
       requestBody:
         required: true
         content:

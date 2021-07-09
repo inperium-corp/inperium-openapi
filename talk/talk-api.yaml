@@ -3399,6 +3399,7 @@ components:
         - FAILED
         - NO_ANSWER
         - CANCELED
+        - FORWARDED # TODO to remove
     CallDirection:
       description: Inbound or outbound call.
       type: string

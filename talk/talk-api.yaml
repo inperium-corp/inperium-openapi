@@ -444,7 +444,9 @@ paths:
     post:
       tags:
         - Call Webhooks
+      x-access: private
       summary: Handle inbound or outbound call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: handleCall
       requestBody:
         required: true
@@ -771,7 +773,9 @@ paths:
     post:
       tags:
         - Call Participant Webhooks
+      x-access: private
       summary: Handle participant hang during the call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: hangParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'

@@ -515,7 +515,7 @@ paths:
       tags:
         - Call Webhooks
       summary: Receive a fallback of error during the call
-      operationId: callFallback
+      operationId: fallback
       requestBody:
         required: true
         content:

@@ -465,7 +465,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/callStatus:
+  /webhooks/calls/status:
     x-access: private
     post:
       tags:
@@ -487,41 +487,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/dialStatus:
-    x-access: private
-    post:
-      tags:
-        - Call Webhooks
-      summary: Receive status of the dial.
-      operationId: dialStatus
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
-      responses:
-        200:
-          description: The status has been received.
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /webhooks/calls/fallback:
     x-access: private
     post:
       tags:
         - Call Webhooks
       summary: Receive a fallback of error during the call
-      operationId: fallback
+      operationId: callFallback
       requestBody:
         required: true
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
+              $ref: '#/components/schemas/CallStatusWebhookRequest'
       responses:
         200:
           description: Fallback has been received. Returns the instructions for the call.
@@ -3341,15 +3319,6 @@ components:
         From:
           type: string
           example: +12056428233
-        FromCountry:
-          type: string
-          example: US
-        FromCity:
-          type: string
-          example: VINCENT
-        FromZip:
-          type: string
-          example: 35209
         To:
           type: string
           example: client:c160ee62_22ca_4d96_9ce2_079b9f6dde2f

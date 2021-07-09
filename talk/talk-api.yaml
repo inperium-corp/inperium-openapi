@@ -465,6 +465,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/status:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive status of the call.
+      operationId: callStatus
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: The status has been received.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /webhooks/calls/action:
     x-access: private
     post:
@@ -485,28 +507,6 @@ paths:
             application/xml:
               schema:
                 type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/status:
-    x-access: private
-    post:
-      tags:
-        - Call Webhooks
-      summary: Receive status of the call.
-      operationId: callStatus
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
-      responses:
-        200:
-          description: The status has been received.
         default:
           description: Bad request, security violation, or internal server error.
           content:

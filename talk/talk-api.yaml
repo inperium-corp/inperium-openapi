@@ -3308,30 +3308,37 @@ components:
         ParentCallSid:
           type: string
         CallStatus:
-          $ref: '#/components/schemas/CallWebhookStatus'
+          type: string
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
         CallSid:
           type: string
         DialCallSid:
           type: string
         DialCallStatus:
           type: string
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
         FromNumberId:
           $ref: '#/components/schemas/Id'
         ToNumber:
           type: string
-    CallWebhookStatus:
-      description: The status of the call.
-      type: string
-      enum:
-        - queued
-        - initiated
-        - ringing
-        - in-progress
-        - completed
-        - busy
-        - failed
-        - no-answer
-        - canceled
     AddParticipantRequest:
       type: object
       required:

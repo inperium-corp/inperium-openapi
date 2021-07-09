@@ -509,39 +509,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/callFallback:
+  /webhooks/calls/fallback:
     x-access: private
     post:
       tags:
         - Call Webhooks
       summary: Receive a fallback of error during the call
       operationId: callFallback
-      requestBody:
-        required: true
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
-      responses:
-        200:
-          description: Fallback has been received. Returns the instructions for the call.
-          content:
-            application/xml:
-              schema:
-                type: string
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls/dialFallback:
-    x-access: private
-    post:
-      tags:
-        - Call Webhooks
-      summary: Receive a fallback of error during the dial
-      operationId: dialFallback
       requestBody:
         required: true
         content:

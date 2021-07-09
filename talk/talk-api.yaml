@@ -439,13 +439,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls:
+  /webhooks/calls/handle:
     x-access: private
     post:
       tags:
         - Call Webhooks
       summary: Handle inbound or outbound call
-      operationId: handleCall
+      operationId: callHandle
       requestBody:
         required: true
         content:
@@ -463,6 +463,80 @@ paths:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/action:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive request after the dialed call ends.
+      operationId: callAction
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: An action request has been received. Returns the instructions for the call.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/status:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive status of the call.
+      operationId: callStatus
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: The status has been received.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/fallback:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive a fallback of error during the call
+      operationId: callFallback
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: Fallback has been received. Returns the instructions for the call.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /calls:
@@ -1128,7 +1202,7 @@ paths:
       x-access: private
       summary: Twilio callback for status call
       description: THIS IS INTERNAL ENDPOINT.
-      operationId: callStatus
+      operationId: oldCallStatus
       parameters:
         - $ref: '#/components/parameters/ResourceId'
         - name: participantId

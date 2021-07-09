@@ -477,7 +477,7 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/CallWebhookRequest'
+              $ref: '#/components/schemas/CallStatusWebhookRequest'
       responses:
         200:
           description: The status has been received.
@@ -3335,6 +3335,55 @@ components:
           $ref: '#/components/schemas/Id'
         ToNumber:
           type: string
+    CallStatusWebhookRequest:
+      type: object
+      properties:
+        From:
+          type: string
+          example: +12056428233
+        FromCountry:
+          type: string
+          example: US
+        FromCity:
+          type: string
+          example: VINCENT
+        FromZip:
+          type: string
+          example: 35209
+        To:
+          type: string
+          example: client:c160ee62_22ca_4d96_9ce2_079b9f6dde2f
+        CallSid:
+          type: string
+          example: CA4e6e303921de90840d352c95cca6af8b
+        CallStatus:
+          type: string
+          example: initiated
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
+        Timestamp:
+          type: string
+          example: Fri, 09 Jul 2021 14:39:33 +0000
+        Direction:
+          type: string
+          example: outbound-api
+        CallbackSource:
+          type: string
+          example: call-progress-events
+        AccountSid:
+          type: string
+          example: AC1cbf432e3c57ad809874c6960e81af10
+        SequenceNumber:
+          type: integer
+          example: 0
     AddParticipantRequest:
       type: object
       required:

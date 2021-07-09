@@ -3279,8 +3279,6 @@ components:
           type: string
         To:
           type: string
-        ParentCallSid:
-          type: string
         CallStatus:
           type: string
           enum:
@@ -3295,20 +3293,6 @@ components:
             - canceled
         CallSid:
           type: string
-        DialCallSid:
-          type: string
-        DialCallStatus:
-          type: string
-          enum:
-            - queued
-            - initiated
-            - ringing
-            - in-progress
-            - completed
-            - busy
-            - failed
-            - no-answer
-            - canceled
         FromNumberId:
           $ref: '#/components/schemas/Id'
         ToNumber:

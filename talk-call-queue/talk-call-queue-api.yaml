@@ -438,11 +438,60 @@ components:
           type: integer
           default: 1
         promptVoice:
-          type: string
+          $ref: '#/components/schemas/Voice'
+          default: ALICE
+        promptLanguage:
+          $ref: '#/components/schemas/Language'
+          default: EN_US
         prompts:
           type: array
           items:
             $ref: '#/components/schemas/Prompt'
+
+    Voice:
+      type: string
+      enum:
+        - MAN
+        - WOMAN
+        - ALICE
+
+    Language:
+      type: string
+      enum:
+        - ARB
+        - CA_ES
+        - CY_GB
+        - DA_DK
+        - DE_DE
+        - EN_AU
+        - EN_CA
+        - EN_GB
+        - EN_GB_WLS
+        - EN_IN
+        - EN_US
+        - ES_ES
+        - ES_MX
+        - ES_US
+        - FI_FI
+        - FR_CA
+        - FR_FR
+        - HI_IN
+        - IS_IS
+        - IT_IT
+        - JA_JP
+        - KO_KR
+        - NB_NO
+        - NL_NL
+        - PL_PL
+        - PT_BR
+        - PT_PT
+        - RO_RO
+        - RU_RU
+        - SV_SE
+        - TR_TR
+        - ZH_CN
+        - ZH_HK
+        - ZH_TW
 
     Prompt:
       type: object

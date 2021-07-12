@@ -1904,28 +1904,28 @@ components:
     UserInvitationRequest:
       type: object
       description: A request model to create a new user by inviting them to an existing account.
-#      allOf:
-#        - $ref: "#/components/schemas/UserCreationRequest"
-#        - type: object
-      required:
-        - firstName
-        - lastName
-        - tenantId
-      properties:
-        firstName:
-          type: string
-          description: The given name of the user.
-        lastName:
-          type: string
-          description: The family name of the user.
-        isAdmin:
-          type: boolean
-          description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
-        roles:
-          type: array
-          description: The roles assigned to the user.
-          items:
-            type: string
+      allOf:
+        - $ref: "#/components/schemas/UserCreationRequest"
+        - type: object
+          required:
+            - firstName
+            - lastName
+            - tenantId
+          properties:
+            firstName:
+              type: string
+              description: The given name of the user.
+            lastName:
+              type: string
+              description: The family name of the user.
+            isAdmin:
+              type: boolean
+              description: The true/false parameter that marks if the user is an administrator and a 'root' user. Unlike other permissions that are organized into custom roles, the admin role has a flag. Only users with 'isAdmin' set to 'true' can manage tenant settings.
+            roles:
+              type: array
+              description: The roles assigned to the user.
+              items:
+                type: string
 
     UserAccountCreationRequest:
       type: object

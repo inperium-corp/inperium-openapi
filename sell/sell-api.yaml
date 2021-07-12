@@ -6301,6 +6301,9 @@ components:
           type: string
           format: uuid
           description: The signature.
+        signature:
+          type: string
+          description: The signature.
         avatarId:
           $ref: "#/components/schemas/Id"
     QuoteCompany:

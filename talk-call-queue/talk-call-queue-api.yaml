@@ -395,14 +395,24 @@ components:
         enabled:
           type: boolean
           default: false
+        adminPhoneNumber:
+          type: string
         phoneNumbers:
           type: array
           items:
             type: string
         userIds:
+          description: List of operators - one or several users who will answer queued calls
           type: array
           items:
             $ref: '#/components/schemas/Id'
+        callDistributionType:
+          description: The method of distributing calls between operators
+          $ref: '#/components/schemas/CallDistributionType'
+        wrapUpTime:
+          description: Buffer time in minutes that an operator can use for a little rest before answering the next call.
+          type: integer
+          default: 0
         timezone:
           $ref: '#/components/schemas/TimezoneId'
         twentyFourSeven:
@@ -412,23 +422,46 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/BusinessHour'
-        callDistributionType:
-          $ref: '#/components/schemas/CallDistributionType'
-        wrapUpTime:
-          type: integer
-          default: 0
         maxSize:
+          description: The number of calls allowed on the same queue.
           type: integer
           maximum: 5000
           default: 100
         maxWaitTime:
+          description: The number of minutes, at the end of this time, the caller should hear an audio prompt, saying that operators are still busy and that the caller may request a callback option by pressing a certain key.
           type: integer
           default: 10
-        adminPhoneNumber:
-          type: string
+        callbackAllowed:
+          type: boolean
+          default: true
         callbackDigits:
           type: integer
           default: 1
+        promptVoice:
+          type: string
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prompt'
+
+    Prompt:
+      type: object
+      required:
+        - type
+        - key
+        - value
+      properties:
+        type:
+          type: string
+          enum:
+            - TEXT
+            - AUDIO
+        key:
+          description: A unique friendly named key of prompt.
+          type: string
+        value:
+          description: A text or link to an audio file.
+          type: string
 
     CallQueue:
       allOf:

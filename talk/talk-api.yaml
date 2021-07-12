@@ -3883,10 +3883,18 @@ components:
       description: The object contains general tenant settings.
       required:
         - twilioAccountSid
+        - twilioApiKeySid
+        - twilioApiKeySecret
       properties:
         twilioAccountSid:
           type: string
           description: The account SID.
+        twilioApiKeySid:
+          type: string
+          description: The API Key SID for the tenants Twilio sub account.
+        twilioApiKeySecret:
+          type: string
+          description: The API Key Secret for the tenants Twilio sub account.
     TenantSettings:
       type: object
       description: The list of tenant settings with paging and sorting.

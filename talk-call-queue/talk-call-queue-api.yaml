@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk Call Queue enables users to monitor and manage the application.
   - name: Call Queues
     description: |
       Inperium Talk Call Queue enables users to automate the routing of calls from customers to a support service.
@@ -23,6 +26,38 @@ tags:
       Inperium Talk Call Queue enables users to handle calls webhooks.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
 
   /callQueues:
     get:
@@ -306,6 +341,46 @@ components:
     Id:
       type: string
       format: uuid
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Call Queue Implementation
+        name:
+          type: string
+          example: Inperium Server Talk Call Queue
+        artifact:
+          type: string
+          example: server-talk-call-queue
+        version:
+          type: string
+          example: 1.0.0
 
     Error:
       type: object

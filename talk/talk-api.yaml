@@ -3308,7 +3308,7 @@ components:
       description: The object defines the person taking part in the call.
       required:
         - id
-        - hold
+        - onHold
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -3319,9 +3319,18 @@ components:
           description: The full phone number including the country code.
         contact:
           $ref: '#/components/schemas/Contact'
+        user:
+          $ref: '#/components/schemas/User'
         hold:
+          deprecated: true
           type: boolean
           description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        onHold:
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        muted:
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or muted (TRUE).
         status:
           $ref: '#/components/schemas/ParticipantStatus'
     Calls:
@@ -3342,12 +3351,15 @@ components:
       description: The object contains all information about the call, its participants, direction, etc.
       required:
         - id
+        - duration
         - caller
         - recipient
         - participants
         - direction
+        - status
         - record
         - createdAt
+        - user
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -3379,6 +3391,8 @@ components:
           type: integer
           format: int64
           description: The timestamp when the call was created.
+        user:
+          $ref: '#/components/schemas/User'
     CallStatus:
       description: The status of the call.
       type: string
@@ -3411,26 +3425,26 @@ components:
       description: The object allows updating a participant's state such as put a person on hold or mute him or her.
       properties:
         hold:
+          deprecated: true
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        onHold:
           type: boolean
           description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
+          description: The parameter defines the participant's status such as active (FALSE) or muted (TRUE).
     ParticipantChangeRequest:
       type: object
       description: The object allows updating a participant's state.
-      # TODO return inheritance (allOf with discriminator propertyName: schema)
-      required:
-        - participantId
-      properties:
-        participantId:
-          $ref: '#/components/schemas/Id'
-        hold:
-          type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
-        muted:
-          type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
+      allOf:
+        - $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        - type: object
+          required:
+            - participantId
+          properties:
+            participantId:
+              $ref: '#/components/schemas/Id'
     VoiceToken:
       type: object
       description: The capability token.

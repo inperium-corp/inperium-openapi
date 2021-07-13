@@ -3283,6 +3283,8 @@ components:
           type: string
         To:
           type: string
+        CallSid:
+          type: string
         CallStatus:
           type: string
           enum:
@@ -3295,15 +3297,18 @@ components:
             - failed
             - no-answer
             - canceled
-        CallSid:
-          type: string
         FromNumberId:
           $ref: '#/components/schemas/Id'
+          description: Custom parameter from client for outbound call.
         ToNumber:
           type: string
+          description: Custom parameter from client for outbound call.
     CallStatusWebhookRequest:
       type: object
       properties:
+        AccountSid:
+          type: string
+          example: AC1cbf432e3c57ad809874c6960e81af10
         From:
           type: string
           example: +12056428233
@@ -3335,9 +3340,6 @@ components:
         CallbackSource:
           type: string
           example: call-progress-events
-        AccountSid:
-          type: string
-          example: AC1cbf432e3c57ad809874c6960e81af10
         SequenceNumber:
           type: integer
           example: 0

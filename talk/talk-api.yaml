@@ -2972,6 +2972,8 @@ components:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
+        callQueueId:
+          $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
         timeout:

@@ -140,13 +140,15 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /webhooks/calls/enqueue:
+  /webhooks/calls/enqueue/{id}:
     post:
       tags:
         - Calls Webhooks
       x-access: private
-      summary: Enqueue the call in a call queue
+      summary: Enqueue the call in the call queue
       operationId: enqueue
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         content:
           application/x-www-form-urlencoded:

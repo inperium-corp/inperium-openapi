@@ -463,9 +463,6 @@ components:
 
     CallQueueRequest:
       type: object
-      required:
-        - name
-        - adminPhoneNumber
       properties:
         name:
           type: string

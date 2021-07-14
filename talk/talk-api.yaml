@@ -768,6 +768,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Call Participants
+      summary: Update participants on the call
+      description: Use this endpoint to change the call participants' status, for example, to mute or put on hold. You can update one or more participants on a call.
+      operationId: updateParticipants
+      requestBody:
+        description: In the request body, pass the array of ParticipantChangeRequest objects.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ParticipantChangeRequest'
+      responses:
+        200:
+          description: The participants have been updated. Returns call participants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /calls/{id}/participants/{id}:
+    patch:
+      tags:
+        - Call Participants
+      summary: Update the participant on the call
+      description: Use this endpoint to change the call participant's status, for example, to mute or put on hold. Provide an ID in the path.
+      operationId: updateParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the ParticipantChangeRequestBody object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        required: false
+      responses:
+        200:
+          description: The participant has been updated. Returns the call participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /webhooks/calls/{id}/participants/{subId}/hang:
     x-access: private
     post:
@@ -1383,6 +1441,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /participants/{id}:
     patch:
+      deprecated: true
       tags:
         - Participants
       summary: Update a participant
@@ -1411,6 +1470,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      deprecated: true
       tags:
         - Participants
       summary: Remove from conference
@@ -1429,6 +1489,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /participants:
     patch:
+      deprecated: true
       tags:
         - Participants
       summary: Update participants on a call
@@ -3434,6 +3495,9 @@ components:
         muted:
           type: boolean
           description: The parameter defines the participant's status such as active (FALSE) or muted (TRUE).
+        status:
+          $ref: '#/components/schemas/ParticipantStatus'
+          example: COMPLETED
     ParticipantChangeRequest:
       type: object
       description: The object allows updating a participant's state.

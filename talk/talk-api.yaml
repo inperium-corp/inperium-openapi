@@ -774,7 +774,10 @@ paths:
       summary: Update participants on the call
       description: Use this endpoint to change the call participants' status, for example, to mute or put on hold. You can update one or more participants on a call.
       operationId: updateParticipants
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        required: true
         description: In the request body, pass the array of ParticipantChangeRequest objects.
         content:
           application/json:
@@ -797,7 +800,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /calls/{id}/participants/{id}:
+  /calls/{id}/participants/{subId}:
     patch:
       tags:
         - Call Participants
@@ -806,13 +809,14 @@ paths:
       operationId: updateParticipant
       parameters:
         - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
       requestBody:
+        required: true
         description: In the request body, pass the ParticipantChangeRequestBody object.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ParticipantChangeRequestBody'
-        required: false
       responses:
         200:
           description: The participant has been updated. Returns the call participant.

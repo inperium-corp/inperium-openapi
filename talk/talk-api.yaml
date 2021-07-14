@@ -15,6 +15,9 @@ security:
   - ApiKeyAuth: [ ]
 
 tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk enables users to monitor and manage the application.
   - name: Addresses
     description: |
       To ensure the billing is correct, the tenants should maintain a valid address in the Inperium Talk settings.
@@ -76,6 +79,46 @@ tags:
     description: In Inperium Talk, widgets are dashboard elements such as charts and lists that help track your productivity.
 
 paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
 
   /addresses:
     get:
@@ -396,6 +439,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      x-access: private
+      summary: Handle inbound or outbound call
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: handleCall
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: A new call has been handled. Returns the instructions for the call.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls:
     get:
       tags:
@@ -668,8 +739,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /calls/{id}/participants:
+    post:
+      tags:
+        - Call Participants
+      summary: Add participant to the call
+      description: Use this endpoint to add a new participant to a call. Provide a call ID in the path.
+      operationId: createParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        description: In the request body, pass the AddParticipantRequest object with information about a participant who joins.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddParticipantRequest'
+      responses:
+        200:
+          description: A new participant has been added to the call. Returns the call participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/{id}/participants/{subId}/hang:
+    x-access: private
+    post:
+      tags:
+        - Call Participant Webhooks
+      x-access: private
+      summary: Handle participant hang during the call
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: hangParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: The participant's hang is handled. Returns the instructions for the participant.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls/{id}/join:
     post:
+      deprecated: true
       tags:
         - Calls
       summary: Join a call
@@ -762,6 +894,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/inbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -793,6 +926,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/outbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -1444,6 +1578,34 @@ paths:
       responses:
         200:
           description: The phone number details have been modified. Returns a phone number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Phone Numbers
+      summary: Update a phone number
+      description: Use this endpoint to modify a phone number. Provide an ID in the path.
+      operationId: patchPhoneNumber
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: In the request body, pass the PhoneNumberPatchRequest.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumberPatchRequest'
+        required: true
+      responses:
+        200:
+          description: The phone number has been updated. Returns a phone number.
           content:
             application/json:
               schema:
@@ -2278,6 +2440,14 @@ components:
       schema:
         type: string
         format: uuid
+    SubresourceId:
+      name: subId
+      in: path
+      description: A unique object identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
     QueryPageNumber:
       name: pageNumber
       in: query
@@ -2300,6 +2470,46 @@ components:
         type: string
 
   schemas:
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Implementation
+        name:
+          type: string
+          example: Inperium Server Talk
+        artifact:
+          type: string
+          example: server-talk
+        version:
+          type: string
+          example: 1.0.0
 
     ResponseError:
       type: object
@@ -2745,6 +2955,48 @@ components:
           description: This parameter defines if default call forwarding settings are enabled for this phone number.
         callForwarding:
           $ref: '#/components/schemas/CallForwarding'
+    PhoneNumberPatchRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type: string
+        twilioSid:
+          type: string
+        type:
+          $ref: '#/components/schemas/PhoneNumberType'
+        countryCode:
+          $ref: '#/components/schemas/CountryCode'
+        name:
+          type: string
+          description: The given name of the phone number
+          example: Maxim's phone number
+          maxLength: 63
+        voicemailId:
+          $ref: '#/components/schemas/Id'
+        autoReceptionistId:
+          $ref: '#/components/schemas/Id'
+        userId:
+          $ref: '#/components/schemas/Id'
+        regulatoryBundle:
+          $ref: '#/components/schemas/RegulatoryBundle'
+        timeout:
+          $ref: '#/components/schemas/PhoneNumberTimeout'
+        city:
+          type: string
+        state:
+          type: string
+        addressId:
+          $ref: '#/components/schemas/Id'
+        whatsappEnabled:
+          type: boolean
+        callForwardingEnabled:
+          type: boolean
+          default: false
+        useDefaultCallForwarding:
+          type: boolean
+          default: false
+        callForwarding:
+          $ref: '#/components/schemas/CallForwarding'
     IVRMenuRequest:
       required:
         - audioPromptId
@@ -2974,6 +3226,49 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
+    CallWebhookRequest:
+      type: object
+      required:
+        - AccountSid
+        - CallSid
+        - From
+        - To
+        - CallStatus
+      properties:
+        AccountSid:
+          type: string
+        CallSid:
+          type: string
+        From:
+          type: string
+        To:
+          type: string
+        CallStatus:
+          type: string
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
+        ParentCallSid:
+          type: string
+        FromNumberId:
+          type: string
+          format: uuid
+        ToNumber:
+          type: string
+    AddParticipantRequest:
+      type: object
+      required:
+        - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
     CallChangeRequest:
       type: object
       description: The object submitted to Talk API to start or finish a call recording.
@@ -3102,14 +3397,15 @@ components:
       enum:
         - STARTED
         - QUEUED
+        - INITIATED
         - RINGING
         - IN_PROGRESS
-        - CANCELED
         - COMPLETED
-        - FORWARDED
         - BUSY
         - FAILED
         - NO_ANSWER
+        - CANCELED
+        - FORWARDED # TODO to remove
     CallDirection:
       description: Inbound or outbound call.
       type: string

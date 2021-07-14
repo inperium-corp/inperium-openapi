@@ -1529,7 +1529,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: fields
-  /exports/{id}:
+  /public/exports/{id}:
     get:
       tags:
         - Exports

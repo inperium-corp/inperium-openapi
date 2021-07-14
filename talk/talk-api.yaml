@@ -439,6 +439,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      x-access: private
+      summary: Handle inbound or outbound call
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: handleCall
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: A new call has been handled. Returns the instructions for the call.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls:
     get:
       tags:
@@ -711,8 +739,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
+  /calls/{id}/participants:
+    post:
+      tags:
+        - Call Participants
+      summary: Add participant to the call
+      description: Use this endpoint to add a new participant to a call. Provide a call ID in the path.
+      operationId: createParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        description: In the request body, pass the AddParticipantRequest object with information about a participant who joins.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddParticipantRequest'
+      responses:
+        200:
+          description: A new participant has been added to the call. Returns the call participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/{id}/participants/{subId}/hang:
+    x-access: private
+    post:
+      tags:
+        - Call Participant Webhooks
+      x-access: private
+      summary: Handle participant hang during the call
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: hangParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallWebhookRequest'
+      responses:
+        200:
+          description: The participant's hang is handled. Returns the instructions for the participant.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
   /calls/{id}/join:
     post:
+      deprecated: true
       tags:
         - Calls
       summary: Join a call
@@ -805,6 +894,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/inbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -836,6 +926,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/outbound:
     post:
+      deprecated: true
       tags:
         - Call Callbacks
       x-access: private
@@ -2349,6 +2440,14 @@ components:
       schema:
         type: string
         format: uuid
+    SubresourceId:
+      name: subId
+      in: path
+      description: A unique object identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
     QueryPageNumber:
       name: pageNumber
       in: query
@@ -3127,6 +3226,49 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RegulatoryBundleRequirementDocument'
+    CallWebhookRequest:
+      type: object
+      required:
+        - AccountSid
+        - CallSid
+        - From
+        - To
+        - CallStatus
+      properties:
+        AccountSid:
+          type: string
+        CallSid:
+          type: string
+        From:
+          type: string
+        To:
+          type: string
+        CallStatus:
+          type: string
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
+        ParentCallSid:
+          type: string
+        FromNumberId:
+          type: string
+          format: uuid
+        ToNumber:
+          type: string
+    AddParticipantRequest:
+      type: object
+      required:
+        - phoneNumber
+      properties:
+        phoneNumber:
+          type: string
     CallChangeRequest:
       type: object
       description: The object submitted to Talk API to start or finish a call recording.
@@ -3255,14 +3397,15 @@ components:
       enum:
         - STARTED
         - QUEUED
+        - INITIATED
         - RINGING
         - IN_PROGRESS
-        - CANCELED
         - COMPLETED
-        - FORWARDED
         - BUSY
         - FAILED
         - NO_ANSWER
+        - CANCELED
+        - FORWARDED # TODO to remove
     CallDirection:
       description: Inbound or outbound call.
       type: string

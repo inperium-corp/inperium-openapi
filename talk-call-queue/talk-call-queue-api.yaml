@@ -189,7 +189,6 @@ paths:
                 - CallSid
                 - QueueResult
                 - QueueSid
-                - QueueTime
               properties:
                 CallSid:
                   type: string

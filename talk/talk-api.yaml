@@ -669,7 +669,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     patch:
       tags:
-        - Calls
+        - Calls New
       summary: Update the call
       description: Use this endpoint to partially modify the call. Provide an ID in the path.
       operationId: updateCall

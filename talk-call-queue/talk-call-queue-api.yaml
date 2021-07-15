@@ -104,7 +104,7 @@ paths:
     get:
       tags:
         - Call Queues
-      summary: Retrieve a call queue details
+      summary: Retrieve the call queue details
       operationId: getCallQueue
       parameters:
         - $ref: '#/components/parameters/ResourceId'

@@ -670,12 +670,13 @@ paths:
     patch:
       tags:
         - Calls
-      summary: Partially update a call
-      description: Use this endpoint to partially modify a call without overwriting it. Provide an ID in the path.
-      operationId: patchCallById
+      summary: Update the call
+      description: Use this endpoint to partially modify the call. Provide an ID in the path.
+      operationId: updateCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        required: true
         description: In the request body, pass the updated CallChangeRequest.
         content:
           application/json:
@@ -695,6 +696,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
+      deprecated: true
       tags:
         - Calls
       summary: Update a call
@@ -722,6 +724,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      deprecated: true
       tags:
         - Calls
       summary: Delete a call
@@ -3335,6 +3338,8 @@ components:
         record:
           type: boolean
           description: The parameter defines if the call is recorded.
+        status:
+          $ref: '#/components/schemas/CallStatus'
     CallRequest:
       type: object
       description: The object initiates a call.

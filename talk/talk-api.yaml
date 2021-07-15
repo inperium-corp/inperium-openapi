@@ -473,6 +473,7 @@ paths:
       tags:
         - Call Webhooks
       summary: Receive status of the call.
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: callStatus
       requestBody:
         required: true
@@ -495,6 +496,7 @@ paths:
       tags:
         - Call Webhooks
       summary: Receive a fallback of error during the call
+      description: THIS IS INTERNAL ENDPOINT.
       operationId: callFallback
       requestBody:
         required: true
@@ -911,35 +913,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/fallback:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Add a fallback URL in case of error during the call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: fallbackCall
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                From:
-                  type: string
-                To:
-                  type: string
-                CallSid:
-                  type: string
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/inbound:
     post:
       deprecated: true
@@ -1163,47 +1136,6 @@ paths:
                 RecordingDuration:
                   type: number
                   format: double
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/{id}/status/{participantId}:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Twilio callback for status call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: oldCallStatus
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - name: participantId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                CallSid:
-                  type: string
-                To:
-                  type: string
-                From:
-                  type: string
-                AccountSid:
-                  type: string
-                CallStatus:
-                  type: string
       responses:
         200:
           description: TwiML response has been received

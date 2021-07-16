@@ -719,13 +719,14 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
     patch:
       tags:
-        - Calls
-      summary: Partially update a call
-      description: Use this endpoint to partially modify a call without overwriting it. Provide an ID in the path.
-      operationId: patchCallById
+        - Calls New
+      summary: Update the call
+      description: Use this endpoint to partially modify the call. Provide an ID in the path.
+      operationId: updateCall
       parameters:
         - $ref: '#/components/parameters/ResourceId'
       requestBody:
+        required: true
         description: In the request body, pass the updated CallChangeRequest.
         content:
           application/json:
@@ -745,6 +746,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     put:
+      deprecated: true
       tags:
         - Calls
       summary: Update a call
@@ -772,6 +774,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      deprecated: true
       tags:
         - Calls
       summary: Delete a call
@@ -808,6 +811,68 @@ paths:
       responses:
         200:
           description: A new participant has been added to the call. Returns the call participant.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+    patch:
+      tags:
+        - Call Participants
+      summary: Update participants on the call
+      description: Use this endpoint to change the call participants' status, for example, to mute or put on hold. You can update one or more participants on a call.
+      operationId: updateParticipants
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        required: true
+        description: In the request body, pass the array of ParticipantChangeRequest objects.
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ParticipantChangeRequest'
+      responses:
+        200:
+          description: The participants have been updated. Returns call participants.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CallParticipant'
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /calls/{id}/participants/{subId}:
+    patch:
+      tags:
+        - Call Participants
+      summary: Update the participant on the call
+      description: Use this endpoint to change the call participant's status, for example, to mute or put on hold. Provide an ID in the path.
+      operationId: updateParticipant
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
+      requestBody:
+        required: true
+        description: In the request body, pass the ParticipantChangeRequestBody object.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ParticipantChangeRequestBody'
+      responses:
+        200:
+          description: The participant has been updated. Returns the call participant.
           content:
             application/json:
               schema:
@@ -1363,6 +1428,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /participants/{id}:
     patch:
+      deprecated: true
       tags:
         - Participants
       summary: Update a participant
@@ -1391,6 +1457,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ResponseError'
     delete:
+      deprecated: true
       tags:
         - Participants
       summary: Remove from conference
@@ -1409,6 +1476,7 @@ paths:
                 $ref: '#/components/schemas/ResponseError'
   /participants:
     patch:
+      deprecated: true
       tags:
         - Participants
       summary: Update participants on a call
@@ -3293,6 +3361,9 @@ components:
         record:
           type: boolean
           description: The parameter defines if the call is recorded.
+        finished:
+          type: boolean
+          description: The parameter defines whether the call have to be finished (TRUE).
     CallRequest:
       type: object
       description: The object initiates a call.
@@ -3331,7 +3402,7 @@ components:
       description: The object defines the person taking part in the call.
       required:
         - id
-        - hold
+        - onHold
       properties:
         id:
           $ref: '#/components/schemas/Id'
@@ -3342,9 +3413,18 @@ components:
           description: The full phone number including the country code.
         contact:
           $ref: '#/components/schemas/Contact'
+        user:
+          $ref: '#/components/schemas/User'
         hold:
+          deprecated: true
           type: boolean
           description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        onHold:
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        muted:
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or muted (TRUE).
         status:
           $ref: '#/components/schemas/ParticipantStatus'
     Calls:
@@ -3365,19 +3445,31 @@ components:
       description: The object contains all information about the call, its participants, direction, etc.
       required:
         - id
+        - duration
         - caller
         - recipient
         - participants
+        - otherParticipants
         - direction
+        - status
         - record
         - createdAt
+        - user
       properties:
         id:
           $ref: '#/components/schemas/Id'
+        status:
+          $ref: '#/components/schemas/CallStatus'
+        direction:
+          $ref: '#/components/schemas/CallDirection'
         duration:
           type: integer
           format: int64
           description: The call duration in milliseconds.
+        createdAt:
+          type: integer
+          format: int64
+          description: The timestamp when the call was created.
         caller:
           $ref: '#/components/schemas/CallParticipant'
           description: Information about the user who initiated the call.
@@ -3385,23 +3477,23 @@ components:
           $ref: '#/components/schemas/CallParticipant'
           description: Information about the user who received the call.
         participants:
+          deprecated: true
           type: array
           description: The list of all call participants irrespective of their role.
           items:
             $ref: '#/components/schemas/CallParticipant'
-        direction:
-          $ref: '#/components/schemas/CallDirection'
-        status:
-          $ref: '#/components/schemas/CallStatus'
-        recording:
-          $ref: '#/components/schemas/Recording'
+        otherParticipants:
+          type: array
+          description: The list of other call participants except caller and recipient.
+          items:
+            $ref: '#/components/schemas/CallParticipant'
+        user:
+          $ref: '#/components/schemas/User'
         record:
           type: boolean
           description: If set to true, the call is being recorded now.
-        createdAt:
-          type: integer
-          format: int64
-          description: The timestamp when the call was created.
+        recording:
+          $ref: '#/components/schemas/Recording'
     CallStatus:
       description: The status of the call.
       type: string
@@ -3434,26 +3526,29 @@ components:
       description: The object allows updating a participant's state such as put a person on hold or mute him or her.
       properties:
         hold:
+          deprecated: true
+          type: boolean
+          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
+        onHold:
           type: boolean
           description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
         muted:
           type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
+          description: The parameter defines the participant's status such as active (FALSE) or muted (TRUE).
+        finished:
+          type: boolean
+          description: The parameter defines whether the participant have to be dropped from the call (TRUE).
     ParticipantChangeRequest:
       type: object
       description: The object allows updating a participant's state.
-      # TODO return inheritance (allOf with discriminator propertyName: schema)
-      required:
-        - participantId
-      properties:
-        participantId:
-          $ref: '#/components/schemas/Id'
-        hold:
-          type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on hold (TRUE).
-        muted:
-          type: boolean
-          description: The parameter defines the participant's status such as active (FALSE) or on muted (TRUE).
+      allOf:
+        - $ref: '#/components/schemas/ParticipantChangeRequestBody'
+        - type: object
+          required:
+            - participantId
+          properties:
+            participantId:
+              $ref: '#/components/schemas/Id'
     VoiceToken:
       type: object
       description: The capability token.

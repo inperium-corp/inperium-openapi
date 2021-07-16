@@ -3376,6 +3376,11 @@ components:
         recipient:
           $ref: '#/components/schemas/CallParticipantRequest'
           description: The user receiving the call.
+        participants:
+          type: array
+          description: All users taking part in the call.
+          items:
+            $ref: '#/components/schemas/CallParticipantRequest'
         twiml:
           type: string
           description: Instructions for the call.

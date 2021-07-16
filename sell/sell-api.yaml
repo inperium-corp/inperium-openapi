@@ -1507,6 +1507,30 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: dealItems
   /exports:
+    get:
+      tags:
+        - Exports
+      summary: Retrieve exports
+      description: Use this endpoint to list all exports. This operation supports paging and sorting.
+      operationId: getExports
+      parameters:
+        - $ref: "#/components/parameters/QueryFilter"
+        - $ref: "#/components/parameters/QueryPageNumber"
+        - $ref: "#/components/parameters/QueryPageSize"
+        - $ref: "#/components/parameters/QuerySort"
+      responses:
+        200:
+          description: The exports have been retrieved. Returns exports.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Exports"
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
     post:
       tags:
         - Exports
@@ -1529,7 +1553,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
       x-codegen-request-body-name: fields
-  /public/exports/{id}:
+  /exports/{id}:
     get:
       tags:
         - Exports
@@ -4929,15 +4953,36 @@ components:
         sort:
           type: string
           description: The sorting.
+    Exports:
+      type: object
+      description: The list of exports with paging data.
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Export"
+        paging:
+          $ref: "#/components/schemas/PageAndSort"
     Export:
       type: object
       description: The export outcome.
       properties:
         id:
           $ref: "#/components/schemas/Id"
+        status:
+          type: string
+          enum:
+            - PROCESSING
+            - SUCCESS
+            - ERROR
+          description: The status of export.
         filename:
           type: string
           description: The name of the file containing exported data.
+        downloadCount:
+          type: integer
+          format: int32
+          description: The count of export file downloads.
     Form:
       type: object
       properties:
@@ -7123,6 +7168,7 @@ components:
       description: This parameter affects sorting. It specifies the property name to sort records, e.g., by price or date.
       schema:
         type: string
+        default: "+createdAt"
     QueryFilter:
       name: filter
       description: This parameter controls filtering. Enter your query here, Inperium will look for matching records. For example, enter 'AND(eq(firstName,Bob),eq(lastName,Lee))' to filter out records with Bob Lee.

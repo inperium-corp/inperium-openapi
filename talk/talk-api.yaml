@@ -1045,39 +1045,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/status:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Set the status of the current Twilio call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: setCallStatus
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                CallSid:
-                  type: string
-                To:
-                  type: string
-                From:
-                  type: string
-                AccountSid:
-                  type: string
-                CallStatus:
-                  type: string
-      responses:
-        200:
-          description: The status has been accepted
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/{id}/forward:
     post:
       tags:

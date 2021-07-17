@@ -3319,6 +3319,9 @@ components:
         To:
           type: string
           example: client:c160ee62_22ca_4d96_9ce2_079b9f6dde2f
+        ParentCallSid:
+          type: string
+          example: CA4e6e303921de90840d352c95cca6af8b
         CallSid:
           type: string
           example: CA4e6e303921de90840d352c95cca6af8b

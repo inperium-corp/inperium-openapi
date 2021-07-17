@@ -499,7 +499,7 @@ components:
           description: The method of distributing calls between operators
           $ref: '#/components/schemas/CallDistributionType'
         wrapUpTime:
-          description: Buffer time in minutes that an operator can use for a little rest before answering the next call.
+          description: Buffer time in millis that an operator can use for a little rest before answering the next call.
           type: integer
           default: 0
         timezone:

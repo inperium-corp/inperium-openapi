@@ -533,8 +533,8 @@ components:
           $ref: '#/components/schemas/Language'
           default: EN_US
         prompts:
-          type: array
-          items:
+          type: object
+          additionalProperties:
             $ref: '#/components/schemas/Prompt'
 
     Voice:
@@ -586,7 +586,6 @@ components:
       type: object
       required:
         - type
-        - key
         - value
       properties:
         type:
@@ -594,11 +593,8 @@ components:
           enum:
             - TEXT
             - AUDIO
-        key:
-          description: A unique friendly named key of prompt.
-          type: string
         value:
-          description: A text or link to an audio file.
+          description: A text or Id of an audio file.
           type: string
 
     CallQueue:

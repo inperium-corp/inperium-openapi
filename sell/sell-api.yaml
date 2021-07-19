@@ -2871,7 +2871,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PublicQuote"
   /public/quotes/{id}/accept:
-    get:
+    post:
       tags:
         - Public Quote
       summary: Accept a quote
@@ -2879,10 +2879,12 @@ paths:
       operationId: acceptQuote
       parameters:
         - $ref: "#/components/parameters/ResourceId"
-        - name: signature
-          in: query
-          description: The client's signature.
-          required: true
+      requestBody:
+        description: In the request body, pass the PublicQuoteRequest object.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PublicQuoteRequest"
           schema:
             type: string
       responses:
@@ -6141,6 +6143,12 @@ components:
         country:
           type: string
           description: The country name.
+    PublicQuoteRequest:
+      type: object
+      properties:
+        signatureUrl:
+          type: string
+          description:  The client's signature image.
     Quote:
       type: object
       properties:

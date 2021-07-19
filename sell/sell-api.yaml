@@ -6144,11 +6144,12 @@ components:
     PublicQuoteRequest:
       type: object
       description: The object contains a customer's signature.
+      required:
+        - signatureUrl
       properties:
         signatureUrl:
           type: string
           description:  The client's signature image.
-          required: true
     Quote:
       type: object
       properties:

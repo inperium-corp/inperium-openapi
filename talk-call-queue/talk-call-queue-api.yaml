@@ -297,8 +297,8 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /webhooks/calls/operator/{id}:
-    post:
+  /webhooks/calls/{id}/operator/{subId}:
+    get:
       tags:
         - Calls Webhooks
       x-access: private
@@ -306,15 +306,7 @@ paths:
       operationId: operator
       parameters:
         - $ref: '#/components/parameters/ResourceId'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              required:
-                - CallSid
-              properties:
-                CallSid:
-                  type: string
+        - $ref: '#/components/parameters/SubresourceId'
       responses:
         200:
           description: TwiML request has been received
@@ -342,6 +334,13 @@ components:
 
     ResourceId:
       name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SubresourceId:
+      name: subId
       in: path
       required: true
       schema:

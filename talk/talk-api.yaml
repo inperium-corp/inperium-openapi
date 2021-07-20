@@ -439,7 +439,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /webhooks/calls:
+  /webhooks/calls/handle:
     x-access: private
     post:
       tags:
@@ -447,7 +447,7 @@ paths:
       x-access: private
       summary: Handle inbound or outbound call
       description: THIS IS INTERNAL ENDPOINT.
-      operationId: handleCall
+      operationId: callHandle
       requestBody:
         required: true
         content:
@@ -465,6 +465,56 @@ paths:
           description: Bad request, security violation, or internal server error.
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/status:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive status of the call.
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: callStatus
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallStatusWebhookRequest'
+      responses:
+        200:
+          description: The status has been received.
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseError'
+  /webhooks/calls/fallback:
+    x-access: private
+    post:
+      tags:
+        - Call Webhooks
+      summary: Receive a fallback of error during the call
+      description: THIS IS INTERNAL ENDPOINT.
+      operationId: callFallback
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CallStatusWebhookRequest'
+      responses:
+        200:
+          description: Fallback has been received. Returns the instructions for the call.
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          description: Bad request, security violation, or internal server error.
+          content:
+            application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /calls:
@@ -928,35 +978,6 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/fallback:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Add a fallback URL in case of error during the call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: fallbackCall
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                From:
-                  type: string
-                To:
-                  type: string
-                CallSid:
-                  type: string
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/inbound:
     post:
       deprecated: true
@@ -1022,39 +1043,6 @@ paths:
           description: Bad request, security violation, or internal server error.
           content:
             application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/status:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Set the status of the current Twilio call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: setCallStatus
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                CallSid:
-                  type: string
-                To:
-                  type: string
-                From:
-                  type: string
-                AccountSid:
-                  type: string
-                CallStatus:
-                  type: string
-      responses:
-        200:
-          description: The status has been accepted
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/json:
               schema:
                 $ref: '#/components/schemas/ResponseError'
   /calls/callbacks/{id}/forward:
@@ -1180,47 +1168,6 @@ paths:
                 RecordingDuration:
                   type: number
                   format: double
-      responses:
-        200:
-          description: TwiML response has been received
-          content: { }
-        default:
-          description: Bad request, security violation, or internal server error.
-          content:
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/ResponseError'
-  /calls/callbacks/{id}/status/{participantId}:
-    post:
-      tags:
-        - Call Callbacks
-      x-access: private
-      summary: Twilio callback for status call
-      description: THIS IS INTERNAL ENDPOINT.
-      operationId: callStatus
-      parameters:
-        - $ref: '#/components/parameters/ResourceId'
-        - name: participantId
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              properties:
-                CallSid:
-                  type: string
-                To:
-                  type: string
-                From:
-                  type: string
-                AccountSid:
-                  type: string
-                CallStatus:
-                  type: string
       responses:
         200:
           description: TwiML response has been received
@@ -2992,6 +2939,8 @@ components:
           $ref: '#/components/schemas/Id'
         userId:
           $ref: '#/components/schemas/Id'
+        callQueueId:
+          $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
         timeout:
@@ -3038,6 +2987,8 @@ components:
         autoReceptionistId:
           $ref: '#/components/schemas/Id'
         userId:
+          $ref: '#/components/schemas/Id'
+        callQueueId:
           $ref: '#/components/schemas/Id'
         regulatoryBundle:
           $ref: '#/components/schemas/RegulatoryBundle'
@@ -3299,11 +3250,11 @@ components:
       properties:
         AccountSid:
           type: string
-        CallSid:
-          type: string
         From:
           type: string
         To:
+          type: string
+        CallSid:
           type: string
         CallStatus:
           type: string
@@ -3317,13 +3268,55 @@ components:
             - failed
             - no-answer
             - canceled
-        ParentCallSid:
-          type: string
         FromNumberId:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/Id'
+          description: Custom parameter from client for outbound call.
         ToNumber:
           type: string
+          description: Custom parameter from client for outbound call.
+    CallStatusWebhookRequest:
+      type: object
+      properties:
+        AccountSid:
+          type: string
+          example: AC1cbf432e3c57ad809874c6960e81af10
+        From:
+          type: string
+          example: +12056428233
+        To:
+          type: string
+          example: client:c160ee62_22ca_4d96_9ce2_079b9f6dde2f
+        ParentCallSid:
+          type: string
+          example: CA4e6e303921de90840d352c95cca6af8b
+        CallSid:
+          type: string
+          example: CA4e6e303921de90840d352c95cca6af8b
+        CallStatus:
+          type: string
+          example: initiated
+          enum:
+            - queued
+            - initiated
+            - ringing
+            - in-progress
+            - completed
+            - busy
+            - failed
+            - no-answer
+            - canceled
+        Timestamp:
+          type: string
+          example: Fri, 09 Jul 2021 14:39:33 +0000
+        Direction:
+          type: string
+          example: outbound-api
+        CallbackSource:
+          type: string
+          example: call-progress-events
+        SequenceNumber:
+          type: integer
+          example: 0
     AddParticipantRequest:
       type: object
       required:
@@ -3356,6 +3349,9 @@ components:
           description: All users taking part in the call.
           items:
             $ref: '#/components/schemas/CallParticipantRequest'
+        twiml:
+          type: string
+          description: Instructions for the call.
     CallParticipantRequest:
       type: object
       description: The request object defines the person taking part in the call.
@@ -3898,10 +3894,18 @@ components:
       description: The object contains general tenant settings.
       required:
         - twilioAccountSid
+        - twilioApiKeySid
+        - twilioApiKeySecret
       properties:
         twilioAccountSid:
           type: string
           description: The account SID.
+        twilioApiKeySid:
+          type: string
+          description: The API Key SID for the tenants Twilio sub account.
+        twilioApiKeySecret:
+          type: string
+          description: The API Key Secret for the tenants Twilio sub account.
     TenantSettings:
       type: object
       description: The list of tenant settings with paging and sorting.

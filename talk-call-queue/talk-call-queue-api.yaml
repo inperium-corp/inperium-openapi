@@ -1,0 +1,641 @@
+openapi: 3.0.3
+
+info:
+  title: Inperium Server Talk Call Queue API
+  description: |
+    The initial version of Inperium Talk Call Queue API.
+  version: 1.0.0
+
+servers:
+  - url: http://api.inperium.com/v1/talkCallQueue
+  - url: https://api.inperium.com/v1/talkCallQueue
+
+security:
+  - BearerAuth: [ ]
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Application Actuator
+    description: |
+      Inperium Talk Call Queue enables users to monitor and manage the application.
+  - name: Call Queues
+    description: |
+      Inperium Talk Call Queue enables users to automate the routing of calls from customers to a support service.
+  - name: Calls Webhooks
+    description: |
+      Inperium Talk Call Queue enables users to handle calls webhooks.
+
+paths:
+
+  /health:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application health status
+      operationId: health
+      responses:
+        200:
+          description: The application health status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /info:
+    get:
+      tags:
+        - Application Actuator
+      summary: Retrieve the application info
+      operationId: info
+      responses:
+        200:
+          description: The application info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Info'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /callQueues:
+    get:
+      tags:
+        - Call Queues
+      summary: Retrieve a list of call queues
+      operationId: getCallQueues
+      parameters:
+        - $ref: '#/components/parameters/QueryPageNumber'
+        - $ref: '#/components/parameters/QueryPageSize'
+        - $ref: '#/components/parameters/QuerySort'
+      responses:
+        200:
+          description: The call queues have been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallQueues'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    post:
+      tags:
+        - Call Queues
+      summary: Create a new call queue
+      operationId: createCallQueue
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallQueueRequest'
+      responses:
+        201:
+          description: A new call queue has been created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallQueue'
+        409:
+          description: Error in the request for creating a new call queue, check the error message.
+          $ref: '#/components/responses/ErrorResponse'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+  /callQueues/{id}:
+    get:
+      tags:
+        - Call Queues
+      summary: Retrieve the call queue details
+      operationId: getCallQueue
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        200:
+          description: The call queue has been retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallQueue'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    patch:
+      tags:
+        - Call Queues
+      summary: Partially update the call queue
+      operationId: partiallyUpdateCallQueue
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        description: Partially updates call queue
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallQueueRequest'
+      responses:
+        200:
+          description: The call queue has been modified
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallQueue'
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+    delete:
+      tags:
+        - Call Queues
+      summary: Delete the call queue
+      operationId: deleteCallQueue
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      responses:
+        204:
+          description: The call queue has been deleted
+          content: { }
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/enqueue/{id}:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Enqueue the call in the call queue
+      operationId: enqueue
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - To
+                - From
+                - CallSid
+              properties:
+                To:
+                  type: string
+                From:
+                  type: string
+                CallSid:
+                  type: string
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/{id}/action:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Dequeue reason and details about the time spent in the queue
+      operationId: action
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                QueueTime:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/wait:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Request instructions for the call from the call queue
+      operationId: wait
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - CallSid
+                - QueueSid
+                - MaxQueueSize
+                - QueuePosition
+                - QueueTime
+                - AvgQueueTime
+                - CurrentQueueSize
+              properties:
+                CallSid:
+                  type: string
+                QueueSid:
+                  type: string
+                MaxQueueSize:
+                  type: integer
+                QueuePosition:
+                  type: integer
+                QueueTime:
+                  type: integer
+                AvgQueueTime:
+                  type: integer
+                CurrentQueueSize:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/callback:
+    post:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Add callback necessity for the call from the call queue
+      operationId: callback
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+                - CallSid
+                - Digits
+                - QueueTime
+              properties:
+                CallSid:
+                  type: string
+                Digits:
+                  type: integer
+                QueueTime:
+                  type: integer
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+  /webhooks/calls/{id}/operator/{subId}:
+    get:
+      tags:
+        - Calls Webhooks
+      x-access: private
+      summary: Request instructions to connect the operator with a caller from queue
+      operationId: operator
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
+        - $ref: '#/components/parameters/SubresourceId'
+      responses:
+        200:
+          description: TwiML request has been received
+          content:
+            application/xml:
+              schema:
+                type: string
+        default:
+          $ref: '#/components/responses/ErrorResponse'
+
+components:
+
+  securitySchemes:
+
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  parameters:
+
+    ResourceId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    SubresourceId:
+      name: subId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    QueryPageNumber:
+      name: pageNumber
+      in: query
+      description: Query parameter for the "pageNumber"
+      schema:
+        type: integer
+        format: int64
+    QueryPageSize:
+      name: pageSize
+      in: query
+      description: Query parameter for the "pageSize"
+      schema:
+        type: integer
+        format: int64
+    QuerySort:
+      name: sort
+      in: query
+      description: Query parameter for the "sort" criteria
+      schema:
+        type: string
+
+  responses:
+
+    EmptyResponse:
+      description: Returns an empty response that is used for OK non-returning operations.
+      content: { }
+
+    ErrorResponse:
+      description: Bad request, security violation, or internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+
+    Id:
+      type: string
+      format: uuid
+
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - UP
+            - DOWN
+
+    Info:
+      type: object
+      required:
+        - build
+      properties:
+        build:
+          $ref: '#/components/schemas/Build'
+
+    Build:
+      type: object
+      required:
+        - description
+        - name
+        - artifact
+        - version
+      properties:
+        description:
+          type: string
+          example: Inperium Server Talk Call Queue Implementation
+        name:
+          type: string
+          example: Inperium Server Talk Call Queue
+        artifact:
+          type: string
+          example: server-talk-call-queue
+        version:
+          type: string
+          example: 1.0.0
+
+    Error:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          description: Http status code
+        code:
+          type: string
+          format: uuid
+          description: Optional code of the exception
+        message:
+          type: string
+          description: Error message
+        errors:
+          type: object
+          description: Map of field -> list of errors
+
+    PageAndSort:
+      type: object
+      description: Paging and sorting information, including the number of records per page, the total of pages and records, the current page, etc.
+      example:
+        pageNumber: 1
+        pageSize: 20
+        totalNumberOfRecords: 1
+        totalNumberOfPages: 1
+        hasNextPage: false
+        hasPreviousPage: false
+        sortingCriteria: null
+        hasMore: false
+
+    DayOfWeek:
+      type: string
+      enum:
+        - MONDAY
+        - TUESDAY
+        - WEDNESDAY
+        - THURSDAY
+        - FRIDAY
+        - SATURDAY
+        - SUNDAY
+
+    TimezoneId:
+      type: string
+      description: A timezone value.
+
+    BusinessHour:
+      type: object
+      required:
+        - openHour
+        - closeHour
+        - weekday
+        - enabled
+      properties:
+        openHour:
+          type: string
+          format: x-time
+        closeHour:
+          type: string
+          format: x-time
+        weekday:
+          $ref: '#/components/schemas/DayOfWeek'
+        enabled:
+          type: boolean
+          description: If the business hour is turned on or not.
+
+    CallDistributionType:
+      type: string
+      enum:
+        - SIMULTANEOUS
+        - SEQUENTIAL
+        - ROTATING
+        - LONGEST_IDLE
+      default: LONGEST_IDLE
+
+    CallQueueRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+          default: false
+        adminPhoneNumber:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            type: string
+        userIds:
+          description: List of operators - one or several users who will answer queued calls
+          type: array
+          items:
+            $ref: '#/components/schemas/Id'
+        callDistributionType:
+          description: The method of distributing calls between operators
+          $ref: '#/components/schemas/CallDistributionType'
+        wrapUpTime:
+          description: Buffer time in millis that an operator can use for a little rest before answering the next call.
+          type: integer
+          default: 0
+        timezone:
+          $ref: '#/components/schemas/TimezoneId'
+        twentyFourSeven:
+          type: boolean
+          default: false
+        businessHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/BusinessHour'
+        maxSize:
+          description: The number of calls allowed on the same queue.
+          type: integer
+          maximum: 5000
+          default: 100
+        maxWaitTime:
+          description: The number of minutes, at the end of this time, the caller should hear an audio prompt, saying that operators are still busy and that the caller may request a callback option by pressing a certain key.
+          type: integer
+          default: 10
+        callbackAllowed:
+          type: boolean
+          default: true
+        callbackDigits:
+          type: integer
+          default: 1
+        promptVoice:
+          $ref: '#/components/schemas/Voice'
+          default: ALICE
+        promptLanguage:
+          $ref: '#/components/schemas/Language'
+          default: EN_US
+        prompts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prompt'
+
+    Voice:
+      type: string
+      enum:
+        - MAN
+        - WOMAN
+        - ALICE
+
+    Language:
+      type: string
+      enum:
+        - ARB
+        - CA_ES
+        - CY_GB
+        - DA_DK
+        - DE_DE
+        - EN_AU
+        - EN_CA
+        - EN_GB
+        - EN_GB_WLS
+        - EN_IN
+        - EN_US
+        - ES_ES
+        - ES_MX
+        - ES_US
+        - FI_FI
+        - FR_CA
+        - FR_FR
+        - HI_IN
+        - IS_IS
+        - IT_IT
+        - JA_JP
+        - KO_KR
+        - NB_NO
+        - NL_NL
+        - PL_PL
+        - PT_BR
+        - PT_PT
+        - RO_RO
+        - RU_RU
+        - SV_SE
+        - TR_TR
+        - ZH_CN
+        - ZH_HK
+        - ZH_TW
+
+    Prompt:
+      type: object
+      required:
+        - type
+        - key
+        - value
+      properties:
+        type:
+          type: string
+          enum:
+            - TEXT
+            - AUDIO
+        key:
+          description: A unique friendly named key of prompt.
+          type: string
+        value:
+          description: A text or link to an audio file.
+          type: string
+
+    CallQueue:
+      allOf:
+        - $ref: '#/components/schemas/CallQueueRequest'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              $ref: '#/components/schemas/Id'
+
+    CallQueues:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallQueue'
+        paging:
+          $ref: '#/components/schemas/PageAndSort'

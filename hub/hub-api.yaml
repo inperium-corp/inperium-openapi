@@ -1814,9 +1814,6 @@ components:
         email:
           type: string
           description: The email of the user requesting the two-factor auth token.
-        password:
-          type: string
-          description: The password of the user requesting the two-factor auth token.
 
     TwoFactorAuthTokenResponse:
       type: object
@@ -1836,9 +1833,6 @@ components:
         email:
           type: string
           description: The email of the user attempting to log in.
-        password:
-          type: string
-          description: The password of the user.
         token:
           type: string
           description: The one-off code to verify.

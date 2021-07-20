@@ -478,6 +478,22 @@ components:
 
     CallQueueRequest:
       type: object
+      required:
+        - name
+        - enabled
+        - phoneNumbers
+        - userIds
+        - callDistributionType
+        - wrapUpTime
+        - timezone
+        - twentyFourSeven
+        - businessHours
+        - maxSize
+        - maxWaitTime
+        - callbackAllowed
+        - promptVoice
+        - promptLanguage
+        - prompts
       properties:
         name:
           type: string
@@ -536,22 +552,6 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Prompt'
-      required:
-        - name
-        - enabled
-        - phoneNumbers
-        - userIds
-        - callDistributionType
-        - wrapUpTime
-        - timezone
-        - twentyFourSeven
-        - businessHours
-        - maxSize
-        - maxWaitTime
-        - callbackAllowed
-        - promptVoice
-        - promptLanguage
-        - prompts
 
     Voice:
       type: string

@@ -2895,7 +2895,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/PublicQuote"
   /public/quotes/{id}/accept:
-    post:
+    patch:
       tags:
         - Public Quote
       summary: Accept a quote

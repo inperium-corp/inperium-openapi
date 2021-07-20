@@ -187,28 +187,20 @@ paths:
         default:
           $ref: '#/components/responses/ErrorResponse'
 
-  /webhooks/calls/action:
+  /webhooks/calls/{id}/action:
     post:
       tags:
         - Calls Webhooks
       x-access: private
       summary: Dequeue reason and details about the time spent in the queue
       operationId: action
+      parameters:
+        - $ref: '#/components/parameters/ResourceId'
       requestBody:
         content:
           application/x-www-form-urlencoded:
             schema:
-              required:
-                - CallSid
-                - QueueResult
-                - QueueSid
               properties:
-                CallSid:
-                  type: string
-                QueueResult:
-                  type: string
-                QueueSid:
-                  type: string
                 QueueTime:
                   type: integer
       responses:
